@@ -23,8 +23,8 @@ public class RegisterActivity extends AppCompatActivity {
     EditText mFullName, mEmail, mPassword, mPhone;
     Button mRegisterBtn;
     TextView mLoginBtn;
-    ProgressBar progressBar;
     FirebaseAuth fAuth;
+    ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +40,7 @@ public class RegisterActivity extends AppCompatActivity {
         mLoginBtn = findViewById(R.id.LoginFromRegister);
 
         fAuth = FirebaseAuth.getInstance();
+        progressBar = findViewById(R.id.simpleProgressBar);
 
         if(fAuth.getCurrentUser() != null){
             startActivity(new Intent(getApplicationContext(),GameOptions.class));
@@ -61,10 +62,9 @@ public class RegisterActivity extends AppCompatActivity {
                     mPassword.setError("Password is Required.");
                 }
 
-//                progressBar.setVisibility(View.VISIBLE);
+                progressBar.setVisibility(View.VISIBLE);
 
                 //Register the user in firebase
-
                 fAuth.createUserWithEmailAndPassword(email,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
@@ -73,6 +73,7 @@ public class RegisterActivity extends AppCompatActivity {
                             startActivity(new Intent(getApplicationContext(),GameOptions.class));
                         }else{
                             Toast.makeText(RegisterActivity.this,"Error! " + task.getException().getMessage(),Toast.LENGTH_SHORT).show();
+                            progressBar.setVisibility(View.GONE);
                         }
                     }
                 });
