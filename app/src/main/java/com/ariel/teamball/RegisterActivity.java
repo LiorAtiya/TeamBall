@@ -18,29 +18,35 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
-public class LoginActivity extends AppCompatActivity {
+public class RegisterActivity extends AppCompatActivity {
 
-
-    EditText mEmail, mPassword;
-    Button mLoginBtn;
-    TextView mCreateBtn;
+    EditText mFullName, mEmail, mPassword, mPhone;
+    Button mRegisterBtn;
+    TextView mLoginBtn;
     ProgressBar progressBar;
     FirebaseAuth fAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
+        setContentView(R.layout.activity_register);
         getSupportActionBar().hide();
 
-        mEmail = findViewById(R.id.LoginEmail);
-        mPassword = findViewById(R.id.LoginPassword);
-        mLoginBtn = findViewById(R.id.LoginBtn);
-        mCreateBtn = findViewById(R.id.RegisterFromLogin);
+        mFullName = findViewById(R.id.FullName);
+        mEmail = findViewById(R.id.Email);
+        mPassword = findViewById(R.id.Password);
+        mPhone = findViewById(R.id.Phone);
+        mRegisterBtn = findViewById(R.id.RegisterBtn);
+        mLoginBtn = findViewById(R.id.LoginFromRegister);
+
         fAuth = FirebaseAuth.getInstance();
 
+        if(fAuth.getCurrentUser() != null){
+            startActivity(new Intent(getApplicationContext(),GameOptions.class));
+            finish();
+        }
 
-        mLoginBtn.setOnClickListener(new View.OnClickListener() {
+        mRegisterBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String email = mEmail.getText().toString().trim();
@@ -57,16 +63,16 @@ public class LoginActivity extends AppCompatActivity {
 
 //                progressBar.setVisibility(View.VISIBLE);
 
-                //Authenticate the user
+                //Register the user in firebase
 
-                fAuth.signInWithEmailAndPassword(email,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                fAuth.createUserWithEmailAndPassword(email,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if(task.isSuccessful()){
-                            Toast.makeText(LoginActivity.this,"Logged in Successfully", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(RegisterActivity.this,"User Created", Toast.LENGTH_SHORT).show();
                             startActivity(new Intent(getApplicationContext(),GameOptions.class));
                         }else{
-                            Toast.makeText(LoginActivity.this,"Error! " + task.getException().getMessage(),Toast.LENGTH_SHORT).show();
+                            Toast.makeText(RegisterActivity.this,"Error! " + task.getException().getMessage(),Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
@@ -74,10 +80,10 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-        mCreateBtn.setOnClickListener(new View.OnClickListener() {
+        mLoginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(),RegisterActivity.class));
+                startActivity(new Intent(getApplicationContext(),LoginActivity.class));
             }
         });
     }

@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "584622612124",
+    "project_id": "teamball-a9476",
+    "storage_bucket": "teamball-a9476.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:584622612124:android:dd3eb2c1b1070ea3b15759",
+        "android_client_info": {
+          "package_name": "com.ariel.teamball"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "584622612124-mb3tt1cj4ba22gao1lto2o9pu6es6su0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCHaBv7D9KAJJB9zgee6Javlx5IY1z5l3k"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "584622612124-mb3tt1cj4ba22gao1lto2o9pu6es6su0.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
