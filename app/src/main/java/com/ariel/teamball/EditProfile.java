@@ -11,10 +11,13 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.View;
 import android.widget.Button;
+import androidx.appcompat.app.AppCompatActivity;
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
-
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -55,6 +58,12 @@ public class EditProfile extends AppCompatActivity {
         user = fAuth.getCurrentUser();
         storageReference = FirebaseStorage.getInstance().getReference();
 
+
+        String fullName = data.getStringExtra("fullName");
+        String email = data.getStringExtra("email");
+        String phone = data.getStringExtra("phone");
+
+
         profileEmail = findViewById(R.id.editProfileEmail);
         profilePhone = findViewById(R.id.editProfilePhone);
         profileFullName = findViewById(R.id.editProfileName);
@@ -80,7 +89,6 @@ public class EditProfile extends AppCompatActivity {
         profileEmail.setText(email);
         profileFullName.setText(fullName);
         profilePhone.setText(phone);
-
 
         saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
