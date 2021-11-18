@@ -7,47 +7,23 @@
     android:background="@drawable/background"
     tools:context=".GameOptions">
 
-    <Button
-        android:id="@+id/ProfileBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:backgroundTint="#4CAF50"
-        android:text="My Profile"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.949"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:id="@+id/button6"
-        android:layout_width="167dp"
-        android:layout_height="140dp"
-        android:text="Basketball"
-        android:textSize="19sp"
-        android:backgroundTint="#8BC34A"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.889"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.335" />
 
     <TextView
         android:id="@+id/textView6"
         android:layout_width="198dp"
         android:layout_height="55dp"
-        android:layout_marginTop="104dp"
         android:fontFamily="sans-serif-smallcaps"
         android:text="Games"
         android:textAlignment="center"
         android:textColor="#000000"
         android:textSize="50sp"
         android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.078" />
 
     <Button
         android:id="@+id/LogoutBtn"
@@ -57,22 +33,109 @@
         android:backgroundTint="#4CAF50"
         android:text="Logout"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.05"
+        app:layout_constraintHorizontal_bias="0.018"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/button"
-        android:layout_width="167dp"
+        android:id="@+id/BasketBallBtn"
+        android:layout_width="180dp"
         android:layout_height="140dp"
-        android:text="Soccer"
         android:backgroundTint="#8BC34A"
+        android:text="BasketBall"
+        android:textSize="19sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.93"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.231" />
+
+    <Button
+        android:id="@+id/SoccerBtn"
+        android:layout_width="180dp"
+        android:layout_height="140dp"
+        android:backgroundTint="#8BC34A"
+        android:text="Soccer"
+        android:textSize="30sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/BasketBallBtn"
+        app:layout_constraintHorizontal_bias="0.457"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.231" />
+
+    <Button
+        android:id="@+id/TennisBtn"
+        android:layout_width="180dp"
+        android:layout_height="140dp"
+        android:backgroundTint="#8BC34A"
+        android:text="Tennis"
         android:textSize="30sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.102"
+        app:layout_constraintHorizontal_bias="0.069"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.336" />
+        app:layout_constraintTop_toBottomOf="@+id/SoccerBtn"
+        app:layout_constraintVertical_bias="0.038" />
+
+    <Button
+        android:id="@+id/TableTennisBtn"
+        android:layout_width="180dp"
+        android:layout_height="140dp"
+        android:layout_marginEnd="16dp"
+        android:backgroundTint="#8BC34A"
+        android:text="Table Tennis"
+        android:textsize="30sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.542"
+        app:layout_constraintStart_toEndOf="@+id/TenisBtn"
+        app:layout_constraintTop_toBottomOf="@+id/BasketBallBtn"
+        app:layout_constraintVertical_bias="0.038" />
+
+    <Button
+        android:id="@+id/HandBallBtn"
+        android:layout_width="180dp"
+        android:layout_height="140dp"
+        android:layout_marginBottom="152dp"
+        android:backgroundTint="#8BC34A"
+        android:text="Hand Ball"
+        android:textSize="30sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.069"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/TennisBtn"
+        app:layout_constraintVertical_bias="0.064" />
+
+    <Button
+        android:id="@+id/VolleyBallBtn"
+        android:layout_width="180dp"
+        android:layout_height="140dp"
+        android:layout_marginBottom="16dp"
+        android:backgroundTint="#8BC34A"
+        android:text="Volley Ball"
+        android:textSize="30sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.542"
+        app:layout_constraintStart_toEndOf="@+id/HandBallBtn"
+        app:layout_constraintTop_toBottomOf="@+id/TableTennisBtn"
+        app:layout_constraintVertical_bias="0.062" />
+
+    <Button
+        android:id="@+id/DogeBallBtn"
+        android:layout_width="180dp"
+        android:layout_height="140dp"
+        android:backgroundTint="#8BC34A"
+        android:text="DodgeBall"
+        android:textSize="30sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.069"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/HandBallBtn"
+        app:layout_constraintVertical_bias="0.0" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

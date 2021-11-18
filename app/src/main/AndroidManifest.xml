@@ -18,9 +18,6 @@
             android:name=".MyProfile"
             android:exported="false" />
         <activity
-            android:name=".CreateGroup"
-            android:exported="false" />
-        <activity
             android:name=".Games.Soccer"
             android:exported="false" />
         <activity
