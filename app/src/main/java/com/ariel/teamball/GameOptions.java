@@ -10,7 +10,7 @@ import android.widget.Button;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class GameOptions extends AppCompatActivity {
-    /* Setting Buttons */
+    /*..  Setting Buttons ..*/
     Button mLogoutBtn, SoccerBtn, BasketBallBtn, TennisBtn, TableTennisBtn, HandBallBtn, VolleyBallBtn, DogeBallBtn;
 
     @Override
