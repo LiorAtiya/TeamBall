@@ -59,11 +59,6 @@ public class EditProfile extends AppCompatActivity {
         storageReference = FirebaseStorage.getInstance().getReference();
 
 
-        String fullName = data.getStringExtra("fullName");
-        String email = data.getStringExtra("email");
-        String phone = data.getStringExtra("phone");
-
-
         profileEmail = findViewById(R.id.editProfileEmail);
         profilePhone = findViewById(R.id.editProfilePhone);
         profileFullName = findViewById(R.id.editProfileName);
