@@ -12,6 +12,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.TeamBall">
         <activity
+            android:name=".MyProfile"
+            android:exported="false" />
+        <activity
             android:name=".CreateGroup"
             android:exported="false" />
         <activity

@@ -11,7 +11,7 @@ import com.google.firebase.auth.FirebaseAuth;
 
 public class GameOptions extends AppCompatActivity {
 
-    Button mLogoutBtn;
+    Button mLogoutBtn, mMyProfileBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,12 +20,21 @@ public class GameOptions extends AppCompatActivity {
         getSupportActionBar().hide();
 
         mLogoutBtn = findViewById(R.id.LogoutBtn);
+        mMyProfileBtn = findViewById(R.id.ProfileBtn);
 
         mLogoutBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 FirebaseAuth.getInstance().signOut();
                 startActivity(new Intent(getApplicationContext(),LoginActivity.class));
+                finish();
+            }
+        });
+
+        mMyProfileBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(),MyProfile.class));
                 finish();
             }
         });
