@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import com.ariel.teamball.ChatCenter;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class GameOptions extends AppCompatActivity {
@@ -48,12 +49,12 @@ public class GameOptions extends AppCompatActivity {
             }
         });
 
-//        SoccerBtn.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//
-//            }
-//        });
+        SoccerBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(), ChatCenter.class));
+            }
+        });
 //
 //        BasketBallBtn.setOnClickListener(new View.OnClickListener() {
 //            @Override
