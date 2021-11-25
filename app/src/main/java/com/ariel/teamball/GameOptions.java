@@ -11,8 +11,9 @@ import com.ariel.teamball.ChatCenter;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class GameOptions extends AppCompatActivity {
-    /* Setting Buttons */
-    Button mLogoutBtn, myProfile, SoccerBtn, BasketBallBtn, TennisBtn, TableTennisBtn, HandBallBtn, VolleyBallBtn, DogeBallBtn;
+    /*..  Setting Buttons ..*/
+    Button mLogoutBtn, SoccerBtn, BasketBallBtn, TennisBtn, TableTennisBtn, HandBallBtn, VolleyBallBtn, DogeBallBtn,myProfile;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

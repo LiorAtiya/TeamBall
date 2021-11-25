@@ -9,7 +9,7 @@ import android.widget.Button;
 import com.ariel.teamball.R;
 
 public class Soccer extends AppCompatActivity {
-    /* Setting Buttons */
+    /* .. Setting Buttons .. */
     Button c_g , j_g;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
