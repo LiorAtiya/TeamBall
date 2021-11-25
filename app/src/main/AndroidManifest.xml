@@ -12,6 +12,18 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.TeamBall">
         <activity
+            android:name=".Chatroom"
+            android:exported="false" />
+        <activity
+            android:name=".Chat.Chatroom"
+            android:exported="false" />
+        <activity
+            android:name=".ChatCenter"
+            android:exported="false" />
+        <activity
+            android:name=".EditProfile"
+            android:exported="false" />
+        <activity
             android:name=".MyProfile"
             android:exported="false" />
         <activity

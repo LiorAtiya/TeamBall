@@ -104,9 +104,9 @@ public class MyProfile extends AppCompatActivity {
         documentReference.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
             @Override
             public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
-                phone.setText("Phone: " + value.getString("phone"));
-                fullName.setText("Name: " + value.getString("fName"));
-                email.setText("Email: " + value.getString("email"));
+                phone.setText(value.getString("phone"));
+                fullName.setText(value.getString("fName"));
+                email.setText(value.getString("email"));
             }
         });
 
@@ -153,8 +153,20 @@ public class MyProfile extends AppCompatActivity {
         profileImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent openGalleryIntent = new Intent(Intent.ACTION_PICK, MediaStore.Video.Media.EXTERNAL_CONTENT_URI);
-                startActivityForResult(openGalleryIntent,1000);
+//                Intent openGalleryIntent = new Intent(Intent.ACTION_PICK, MediaStore.Video.Media.EXTERNAL_CONTENT_URI);
+//                startActivityForResult(openGalleryIntent,1000);
+            }
+        });
+
+        changeProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(v.getContext(),EditProfile.class);
+                i.putExtra("fName",fullName.getText().toString());
+                i.putExtra("email",email.getText().toString());
+                i.putExtra("phone",phone.getText().toString());
+
+                startActivity(i);
             }
         });
 
@@ -168,40 +180,40 @@ public class MyProfile extends AppCompatActivity {
         });
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode == 1000){
-            if(resultCode == Activity.RESULT_OK){
-                Uri imageUri = data.getData();
-//                profileImage.setImageURI(imageUri);
-                
-                uploadImageToFirebase(imageUri);
-            }
-        }
-    }
-
-    private void uploadImageToFirebase(Uri imageUri) {
-        //Upload image to firebase storage
-        StorageReference fileRef = storageReference.child("users/"+fAuth.getCurrentUser().getUid()+"/profile.jpg");
-        fileRef.putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-            @Override
-            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-//                Toast.makeText(MyProfile.this, "Image Uploaded", Toast.LENGTH_SHORT).show();
-                fileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                    @Override
-                    public void onSuccess(Uri uri) {
-                        Picasso.get().load(uri).into(profileImage);
-                    }
-                });
-
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Toast.makeText(MyProfile.this, "Failed", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-    }
+//    @Override
+//    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+//        super.onActivityResult(requestCode, resultCode, data);
+//        if(requestCode == 1000){
+//            if(resultCode == Activity.RESULT_OK){
+//                Uri imageUri = data.getData();
+////                profileImage.setImageURI(imageUri);
+//
+//                uploadImageToFirebase(imageUri);
+//            }
+//        }
+//    }
+//
+//    private void uploadImageToFirebase(Uri imageUri) {
+//        //Upload image to firebase storage
+//        StorageReference fileRef = storageReference.child("users/"+fAuth.getCurrentUser().getUid()+"/profile.jpg");
+//        fileRef.putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+//            @Override
+//            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+////                Toast.makeText(MyProfile.this, "Image Uploaded", Toast.LENGTH_SHORT).show();
+//                fileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+//                    @Override
+//                    public void onSuccess(Uri uri) {
+//                        Picasso.get().load(uri).into(profileImage);
+//                    }
+//                });
+//
+//            }
+//        }).addOnFailureListener(new OnFailureListener() {
+//            @Override
+//            public void onFailure(@NonNull Exception e) {
+//                Toast.makeText(MyProfile.this, "Failed", Toast.LENGTH_SHORT).show();
+//            }
+//        });
+//
+//    }
 }
