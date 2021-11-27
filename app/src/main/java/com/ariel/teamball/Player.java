@@ -1,6 +1,18 @@
-package com.ariel.teamball.Games;
+package com.ariel.teamball;
 
-public class Admin extends User {
+public class Player extends User {
+    boolean GameStatus;
+
+    /* Constructor */
+    public Player() {
+        GameStatus = false;
+    }
+
+    public void JoinGame() {
+    }
+
+    public void LeaveGame() {
+    }
 
     @Override
     boolean VerifyLogin() {
