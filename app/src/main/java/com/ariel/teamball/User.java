@@ -1,4 +1,4 @@
-package com.ariel.teamball.Games;
+package com.ariel.teamball;
 
 import java.util.Date;
 
