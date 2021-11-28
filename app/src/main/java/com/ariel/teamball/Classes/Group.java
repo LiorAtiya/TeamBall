@@ -1,4 +1,6 @@
-package com.ariel.teamball;
+package com.ariel.teamball.Classes;
+
+import com.ariel.teamball.Classes.Chat;
 
 import java.sql.Time;
 import java.util.ArrayList;

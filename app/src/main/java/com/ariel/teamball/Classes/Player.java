@@ -1,4 +1,4 @@
-package com.ariel.teamball;
+package com.ariel.teamball.Classes;
 
 public class Player extends User {
     boolean GameStatus;
