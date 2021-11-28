@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -12,6 +12,9 @@
         android:id="@+id/textView6"
         android:layout_width="198dp"
         android:layout_height="55dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="91dp"
         android:fontFamily="sans-serif-smallcaps"
         android:text="Games"
         android:textAlignment="center"
@@ -41,7 +44,9 @@
         android:id="@+id/myProfileBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
         android:layout_marginTop="16dp"
+        android:layout_marginEnd="11dp"
         android:backgroundTint="#4CAF50"
         android:text="My Profile"
         app:layout_constraintEnd_toEndOf="parent"
@@ -50,9 +55,30 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
+        android:id="@+id/SoccerBtn"
+        android:layout_width="180dp"
+        android:layout_height="140dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="341dp"
+        android:backgroundTint="#8BC34A"
+        android:text="Soccer"
+        android:textSize="30sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/BasketBallBtn"
+        app:layout_constraintHorizontal_bias="0.457"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.231" />
+
+    <Button
         android:id="@+id/BasketBallBtn"
         android:layout_width="180dp"
         android:layout_height="140dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="11dp"
+        android:layout_marginTop="345dp"
         android:backgroundTint="#8BC34A"
         android:text="BasketBall"
         android:textSize="19sp"
@@ -64,83 +90,98 @@
         app:layout_constraintVertical_bias="0.231" />
 
     <Button
-        android:id="@+id/SoccerBtn"
+        android:id="@+id/TennisBtn"
         android:layout_width="180dp"
         android:layout_height="140dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="180dp"
+        android:layout_marginEnd="9dp"
         android:backgroundTint="#8BC34A"
-        android:text="Soccer"
+        android:text="Tennis"
         android:textSize="30sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/BasketBallBtn"
         app:layout_constraintHorizontal_bias="0.457"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.231" />
+        app:layout_constraintVertical_bias="0.448" />
 
-<!--    <Button-->
-<!--        android:id="@+id/TennisBtn"-->
-<!--        android:layout_width="180dp"-->
-<!--        android:layout_height="140dp"-->
-<!--        android:backgroundTint="#8BC34A"-->
-<!--        android:text="Tennis"-->
-<!--        android:textSize="30sp"-->
-<!--        app:layout_constraintBottom_toBottomOf="parent"-->
-<!--        app:layout_constraintEnd_toStartOf="@+id/BasketBallBtn"-->
-<!--        app:layout_constraintHorizontal_bias="0.457"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintTop_toTopOf="parent"-->
-<!--        app:layout_constraintVertical_bias="0.448" />-->
+    <Button
+        android:id="@+id/TableTennisBtn"
+        android:layout_width="180dp"
+        android:layout_height="140dp"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="178dp"
+        android:layout_marginEnd="16dp"
+        android:backgroundTint="#8BC34A"
+        android:text="Table Tennis"
+        android:textSize="30sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/BasketBallBtn"
+        app:layout_constraintVertical_bias="0.045" />
 
-<!--    <Button-->
-<!--        android:id="@+id/TableTennisBtn"-->
-<!--        android:layout_width="180dp"-->
-<!--        android:layout_height="140dp"-->
-<!--        android:layout_marginEnd="16dp"-->
-<!--        android:backgroundTint="#8BC34A"-->
-<!--        android:text="Table Tennis"-->
-<!--        android:textsize="30sp"-->
-<!--        app:layout_constraintBottom_toBottomOf="parent"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintTop_toBottomOf="@+id/BasketBallBtn"-->
-<!--        app:layout_constraintVertical_bias="0.045" />-->
+    <Button
+        android:id="@+id/HandBallBtn"
+        android:layout_width="180dp"
+        android:layout_height="140dp"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="662dp"
+        android:layout_marginEnd="16dp"
+        android:backgroundTint="#8BC34A"
+        android:text="HandBall"
+        android:textSize="30sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/BasketBallBtn"
+        app:layout_constraintVertical_bias="0.415" />
 
-<!--    <Button-->
-<!--        android:id="@+id/HandBallBtn"-->
-<!--        android:layout_width="180dp"-->
-<!--        android:layout_height="140dp"-->
-<!--        android:layout_marginEnd="16dp"-->
-<!--        android:backgroundTint="#8BC34A"-->
-<!--        android:text="HandBall"-->
-<!--        android:textsize="30sp"-->
-<!--        app:layout_constraintBottom_toBottomOf="parent"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintTop_toBottomOf="@+id/BasketBallBtn"-->
-<!--        app:layout_constraintVertical_bias="0.415" />-->
+    <Button
+        android:id="@+id/VolleyBallBtn"
+        android:layout_width="180dp"
+        android:layout_height="140dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="499dp"
+        android:layout_marginEnd="2dp"
+        android:backgroundTint="#8BC34A"
+        android:text="VolleyBall"
+        android:textSize="30sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/BasketBallBtn"
+        app:layout_constraintVertical_bias="0.415" />
 
-<!--    <Button-->
-<!--        android:id="@+id/VolleyBallBtn"-->
-<!--        android:layout_width="180dp"-->
-<!--        android:layout_height="140dp"-->
-<!--        android:layout_marginEnd="212dp"-->
-<!--        android:backgroundTint="#8BC34A"-->
-<!--        android:text="VolleyBall"-->
-<!--        android:textsize="30sp"-->
-<!--        app:layout_constraintBottom_toBottomOf="parent"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintTop_toBottomOf="@+id/BasketBallBtn"-->
-<!--        app:layout_constraintVertical_bias="0.415" />-->
+    <Button
+        android:id="@+id/DogeBallBtn"
+        android:layout_width="180dp"
+        android:layout_height="140dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="11dp"
+        android:layout_marginTop="500dp"
+        android:layout_marginEnd="212dp"
+        android:backgroundTint="#8BC34A"
+        android:text="DogeBall"
+        android:textSize="30sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/BasketBallBtn"
+        app:layout_constraintVertical_bias="0.786" />
 
-<!--    <Button-->
-<!--        android:id="@+id/DogeBallBtn"-->
-<!--        android:layout_width="180dp"-->
-<!--        android:layout_height="140dp"-->
-<!--        android:layout_marginEnd="212dp"-->
-<!--        android:backgroundTint="#8BC34A"-->
-<!--        android:text="DogeBall"-->
-<!--        android:textsize="30sp"-->
-<!--        app:layout_constraintBottom_toBottomOf="parent"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintTop_toBottomOf="@+id/BasketBallBtn"-->
-<!--        app:layout_constraintVertical_bias="0.786" />-->
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="60dp" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="354dp" />
+
+</RelativeLayout>

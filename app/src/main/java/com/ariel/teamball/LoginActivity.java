@@ -45,6 +45,7 @@ public class LoginActivity extends AppCompatActivity {
         fAuth = FirebaseAuth.getInstance();
         mForgotPassBtn = findViewById(R.id.ForgotPassBtn);
 
+
         mLoginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -63,7 +64,6 @@ public class LoginActivity extends AppCompatActivity {
                 progressBar.setVisibility(View.VISIBLE);
 
                 //Authenticate the user
-
                 fAuth.signInWithEmailAndPassword(email,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
@@ -80,12 +80,14 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
+        //Go to the registration page
         mCreateBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(getApplicationContext(),RegisterActivity.class));
             }
         });
+
 
         mForgotPassBtn.setOnClickListener(new View.OnClickListener() {
             @Override
