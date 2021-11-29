@@ -14,6 +14,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ariel.teamball.R;
@@ -42,7 +43,7 @@ public class ChatCenter extends AppCompatActivity {
     public static final String TAG = "TAG";
     DatabaseReference reference;
 
-    EditText e1;
+    TextView nameCategory;
     ListView l1;
     Button createGroupBtn;
     ArrayAdapter<String> adapter;
@@ -62,7 +63,7 @@ public class ChatCenter extends AppCompatActivity {
         fAuth = FirebaseAuth.getInstance();
         fStore = FirebaseFirestore.getInstance();
 
-        e1 = findViewById(R.id.editText);
+        nameCategory = findViewById(R.id.nameCategory);
         l1 = findViewById(R.id.listView);
         createGroupBtn = findViewById(R.id.button);
         ArrayList<String> list = new ArrayList<>();
@@ -71,6 +72,8 @@ public class ChatCenter extends AppCompatActivity {
         l1.setAdapter(adapter);
 
         category = getIntent().getExtras().get("Category").toString();
+
+        nameCategory.setText(category);
 
         reference = FirebaseDatabase.getInstance().getReference(category);
 //        reference = FirebaseDatabase.getInstance().getReference().getRoot();
@@ -131,9 +134,22 @@ public class ChatCenter extends AppCompatActivity {
         createGroupBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Map<String,Object> map = new HashMap<>();
-                map.put(e1.getText().toString(), "");
-                reference.updateChildren(map);
+
+                final AlertDialog.Builder newGroupDialog = new AlertDialog.Builder(v.getContext());
+                newGroupDialog.setTitle("Enter name group");
+                ee = new EditText(v.getContext());
+                newGroupDialog.setView(ee);
+
+                newGroupDialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        Map<String,Object> map = new HashMap<>();
+                        map.put(ee.getText().toString(), "");
+                        reference.updateChildren(map);
+                    }
+                });
+
+                newGroupDialog.show();
             }
         });
     }
@@ -159,6 +175,5 @@ public class ChatCenter extends AppCompatActivity {
             }
         });
         builder.show();
-
     }
 }
