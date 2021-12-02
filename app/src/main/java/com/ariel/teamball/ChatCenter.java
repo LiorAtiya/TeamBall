@@ -42,7 +42,7 @@ public class ChatCenter extends AppCompatActivity {
     DatabaseReference reference;
 
     TextView nameCategory;
-    ListView l1;
+    ListView listView;
     Button createGroupBtn;
     ArrayAdapter<String> adapter;
     String name,category;
@@ -58,20 +58,22 @@ public class ChatCenter extends AppCompatActivity {
         getSupportActionBar().hide();
 
         nameCategory = findViewById(R.id.nameCategory);
-        l1 = findViewById(R.id.listView);
+        listView = findViewById(R.id.listView);
         createGroupBtn = findViewById(R.id.button);
 
         fAuth = FirebaseAuth.getInstance();
         fStore = FirebaseFirestore.getInstance();
 
+        //For listview
         ArrayList<String> list = new ArrayList<>();
-        adapter = new ArrayAdapter<String>(this, android.R.layout.activity_list_item, android.R.id.text1, list);
-        l1.setAdapter(adapter);
+        adapter = new ArrayAdapter<String>(this, R.layout.list_row,R.id.txtName, list);
+        listView.setAdapter(adapter);
 
 
         category = getIntent().getExtras().get("Category").toString();
         nameCategory.setText(category);
 
+        //Access to the list of group category
         reference = FirebaseDatabase.getInstance().getReference(category);
 
         String userID = fAuth.getCurrentUser().getUid();
@@ -91,6 +93,7 @@ public class ChatCenter extends AppCompatActivity {
 
 //        request_username();
 
+        //Put all the group of the category to list from the firebase
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -114,13 +117,14 @@ public class ChatCenter extends AppCompatActivity {
             }
         });
 
-        l1.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
                 Intent intent = new Intent(ChatCenter.this, Chatroom.class);
-                String selectedFromList = (String) (l1.getItemAtPosition(i));
-                intent.putExtra("room_name", selectedFromList);
+                String roomName = (String) (listView.getItemAtPosition(i));
+                intent.putExtra("room_name", roomName);
                 intent.putExtra("user_name", name);
                 intent.putExtra("category", category);
                 startActivity(intent);

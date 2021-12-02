@@ -36,7 +36,7 @@ public class Chatroom extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chatroom);
 
-        e1= (EditText)findViewById(R.id.editText2);
+        e1 = (EditText)findViewById(R.id.editText2);
         t1= (TextView)findViewById(R.id.textView);
         if(getSupportActionBar()!=null)
         {
