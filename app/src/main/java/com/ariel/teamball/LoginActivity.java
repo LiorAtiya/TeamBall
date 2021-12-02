@@ -19,13 +19,15 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class LoginActivity extends AppCompatActivity {
 
 
-    EditText mEmail, mPassword;
+//    EditText mEmail, mPassword;
+    TextInputEditText mEmail, mPassword;
     Button mLoginBtn;
     TextView mCreateBtn, mForgotPassBtn;
     ProgressBar progressBar;
@@ -52,6 +54,7 @@ public class LoginActivity extends AppCompatActivity {
                 String email = mEmail.getText().toString().trim();
                 String password = mPassword.getText().toString().trim();
 
+                //Character insertion check
                 if(TextUtils.isEmpty(email)){
                     mEmail.setError("Email is Required.");
                     return;
@@ -61,6 +64,7 @@ public class LoginActivity extends AppCompatActivity {
                     mPassword.setError("Password is Required.");
                 }
 
+                //Charging circle while waiting to connect
                 progressBar.setVisibility(View.VISIBLE);
 
                 //Authenticate the user

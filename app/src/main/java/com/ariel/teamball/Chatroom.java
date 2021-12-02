@@ -26,7 +26,7 @@ public class Chatroom extends AppCompatActivity {
     EditText e1;
     TextView t1;
 
-    private String user_name,room_name;
+    private String user_name,room_name,category;
 
     DatabaseReference reference;
     String temp_key;
@@ -47,7 +47,8 @@ public class Chatroom extends AppCompatActivity {
 
         user_name = getIntent().getExtras().get("user_name").toString();
         room_name = getIntent().getExtras().get("room_name").toString();
-        reference = FirebaseDatabase.getInstance().getReference().child(room_name);
+        category = getIntent().getExtras().get("category").toString();
+        reference = FirebaseDatabase.getInstance().getReference().child(category).child(room_name);
         setTitle(" Room - "+room_name);
 
 
@@ -55,7 +56,6 @@ public class Chatroom extends AppCompatActivity {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 append_chat(dataSnapshot);
-
             }
 
             @Override
