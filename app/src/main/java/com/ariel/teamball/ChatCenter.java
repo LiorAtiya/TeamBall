@@ -126,6 +126,7 @@ public class ChatCenter extends AppCompatActivity {
                 String selectedFromList = (String) (l1.getItemAtPosition(i));
                 intent.putExtra("room_name", selectedFromList);
                 intent.putExtra("user_name", name);
+                intent.putExtra("category", category);
                 startActivity(intent);
 
             }

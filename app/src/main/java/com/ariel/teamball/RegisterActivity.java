@@ -55,6 +55,7 @@ public class RegisterActivity extends AppCompatActivity {
         fStore = FirebaseFirestore.getInstance();
         progressBar = findViewById(R.id.simpleProgressBar);
 
+        //Automatic login - If the user is registered
         if(fAuth.getCurrentUser() != null){
             startActivity(new Intent(getApplicationContext(),GameOptions.class));
             finish();
@@ -68,6 +69,7 @@ public class RegisterActivity extends AppCompatActivity {
                 String fullName = mFullName.getText().toString();
                 String phone = mPhone.getText().toString();
 
+                //Character insertion check
                 if(TextUtils.isEmpty(email)){
                     mEmail.setError("Email is Required.");
                     return;
@@ -75,9 +77,12 @@ public class RegisterActivity extends AppCompatActivity {
 
                 if(TextUtils.isEmpty(password)){
                     mPassword.setError("Password is Required.");
+                    return;
                 }
 
+                //Charging circle while waiting to connect
                 progressBar.setVisibility(View.VISIBLE);
+
 
                 //Register the user in firebase
                 fAuth.createUserWithEmailAndPassword(email,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
@@ -99,12 +104,15 @@ public class RegisterActivity extends AppCompatActivity {
                             });
 
                             Toast.makeText(RegisterActivity.this,"User Created", Toast.LENGTH_SHORT).show();
+
+                            //Storing user information in firestore
                             userID = fAuth.getCurrentUser().getUid();
                             DocumentReference documentReference = fStore.collection("users").document(userID);
                             Map<String, Object> user = new HashMap<>();
                             user.put("fName", fullName);
                             user.put("email", email);
                             user.put("phone", phone);
+
                             documentReference.set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
                                 public void onSuccess(Void unused) {
@@ -116,7 +124,6 @@ public class RegisterActivity extends AppCompatActivity {
                                     Log.d(TAG,"onFailure: "+e.toString());
                                 }
                             });
-
 
                             startActivity(new Intent(getApplicationContext(),GameOptions.class));
 
