@@ -15,6 +15,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.ariel.teamball.Classes.Firebase;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -25,13 +26,19 @@ import com.google.firebase.auth.FirebaseAuth;
 
 public class LoginActivity extends AppCompatActivity {
 
-
-//    EditText mEmail, mPassword;
     TextInputEditText mEmail, mPassword;
     Button mLoginBtn;
     TextView mCreateBtn, mForgotPassBtn;
     ProgressBar progressBar;
-    FirebaseAuth fAuth;
+
+//    FirebaseAuth fAuth;
+
+    Firebase FB;
+
+    @Override
+    public void onBackPressed() {
+        Toast.makeText(this,"Don't go out :(", Toast.LENGTH_SHORT).show();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,14 +46,17 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         getSupportActionBar().hide();
 
+        //Link to layout
         mEmail = findViewById(R.id.LoginEmail);
         mPassword = findViewById(R.id.LoginPassword);
         progressBar = findViewById(R.id.simpleProgressBar2);
         mLoginBtn = findViewById(R.id.LoginBtn);
         mCreateBtn = findViewById(R.id.RegisterFromLogin);
-        fAuth = FirebaseAuth.getInstance();
         mForgotPassBtn = findViewById(R.id.ForgotPassBtn);
 
+        //        fAuth = FirebaseAuth.getInstance();
+
+        FB = new Firebase(this);
 
         mLoginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -67,19 +77,25 @@ public class LoginActivity extends AppCompatActivity {
                 //Charging circle while waiting to connect
                 progressBar.setVisibility(View.VISIBLE);
 
-                //Authenticate the user
-                fAuth.signInWithEmailAndPassword(email,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if(task.isSuccessful()){
-                            Toast.makeText(LoginActivity.this,"Logged in Successfully", Toast.LENGTH_SHORT).show();
-                            startActivity(new Intent(getApplicationContext(),GameOptions.class));
-                        }else{
-                            Toast.makeText(LoginActivity.this,"Error! " + task.getException().getMessage(),Toast.LENGTH_SHORT).show();
-                            progressBar.setVisibility(View.GONE);
-                        }
-                    }
-                });
+                FB.userLogin(email,password);
+
+                progressBar.setVisibility(View.GONE);
+
+//                //Authenticate the user
+//                fAuth.signInWithEmailAndPassword(email,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+//                    @Override
+//                    public void onComplete(@NonNull Task<AuthResult> task) {
+//                        if(task.isSuccessful()){
+//                            Toast.makeText(LoginActivity.this,"Logged in Successfully", Toast.LENGTH_SHORT).show();
+//                            startActivity(new Intent(getApplicationContext(),GameOptions.class));
+//                            finish();
+//
+//                        }else{
+//                            Toast.makeText(LoginActivity.this,"Error! " + task.getException().getMessage(),Toast.LENGTH_SHORT).show();
+//                            progressBar.setVisibility(View.GONE);
+//                        }
+//                    }
+//                });
 
             }
         });
@@ -89,6 +105,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(getApplicationContext(),RegisterActivity.class));
+                finish();
             }
         });
 
@@ -107,17 +124,20 @@ public class LoginActivity extends AppCompatActivity {
                     public void onClick(DialogInterface dialog, int which) {
 
                         String mail = resetMail.getText().toString();
-                        fAuth.sendPasswordResetEmail(mail).addOnSuccessListener(new OnSuccessListener<Void>() {
-                            @Override
-                            public void onSuccess(Void unused) {
-                                Toast.makeText(LoginActivity.this, "Reset Link Sent to Your Email",Toast.LENGTH_SHORT).show();
-                            }
-                        }).addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-                                Toast.makeText(LoginActivity.this, "Error! Reset Link Is Not Sent " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                            }
-                        });
+
+                        FB.resetPassword(mail);
+
+//                        fAuth.sendPasswordResetEmail(mail).addOnSuccessListener(new OnSuccessListener<Void>() {
+//                            @Override
+//                            public void onSuccess(Void unused) {
+//                                Toast.makeText(LoginActivity.this, "Reset Link Sent to Your Email",Toast.LENGTH_SHORT).show();
+//                            }
+//                        }).addOnFailureListener(new OnFailureListener() {
+//                            @Override
+//                            public void onFailure(@NonNull Exception e) {
+//                                Toast.makeText(LoginActivity.this, "Error! Reset Link Is Not Sent " + e.getMessage(), Toast.LENGTH_SHORT).show();
+//                            }
+//                        });
                     }
                 });
 

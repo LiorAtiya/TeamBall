@@ -6,6 +6,7 @@ import java.sql.Time;
 import java.util.ArrayList;
 
 public class Group {
+
     int id;
     boolean status;
     String name;

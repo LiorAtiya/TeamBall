@@ -6,13 +6,21 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
+import com.ariel.teamball.Classes.Firebase;
+import com.ariel.teamball.Classes.Group;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class GameOptions extends AppCompatActivity {
     /*..  Setting Buttons ..*/
     Button mLogoutBtn, SoccerBtn, BasketBallBtn, TennisBtn, TableTennisBtn, HandBallBtn, VolleyBallBtn, DogeBallBtn,myProfile;
+    Firebase FB;
 
+    @Override
+    public void onBackPressed() {
+        Toast.makeText(this,"Don't go out :(", Toast.LENGTH_SHORT).show();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,7 +28,7 @@ public class GameOptions extends AppCompatActivity {
         setContentView(R.layout.activity_game_options);
         getSupportActionBar().hide();
 
-        /* Catches them */
+        //Link to layout
         mLogoutBtn = findViewById(R.id.LogoutBtn);
         myProfile = findViewById(R.id.myProfileBtn);
 
@@ -32,11 +40,14 @@ public class GameOptions extends AppCompatActivity {
         VolleyBallBtn = findViewById(R.id.VolleyBallBtn);
         DogeBallBtn = findViewById(R.id.DogeBallBtn);
 
-        /* What each button does */
+        FB = new Firebase(this);
+
         mLogoutBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FirebaseAuth.getInstance().signOut();
+//                FirebaseAuth.getInstance().signOut();
+
+                FB.userSignOut();
                 startActivity(new Intent(getApplicationContext(),LoginActivity.class));
                 finish();
             }
