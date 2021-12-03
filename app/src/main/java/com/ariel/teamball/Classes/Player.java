@@ -6,15 +6,17 @@ public class Player extends User {
     private String email;
     private String password;
     private String phone;
+    private String city;
 
     boolean GameStatus;
 
     /* Constructor */
-    public Player(String _FirstName, String _Email, String _Password, String _Phone) {
+    public Player(String _FirstName, String _Email, String _Password, String _Phone , String _city) {
         this.firstName = _FirstName;
         this.email = _Email;
         this.password = _Password;
         this.phone = _Phone;
+        this.city = _city;
 
         GameStatus = false;
     }
@@ -88,5 +90,9 @@ public class Player extends User {
     public void setPhone(String phone) {
         this.phone = phone;
     }
+
+    public String getCity(){return this.city;}
+
+    public void setCity(String _city){ this.city = _city;}
 
 }

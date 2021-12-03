@@ -8,11 +8,15 @@
     android:visibility="visible"
     tools:context=".RegisterActivity">
 
+    <!-- __________________start with________________________ -->
+
+    <!-- ______________-and ends with _______________________________-->
+
     <TextView
         android:id="@+id/textView2"
         android:layout_width="319dp"
         android:layout_height="83dp"
-        android:layout_marginTop="96dp"
+        android:layout_marginTop="4dp"
         android:fontFamily="sans-serif"
         android:text="Create Account"
         android:textAlignment="textStart"
@@ -20,7 +24,7 @@
         android:textSize="40sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.648"
+        app:layout_constraintHorizontal_bias="0.608"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -38,6 +42,7 @@
         app:counterTextColor="@color/black"
         app:hintTextColor="#403E3E"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.222"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView2"
         app:startIconDrawable="@drawable/user_icon">
@@ -51,21 +56,49 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textInputLayoutnickName"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="340dp"
+        android:layout_height="wrap_content"
+        android:hint="Nick Name"
+        android:textColorHint="@color/black"
+        app:boxStrokeColor="@color/black"
+        app:counterEnabled="true"
+        app:counterTextColor="@color/black"
+        app:hintTextColor="#403E3E"
+        app:layout_constraintBottom_toTopOf="@+id/textInputLayoutEmail"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.492"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0"
+        app:startIconDrawable="@drawable/user_icon">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/nickName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:shadowColor="@color/black"
+            android:textColor="@color/black" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/textInputLayoutEmail"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="340dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="40dp"
-        android:layout_marginEnd="40dp"
         android:hint="Email"
         android:textColorHint="@color/black"
         app:boxStrokeColor="@color/black"
         app:counterEnabled="true"
         app:counterTextColor="@color/black"
         app:hintTextColor="#403E3E"
+        app:layout_constraintBottom_toTopOf="@+id/textInputLayoutPass"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.507"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textInputLayoutName"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0"
         app:startIconDrawable="@drawable/email_icon">
 
         <com.google.android.material.textfield.TextInputEditText
@@ -82,8 +115,6 @@
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="340dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="40dp"
-        android:layout_marginEnd="40dp"
         android:hint="Password"
         android:textColorHint="@color/black"
         app:boxStrokeColor="@color/black"
@@ -92,9 +123,10 @@
         app:endIconMode="password_toggle"
         app:hintTextColor="#403E3E"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.535"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textInputLayoutEmail"
-        app:startIconDrawable="@drawable/icon_password">
+        app:startIconDrawable="@drawable/icon_password"
+        tools:layout_editor_absoluteY="330dp">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/Password"
@@ -110,8 +142,6 @@
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="340dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="40dp"
-        android:layout_marginEnd="40dp"
         android:hint="Phone"
         android:textColorHint="@color/black"
         app:boxStrokeColor="@color/black"
@@ -124,6 +154,8 @@
         app:startIconDrawable="@drawable/phone_icon">
 
         <com.google.android.material.textfield.TextInputEditText
+
+
             android:id="@+id/Phone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -144,7 +176,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.721" />
+        app:layout_constraintVertical_bias="0.889" />
 
     <ProgressBar
         android:id="@+id/simpleProgressBar"
@@ -156,7 +188,7 @@
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.922" />
+        app:layout_constraintVertical_bias="0.976" />
 
     <TextView
         android:id="@+id/LoginFromRegister"
@@ -167,10 +199,29 @@
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.824" />
+        app:layout_constraintVertical_bias="0.91" />
+
+    <Spinner
+        android:id="@+id/citySpinner"
+        android:layout_width="340dp"
+        android:layout_height="45dp"
+        app:layout_constraintBottom_toTopOf="@+id/genderSpinner"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textInputLayoutPhone" />
+
+    <Spinner
+        android:id="@+id/genderSpinner"
+        android:layout_width="342dp"
+        android:layout_height="42dp"
+        app:layout_constraintBottom_toTopOf="@+id/RegisterBtn"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.507"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textInputLayoutPhone"
+        app:layout_constraintVertical_bias="0.892" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
