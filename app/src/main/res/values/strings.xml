@@ -9,4 +9,44 @@
     <string name="invalid_username">Not a valid username</string>
     <string name="invalid_password">Password must be >5 characters</string>
     <string name="login_failed">"Login failed"</string>
+    <string-array name="names">
+        <item>choose city</item>
+        <item>shaarei-tikva</item>
+        <item>Afula</item>
+        <item>Tel-aviv</item>
+        <item>Jerusalem</item>
+        <item>petah-tikva</item>
+        <item>Haifa</item>
+        <item>Rishon Lezion</item>
+        <item>Ashdod</item>
+        <item>Netanya</item>
+        <item>Bnei-Brak</item>
+        <item>Beer-Sheva</item>
+        <item>Holon</item>
+        <item>Ramat Gan</item>
+        <item>Ashkelon</item>
+        <item>Streets</item>
+        <item>Beit-Shemesh</item>
+        <item>Bat-Yam</item>
+        <item>Herzliya</item>
+        <item>Kfar-Saba</item>
+        <item>Ramat Hasharon</item>
+        <item>Hadera</item>
+        <item>modiin</item>
+        <item>Lod</item>
+        <item>Raanana</item>
+        <item>Nazareth</item>
+        <item>Ramla</item>
+        <item>rahat</item>
+        <item>Rosh-HaAyin</item>
+        <item>Hod-Hasharon</item>
+        <item>Beitar-Elite</item>
+        <item>Givatayim</item>
+        <item>Nahariya</item>
+    </string-array>
+    <string-array name="genders">
+    <item>not set</item>
+    <item>male</item>
+    <item>female</item>
+    </string-array>
 </resources>
