@@ -9,4 +9,91 @@
     <string name="invalid_username">Not a valid username</string>
     <string name="invalid_password">Password must be >5 characters</string>
     <string name="login_failed">"Login failed"</string>
+    <string-array name="names">
+        <item>City</item>
+        <item>Ariel</item>
+        <item>shaarei-tikva</item>
+        <item>Afula</item>
+        <item>Tel aviv</item>
+        <item>Jerusalem</item>
+        <item>petah tikva</item>
+        <item>Haifa</item>
+        <item>Rishon Lezion</item>
+        <item>Ashdod</item>
+        <item>Netanya</item>
+        <item>Bnei Brak</item>
+        <item>Beer Sheva</item>
+        <item>Holon</item>
+        <item>Ramat Gan</item>
+        <item>Ashkelon</item>
+        <item>Streets</item>
+        <item>Beit Shemesh</item>
+        <item>Bat Yam</item>
+        <item>Herzliya</item>
+        <item>Kfar-Saba</item>
+        <item>Ramat Hasharon</item>
+        <item>Hadera</item>
+        <item>modiin</item>
+        <item>Lod</item>
+        <item>Raanana</item>
+        <item>Nazareth</item>
+        <item>Ramla</item>
+        <item>rahat</item>
+        <item>Rosh HaAyin</item>
+        <item>Hod Hasharon</item>
+        <item>Beitar Elite</item>
+        <item>Givatayim</item>
+        <item>Nahariya</item>
+        <item>Kiryat Ata</item>
+        <item>Qiryat Gat</item>
+        <item> al-Fahm</item>
+        <item>Yavne</item>
+        <item>Eilat</item>
+        <item>Ness Ziona</item>
+        <item>Aco</item>
+        <item>Elad</item>
+        <item>Tiberias</item>
+        <item>Kiryat Motzkin</item>
+        <item>Carmiel</item>
+        <item>Taibeh</item>
+        <item>Kiryat Bialik</item>
+        <item>Shefaram</item>
+        <item>Galilee landscape</item>
+        <item>Kiryat Ono</item>
+        <item>Netivot</item>
+        <item>Kiryat Yam</item>
+        <item>Maale Adumim</item>
+        <item>Zefat</item>
+        <item>Or Yehuda</item>
+        <item>Dimona</item>
+        <item>Tamra</item>
+        <item>Horizons</item>
+        <item>Sakhnin</item>
+        <item>Baqa al-Gharbiya</item>
+        <item>Yehud</item>
+        <item>Sderot</item>
+        <item>Beer Yaakov</item>
+        <item>Givat Shmuel</item>
+        <item>Arad</item>
+        <item>Kfar Yona</item>
+        <item>Tira</item>
+        <item>Araba</item>
+        <item>Tirat HaCarmel</item>
+        <item>Migdal Haemek</item>
+        <item>KiryatMalachi</item>
+        <item>Kafr Qasim</item>
+        <item>Yokneam Illith</item>
+        <item>Nesher</item>
+        <item>Kalenswa</item>
+        <item>Kiryat Shmona</item>
+        <item>Tarshiha</item>
+        <item>Or Akiva</item>
+        <item>Beit Shean</item>
+    </string-array>
+    <string-array name="genders">
+        <item>Gender</item>
+        <item>Does not define myself</item>
+        <item>male</item>
+        <item>female</item>
+    </string-array>
 </resources>

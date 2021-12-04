@@ -1,39 +1,26 @@
 package com.ariel.teamball;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ariel.teamball.Classes.Firebase;
 import com.ariel.teamball.Classes.Player;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
-import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.FirebaseFirestore;
-
-import java.util.HashMap;
-import java.util.Map;
 
 public class RegisterActivity extends AppCompatActivity {
 
     public static final String TAG = "TAG";
-    TextInputEditText mFullName, mEmail, mPassword, mPhone;
+    TextInputEditText mFullName, mEmail, mPassword, mPhone , mCity;
     Button mRegisterBtn;
     TextView mLoginBtn;
     ProgressBar progressBar;
@@ -60,9 +47,11 @@ public class RegisterActivity extends AppCompatActivity {
         mEmail = findViewById(R.id.Email);
         mPassword = findViewById(R.id.Password);
         mPhone = findViewById(R.id.Phone);
+       // mCity = findViewById(R.id.city);
         mRegisterBtn = findViewById(R.id.RegisterBtn);
         mLoginBtn = findViewById(R.id.LoginFromRegister);
         progressBar = findViewById(R.id.simpleProgressBar);
+
 
         FB = new Firebase(this);
 
@@ -70,6 +59,7 @@ public class RegisterActivity extends AppCompatActivity {
             startActivity(new Intent(getApplicationContext(),GameOptions.class));
             finish();
         }
+
 
 //        fAuth = FirebaseAuth.getInstance();
 //        fStore = FirebaseFirestore.getInstance();
@@ -88,9 +78,10 @@ public class RegisterActivity extends AppCompatActivity {
                 String password = mPassword.getText().toString().trim();
                 String fullName = mFullName.getText().toString();
                 String phone = mPhone.getText().toString();
+                String city = mCity.getText().toString();
 
                 //Create new player
-                Player p1 = new Player(fullName,email,password, phone);
+                Player p1 = new Player(fullName,email,password, phone,city);
 
                 //Character insertion check
                 if(TextUtils.isEmpty(p1.getEmail())){
@@ -173,8 +164,26 @@ public class RegisterActivity extends AppCompatActivity {
                 startActivity(new Intent(getApplicationContext(),LoginActivity.class));
             }
         });
-    }
 
+        /* For Choose City */
+        Spinner mySpinner = (Spinner) findViewById(R.id.citySpinner);
+        /* store and connect our cities names with spinner */
+        ArrayAdapter<String> allCities = new ArrayAdapter<String>(RegisterActivity.this,
+                android.R.layout.simple_list_item_1,getResources().getStringArray(R.array.names));
+        //for drop down list:
+        allCities.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        mySpinner.setAdapter(allCities);
+
+        /* For Choose gender */
+        Spinner genderSpinner = (Spinner) findViewById(R.id.genderSpinner);
+        /* store and connect our cities names with spinner */
+        ArrayAdapter<String> genders = new ArrayAdapter<String>(RegisterActivity.this,
+                android.R.layout.simple_list_item_1,getResources().getStringArray(R.array.genders));
+        //for drop down list:
+        genders.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        genderSpinner.setAdapter(genders);
+    }
+    /* check the detail that user insert */
     public void checkValidDetails(Player p){
         //Character insertion check
         if(TextUtils.isEmpty(p.getEmail())){
@@ -187,7 +196,10 @@ public class RegisterActivity extends AppCompatActivity {
             return;
         }
 
-        //*********NEED TO ADD CHECK FOR PHONE AND NAME
+        /*!!!!!!!!!!!!!!!!! phone error doesn't work !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!*/
+//        if(TextUtils.isEmpty(p.getPhone())){
+//            mPhone.setError("Phone is Required");
+//        }
     }
 
 }
