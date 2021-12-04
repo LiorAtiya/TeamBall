@@ -44,7 +44,6 @@ public class Chatroom extends AppCompatActivity {
             getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
 
-
         user_name = getIntent().getExtras().get("user_name").toString();
         room_name = getIntent().getExtras().get("room_name").toString();
         category = getIntent().getExtras().get("category").toString();

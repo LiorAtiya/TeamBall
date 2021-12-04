@@ -18,6 +18,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -30,10 +31,12 @@ public class Firebase {
     private static FirebaseAuth fAuth;
     private static FirebaseFirestore fStore;
     private static Context context;
+    private static DatabaseReference reference;
 
     public Firebase(Context context){
         fAuth = FirebaseAuth.getInstance();
         fStore = FirebaseFirestore.getInstance();
+
         this.context = context;
     }
 

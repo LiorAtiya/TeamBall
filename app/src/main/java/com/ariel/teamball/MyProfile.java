@@ -77,6 +77,7 @@ public class MyProfile extends AppCompatActivity {
         userID = fAuth.getCurrentUser().getUid();
         user = fAuth.getCurrentUser();
 
+
         if(!user.isEmailVerified()){
             resendCode.setVisibility(View.VISIBLE);
             verifyMsg.setVisibility(View.VISIBLE);
