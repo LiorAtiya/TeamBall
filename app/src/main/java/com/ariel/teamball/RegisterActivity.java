@@ -78,10 +78,11 @@ public class RegisterActivity extends AppCompatActivity {
                 String password = mPassword.getText().toString().trim();
                 String fullName = mFullName.getText().toString();
                 String phone = mPhone.getText().toString();
-                String city = mCity.getText().toString();
+
+//                String city = mCity.getText().toString();
 
                 //Create new player
-                Player p1 = new Player(fullName,email,password, phone,city);
+                Player p1 = new Player(fullName,email,password, phone);
 
                 //Character insertion check
                 if(TextUtils.isEmpty(p1.getEmail())){

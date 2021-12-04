@@ -173,6 +173,8 @@ public class ChatCenter extends AppCompatActivity {
                 groupName = new EditText(v.getContext());
                 newGroupDialog.setView(groupName);
 
+
+
                 newGroupDialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
