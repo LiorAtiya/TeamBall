@@ -18,6 +18,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -33,6 +34,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -122,12 +124,42 @@ public class ChatCenter extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
-                Intent intent = new Intent(ChatCenter.this, Chatroom.class);
-                String roomName = (String) (listView.getItemAtPosition(i));
-                intent.putExtra("room_name", roomName);
-                intent.putExtra("user_name", name);
-                intent.putExtra("category", category);
-                startActivity(intent);
+                final AlertDialog.Builder EnterGroupDialog = new AlertDialog.Builder(view.getContext());
+                EnterGroupDialog.setTitle("Want to join the group?");
+                EnterGroupDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        String roomName = (String) (listView.getItemAtPosition(i));
+
+//                        String userID = fAuth.getCurrentUser().getUid();
+//                        DocumentReference docRef = fStore.collection("users").document(userID);
+                        Map<String,Object> groups = new HashMap<>();
+//                        Map<String,Object> all_category = new HashMap<>();
+//                        all_category.put(category,all_category);
+                        groups.put("My Groups",roomName);
+
+                        docRef
+                                .update(groups)
+                                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void unused) {
+                                Toast.makeText(ChatCenter.this,"My Groups Updated", Toast.LENGTH_SHORT).show();
+                                Intent intent = new Intent(ChatCenter.this, Chatroom.class);
+                                intent.putExtra("room_name", roomName);
+                                intent.putExtra("user_name", name);
+                                intent.putExtra("category", category);
+                                startActivity(intent);
+                            }
+                        });
+                    }
+                });
+                EnterGroupDialog.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.cancel();
+                    }
+                });
+                EnterGroupDialog.show();
 
             }
         });
@@ -137,7 +169,7 @@ public class ChatCenter extends AppCompatActivity {
             public void onClick(View v) {
 
                 final AlertDialog.Builder newGroupDialog = new AlertDialog.Builder(v.getContext());
-                newGroupDialog.setTitle("Enter name group");
+                newGroupDialog.setTitle("Enter group name: ");
                 groupName = new EditText(v.getContext());
                 newGroupDialog.setView(groupName);
 
