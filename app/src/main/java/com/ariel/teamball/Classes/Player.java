@@ -16,7 +16,7 @@ public class Player extends User {
         this.email = _Email;
         this.password = _Password;
         this.phone = _Phone;
-        this.city = _city;
+        this.city = "";
 
         GameStatus = false;
     }
