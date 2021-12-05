@@ -20,10 +20,10 @@ import android.widget.Toast;
 import com.ariel.teamball.Classes.Admin;
 import com.ariel.teamball.Classes.Group;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -37,11 +37,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-public class ChatCenter extends AppCompatActivity {
+public class GameCenter extends AppCompatActivity {
 
     public static final String TAG = "TAG";
     DatabaseReference reference;
@@ -59,7 +58,7 @@ public class ChatCenter extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_chat_center);
+        setContentView(R.layout.activity_game_center);
         getSupportActionBar().hide();
 
         nameCategory = findViewById(R.id.nameCategory);
@@ -78,12 +77,10 @@ public class ChatCenter extends AppCompatActivity {
         category = getIntent().getExtras().get("Category").toString();
         nameCategory.setText(category);
 
-        //Access to the list of group category
-        reference = FirebaseDatabase.getInstance().getReference("Group/"+category);
-
         String userID = fAuth.getCurrentUser().getUid();
         DocumentReference docRef = fStore.collection("users").document(userID);
 
+        //Access to user collection
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
@@ -96,7 +93,9 @@ public class ChatCenter extends AppCompatActivity {
             }
         });
 
-//        request_username();
+
+        //Access to the list of group category
+        reference = FirebaseDatabase.getInstance().getReference("Group/"+category);
 
         //Put all the group of the category to list from the firebase
         reference.addValueEventListener(new ValueEventListener() {
@@ -118,7 +117,7 @@ public class ChatCenter extends AppCompatActivity {
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                Toast.makeText(ChatCenter.this, "No network connectivity", Toast.LENGTH_SHORT).show();
+                Toast.makeText(GameCenter.this, "No network connectivity", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -132,26 +131,27 @@ public class ChatCenter extends AppCompatActivity {
                 EnterGroupDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
+
                         String roomName = (String) (listView.getItemAtPosition(room));
 
-                        Map<String,Object> groups = new HashMap<>();
-                        Map<String,Object> all_category = new HashMap<>();
-                        all_category.put(category,roomName);
-                        groups.put("My Groups",all_category);
+                        //Add group to list of private groups user
+                        final FirebaseDatabase database = FirebaseDatabase.getInstance();
+                        DatabaseReference ref = database.getReference();
 
-                        docRef
-                                .update(groups)
-                                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                            @Override
-                            public void onSuccess(Void unused) {
-                                Toast.makeText(ChatCenter.this,"My Groups Updated", Toast.LENGTH_SHORT).show();
-                                Intent intent = new Intent(ChatCenter.this, Chatroom.class);
-                                intent.putExtra("room_name", roomName);
-                                intent.putExtra("user_name", name);
-                                intent.putExtra("category", category);
-                                startActivity(intent);
-                            }
-                        });
+                        DatabaseReference usersRef = ref.child("userGroups/"+userID);
+                        Map<String, Object> groups = new HashMap<>();
+                        groups.put(category,roomName);
+
+                        usersRef.updateChildren(groups);
+
+                        Toast.makeText(GameCenter.this,"My Groups Updated", Toast.LENGTH_SHORT).show();
+
+                        //----------------------------------------
+                        Intent intent = new Intent(GameCenter.this, Chatroom.class);
+                        intent.putExtra("room_name", roomName);
+                        intent.putExtra("user_name", name);
+                        intent.putExtra("category", category);
+                        startActivity(intent);
 
                     }
                 });
@@ -182,14 +182,45 @@ public class ChatCenter extends AppCompatActivity {
                         String userID = fAuth.getCurrentUser().getUid();
                         DocumentReference docRef = fStore.collection("users").document(userID);
 
+                        //Become player to admin on group
+
                         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                             @Override
                             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                                 if (task.isSuccessful()) {
                                     DocumentSnapshot document = task.getResult();
                                     name = document.getString("firstName");
+                                    String email = document.getString("email");
+                                    String phone = document.getString("phone");
 
-                                    Admin admin = new Admin();
+                                    Admin admin = new Admin(name,email,phone,groupName.getText().toString(),category);
+
+                                    DocumentReference docRefAdmin = fStore.collection("admins").document(userID);
+
+                                    //Store admin in the collection
+                                    docRefAdmin.set(admin).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                        @Override
+                                        public void onSuccess(Void unused) {
+                                            Log.d(TAG,"onSuccess: user Profile is created for "+userID);
+                                        }
+                                    }).addOnFailureListener(new OnFailureListener() {
+                                        @Override
+                                        public void onFailure(@NonNull Exception e) {
+                                            Log.d(TAG,"onFailure: "+e.toString());
+                                        }
+                                    });
+
+                                    //Group storage in database
+                                    Group newGroup = new Group(groupName.getText().toString(), 20,admin);
+
+                                    final FirebaseDatabase database = FirebaseDatabase.getInstance();
+                                    DatabaseReference ref = database.getReference();
+
+                                    DatabaseReference usersRef = ref.child("Group").child(category);
+                                    Map<String, Object> group = new HashMap<>();
+                                    group.put(groupName.getText().toString(),newGroup);
+
+                                    usersRef.updateChildren(group);
 
                                 } else {
                                     Log.d(TAG, "get failed with ", task.getException());
@@ -197,22 +228,6 @@ public class ChatCenter extends AppCompatActivity {
                             }
                         });
 
-
-                        //Group storage in database
-                        Group newGroup = new Group(groupName.getText().toString(), 20);
-
-                        final FirebaseDatabase database = FirebaseDatabase.getInstance();
-                        DatabaseReference ref = database.getReference();
-
-                        DatabaseReference usersRef = ref.child("Group").child(category);
-                        Map<String, Object> group = new HashMap<>();
-                        group.put(groupName.getText().toString(),newGroup);
-
-                        usersRef.updateChildren(group);
-
-//                        Map<String,Object> map = new HashMap<>();
-//                        map.put(groupName.getText().toString(), "");
-//                        reference.updateChildren(map);
                     }
                 });
 

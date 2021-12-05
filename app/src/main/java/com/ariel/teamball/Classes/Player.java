@@ -1,17 +1,20 @@
 package com.ariel.teamball.Classes;
 
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Set;
 
 public class Player {
 
     private String firstName;
-    private String LastName;
-    private String NickName;
+//    private String LastName;
+//    private String NickName;
     private String email;
     private String password;
     private String phone;
     private String city;
-    private String Gender;
+//    private HashMap<String, Set<String>> myGroups;
+//    private String Gender;
 
 //    private String LoginStatus;
 //    private int GroupId;
@@ -25,10 +28,14 @@ public class Player {
         this.password = _Password;
         this.phone = _Phone;
         this.city = "";
-
+//        myGroups = new HashMap<>();
     }
 
     public Player() {}
+
+    public Player(String firstName, String email, String phone, String group) {
+    }
+
 
     public void JoinGame() {
 

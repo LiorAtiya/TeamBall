@@ -9,10 +9,8 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.ariel.teamball.Classes.Firebase;
-import com.ariel.teamball.Classes.Group;
-import com.google.firebase.auth.FirebaseAuth;
 
-public class GameOptions extends AppCompatActivity {
+public class SportsMenu extends AppCompatActivity {
     /*..  Setting Buttons ..*/
     Button mLogoutBtn, SoccerBtn, BasketBallBtn, TennisBtn, TableTennisBtn, HandBallBtn, VolleyBallBtn, DogeBallBtn,myProfile;
     Firebase FB;
@@ -25,7 +23,7 @@ public class GameOptions extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_game_options);
+        setContentView(R.layout.activity_sports_menu);
         getSupportActionBar().hide();
 
         //Link to layout
@@ -63,7 +61,7 @@ public class GameOptions extends AppCompatActivity {
         SoccerBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), ChatCenter.class);
+                Intent intent = new Intent(getApplicationContext(), GameCenter.class);
                 intent.putExtra("Category", "Soccer");
                 startActivity(intent);
             }
@@ -72,7 +70,7 @@ public class GameOptions extends AppCompatActivity {
         BasketBallBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), ChatCenter.class);
+                Intent intent = new Intent(getApplicationContext(), GameCenter.class);
                 intent.putExtra("Category", "BasketBall");
                 startActivity(intent);
             }
@@ -81,7 +79,7 @@ public class GameOptions extends AppCompatActivity {
         TennisBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), ChatCenter.class);
+                Intent intent = new Intent(getApplicationContext(), GameCenter.class);
                 intent.putExtra("Category", "Tennis");
                 startActivity(intent);
             }
@@ -90,7 +88,7 @@ public class GameOptions extends AppCompatActivity {
         TableTennisBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), ChatCenter.class);
+                Intent intent = new Intent(getApplicationContext(), GameCenter.class);
                 intent.putExtra("Category", "TableTennis");
                 startActivity(intent);
             }
@@ -99,7 +97,7 @@ public class GameOptions extends AppCompatActivity {
         HandBallBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), ChatCenter.class);
+                Intent intent = new Intent(getApplicationContext(), GameCenter.class);
                 intent.putExtra("Category", "HandBall");
                 startActivity(intent);
             }
@@ -108,7 +106,7 @@ public class GameOptions extends AppCompatActivity {
         VolleyBallBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), ChatCenter.class);
+                Intent intent = new Intent(getApplicationContext(), GameCenter.class);
                 intent.putExtra("Category", "VolleyBall");
                 startActivity(intent);
             }
@@ -117,7 +115,7 @@ public class GameOptions extends AppCompatActivity {
         DogeBallBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), ChatCenter.class);
+                Intent intent = new Intent(getApplicationContext(), GameCenter.class);
                 intent.putExtra("Category", "DogeBall");
                 startActivity(intent);
             }

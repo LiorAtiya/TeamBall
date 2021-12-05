@@ -10,7 +10,7 @@ public class Group {
     boolean status;
     String name;
     int capacity;
-    ArrayList<Player> players;
+//    ArrayList<Player> players;
 //    int id;
     Admin admin;
 //    Time expiredTime;
@@ -19,12 +19,13 @@ public class Group {
 //    Chat chat;
 
     /* Constructor */
-    public Group(String _name, int _capacity){
+    public Group(String _name, int _capacity, Admin _admin){
         this.name = _name;
         this.capacity = _capacity;
-        status = true;
-        players = new ArrayList<>();
-        players.add(new Player("a","b","c", "d"," "));
+        this.status = true;
+        this.admin = _admin;
+//        players = new ArrayList<>();
+//        players.add(new Player("a","b","c", "d"," "));
     }
 
     public boolean isStatus() {
@@ -51,11 +52,11 @@ public class Group {
         this.capacity = capacity;
     }
 
-    public ArrayList<Player> getPlayers() {
-        return players;
-    }
-
-    public void setPlayers(ArrayList<Player> players) {
-        this.players = players;
-    }
+//    public ArrayList<Player> getPlayers() {
+//        return players;
+//    }
+//
+//    public void setPlayers(ArrayList<Player> players) {
+//        this.players = players;
+//    }
 }
