@@ -1,14 +1,23 @@
 package com.ariel.teamball.Classes;
 
-public class Player extends User {
+import java.time.LocalDateTime;
+import java.util.Date;
+
+public class Player {
 
     private String firstName;
+    private String LastName;
+    private String NickName;
     private String email;
     private String password;
     private String phone;
     private String city;
-
-    boolean GameStatus;
+    private boolean GameStatus;
+    private String gender;
+    private LocalDateTime RegisterDate;
+    private String LoginStatus;
+    private String GroupId;
+    private String TeamColor;
 
     /* Constructor */
     public Player(String _FirstName, String _Email, String _Password, String _Phone , String _city) {
@@ -17,7 +26,6 @@ public class Player extends User {
         this.password = _Password;
         this.phone = _Phone;
         this.city = "";
-
         GameStatus = false;
     }
 
@@ -27,33 +35,24 @@ public class Player extends User {
     public void LeaveGame() {
     }
 
-    @Override
-    boolean VerifyLogin() {
-        return false;
+
+    public boolean VerifyLogin(){
+
+        return true;
     }
+     public void GetLocation(){
 
-    @Override
-    void GetLocation() {
-
-    }
-
-    @Override
-    void AddFriend() {
+     }
+    public void AddFriend(){
 
     }
-
-    @Override
-    void CreateClan() {
+    public void CreateClan(){
 
     }
-
-    @Override
-    void AddToClan() {
+    public void AddToClan(){
 
     }
-
-    @Override
-    void ShareExternalLink() {
+    public void ShareExternalLink(){
 
     }
 
