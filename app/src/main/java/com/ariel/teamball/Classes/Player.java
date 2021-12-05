@@ -30,6 +30,7 @@ public class Player {
         this.teamColor = "";
         this.groupId = "";
         this.gender = "";
+        LoginStatus = "";
     }
 
     public void JoinGame() {
