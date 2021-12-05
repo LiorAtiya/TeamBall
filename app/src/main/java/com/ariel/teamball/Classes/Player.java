@@ -13,10 +13,10 @@ public class Player {
     private String city;
     private boolean GameStatus;
     private String gender;
+    private String groupId;
+    private String teamColor;
     private LocalDateTime RegisterDate;
     private String LoginStatus;
-    private String GroupId;
-    private String TeamColor;
 
     /* Constructor */
     public Player(String _FullName, String  _nickname,String _Email, String _Password, String _Phone , String _city) {
@@ -26,7 +26,10 @@ public class Player {
         this.password = _Password;
         this.phone = _Phone;
         this.city = "";
-        GameStatus = false;
+        this.GameStatus = false;
+        this.teamColor = "";
+        this.groupId = "";
+        this.gender = "";
     }
 
     public void JoinGame() {
@@ -93,5 +96,17 @@ public class Player {
     public String getCity(){return this.city;}
 
     public void setCity(String _city){ this.city = _city;}
+
+    public String getGroupId(){ return this.groupId;}
+
+    public void setGroupId(String _GroupId){this.groupId = _GroupId;}
+
+    public String getTeamColor(){return this.teamColor;}
+
+    public void setTeamColor(String _TeamColor){this.teamColor = _TeamColor;}
+
+    public void setGender(String _Gender){this.gender = _Gender;}
+
+    public String getGender(){return this.gender;}
 
 }
