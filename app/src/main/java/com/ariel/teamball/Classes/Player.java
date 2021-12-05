@@ -14,8 +14,8 @@ public class Player {
     private String gender;
     private String groupId;
     private String teamColor;
-    private LocalDateTime RegisterDate;
-    private String LoginStatus;
+    //private LocalDateTime RegisterDate;
+    //private String LoginStatus;
 
     /* Constructor */
     public Player(String _FullName, String  _nickname,String _Email, String _Password, String _Phone , String _city) {
@@ -29,7 +29,6 @@ public class Player {
         this.teamColor = "";
         this.groupId = "";
         this.gender = "";
-        LoginStatus = "";
     }
 
     public Player() {}
@@ -39,6 +38,8 @@ public class Player {
     }
 
     public void LeaveGame() {
+
+    }
 
     public boolean VerifyLogin(){
 

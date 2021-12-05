@@ -24,7 +24,7 @@ public class Group {
         this.capacity = _capacity;
         status = true;
         players = new ArrayList<>();
-        players.add(new Player("a","b","c", "d"," "));
+        players.add(new Player("a","b","c", "d","1"," "));
     }
 
     public boolean isStatus() {
