@@ -6,36 +6,27 @@ import java.util.Set;
 
 public class Player {
 
-    private String firstName;
-//    private String LastName;
-//    private String NickName;
+    private String fullName;
+    private String nickName;
     private String email;
     private String password;
     private String phone;
     private String city;
-//    private HashMap<String, Set<String>> myGroups;
-//    private String Gender;
-
-//    private String LoginStatus;
-//    private int GroupId;
-//    private String TeamColor;
-//    private String Location;
+    private String gender;
 
     /* Constructor */
-    public Player(String _FirstName, String _Email, String _Password, String _Phone , String _city) {
-        this.firstName = _FirstName;
+    public Player(String _FullName, String  _nickname,String _Email, String _Password, String _Phone , String _city) {
+        this.fullName = _FullName;
+        this.nickName = _nickname;
         this.email = _Email;
         this.password = _Password;
         this.phone = _Phone;
         this.city = "";
-//        myGroups = new HashMap<>();
     }
+
+    public Player(String _FirstName, String _Email, String _Phone, String _group, String _Category) {}
 
     public Player() {}
-
-    public Player(String firstName, String email, String phone, String group) {
-    }
-
 
     public void JoinGame() {
 
@@ -46,32 +37,33 @@ public class Player {
     }
 
     public boolean VerifyLogin(){
+
         return true;
     }
-    public void GetLocation(){
+     public void GetLocation(){
+
+     }
+    public void AddFriend(){
 
     }
-    void AddFriend(){
+    public void CreateClan(){
 
     }
-    void CreateClan(){
+    public void AddToClan(){
 
     }
-    void AddToClan(){
-
-    }
-    void ShareExternalLink(){
+    public void ShareExternalLink(){
 
     }
 
     //--------Getters & Setters---------
 
-    public String getFirstName() {
-        return firstName;
+    public String getFullName() {
+        return fullName;
     }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
+    public void setFullName(String _FullName) {
+        this.fullName = _FullName;
     }
 
     public String getEmail() {
@@ -101,5 +93,9 @@ public class Player {
     public String getCity(){return this.city;}
 
     public void setCity(String _city){ this.city = _city;}
+
+    public void setGender(String _Gender){this.gender = _Gender;}
+
+    public String getGender(){return this.gender;}
 
 }

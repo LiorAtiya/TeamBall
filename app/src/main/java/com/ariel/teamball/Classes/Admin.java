@@ -54,19 +54,8 @@ public class Admin extends Player {
         return this.plan;
     }
 
-    public String getGroup() {
-        return this.group_name;
-    }
-
     public void setPlan(String _plan) {
         this.plan = _plan;
     }
 
-    public void setGroup(String _group) {
-        this.group_name = _group;
-    }
-
-    /* For those who pay an extension */
-    public void extendTime() {
-    }
 }
