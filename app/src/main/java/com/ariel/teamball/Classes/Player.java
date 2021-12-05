@@ -11,12 +11,12 @@ public class Player {
     private String password;
     private String phone;
     private String city;
-    private String Gender;
-
-//    private String LoginStatus;
-//    private int GroupId;
-//    private String TeamColor;
-//    private String Location;
+    private boolean GameStatus;
+    private String gender;
+    private LocalDateTime RegisterDate;
+    private String LoginStatus;
+    private String GroupId;
+    private String TeamColor;
 
     /* Constructor */
     public Player(String _FirstName, String _Email, String _Password, String _Phone , String _city) {
@@ -25,7 +25,7 @@ public class Player {
         this.password = _Password;
         this.phone = _Phone;
         this.city = "";
-
+        GameStatus = false;
     }
 
     public Player() {}
@@ -36,24 +36,23 @@ public class Player {
 
     public void LeaveGame() {
 
-    }
-
     public boolean VerifyLogin(){
+
         return true;
     }
-    public void GetLocation(){
+     public void GetLocation(){
+
+     }
+    public void AddFriend(){
 
     }
-    void AddFriend(){
+    public void CreateClan(){
 
     }
-    void CreateClan(){
+    public void AddToClan(){
 
     }
-    void AddToClan(){
-
-    }
-    void ShareExternalLink(){
+    public void ShareExternalLink(){
 
     }
 

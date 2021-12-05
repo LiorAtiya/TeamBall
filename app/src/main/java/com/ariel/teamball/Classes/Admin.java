@@ -1,51 +1,63 @@
 package com.ariel.teamball.Classes;
 
-import com.ariel.teamball.Classes.User;
-
 import java.security.acl.Group;
+
 public class Admin extends Player {
 
-    String Plan;
-    Group group;
+    private String plan;
+    private Group group;
 
     /* Constructor */
-    public Admin(){}
-
-    public void deleteGroup(){}
-
-    public void addUser(){}
-
-    public void removeUser(){}
-
-    public void editGroupName(){}
-
-    public void editCapacity(){}
-
-    public void editLevel(){}
-
-    public void splitTeams(){}
-
-    public void lockGroup(){}
-
-    public void changeChatPermission(){}
-
-    @Override
-    void AddFriend() {
-
+    public Admin(String _FirstName, String _Email, String _Password, String _Phone, String _city) {
+        super(_FirstName, _Email, _Password, _Phone, _city);
     }
 
-    @Override
-    void CreateClan() {
-
+    public void deleteGroup() {
     }
 
-    @Override
-    void AddToClan() {
-
+    public void addUser() {
     }
 
-    @Override
-    void ShareExternalLink() {
+    public void removeUser() {
+    }
 
+    public void editGroupName() {
+    }
+
+    public void editCapacity() {
+    }
+
+    public void editLevel() {
+    }
+
+    public void splitTeams() {
+    }
+
+    public void lockGroup() {
+    }
+
+    public void changeChatPermission() {
+    }
+
+    /* Get and Set */
+
+    public String getPlan() {
+        return this.plan;
+    }
+
+    public Group getGroup() {
+        return this.group;
+    }
+
+    public void setPlan(String _plan) {
+        this.plan = _plan;
+    }
+
+    public void setGroup(Group _group) {
+        this.group = _group;
+    }
+
+    /* For those who pay an extension */
+    public void extendTime() {
     }
 }
