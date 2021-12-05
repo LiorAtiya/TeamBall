@@ -3,14 +3,11 @@ package com.ariel.teamball.Classes;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
-import android.view.View;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
-import com.ariel.teamball.GameOptions;
-import com.ariel.teamball.LoginActivity;
-import com.ariel.teamball.RegisterActivity;
+import com.ariel.teamball.SportsMenu;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -19,13 +16,8 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
-
-import java.util.HashMap;
-import java.util.Map;
 
 public class Firebase {
 
@@ -110,7 +102,7 @@ public class Firebase {
                         }
                     });
 
-                    Intent myIntent = new Intent(context, GameOptions.class);
+                    Intent myIntent = new Intent(context, SportsMenu.class);
                     context.startActivity(myIntent);
 
                 }else{
@@ -129,7 +121,7 @@ public class Firebase {
                 if(task.isSuccessful()){
                     Toast.makeText(context,"Logged in Successfully", Toast.LENGTH_SHORT).show();
 
-                    Intent myIntent = new Intent(context, GameOptions.class);
+                    Intent myIntent = new Intent(context, SportsMenu.class);
                     context.startActivity(myIntent);
 
                 }else{

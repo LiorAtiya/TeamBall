@@ -1,15 +1,16 @@
 package com.ariel.teamball.Classes;
 
-import java.security.acl.Group;
-
 public class Admin extends Player {
 
     private String plan;
-    private Group group;
+    private String group_name;
+    private String category_group;
 
-    /* Constructor */
-    public Admin(String _FullName,String _nickName, String _Email, String _Password, String _Phone, String _city) {
-        super(_FullName,_nickName, _Email, _Password, _Phone, _city);
+    public Admin(String _FirstName, String _Email, String _Phone, String _group,String _Category) {
+        super(_FirstName, _Email, _Phone, _group, _Category);
+
+        this.category_group = _Category;
+        this.group_name = _group;
     }
 
     public void deleteGroup() {
@@ -41,23 +42,20 @@ public class Admin extends Player {
 
     /* Get and Set */
 
-    public String getPlan() {
-        return this.plan;
+    public String getCategory_group() {
+        return category_group;
     }
 
-    public Group getGroup() {
-        return this.group;
+    public void setCategory_group(String category_group) {
+        this.category_group = category_group;
+    }
+
+    public String getPlan() {
+        return this.plan;
     }
 
     public void setPlan(String _plan) {
         this.plan = _plan;
     }
 
-    public void setGroup(Group _group) {
-        this.group = _group;
-    }
-
-    /* For those who pay an extension */
-    public void extendTime() {
-    }
 }

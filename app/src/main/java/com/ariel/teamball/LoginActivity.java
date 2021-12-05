@@ -1,6 +1,5 @@
 package com.ariel.teamball;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -16,13 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ariel.teamball.Classes.Firebase;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
-import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FirebaseAuth;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -54,12 +47,10 @@ public class LoginActivity extends AppCompatActivity {
         mCreateBtn = findViewById(R.id.RegisterFromLogin);
         mForgotPassBtn = findViewById(R.id.ForgotPassBtn);
 
-        //        fAuth = FirebaseAuth.getInstance();
-
         FB = new Firebase(this);
 
         if(FB.userExist()){
-            startActivity(new Intent(getApplicationContext(),GameOptions.class));
+            startActivity(new Intent(getApplicationContext(), SportsMenu.class));
             finish();
         }
 

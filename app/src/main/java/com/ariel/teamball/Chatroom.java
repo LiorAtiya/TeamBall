@@ -78,12 +78,6 @@ public class Chatroom extends AppCompatActivity {
             }
         });
 
-
-
-
-
-
-
     }
 
     @Override

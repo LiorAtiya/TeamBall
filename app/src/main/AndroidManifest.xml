@@ -18,7 +18,7 @@
             android:name=".Chat.Chatroom"
             android:exported="false" />
         <activity
-            android:name=".ChatCenter"
+            android:name=".GameCenter"
             android:exported="false" />
         <activity
             android:name=".EditProfile"
@@ -30,7 +30,7 @@
             android:name=".Games.Soccer"
             android:exported="false" />
         <activity
-            android:name=".GameOptions"
+            android:name=".SportsMenu"
             android:exported="false" />
         <activity
             android:name=".RegisterActivity"
@@ -39,7 +39,7 @@
             android:name=".LoginActivity"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
+            android:name=".SplashScreen"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
