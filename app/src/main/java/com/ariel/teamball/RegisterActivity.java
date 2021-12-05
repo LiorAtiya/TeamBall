@@ -56,12 +56,6 @@ public class RegisterActivity extends AppCompatActivity {
 
         FB = new Firebase(this);
 
-        if(FB.userExist()){
-            startActivity(new Intent(getApplicationContext(),GameOptions.class));
-            finish();
-        }
-
-
 //        fAuth = FirebaseAuth.getInstance();
 //        fStore = FirebaseFirestore.getInstance();
 //

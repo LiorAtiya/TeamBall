@@ -17,9 +17,13 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.ariel.teamball.Classes.Admin;
+import com.ariel.teamball.Classes.Group;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -33,6 +37,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -74,7 +79,7 @@ public class ChatCenter extends AppCompatActivity {
         nameCategory.setText(category);
 
         //Access to the list of group category
-        reference = FirebaseDatabase.getInstance().getReference(category);
+        reference = FirebaseDatabase.getInstance().getReference("Group/"+category);
 
         String userID = fAuth.getCurrentUser().getUid();
         DocumentReference docRef = fStore.collection("users").document(userID);
@@ -84,7 +89,7 @@ public class ChatCenter extends AppCompatActivity {
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 if (task.isSuccessful()) {
                     DocumentSnapshot document = task.getResult();
-                    name = document.getString("fName");
+                    name = document.getString("firstName");
                 } else {
                     Log.d(TAG, "get failed with ", task.getException());
                 }
@@ -120,14 +125,43 @@ public class ChatCenter extends AppCompatActivity {
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+            public void onItemClick(AdapterView<?> adapterView, View view, int room, long l) {
 
-                Intent intent = new Intent(ChatCenter.this, Chatroom.class);
-                String roomName = (String) (listView.getItemAtPosition(i));
-                intent.putExtra("room_name", roomName);
-                intent.putExtra("user_name", name);
-                intent.putExtra("category", category);
-                startActivity(intent);
+                final AlertDialog.Builder EnterGroupDialog = new AlertDialog.Builder(view.getContext());
+                EnterGroupDialog.setTitle("Want to join the group?");
+                EnterGroupDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        String roomName = (String) (listView.getItemAtPosition(room));
+
+                        Map<String,Object> groups = new HashMap<>();
+                        Map<String,Object> all_category = new HashMap<>();
+                        all_category.put(category,roomName);
+                        groups.put("My Groups",all_category);
+
+                        docRef
+                                .update(groups)
+                                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void unused) {
+                                Toast.makeText(ChatCenter.this,"My Groups Updated", Toast.LENGTH_SHORT).show();
+                                Intent intent = new Intent(ChatCenter.this, Chatroom.class);
+                                intent.putExtra("room_name", roomName);
+                                intent.putExtra("user_name", name);
+                                intent.putExtra("category", category);
+                                startActivity(intent);
+                            }
+                        });
+
+                    }
+                });
+                EnterGroupDialog.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.cancel();
+                    }
+                });
+                EnterGroupDialog.show();
 
             }
         });
@@ -137,16 +171,48 @@ public class ChatCenter extends AppCompatActivity {
             public void onClick(View v) {
 
                 final AlertDialog.Builder newGroupDialog = new AlertDialog.Builder(v.getContext());
-                newGroupDialog.setTitle("Enter name group");
+                newGroupDialog.setTitle("Enter group name: ");
                 groupName = new EditText(v.getContext());
                 newGroupDialog.setView(groupName);
 
                 newGroupDialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        Map<String,Object> map = new HashMap<>();
-                        map.put(groupName.getText().toString(), "");
-                        reference.updateChildren(map);
+
+                        String userID = fAuth.getCurrentUser().getUid();
+                        DocumentReference docRef = fStore.collection("users").document(userID);
+
+                        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                if (task.isSuccessful()) {
+                                    DocumentSnapshot document = task.getResult();
+                                    name = document.getString("firstName");
+
+                                    Admin admin = new Admin();
+
+                                } else {
+                                    Log.d(TAG, "get failed with ", task.getException());
+                                }
+                            }
+                        });
+
+
+                        //Group storage in database
+                        Group newGroup = new Group(groupName.getText().toString(), 20);
+
+                        final FirebaseDatabase database = FirebaseDatabase.getInstance();
+                        DatabaseReference ref = database.getReference();
+
+                        DatabaseReference usersRef = ref.child("Group").child(category);
+                        Map<String, Object> group = new HashMap<>();
+                        group.put(groupName.getText().toString(),newGroup);
+
+                        usersRef.updateChildren(group);
+
+//                        Map<String,Object> map = new HashMap<>();
+//                        map.put(groupName.getText().toString(), "");
+//                        reference.updateChildren(map);
                     }
                 });
 

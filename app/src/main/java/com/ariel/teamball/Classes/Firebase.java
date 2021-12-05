@@ -18,6 +18,9 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -30,10 +33,12 @@ public class Firebase {
     private static FirebaseAuth fAuth;
     private static FirebaseFirestore fStore;
     private static Context context;
+    private static DatabaseReference reference;
 
     public Firebase(Context context){
         fAuth = FirebaseAuth.getInstance();
         fStore = FirebaseFirestore.getInstance();
+
         this.context = context;
     }
 
@@ -54,8 +59,6 @@ public class Firebase {
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if(task.isSuccessful()){
 
-//                    success = true;
-
                     //Send verification link
                     FirebaseUser fuser = fAuth.getCurrentUser();
                     fuser.sendEmailVerification().addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -75,15 +78,27 @@ public class Firebase {
                     //Storing user information in firestore
 
                     //Create collection
-                    String userID = fAuth.getCurrentUser().getUid();
+//
+//                    final FirebaseDatabase database = FirebaseDatabase.getInstance();
+//                    DatabaseReference ref = database.getReference();
+//
+//                    DatabaseReference usersRef = ref.child("Users");
+//                    Map<String, Object> users = new HashMap<>();
+//                    users.put(userID,p);
+//
+//                    usersRef.updateChildren(users);
+
+                    String userID = fuser.getUid();
                     DocumentReference documentReference = fStore.collection("users").document(userID);
-                    Map<String, Object> user = new HashMap<>();
-                    user.put("fName", p.getFirstName());
-                    user.put("email", p.getEmail());
-                    user.put("phone", p.getPhone());
+
+//                    Map<String, Object> user = new HashMap<>();
+//                    user.put(userID, p);
+//                    user.put("fName", p.getFirstName());
+//                    user.put("email", p.getEmail());
+//                    user.put("phone", p.getPhone());
 
                     //Store in the collection
-                    documentReference.set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    documentReference.set(p).addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void unused) {
                             Log.d(TAG,"onSuccess: user Profile is created for "+userID);
@@ -138,4 +153,7 @@ public class Firebase {
             }
         });
     }
+
+
+
 }
