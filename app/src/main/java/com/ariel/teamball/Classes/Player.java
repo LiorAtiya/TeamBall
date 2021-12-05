@@ -1,70 +1,69 @@
 package com.ariel.teamball.Classes;
 
-public class Player extends User {
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Set;
 
-    private String firstName;
+public class Player {
+
+    private String fullName;
+    private String nickName;
     private String email;
     private String password;
     private String phone;
     private String city;
-
-    boolean GameStatus;
+    private String gender;
 
     /* Constructor */
-    public Player(String _FirstName, String _Email, String _Password, String _Phone , String _city) {
-        this.firstName = _FirstName;
+    public Player(String _FullName, String  _nickname,String _Email, String _Password, String _Phone , String _city) {
+        this.fullName = _FullName;
+        this.nickName = _nickname;
         this.email = _Email;
         this.password = _Password;
         this.phone = _Phone;
         this.city = "";
-
-        GameStatus = false;
     }
 
+    public Player(String _FirstName, String _Email, String _Phone, String _group, String _Category) {}
+
+    public Player() {}
+
     public void JoinGame() {
+
     }
 
     public void LeaveGame() {
-    }
-
-    @Override
-    boolean VerifyLogin() {
-        return false;
-    }
-
-    @Override
-    void GetLocation() {
 
     }
 
-    @Override
-    void AddFriend() {
+    public boolean VerifyLogin(){
+
+        return true;
+    }
+     public void GetLocation(){
+
+     }
+    public void AddFriend(){
 
     }
-
-    @Override
-    void CreateClan() {
+    public void CreateClan(){
 
     }
-
-    @Override
-    void AddToClan() {
+    public void AddToClan(){
 
     }
-
-    @Override
-    void ShareExternalLink() {
+    public void ShareExternalLink(){
 
     }
 
     //--------Getters & Setters---------
 
-    public String getFirstName() {
-        return firstName;
+    public String getFullName() {
+        return fullName;
     }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
+    public void setFullName(String _FullName) {
+        this.fullName = _FullName;
     }
 
     public String getEmail() {
@@ -94,5 +93,9 @@ public class Player extends User {
     public String getCity(){return this.city;}
 
     public void setCity(String _city){ this.city = _city;}
+
+    public void setGender(String _Gender){this.gender = _Gender;}
+
+    public String getGender(){return this.gender;}
 
 }

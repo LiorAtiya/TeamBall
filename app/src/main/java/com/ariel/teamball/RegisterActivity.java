@@ -20,9 +20,9 @@ import com.google.android.material.textfield.TextInputEditText;
 public class RegisterActivity extends AppCompatActivity {
 
     public static final String TAG = "TAG";
-    TextInputEditText mFullName, mEmail, mPassword, mPhone;
+    TextInputEditText mFullName, mEmail, mPassword, mPhone,mNickName;
     Button mRegisterBtn;
-    TextView mLoginBtn;
+    TextView AlreadyRegisterBtn;
     ProgressBar progressBar;
 
 //    FirebaseAuth fAuth;
@@ -44,22 +44,17 @@ public class RegisterActivity extends AppCompatActivity {
 
         //Link to layout
         mFullName = findViewById(R.id.FullName);
+        mNickName = findViewById(R.id.nickName);
         mEmail = findViewById(R.id.Email);
         mPassword = findViewById(R.id.Password);
         mPhone = findViewById(R.id.Phone);
        // mCity = findViewById(R.id.city);
         mRegisterBtn = findViewById(R.id.RegisterBtn);
-        mLoginBtn = findViewById(R.id.LoginFromRegister);
+        AlreadyRegisterBtn = findViewById(R.id.LoginFromRegister);
         progressBar = findViewById(R.id.simpleProgressBar);
 
 
         FB = new Firebase(this);
-
-        if(FB.userExist()){
-            startActivity(new Intent(getApplicationContext(),GameOptions.class));
-            finish();
-        }
-
 
 //        fAuth = FirebaseAuth.getInstance();
 //        fStore = FirebaseFirestore.getInstance();
@@ -78,9 +73,10 @@ public class RegisterActivity extends AppCompatActivity {
                 String password = mPassword.getText().toString().trim();
                 String fullName = mFullName.getText().toString();
                 String phone = mPhone.getText().toString();
+                String nickName = mNickName.getText().toString();
 
                 //Create new player
-                Player p1 = new Player(fullName,email,password, phone," ");
+                Player p1 = new Player(fullName,nickName,email,password, phone," ");
 
                 //Character insertion check
                 if(TextUtils.isEmpty(p1.getEmail())){
@@ -157,7 +153,7 @@ public class RegisterActivity extends AppCompatActivity {
 
 
 
-        mLoginBtn.setOnClickListener(new View.OnClickListener() {
+        AlreadyRegisterBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(getApplicationContext(),LoginActivity.class));
@@ -182,23 +178,24 @@ public class RegisterActivity extends AppCompatActivity {
         genders.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         genderSpinner.setAdapter(genders);
     }
-    /* check the detail that user insert */
-    public void checkValidDetails(Player p){
-        //Character insertion check
-        if(TextUtils.isEmpty(p.getEmail())){
-            mEmail.setError("Email is Required.");
-            return;
-        }
 
-        if(TextUtils.isEmpty(p.getPassword())){
-            mPassword.setError("Password is Required.");
-            return;
-        }
-
-        /*!!!!!!!!!!!!!!!!! phone error doesn't work !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!*/
-//        if(TextUtils.isEmpty(p.getPhone())){
-//            mPhone.setError("Phone is Required");
+//    /* check the detail that user insert */
+//    public void checkValidDetails(Player p){
+//        //Character insertion check
+//        if(TextUtils.isEmpty(p.getEmail())){
+//            mEmail.setError("Email is Required.");
+//            return;
 //        }
-    }
+//
+//        if(TextUtils.isEmpty(p.getPassword())){
+//            mPassword.setError("Password is Required.");
+//            return;
+//        }
+//
+//        /*!!!!!!!!!!!!!!!!! phone error doesn't work !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!*/
+////        if(TextUtils.isEmpty(p.getPhone())){
+////            mPhone.setError("Phone is Required");
+////        }
+//    }
 
 }

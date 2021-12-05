@@ -1,63 +1,61 @@
 package com.ariel.teamball.Classes;
 
-import com.ariel.teamball.Classes.User;
+public class Admin extends Player {
 
-import java.security.acl.Group;
-public class Admin extends User {
+    private String plan;
+    private String group_name;
+    private String category_group;
 
-    String Plan;
-    Group group;
+    public Admin(String _FirstName, String _Email, String _Phone, String _group,String _Category) {
+        super(_FirstName, _Email, _Phone, _group, _Category);
 
-    /* Constructor */
-    public Admin(){}
-
-    public void deleteGroup(){}
-
-    public void addUser(){}
-
-    public void removeUser(){}
-
-    public void editGroupName(){}
-
-    public void editCapacity(){}
-
-    public void editLevel(){}
-
-    public void splitTeams(){}
-
-    public void lockGroup(){}
-
-    public void changeChatPermission(){}
-
-    /* For those who pay an extension */
-    public void extendTime(){}
-    @Override
-    boolean VerifyLogin() {
-        return false;
+        this.category_group = _Category;
+        this.group_name = _group;
     }
 
-    @Override
-    void GetLocation() {
-
+    public void deleteGroup() {
     }
 
-    @Override
-    void AddFriend() {
-
+    public void addUser() {
     }
 
-    @Override
-    void CreateClan() {
-
+    public void removeUser() {
     }
 
-    @Override
-    void AddToClan() {
-
+    public void editGroupName() {
     }
 
-    @Override
-    void ShareExternalLink() {
-
+    public void editCapacity() {
     }
+
+    public void editLevel() {
+    }
+
+    public void splitTeams() {
+    }
+
+    public void lockGroup() {
+    }
+
+    public void changeChatPermission() {
+    }
+
+    /* Get and Set */
+
+    public String getCategory_group() {
+        return category_group;
+    }
+
+    public void setCategory_group(String category_group) {
+        this.category_group = category_group;
+    }
+
+    public String getPlan() {
+        return this.plan;
+    }
+
+    public void setPlan(String _plan) {
+        this.plan = _plan;
+    }
+
 }
