@@ -19,10 +19,16 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.ariel.teamball.Classes.Player;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
@@ -101,12 +107,32 @@ public class MyProfile extends AppCompatActivity {
             });
         }
 
+//        final FirebaseDatabase database = FirebaseDatabase.getInstance();
+//        DatabaseReference ref = database.getReference();
+//        DatabaseReference usersRef = ref.child("Users/"+userID);
+//
+//        // Attach a listener to read the data at our players reference
+//        usersRef.addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(DataSnapshot dataSnapshot) {
+//                Player p = dataSnapshot.getValue(Player.class);
+//                phone.setText(p.getPhone());
+//                fullName.setText(p.getFirstName());
+//                email.setText(p.getEmail());
+//            }
+//
+//            @Override
+//            public void onCancelled(DatabaseError databaseError) {
+//                System.out.println("The read failed: " + databaseError.getCode());
+//            }
+//        });
+
         DocumentReference documentReference = fStore.collection("users").document(userID);
         documentReference.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
             @Override
             public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
                 phone.setText(value.getString("phone"));
-                fullName.setText(value.getString("fName"));
+                fullName.setText(value.getString("firstName"));
                 email.setText(value.getString("email"));
             }
         });
@@ -168,6 +194,7 @@ public class MyProfile extends AppCompatActivity {
                 i.putExtra("phone",phone.getText().toString());
 
                 startActivity(i);
+                finish();
             }
         });
 

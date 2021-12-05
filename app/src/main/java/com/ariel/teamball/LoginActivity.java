@@ -58,6 +58,11 @@ public class LoginActivity extends AppCompatActivity {
 
         FB = new Firebase(this);
 
+        if(FB.userExist()){
+            startActivity(new Intent(getApplicationContext(),GameOptions.class));
+            finish();
+        }
+
         mLoginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

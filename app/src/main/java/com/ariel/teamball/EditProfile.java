@@ -18,10 +18,17 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
+
+import com.ariel.teamball.Classes.Player;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
@@ -97,10 +104,44 @@ public class EditProfile extends AppCompatActivity {
                 user.updateEmail(email).addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void unused) {
+
+//                        final FirebaseDatabase database = FirebaseDatabase.getInstance();
+//                        DatabaseReference ref = database.getReference();
+//                        DatabaseReference usersRef = ref.child("Users");
+//
+//                        // Attach a listener to read the data at our players reference
+//                        usersRef.addValueEventListener(new ValueEventListener() {
+//                            @Override
+//                            public void onDataChange(DataSnapshot dataSnapshot) {
+//                                Player p = dataSnapshot.getValue(Player.class);
+//                                p.setEmail(email);
+//                                p.setFirstName(profileFullName.getText().toString());
+//                                p.setPhone(profilePhone.getText().toString());
+//                                Map<String, Object> userUpdates = new HashMap<>();
+//
+//                                userUpdates.put(user.getUid(), p);
+//
+//                                usersRef.updateChildren(userUpdates).addOnSuccessListener(new OnSuccessListener<Void>() {
+//                                    @Override
+//                                    public void onSuccess(Void unused) {
+//                                        Toast.makeText(EditProfile.this,"Profile Updated", Toast.LENGTH_SHORT).show();
+//                                        startActivity(new Intent(getApplicationContext(),MyProfile.class));
+//                                        finish();
+//                                    }
+//                                });
+//                            }
+//
+//                            @Override
+//                            public void onCancelled(DatabaseError databaseError) {
+//                                System.out.println("The read failed: " + databaseError.getCode());
+//                            }
+//                        });
+
+
                         DocumentReference docRef = fStore.collection("users").document(user.getUid());
                         Map<String,Object> edited = new HashMap<>();
                         edited.put("email",email);
-                        edited.put("fName",profileFullName.getText().toString());
+                        edited.put("firstName",profileFullName.getText().toString());
                         edited.put("phone", profilePhone.getText().toString());
                         docRef.update(edited).addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override

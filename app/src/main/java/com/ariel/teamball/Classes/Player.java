@@ -1,6 +1,5 @@
 package com.ariel.teamball.Classes;
 
-import java.time.LocalDateTime;
 import java.util.Date;
 
 public class Player {
@@ -29,12 +28,13 @@ public class Player {
         GameStatus = false;
     }
 
+    public Player() {}
+
     public void JoinGame() {
+
     }
 
     public void LeaveGame() {
-    }
-
 
     public boolean VerifyLogin(){
 

@@ -224,28 +224,4 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.928" />
 
-    <Spinner
-        android:id="@+id/citySpinner"
-        android:layout_width="342dp"
-        android:layout_height="38dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.478"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.793" />
-
-    <Spinner
-        android:id="@+id/genderSpinner"
-        android:layout_width="342dp"
-        android:layout_height="42dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.478"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.737" />
-
-
-
 </androidx.constraintlayout.widget.ConstraintLayout>
