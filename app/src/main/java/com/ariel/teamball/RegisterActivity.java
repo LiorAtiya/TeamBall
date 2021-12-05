@@ -20,7 +20,7 @@ import com.google.android.material.textfield.TextInputEditText;
 public class RegisterActivity extends AppCompatActivity {
 
     public static final String TAG = "TAG";
-    TextInputEditText mFullName, mEmail, mPassword, mPhone;
+    TextInputEditText mFullName, mEmail, mPassword, mPhone,mNickName;
     Button mRegisterBtn;
     TextView mLoginBtn;
     ProgressBar progressBar;
@@ -44,6 +44,7 @@ public class RegisterActivity extends AppCompatActivity {
 
         //Link to layout
         mFullName = findViewById(R.id.FullName);
+        mNickName = findViewById(R.id.nickName);
         mEmail = findViewById(R.id.Email);
         mPassword = findViewById(R.id.Password);
         mPhone = findViewById(R.id.Phone);
@@ -72,9 +73,10 @@ public class RegisterActivity extends AppCompatActivity {
                 String password = mPassword.getText().toString().trim();
                 String fullName = mFullName.getText().toString();
                 String phone = mPhone.getText().toString();
+                String nickName = mNickName.getText().toString();
 
                 //Create new player
-                Player p1 = new Player(fullName,email,password, phone," ");
+                Player p1 = new Player(fullName,nickName,email,password, phone," ");
 
                 //Character insertion check
                 if(TextUtils.isEmpty(p1.getEmail())){

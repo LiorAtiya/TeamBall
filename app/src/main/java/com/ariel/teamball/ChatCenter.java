@@ -189,7 +189,7 @@ public class ChatCenter extends AppCompatActivity {
                                     DocumentSnapshot document = task.getResult();
                                     name = document.getString("firstName");
 
-                                    Admin admin = new Admin();
+                                    Admin admin = new Admin("","","","","","");
 
                                 } else {
                                     Log.d(TAG, "get failed with ", task.getException());

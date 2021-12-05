@@ -4,28 +4,31 @@ import java.util.Date;
 
 public class Player {
 
-    private String firstName;
-    private String LastName;
-    private String NickName;
+    private String fullName;
+    private String nickName;
     private String email;
     private String password;
     private String phone;
     private String city;
     private boolean GameStatus;
     private String gender;
-    private LocalDateTime RegisterDate;
-    private String LoginStatus;
-    private String GroupId;
-    private String TeamColor;
+    private String groupId;
+    private String teamColor;
+    //private LocalDateTime RegisterDate;
+    //private String LoginStatus;
 
     /* Constructor */
-    public Player(String _FirstName, String _Email, String _Password, String _Phone , String _city) {
-        this.firstName = _FirstName;
+    public Player(String _FullName, String  _nickname,String _Email, String _Password, String _Phone , String _city) {
+        this.fullName = _FullName;
+        this.nickName = _nickname;
         this.email = _Email;
         this.password = _Password;
         this.phone = _Phone;
         this.city = "";
-        GameStatus = false;
+        this.GameStatus = false;
+        this.teamColor = "";
+        this.groupId = "";
+        this.gender = "";
     }
 
     public Player() {}
@@ -35,6 +38,8 @@ public class Player {
     }
 
     public void LeaveGame() {
+
+    }
 
     public boolean VerifyLogin(){
 
@@ -58,12 +63,12 @@ public class Player {
 
     //--------Getters & Setters---------
 
-    public String getFirstName() {
-        return firstName;
+    public String getFullName() {
+        return fullName;
     }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
+    public void setFullName(String _FullName) {
+        this.fullName = _FullName;
     }
 
     public String getEmail() {
@@ -93,5 +98,17 @@ public class Player {
     public String getCity(){return this.city;}
 
     public void setCity(String _city){ this.city = _city;}
+
+    public String getGroupId(){ return this.groupId;}
+
+    public void setGroupId(String _GroupId){this.groupId = _GroupId;}
+
+    public String getTeamColor(){return this.teamColor;}
+
+    public void setTeamColor(String _TeamColor){this.teamColor = _TeamColor;}
+
+    public void setGender(String _Gender){this.gender = _Gender;}
+
+    public String getGender(){return this.gender;}
 
 }
