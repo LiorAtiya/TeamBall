@@ -5,9 +5,8 @@ import java.util.Date;
 
 public class Player {
 
-    private String firstName;
-    private String LastName;
-    private String NickName;
+    private String fullName;
+    private String nickName;
     private String email;
     private String password;
     private String phone;
@@ -20,8 +19,9 @@ public class Player {
     private String TeamColor;
 
     /* Constructor */
-    public Player(String _FirstName, String _Email, String _Password, String _Phone , String _city) {
-        this.firstName = _FirstName;
+    public Player(String _FullName, String  _nickname,String _Email, String _Password, String _Phone , String _city) {
+        this.fullName = _FullName;
+        this.nickName = _nickname;
         this.email = _Email;
         this.password = _Password;
         this.phone = _Phone;
@@ -58,12 +58,12 @@ public class Player {
 
     //--------Getters & Setters---------
 
-    public String getFirstName() {
-        return firstName;
+    public String getFullName() {
+        return fullName;
     }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
+    public void setFullName(String _FullName) {
+        this.fullName = _FullName;
     }
 
     public String getEmail() {

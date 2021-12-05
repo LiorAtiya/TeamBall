@@ -8,8 +8,8 @@ public class Admin extends Player {
     private Group group;
 
     /* Constructor */
-    public Admin(String _FirstName, String _Email, String _Password, String _Phone, String _city) {
-        super(_FirstName, _Email, _Password, _Phone, _city);
+    public Admin(String _FirstName,String _lastName,String _nickName, String _Email, String _Password, String _Phone, String _city) {
+        super(_FirstName,_lastName,_nickName, _Email, _Password, _Phone, _city);
     }
 
     public void deleteGroup() {
