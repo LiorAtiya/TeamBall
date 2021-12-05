@@ -17,10 +17,13 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.ariel.teamball.Classes.Admin;
+import com.ariel.teamball.Classes.Group;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -76,7 +79,7 @@ public class ChatCenter extends AppCompatActivity {
         nameCategory.setText(category);
 
         //Access to the list of group category
-        reference = FirebaseDatabase.getInstance().getReference(category);
+        reference = FirebaseDatabase.getInstance().getReference("Group/"+category);
 
         String userID = fAuth.getCurrentUser().getUid();
         DocumentReference docRef = fStore.collection("users").document(userID);
@@ -86,7 +89,7 @@ public class ChatCenter extends AppCompatActivity {
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 if (task.isSuccessful()) {
                     DocumentSnapshot document = task.getResult();
-                    name = document.getString("fName");
+                    name = document.getString("firstName");
                 } else {
                     Log.d(TAG, "get failed with ", task.getException());
                 }
@@ -122,21 +125,19 @@ public class ChatCenter extends AppCompatActivity {
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+            public void onItemClick(AdapterView<?> adapterView, View view, int room, long l) {
 
                 final AlertDialog.Builder EnterGroupDialog = new AlertDialog.Builder(view.getContext());
                 EnterGroupDialog.setTitle("Want to join the group?");
                 EnterGroupDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        String roomName = (String) (listView.getItemAtPosition(i));
+                        String roomName = (String) (listView.getItemAtPosition(room));
 
-//                        String userID = fAuth.getCurrentUser().getUid();
-//                        DocumentReference docRef = fStore.collection("users").document(userID);
                         Map<String,Object> groups = new HashMap<>();
-//                        Map<String,Object> all_category = new HashMap<>();
-//                        all_category.put(category,all_category);
-                        groups.put("My Groups",roomName);
+                        Map<String,Object> all_category = new HashMap<>();
+                        all_category.put(category,roomName);
+                        groups.put("My Groups",all_category);
 
                         docRef
                                 .update(groups)
@@ -151,6 +152,7 @@ public class ChatCenter extends AppCompatActivity {
                                 startActivity(intent);
                             }
                         });
+
                     }
                 });
                 EnterGroupDialog.setNegativeButton("No", new DialogInterface.OnClickListener() {
@@ -173,14 +175,44 @@ public class ChatCenter extends AppCompatActivity {
                 groupName = new EditText(v.getContext());
                 newGroupDialog.setView(groupName);
 
-
-
                 newGroupDialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        Map<String,Object> map = new HashMap<>();
-                        map.put(groupName.getText().toString(), "");
-                        reference.updateChildren(map);
+
+                        String userID = fAuth.getCurrentUser().getUid();
+                        DocumentReference docRef = fStore.collection("users").document(userID);
+
+                        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                if (task.isSuccessful()) {
+                                    DocumentSnapshot document = task.getResult();
+                                    name = document.getString("firstName");
+
+                                    Admin admin = new Admin();
+
+                                } else {
+                                    Log.d(TAG, "get failed with ", task.getException());
+                                }
+                            }
+                        });
+
+
+                        //Group storage in database
+                        Group newGroup = new Group(groupName.getText().toString(), 20);
+
+                        final FirebaseDatabase database = FirebaseDatabase.getInstance();
+                        DatabaseReference ref = database.getReference();
+
+                        DatabaseReference usersRef = ref.child("Group").child(category);
+                        Map<String, Object> group = new HashMap<>();
+                        group.put(groupName.getText().toString(),newGroup);
+
+                        usersRef.updateChildren(group);
+
+//                        Map<String,Object> map = new HashMap<>();
+//                        map.put(groupName.getText().toString(), "");
+//                        reference.updateChildren(map);
                     }
                 });
 

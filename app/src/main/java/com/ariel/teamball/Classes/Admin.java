@@ -3,7 +3,7 @@ package com.ariel.teamball.Classes;
 import com.ariel.teamball.Classes.User;
 
 import java.security.acl.Group;
-public class Admin extends User {
+public class Admin extends Player {
 
     String Plan;
     Group group;
@@ -28,18 +28,6 @@ public class Admin extends User {
     public void lockGroup(){}
 
     public void changeChatPermission(){}
-
-    /* For those who pay an extension */
-    public void extendTime(){}
-    @Override
-    boolean VerifyLogin() {
-        return false;
-    }
-
-    @Override
-    void GetLocation() {
-
-    }
 
     @Override
     void AddFriend() {
