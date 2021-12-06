@@ -4,7 +4,7 @@
 <h3> An Android app for team sports games that connects people. </h3>
 <br>
 
-**This application is built in the android stdio work environment and is written in java language and uses a firebase database.**
+**This application is built in the Android Stdio work environment and is written in Java language and uses a Firebase database.**
 
 <br>
 
