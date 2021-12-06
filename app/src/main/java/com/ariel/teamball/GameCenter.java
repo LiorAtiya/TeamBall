@@ -18,7 +18,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ariel.teamball.Classes.Admin;
-import com.ariel.teamball.Classes.Group;
+import com.ariel.teamball.Classes.Room;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -211,7 +211,7 @@ public class GameCenter extends AppCompatActivity {
                                     });
 
                                     //Group storage in database
-                                    Group newGroup = new Group(groupName.getText().toString(), 20,admin);
+                                    Room newGroup = new Room(groupName.getText().toString(), 20,admin);
 
                                     final FirebaseDatabase database = FirebaseDatabase.getInstance();
                                     DatabaseReference ref = database.getReference();
