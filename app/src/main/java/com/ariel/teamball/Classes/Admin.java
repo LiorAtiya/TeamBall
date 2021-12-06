@@ -2,13 +2,27 @@ package com.ariel.teamball.Classes;
 
 public class Admin implements User {
 
+    // player attributes
+    private String fullName;
+    private String nickName;
+    private String email;
+    private String password;
+    private String phone;
+    private String city;
+    private String gender;
+    private static int id = 1;
+
+    // admin attributes
     private String plan; // free/premium
     private String roomName;
     private String categoryGroup;
 
+
+
     public Admin(String _FirstName, String _Email, String _Phone, String _group,String _Category) {
         this.categoryGroup = _Category;
         this.roomName = _group;
+        this.id += id;
     }
 
     //======================================Player-Methods==========================================
