@@ -18,8 +18,7 @@ public class Admin implements User {
     private String categoryGroup;
 
 
-
-    public Admin(String _FirstName, String _Email, String _Phone, String _group,String _Category) {
+    public Admin(String _fullName, String _Email, String _Phone, String _group,String _Category) {
         this.categoryGroup = _Category;
         this.roomName = _group;
         this.id += id;
@@ -161,6 +160,10 @@ public class Admin implements User {
     }
 
     /* Get and Set */
+
+    public int getRoomID() {
+        return this.getId();
+    }
 
     public String getCategoryGroup() {
         return categoryGroup;

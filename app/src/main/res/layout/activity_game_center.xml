@@ -27,7 +27,7 @@
         android:layout_marginRight="7dp"
         android:background="@drawable/custom_button"
         android:backgroundTint="#4CAF50"
-        android:text="Create Group"
+        android:text="Create Room"
         android:textAllCaps="false" />
 
     <ListView
