@@ -18,7 +18,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ariel.teamball.Classes.Admin;
-import com.ariel.teamball.Classes.Group;
+import com.ariel.teamball.Classes.Room;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -182,7 +182,7 @@ public class GameCenter extends AppCompatActivity {
                         String userID = fAuth.getCurrentUser().getUid();
                         DocumentReference docRef = fStore.collection("users").document(userID);
 
-                        //Become player to admin on group
+                        // makes player to be an admin on the group
 
                         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                             @Override
@@ -197,7 +197,7 @@ public class GameCenter extends AppCompatActivity {
 
                                     DocumentReference docRefAdmin = fStore.collection("admins").document(userID);
 
-                                    //Store admin in the collection
+                                    // Stores the admin in the collection
                                     docRefAdmin.set(admin).addOnSuccessListener(new OnSuccessListener<Void>() {
                                         @Override
                                         public void onSuccess(Void unused) {
@@ -210,8 +210,8 @@ public class GameCenter extends AppCompatActivity {
                                         }
                                     });
 
-                                    //Group storage in database
-                                    Group newGroup = new Group(groupName.getText().toString(), 20,admin);
+                                    // Group storage in database
+                                    Room newGroup = new Room(groupName.getText().toString(), 20,admin);
 
                                     final FirebaseDatabase database = FirebaseDatabase.getInstance();
                                     DatabaseReference ref = database.getReference();

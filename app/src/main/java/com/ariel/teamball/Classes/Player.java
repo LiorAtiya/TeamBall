@@ -4,7 +4,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Set;
 
-public class Player {
+public class Player implements User{
 
     private String fullName;
     private String nickName;
@@ -13,6 +13,7 @@ public class Player {
     private String phone;
     private String city;
     private String gender;
+    private static int id = 1;
 
     /* Constructor */
     public Player(String _FullName, String  _nickname,String _Email, String _Password, String _Phone , String _city) {
@@ -22,6 +23,7 @@ public class Player {
         this.password = _Password;
         this.phone = _Phone;
         this.city = "";
+        this.id += 1;
     }
 
     public Player(String _FirstName, String _Email, String _Phone, String _group, String _Category) {}
@@ -57,6 +59,10 @@ public class Player {
     }
 
     //--------Getters & Setters---------
+
+    public int getId() {
+        return this.id;
+    }
 
     public String getFullName() {
         return fullName;
