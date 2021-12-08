@@ -132,7 +132,7 @@ public class MyProfile extends AppCompatActivity {
             @Override
             public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
                 phone.setText(value.getString("phone"));
-                fullName.setText(value.getString("firstName"));
+                fullName.setText(value.getString("fullName"));
                 email.setText(value.getString("email"));
             }
         });

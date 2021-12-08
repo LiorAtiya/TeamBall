@@ -17,6 +17,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.ariel.teamball.Classes.Adapters.ListAdapter;
 import com.ariel.teamball.Classes.Admin;
 import com.ariel.teamball.Classes.GameManagement;
 import com.ariel.teamball.Classes.Room;
@@ -69,11 +70,14 @@ public class GameCenter extends AppCompatActivity {
         fAuth = FirebaseAuth.getInstance();
         fStore = FirebaseFirestore.getInstance();
 
-        //For listview
-        ArrayList<String> list = new ArrayList<>();
-        adapter = new ArrayAdapter<String>(this, R.layout.list_row,R.id.txtName, list);
+        ArrayList<Room> list = new ArrayList<>();
+        ListAdapter adapter = new ListAdapter(this,R.layout.list_group,list);
         listView.setAdapter(adapter);
 
+//        //For listview
+//        ArrayList<String> list = new ArrayList<>();
+//        adapter = new ArrayAdapter<String>(this, R.layout.list_group,R.id.txtName, list);
+//        listView.setAdapter(adapter);
 
         category = getIntent().getExtras().get("Category").toString();
         nameCategory.setText(category);
@@ -96,19 +100,32 @@ public class GameCenter extends AppCompatActivity {
 
 
         //Access to the list of group category
-        reference = FirebaseDatabase.getInstance().getReference("Group/"+category);
+        reference = FirebaseDatabase.getInstance().getReference("Rooms/"+category);
 
         //Put all the group of the category to list from the firebase
         reference.addValueEventListener(new ValueEventListener() {
+
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 
-                Set<String> set = new HashSet<String>();
+//                Set<String> set = new HashSet<String>();
+//
+//                Iterator i = dataSnapshot.getChildren().iterator();
+//                while (i.hasNext()) {
+//                    set.add(((DataSnapshot) i.next()).getKey());
+//
+//                }
+//
+//                list.clear();
+//                list.addAll(set);
+
+                Set<Room> set = new HashSet<Room>();
 
                 Iterator i = dataSnapshot.getChildren().iterator();
                 while (i.hasNext()) {
-                    set.add(((DataSnapshot) i.next()).getKey());
-
+                    DataSnapshot childSnapshot = (DataSnapshot) i.next();
+                    Room room = childSnapshot.getValue(Room.class);
+                    set.add(room);
                 }
 
                 list.clear();
@@ -128,12 +145,13 @@ public class GameCenter extends AppCompatActivity {
             public void onItemClick(AdapterView<?> adapterView, View view, int room, long l) {
 
                 final AlertDialog.Builder EnterGroupDialog = new AlertDialog.Builder(view.getContext());
-                EnterGroupDialog.setTitle("Want to join the group?");
+                EnterGroupDialog.setTitle("Want to join the room?");
                 EnterGroupDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
 
-                        String roomName = (String) (listView.getItemAtPosition(room));
+//                        String roomName = (String) (listView.getItemAtPosition(room));
+                        String roomName = adapter.getItem(room).getName();
 
                         //Add group to list of private groups user
                         final FirebaseDatabase database = FirebaseDatabase.getInstance();
@@ -225,17 +243,17 @@ public class GameCenter extends AppCompatActivity {
                                         }
                                     });
 
-                                    // room storage in database
-                                    Room newRoom = new Room(roomName.getText().toString(), 20,admin);
+                                    // Group storage in database
+                                    Room newRoom = new Room(roomName.getText().toString(), 20,"Neighborhood A","Tel-Aviv",admin);
 
                                     final FirebaseDatabase database = FirebaseDatabase.getInstance();
                                     DatabaseReference ref = database.getReference();
 
-                                    DatabaseReference usersRef = ref.child("room").child(category);
+                                    DatabaseReference roomsRef = ref.child("Rooms").child(category);
                                     Map<String, Object> room = new HashMap<>();
                                     room.put(roomName.getText().toString(),newRoom);
 
-                                    usersRef.updateChildren(room);
+                                    roomsRef.updateChildren(room);
 
                                 } else {
                                     Log.d(TAG, "get failed with ", task.getException());

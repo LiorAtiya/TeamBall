@@ -5,30 +5,56 @@ import java.util.ArrayList;
 public class Room {
 
     private boolean status; // lock/unlock
-    private String name;
-    private int capacity;
-//    private ArrayList<Player> playersList;
+    private String name, field,city;
+    private int capacity, imageID;
     private static int id = 1;
     private Admin admin;
-    // Time expiredTime;
+
+
+//    private ArrayList<Player> playersList;
+//    Time expiredTime;
 //    ArrayList<Player> teams;
 //    String fieldLocation;
 //    Chat chat;
 //    private ArrayList<Player> banList;
 
-    /* Constructor */
-    public Room(String _name, int _capacity, Admin _admin) {
+    public Room(String _name, int _capacity,String _field,String _city, Admin _admin) {
         this.name = _name;
         this.capacity = _capacity;
+        this.field = _field;
+        this.city = _city;
         this.status = true;
         this.admin = _admin;
-//        playersList = new ArrayList<>();
-//        banList = new ArrayList<>();
         this.id += 1;
-//        players.add(new Player("a","b","c", "d"," "));
     }
 
+    public Room() {}
+
     // sets/adds
+
+    public String getField() {
+        return field;
+    }
+
+    public void setField(String field) {
+        this.field = field;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public int getImageID() {
+        return imageID;
+    }
+
+    public void setImageID(int imageID) {
+        this.imageID = imageID;
+    }
 
     public int getId() {
         return this.id;
