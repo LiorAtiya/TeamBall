@@ -7,22 +7,29 @@ import java.util.Set;
 public class Player implements User{
 
     private String fullName;
+//    private String firstName;
+//    private String lastName;
     private String nickName;
     private String email;
     private String password;
     private String phone;
     private String city;
     private String gender;
+//    private int age;
     private static int id = 1;
 
     /* Constructor */
-    public Player(String _FullName, String  _nickname,String _Email, String _Password, String _Phone , String _city) {
-        this.fullName = _FullName;
+//    public Player(String _firstName, String _lastName, String _nickname, String _Email, String _Password, String _Phone , String _city, int _age) {
+    public Player(String _fullName, String _nickname, String _Email, String _Password, String _Phone , String _city) {
+//        this.firstName = _firstName;
+//        this.lastName = _lastName;
+        this.fullName = _fullName;
         this.nickName = _nickname;
         this.email = _Email;
         this.password = _Password;
         this.phone = _Phone;
         this.city = "";
+//        this.age = _age;
         this.id += 1;
     }
 
@@ -64,13 +71,23 @@ public class Player implements User{
         return this.id;
     }
 
-    public String getFullName() {
-        return fullName;
+    @Override
+    public int getAge() {
+//        return this.age;
+        return 0;
     }
 
-    public void setFullName(String _FullName) {
-        this.fullName = _FullName;
+    @Override
+    public String getFirstName() {
+        return null;
     }
+
+    @Override
+    public String getLastName() {
+        return null;
+    }
+
+    public String getGender(){return this.gender;}
 
     public String getEmail() {
         return email;
@@ -102,6 +119,19 @@ public class Player implements User{
 
     public void setGender(String _Gender){this.gender = _Gender;}
 
-    public String getGender(){return this.gender;}
+    @Override
+    public void setAge(int age) {
+
+    }
+
+    @Override
+    public void setFirstName(String _firstName) {
+
+    }
+
+    @Override
+    public void setLastName(String _lastName) {
+
+    }
 
 }
