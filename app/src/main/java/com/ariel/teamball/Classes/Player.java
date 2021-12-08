@@ -77,6 +77,10 @@ public class Player implements User{
         return 0;
     }
 
+    public String getFullName() {
+        return this.fullName;
+    }
+
     @Override
     public String getFirstName() {
         return null;
@@ -85,6 +89,11 @@ public class Player implements User{
     @Override
     public String getLastName() {
         return null;
+    }
+
+    @Override
+    public String getNickName() {
+        return this.nickName;
     }
 
     public String getGender(){return this.gender;}
@@ -132,6 +141,11 @@ public class Player implements User{
     @Override
     public void setLastName(String _lastName) {
 
+    }
+
+    @Override
+    public void setNickName(String _nickName) {
+        this.nickName = _nickName;
     }
 
 }

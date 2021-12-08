@@ -153,7 +153,7 @@ public class GameCenter extends AppCompatActivity {
 //                        String roomName = (String) (listView.getItemAtPosition(room));
                         String roomName = adapter.getItem(room).getName();
 
-                        //Add group to list of private groups user
+                        //Add group to list of private rooms user
                         final FirebaseDatabase database = FirebaseDatabase.getInstance();
                         DatabaseReference ref = database.getReference();
 
