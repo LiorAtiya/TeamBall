@@ -29,21 +29,21 @@ public class GameManagement {
         return ans;
     }
 
-    // The function gets a player id, creates a new Admin, and returns its ID
-    public int createAdmin(String playerID) {
-        return 0;
+    // The function gets a player id, and gives him a permission to be the admin of the given room
+    public void makeAdmin(String playerID) {
+
     }
 
     // The function creates a new room, updates its admin, and returns the room ID
-    public int createRoom(String _name, int _capacity, Admin _admin) {
-        Room myRoom = new Room(_name, _capacity,"","", _admin);
+    public int createRoom(String _name, int _capacity, int playerID) {
+        Room myRoom = new Room(_name, _capacity,"","", playerID);
         roomsCount++;
         return myRoom.getId();
     }
 
-    // The function gets a room id and an admin and update the room attribute in the admin class
-    public void updateAdminRoom(int roomID, Admin _admin) {
-        _admin.getRoomID();
+    // The function gets a room id and an admin and update the rooms list in the admin class
+    public void updateAdminRoom(int roomID, Player _admin) {
+        _admin.addRoomToManage(roomID);
     }
 
     // The function gets a player id and checks if it can be an admin
