@@ -18,7 +18,7 @@ public class Admin extends Player{
     private int roomID;
     private String categoryGroup;
 
-    // TODO: have to split full name to first and last 
+    // TODO: have to split full name to first and last
     public Admin(String _fullName, String _Email, String _Phone, String _roomName,String _Category) {
         super(_fullName, _Email, _Phone, _roomName, _Category);
         this.categoryGroup = _Category;
