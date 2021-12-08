@@ -42,7 +42,7 @@ public class PlayerAdapter extends RecyclerView.Adapter<PlayerAdapter.MyViewHold
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {
 
-        TextView nickName, fullName, age;
+        TextView nickName, fullName;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);

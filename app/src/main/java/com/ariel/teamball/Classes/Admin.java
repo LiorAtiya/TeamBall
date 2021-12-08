@@ -1,6 +1,6 @@
 package com.ariel.teamball.Classes;
 
-public class Admin {
+public class Admin extends Player{
 
     // player attributes
     private String fullName;
@@ -18,10 +18,11 @@ public class Admin {
     private int roomID;
     private String categoryGroup;
 
-
-    public Admin(String _fullName, String _Email, String _Phone, String _group,String _Category) {
+    // TODO: have to split full name to first and last 
+    public Admin(String _fullName, String _Email, String _Phone, String _roomName,String _Category) {
+        super(_fullName, _Email, _Phone, _roomName, _Category);
         this.categoryGroup = _Category;
-        this.roomName = _group;
+        this.roomName = _roomName;
         this.id += id;
     }
 
