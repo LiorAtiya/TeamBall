@@ -50,7 +50,7 @@ public class GameCenter extends AppCompatActivity {
     TextView nameCategory;
     ListView listView;
     Button createRoomBtn;
-    ArrayAdapter<String> adapter;
+    ArrayAdapter<Room> adapter;
     String name,category;
     EditText roomName;
 
@@ -71,7 +71,7 @@ public class GameCenter extends AppCompatActivity {
         fStore = FirebaseFirestore.getInstance();
 
         ArrayList<Room> list = new ArrayList<>();
-        ListAdapter adapter = new ListAdapter(this,R.layout.list_group,list);
+        adapter = new ListAdapter(this,R.layout.list_group,list);
         listView.setAdapter(adapter);
 
 //        //For listview
@@ -102,7 +102,7 @@ public class GameCenter extends AppCompatActivity {
         //Access to the list of group category
         reference = FirebaseDatabase.getInstance().getReference("Rooms/"+category);
 
-        //Put all the group of the category to list from the firebase
+        //Put all the rooms of the category to list from the firebase
         reference.addValueEventListener(new ValueEventListener() {
 
             @Override
@@ -163,7 +163,7 @@ public class GameCenter extends AppCompatActivity {
 
                         usersRef.updateChildren(groups);
 
-                        Toast.makeText(GameCenter.this,"My Groups Updated", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(GameCenter.this,"My rooms Updated", Toast.LENGTH_SHORT).show();
 
                         //----------------------------------------
                         Intent intent = new Intent(GameCenter.this, Chatroom.class);
@@ -208,7 +208,7 @@ public class GameCenter extends AppCompatActivity {
                             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                                 if (task.isSuccessful()) {
                                     DocumentSnapshot document = task.getResult();
-                                    name = document.getString("firstName");
+                                    name = document.getString("fullName");
                                     String email = document.getString("email");
                                     String phone = document.getString("phone");
 //                                    String playerID = document.getString("id");
