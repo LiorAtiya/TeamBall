@@ -7,7 +7,7 @@ public class Room {
     private boolean status; // lock/unlock
     private String name, field,city;
     private int capacity, imageID;
-    private static int id = 1;
+//    private static int id = 1;
     private Admin admin;
 
 
@@ -25,7 +25,7 @@ public class Room {
         this.city = _city;
         this.status = true;
         this.admin = _admin;
-        this.id += 1;
+//        this.id += 1;
     }
 
     public Room() {}
@@ -56,9 +56,9 @@ public class Room {
         this.imageID = imageID;
     }
 
-    public int getId() {
-        return this.id;
-    }
+//    public int getId() {
+//        return this.id;
+//    }
 
     public String getName() {
         return name;

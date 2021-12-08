@@ -153,7 +153,7 @@ public class GameCenter extends AppCompatActivity {
 //                        String roomName = (String) (listView.getItemAtPosition(room));
                         String roomName = adapter.getItem(room).getName();
 
-                        //Add group to list of private groups user
+                        //Add group to list of private rooms user
                         final FirebaseDatabase database = FirebaseDatabase.getInstance();
                         DatabaseReference ref = database.getReference();
 
@@ -211,8 +211,7 @@ public class GameCenter extends AppCompatActivity {
                                     name = document.getString("fullName");
                                     String email = document.getString("email");
                                     String phone = document.getString("phone");
-//                                    String playerID = document.getString("id");
-                                    // TODO: have to get the player id from the DB and sent it to the function
+
 
                                     Admin admin = new Admin(name,email,phone, roomName.getText().toString(),category);
 
@@ -221,12 +220,12 @@ public class GameCenter extends AppCompatActivity {
 //                                    // checks if a room can be created with that admin
 //                                    if(gm.roomsAvailability() && gm.canBeAdmin(0)) { // TODO: player id
 //                                        // upgrade the player to be an admin
-//                                        int adminID = gm.createAdmin(0); // TODO: player id
+//                                        int adminID = gm.createAdmin(userID);
 //                                        // creates a new room with the given admin
 //                                        int roomID = gm.createRoom(adminID);
 //                                        // updates the room in the admin object
 //                                        gm.updateAdminRoom(roomID, adminID);
-//                                    }
+////                                    }
 
                                     DocumentReference docRefAdmin = fStore.collection("admins").document(userID);
 

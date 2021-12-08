@@ -21,13 +21,15 @@ public interface User {
 
     //--------Getters & Setters---------
 
-    public int getId();
+//    public int getId();
 
     public int getAge();
 
     public String getFirstName();
 
     public String getLastName();
+
+    public String getNickName();
 
     public String getPhone();
 
@@ -44,6 +46,8 @@ public interface User {
     public void setFirstName(String _firstName);
 
     public void setLastName(String _lastName);
+
+    public void setNickName(String _nickName);
 
     public void setPhone(String phone);
 

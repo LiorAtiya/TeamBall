@@ -16,7 +16,7 @@ public class Player implements User{
     private String city;
     private String gender;
 //    private int age;
-    private static int id = 1;
+//    private static int id = 1;
 
     /* Constructor */
 //    public Player(String _firstName, String _lastName, String _nickname, String _Email, String _Password, String _Phone , String _city, int _age) {
@@ -30,7 +30,7 @@ public class Player implements User{
         this.phone = _Phone;
         this.city = "";
 //        this.age = _age;
-        this.id += 1;
+//        this.id += 1;
     }
 
     public Player(String _FirstName, String _Email, String _Phone, String _group, String _Category) {}
@@ -67,14 +67,18 @@ public class Player implements User{
 
     //--------Getters & Setters---------
 
-    public int getId() {
-        return this.id;
-    }
+//    public int getId() {
+//        return this.id;
+//    }
 
     @Override
     public int getAge() {
 //        return this.age;
         return 0;
+    }
+
+    public String getFullName() {
+        return this.fullName;
     }
 
     @Override
@@ -85,6 +89,11 @@ public class Player implements User{
     @Override
     public String getLastName() {
         return null;
+    }
+
+    @Override
+    public String getNickName() {
+        return this.nickName;
     }
 
     public String getGender(){return this.gender;}
@@ -132,6 +141,11 @@ public class Player implements User{
     @Override
     public void setLastName(String _lastName) {
 
+    }
+
+    @Override
+    public void setNickName(String _nickName) {
+        this.nickName = _nickName;
     }
 
 }
