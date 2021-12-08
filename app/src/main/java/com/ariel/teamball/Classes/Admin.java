@@ -1,6 +1,6 @@
 package com.ariel.teamball.Classes;
 
-public class Admin implements User {
+public class Admin {
 
     // player attributes
     private String fullName;
@@ -15,6 +15,7 @@ public class Admin implements User {
     // admin attributes
     private String plan; // free/premium
     private String roomName;
+    private int roomID;
     private String categoryGroup;
 
 
@@ -24,113 +25,6 @@ public class Admin implements User {
         this.id += id;
     }
 
-    //======================================Player-Methods==========================================
-    @Override
-    public void JoinGame() {
-
-    }
-
-    @Override
-    public void LeaveGame() {
-
-    }
-
-    @Override
-    public boolean VerifyLogin() {
-        return false;
-    }
-
-    @Override
-    public void GetLocation() {
-
-    }
-
-    @Override
-    public void AddFriend() {
-
-    }
-
-    @Override
-    public void CreateClan() {
-
-    }
-
-    @Override
-    public void AddToClan() {
-
-    }
-
-    @Override
-    public void ShareExternalLink() {
-
-    }
-
-    @Override
-    public int getId() {
-        return 0;
-    }
-
-    @Override
-    public String getFullName() {
-        return null;
-    }
-
-    @Override
-    public void setFullName(String _fullName) {
-
-    }
-
-    @Override
-    public String getEmail() {
-        return null;
-    }
-
-    @Override
-    public void setEmail(String email) {
-
-    }
-
-    @Override
-    public String getPassword() {
-        return null;
-    }
-
-    @Override
-    public void setPassword(String password) {
-
-    }
-
-    @Override
-    public String getPhone() {
-        return null;
-    }
-
-    @Override
-    public void setPhone(String phone) {
-
-    }
-
-    @Override
-    public String getCity() {
-        return null;
-    }
-
-    @Override
-    public void setCity(String _city) {
-
-    }
-
-    @Override
-    public void setGender(String _gender) {
-
-    }
-
-    @Override
-    public String getGender() {
-        return null;
-    }
-
-    //======================================Admin-Methods==========================================
 
     public void deleteGroup() {
     }
@@ -162,7 +56,7 @@ public class Admin implements User {
     /* Get and Set */
 
     public int getRoomID() {
-        return this.getId();
+        return this.roomID;
     }
 
     public String getCategoryGroup() {
@@ -179,5 +73,9 @@ public class Admin implements User {
 
     public void setPlan(String _plan) {
         this.plan = _plan;
+    }
+
+    public void setRoomID(int id) {
+        this.roomID = id;
     }
 }
