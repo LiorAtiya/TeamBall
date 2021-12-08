@@ -4,13 +4,14 @@ public class Admin implements User {
 
     // player attributes
     private String fullName;
-    private String nickName;
     private String email;
-    private String password;
     private String phone;
-    private String city;
-    private String gender;
     private static int id = 1;
+
+//    private String nickName;
+//    private String password;
+//    private String city;
+//    private String gender;
 
     // admin attributes
     private String plan; // free/premium
@@ -18,10 +19,12 @@ public class Admin implements User {
     private String categoryGroup;
 
 
-
-    public Admin(String _FirstName, String _Email, String _Phone, String _group,String _Category) {
-        this.categoryGroup = _Category;
-        this.roomName = _group;
+    public Admin(String _fullName, String _email, String _phone, String _roomName,String _category) {
+        this.fullName = _fullName;
+        this.email = _email;
+        this.phone = _phone;
+        this.roomName = _roomName;
+        this.categoryGroup = _category;
         this.id += id;
     }
 

@@ -9,7 +9,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.ariel.teamball.R;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -23,9 +22,8 @@ import java.util.Map;
 
 public class Chatroom extends AppCompatActivity {
 
-    EditText e1;
-    TextView t1;
-
+    EditText text2send;
+    TextView message;
     private String user_name,room_name,category;
 
     DatabaseReference reference;
@@ -36,8 +34,9 @@ public class Chatroom extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chatroom);
 
-        e1 = (EditText)findViewById(R.id.editText2);
-        t1= (TextView)findViewById(R.id.textView);
+        text2send = findViewById(R.id.textToSend);
+        message = findViewById(R.id.message);
+
         if(getSupportActionBar()!=null)
         {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -47,10 +46,9 @@ public class Chatroom extends AppCompatActivity {
         user_name = getIntent().getExtras().get("user_name").toString();
         room_name = getIntent().getExtras().get("room_name").toString();
         category = getIntent().getExtras().get("category").toString();
-        reference = FirebaseDatabase.getInstance().getReference().child(category).child(room_name);
         setTitle(" Room - "+room_name);
 
-
+        reference = FirebaseDatabase.getInstance().getReference("Groups").child(category).child(room_name).child("chat");
         reference.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
@@ -97,28 +95,26 @@ public class Chatroom extends AppCompatActivity {
         DatabaseReference child_ref = reference.child(temp_key);
         Map<String,Object> map2 = new HashMap<>();
         map2.put("name",user_name);
-        map2.put("msg", e1.getText().toString());
+        map2.put("msg", text2send.getText().toString());
         child_ref.updateChildren(map2).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(Exception e) {
                 Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
-        e1.setText("");
-
-
-
-
+        text2send.setText("");
     }
+
     public void append_chat(DataSnapshot ss)
     {
         String chat_msg,chat_username;
         Iterator i = ss.getChildren().iterator();
+
         while(i.hasNext())
         {
             chat_msg = ((DataSnapshot)i.next()).getValue().toString();
             chat_username = ((DataSnapshot)i.next()).getValue().toString();
-            t1.append(chat_username + ": " +chat_msg + " \n");
+            message.append(chat_username + ": " +chat_msg + " \n");
         }
     }
 }
