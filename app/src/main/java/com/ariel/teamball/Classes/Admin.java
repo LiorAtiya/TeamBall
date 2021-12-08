@@ -4,13 +4,14 @@ public class Admin extends Player{
 
     // player attributes
     private String fullName;
-    private String nickName;
     private String email;
-    private String password;
     private String phone;
-    private String city;
-    private String gender;
     private static int id = 1;
+
+//    private String nickName;
+//    private String password;
+//    private String city;
+//    private String gender;
 
     // admin attributes
     private String plan; // free/premium
@@ -19,10 +20,12 @@ public class Admin extends Player{
     private String categoryGroup;
 
     // TODO: have to split full name to first and last
-    public Admin(String _fullName, String _Email, String _Phone, String _roomName,String _Category) {
-        super(_fullName, _Email, _Phone, _roomName, _Category);
-        this.categoryGroup = _Category;
+    public Admin(String _fullName, String _email, String _phone, String _roomName,String _category) {
+        this.fullName = _fullName;
+        this.email = _email;
+        this.phone = _phone;
         this.roomName = _roomName;
+        this.categoryGroup = _category;
         this.id += id;
     }
 
