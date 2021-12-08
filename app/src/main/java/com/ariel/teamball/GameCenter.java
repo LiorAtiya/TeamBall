@@ -96,7 +96,7 @@ public class GameCenter extends AppCompatActivity {
 
 
         //Access to the list of group category
-        reference = FirebaseDatabase.getInstance().getReference("Group/"+category);
+        reference = FirebaseDatabase.getInstance().getReference("Rooms/"+category);
 
         //Put all the group of the category to list from the firebase
         reference.addValueEventListener(new ValueEventListener() {
@@ -108,7 +108,6 @@ public class GameCenter extends AppCompatActivity {
                 Iterator i = dataSnapshot.getChildren().iterator();
                 while (i.hasNext()) {
                     set.add(((DataSnapshot) i.next()).getKey());
-
                 }
 
                 list.clear();
@@ -128,14 +127,14 @@ public class GameCenter extends AppCompatActivity {
             public void onItemClick(AdapterView<?> adapterView, View view, int room, long l) {
 
                 final AlertDialog.Builder EnterGroupDialog = new AlertDialog.Builder(view.getContext());
-                EnterGroupDialog.setTitle("Want to join the group?");
+                EnterGroupDialog.setTitle("Want to join the room?");
                 EnterGroupDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
 
                         String roomName = (String) (listView.getItemAtPosition(room));
 
-                        //Add group to list of private groups user
+                        //Add group to list of private rooms user
                         final FirebaseDatabase database = FirebaseDatabase.getInstance();
                         DatabaseReference ref = database.getReference();
 
@@ -231,7 +230,7 @@ public class GameCenter extends AppCompatActivity {
                                     final FirebaseDatabase database = FirebaseDatabase.getInstance();
                                     DatabaseReference ref = database.getReference();
 
-                                    DatabaseReference usersRef = ref.child("room").child(category);
+                                    DatabaseReference usersRef = ref.child("Rooms").child(category);
                                     Map<String, Object> room = new HashMap<>();
                                     room.put(roomName.getText().toString(),newRoom);
 

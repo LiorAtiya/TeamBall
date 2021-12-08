@@ -4,9 +4,9 @@ package com.ariel.teamball.Classes;
 A singleton class that creates and manages rooms, players, and admins
  */
 public class GameManagement {
-    final int roomsCapacity = 1000; // the limit of the online rooms in the app
-    int roomsCount = 0;
     private static GameManagement gmObject;
+    private final int roomsCapacity = 1000; // the limit of the active rooms in the app
+    private int roomsCount = 0; // how many active rooms there are in the app right now
 
     private GameManagement() {}
 
