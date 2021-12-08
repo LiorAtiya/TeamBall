@@ -29,6 +29,8 @@ public interface User {
 
     public String getLastName();
 
+    public String getNickName();
+
     public String getPhone();
 
     public String getEmail();
@@ -44,6 +46,8 @@ public interface User {
     public void setFirstName(String _firstName);
 
     public void setLastName(String _lastName);
+
+    public void setNickName(String _nickName);
 
     public void setPhone(String phone);
 

@@ -50,7 +50,7 @@ public class RegisterActivity extends AppCompatActivity {
 //        mFirstName = findViewById(R.id.firstName);
 //        mLastName = findViewById(R.id.lastName);
         mFullName = findViewById(R.id.FullName);
-        mNickName = findViewById(R.id.nickName);
+        mNickName = findViewById(R.id.tvNickName);
 //        mAge = findViewById(R.id.age);
         mEmail = findViewById(R.id.Email);
         mPassword = findViewById(R.id.Password);
