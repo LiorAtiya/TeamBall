@@ -13,13 +13,13 @@ import com.ariel.teamball.Classes.Player;
 
 import java.util.ArrayList;
 
-public class playerAdapter extends RecyclerView.Adapter<playerAdapter.MyViewHolder> {
+public class PlayerAdapter extends RecyclerView.Adapter<PlayerAdapter.MyViewHolder> {
 
     Context context;
 
     ArrayList<Player> list;
 
-    public playerAdapter(Context context, ArrayList<Player> list) {
+    public PlayerAdapter(Context context, ArrayList<Player> list) {
         this.context = context;
         this.list = list;
     }

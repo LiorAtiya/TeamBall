@@ -2,6 +2,7 @@ package com.ariel.teamball;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -21,6 +22,7 @@ public class RegisterActivity extends AppCompatActivity {
 
     public static final String TAG = "TAG";
     TextInputEditText mFullName, mEmail, mPassword, mPhone,mNickName;
+//    TextInputEditText mFirstName, mLastName, mAge;
     Button mRegisterBtn;
     TextView AlreadyRegisterBtn;
     ProgressBar progressBar;
@@ -36,15 +38,20 @@ public class RegisterActivity extends AppCompatActivity {
         Toast.makeText(this,"Don't go out :(", Toast.LENGTH_SHORT).show();
     }
 
+    @SuppressLint("WrongViewCast")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
         getSupportActionBar().hide();
 
+        // TODO: have to update first, last name and age
         //Link to layout
+//        mFirstName = findViewById(R.id.firstName);
+//        mLastName = findViewById(R.id.lastName);
         mFullName = findViewById(R.id.FullName);
         mNickName = findViewById(R.id.nickName);
+//        mAge = findViewById(R.id.age);
         mEmail = findViewById(R.id.Email);
         mPassword = findViewById(R.id.Password);
         mPhone = findViewById(R.id.Phone);
@@ -71,12 +78,16 @@ public class RegisterActivity extends AppCompatActivity {
             public void onClick(View v) {
                 String email = mEmail.getText().toString().trim();
                 String password = mPassword.getText().toString().trim();
+//                String firstName = mFirstName.getText().toString();
+//                String lastName = mLastName.getText().toString();
                 String fullName = mFullName.getText().toString();
                 String phone = mPhone.getText().toString();
                 String nickName = mNickName.getText().toString();
+//                int age = Integer.valueOf(mAge.getText().toString());
 
                 //Create new player
-                Player p1 = new Player(fullName,nickName,email,password, phone," ");
+//                Player p1 = new Player(firstName, lastName,nickName,email,password, phone," ", age);
+                Player p1 = new Player(fullName ,nickName,email,password, phone," ");
 
                 //Character insertion check
                 if(TextUtils.isEmpty(p1.getEmail())){

@@ -48,7 +48,7 @@ public class Chatroom extends AppCompatActivity {
         category = getIntent().getExtras().get("category").toString();
         setTitle(" Room - "+room_name);
 
-        reference = FirebaseDatabase.getInstance().getReference("Groups").child(category).child(room_name).child("chat");
+        reference = FirebaseDatabase.getInstance().getReference("Rooms").child(category).child(room_name).child("chat");
         reference.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {

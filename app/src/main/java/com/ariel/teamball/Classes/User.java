@@ -23,27 +23,36 @@ public interface User {
 
     public int getId();
 
-    public String getFullName();
+    public int getAge();
 
-    public void setFullName(String _fullName);
+    public String getFirstName();
 
-    public String getEmail();
-
-    public void setEmail(String email);
-
-    public String getPassword();
-
-    public void setPassword(String password);
+    public String getLastName();
 
     public String getPhone();
 
-    public void setPhone(String phone);
+    public String getEmail();
+
+    public String getPassword();
 
     public String getCity();
+
+    public String getGender();
+
+    public void setAge(int age);
+
+    public void setFirstName(String _firstName);
+
+    public void setLastName(String _lastName);
+
+    public void setPhone(String phone);
+
+    public void setEmail(String email);
+
+    public void setPassword(String password);
 
     public void setCity(String _city);
 
     public void setGender(String _gender);
 
-    public String getGender();
 }

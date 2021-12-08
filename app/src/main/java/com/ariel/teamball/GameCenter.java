@@ -19,6 +19,7 @@ import android.widget.Toast;
 
 import com.ariel.teamball.Classes.Adapters.ListAdapter;
 import com.ariel.teamball.Classes.Admin;
+import com.ariel.teamball.Classes.GameManagement;
 import com.ariel.teamball.Classes.Room;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -48,10 +49,10 @@ public class GameCenter extends AppCompatActivity {
 
     TextView nameCategory;
     ListView listView;
-    Button createGroupBtn;
+    Button createRoomBtn;
     ArrayAdapter<String> adapter;
     String name,category;
-    EditText groupName;
+    EditText roomName;
 
     FirebaseFirestore fStore;
     FirebaseAuth fAuth;
@@ -64,7 +65,7 @@ public class GameCenter extends AppCompatActivity {
 
         nameCategory = findViewById(R.id.nameCategory);
         listView = findViewById(R.id.listView);
-        createGroupBtn = findViewById(R.id.button);
+        createRoomBtn = findViewById(R.id.button);
 
         fAuth = FirebaseAuth.getInstance();
         fStore = FirebaseFirestore.getInstance();
@@ -99,7 +100,7 @@ public class GameCenter extends AppCompatActivity {
 
 
         //Access to the list of group category
-        reference = FirebaseDatabase.getInstance().getReference("Groups/"+category);
+        reference = FirebaseDatabase.getInstance().getReference("Rooms/"+category);
 
         //Put all the group of the category to list from the firebase
         reference.addValueEventListener(new ValueEventListener() {
@@ -144,7 +145,7 @@ public class GameCenter extends AppCompatActivity {
             public void onItemClick(AdapterView<?> adapterView, View view, int room, long l) {
 
                 final AlertDialog.Builder EnterGroupDialog = new AlertDialog.Builder(view.getContext());
-                EnterGroupDialog.setTitle("Want to join the group?");
+                EnterGroupDialog.setTitle("Want to join the room?");
                 EnterGroupDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
@@ -184,16 +185,16 @@ public class GameCenter extends AppCompatActivity {
             }
         });
 
-        createGroupBtn.setOnClickListener(new View.OnClickListener() {
+        createRoomBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                final AlertDialog.Builder newGroupDialog = new AlertDialog.Builder(v.getContext());
-                newGroupDialog.setTitle("Enter group name: ");
-                groupName = new EditText(v.getContext());
-                newGroupDialog.setView(groupName);
+                final AlertDialog.Builder newRoomDialog = new AlertDialog.Builder(v.getContext());
+                newRoomDialog.setTitle("Enter room name: ");
+                roomName = new EditText(v.getContext());
+                newRoomDialog.setView(roomName);
 
-                newGroupDialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                newRoomDialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
 
@@ -210,8 +211,22 @@ public class GameCenter extends AppCompatActivity {
                                     name = document.getString("firstName");
                                     String email = document.getString("email");
                                     String phone = document.getString("phone");
+//                                    String playerID = document.getString("id");
+                                    // TODO: have to get the player id from the DB and sent it to the function
 
-                                    Admin admin = new Admin(name,email,phone,groupName.getText().toString(),category);
+                                    Admin admin = new Admin(name,email,phone, roomName.getText().toString(),category);
+
+//                                    // creates game management object
+//                                    GameManagement gm = GameManagement.getInstance();
+//                                    // checks if a room can be created with that admin
+//                                    if(gm.roomsAvailability() && gm.canBeAdmin(0)) { // TODO: player id
+//                                        // upgrade the player to be an admin
+//                                        int adminID = gm.createAdmin(0); // TODO: player id
+//                                        // creates a new room with the given admin
+//                                        int roomID = gm.createRoom(adminID);
+//                                        // updates the room in the admin object
+//                                        gm.updateAdminRoom(roomID, adminID);
+//                                    }
 
                                     DocumentReference docRefAdmin = fStore.collection("admins").document(userID);
 
@@ -229,16 +244,16 @@ public class GameCenter extends AppCompatActivity {
                                     });
 
                                     // Group storage in database
-                                    Room newGroup = new Room(groupName.getText().toString(), 20,"Neighborhood A","Tel-Aviv",admin);
+                                    Room newRoom = new Room(roomName.getText().toString(), 20,"Neighborhood A","Tel-Aviv",admin);
 
                                     final FirebaseDatabase database = FirebaseDatabase.getInstance();
                                     DatabaseReference ref = database.getReference();
 
-                                    DatabaseReference usersRef = ref.child("Groups").child(category);
-                                    Map<String, Object> group = new HashMap<>();
-                                    group.put(groupName.getText().toString(),newGroup);
+                                    DatabaseReference roomsRef = ref.child("Rooms").child(category);
+                                    Map<String, Object> room = new HashMap<>();
+                                    room.put(roomName.getText().toString(),newRoom);
 
-                                    usersRef.updateChildren(group);
+                                    roomsRef.updateChildren(room);
 
                                 } else {
                                     Log.d(TAG, "get failed with ", task.getException());
@@ -249,7 +264,7 @@ public class GameCenter extends AppCompatActivity {
                     }
                 });
 
-                newGroupDialog.show();
+                newRoomDialog.show();
             }
         });
     }
