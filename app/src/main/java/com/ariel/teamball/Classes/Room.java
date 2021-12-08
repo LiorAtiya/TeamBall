@@ -1,14 +1,15 @@
 package com.ariel.teamball.Classes;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Room {
 
     private boolean status; // lock/unlock
     private String name, field,city;
     private int capacity, imageID;
-//    private static int id = 1;
-    private Admin admin;
+    private static int id = 1;
+    private List adminsList; // this is a list of all the admins (IDs) associated with this room
 
 
 //    private ArrayList<Player> playersList;
@@ -18,19 +19,46 @@ public class Room {
 //    Chat chat;
 //    private ArrayList<Player> banList;
 
-    public Room(String _name, int _capacity,String _field,String _city, Admin _admin) {
+    public Room(String _name, int _capacity,String _field,String _city, int _adminID) {
         this.name = _name;
         this.capacity = _capacity;
         this.field = _field;
         this.city = _city;
         this.status = true;
-        this.admin = _admin;
-//        this.id += 1;
+        this.adminsList = new ArrayList<Integer>();
+        this.adminsList.add(_adminID);
+        this.id += 1;
+    }
+
+    // TODO: temporary instructor
+    public Room(String _name, int _capacity,String _field,String _city) {
+        this.name = _name;
+        this.capacity = _capacity;
+        this.field = _field;
+        this.city = _city;
+        this.status = true;
+        this.adminsList = new ArrayList<Integer>();
+        this.id += 1;
     }
 
     public Room() {}
 
     // sets/adds
+
+    public void addAdmin(int adminID) {
+        this.adminsList.add(adminID);
+    }
+
+    public List getAdminsList() {
+        return this.adminsList;
+    }
+
+    // removes the admin permission to the given user, only if there is another admin in the room
+    public void removeAdmin(int adminID) {
+        if(this.adminsList.size() > 1) {
+            this.adminsList.remove(adminID);
+        }
+    }
 
     public String getField() {
         return field;
@@ -56,9 +84,9 @@ public class Room {
         this.imageID = imageID;
     }
 
-//    public int getId() {
-//        return this.id;
-//    }
+    public int getId() {
+        return this.id;
+    }
 
     public String getName() {
         return name;

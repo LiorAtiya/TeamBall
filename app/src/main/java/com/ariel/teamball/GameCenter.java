@@ -212,6 +212,7 @@ public class GameCenter extends AppCompatActivity {
                                     String email = document.getString("email");
                                     String phone = document.getString("phone");
 
+                                    // TODO: have to delete Admin object and replace with Player object
 
                                     Admin admin = new Admin(name,email,phone, roomName.getText().toString(),category);
 
@@ -243,7 +244,8 @@ public class GameCenter extends AppCompatActivity {
                                     });
 
                                     // Group storage in database
-                                    Room newRoom = new Room(roomName.getText().toString(), 20,"Neighborhood A","Tel-Aviv",admin);
+                                    // TODO: have to fix userID(database id or object id?)
+                                    Room newRoom = new Room(roomName.getText().toString(), 20,"Neighborhood A","Tel-Aviv",Integer.valueOf(userID));
 
                                     final FirebaseDatabase database = FirebaseDatabase.getInstance();
                                     DatabaseReference ref = database.getReference();
