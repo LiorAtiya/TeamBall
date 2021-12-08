@@ -29,13 +29,8 @@ public class GameManagement {
         return ans;
     }
 
-    // The function gets a player id and checks if it can be an admin
-    public boolean canBeAdmin(int player) {
-        return true;
-    }
-
     // The function gets a player id, creates a new Admin, and returns its ID
-    public int createAdmin(int playerID) {
+    public int createAdmin(String playerID) {
         return 0;
     }
 
@@ -51,5 +46,8 @@ public class GameManagement {
         _admin.getRoomID();
     }
 
-
+    // The function gets a player id and checks if it can be an admin
+    public boolean canBeAdmin(int player) {
+        return true;
+    }
 }

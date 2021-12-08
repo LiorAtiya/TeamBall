@@ -21,7 +21,7 @@ public interface User {
 
     //--------Getters & Setters---------
 
-    public int getId();
+//    public int getId();
 
     public int getAge();
 
