@@ -11,7 +11,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import java.util.HashMap;
 import java.util.Map;
 
-// Data Access Object class that synchronizes the Room objects with the data base
+// Data Access Object class that synchronizes the Room objects with the database
 public class RoomDAO {
 
 //    public static final String TAG = "TAG";
@@ -25,6 +25,10 @@ public class RoomDAO {
 //        fStore = FirebaseFirestore.getInstance();
 //
 //        this.context = context;
+    }
+
+    public RoomDAO() {
+
     }
 
     public static void createRoom(String category, Room newRoom){

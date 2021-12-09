@@ -18,30 +18,22 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ariel.teamball.Classes.Adapters.ListAdapter;
-import com.ariel.teamball.Classes.Admin;
 import com.ariel.teamball.Classes.DAO.PlayerDAO;
 import com.ariel.teamball.Classes.DAO.RoomDAO;
 import com.ariel.teamball.Classes.GameManagement;
 import com.ariel.teamball.Classes.Room;
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.Map;
 import java.util.Set;
 
 public class GameCenter extends AppCompatActivity {
@@ -185,45 +177,16 @@ public class GameCenter extends AppCompatActivity {
                             @Override
                             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                                 if (task.isSuccessful()) {
-
-//                                    DocumentSnapshot document = task.getResult();
-//                                    name = document.getString("fullName");
-//                                    String email = document.getString("email");
-//                                    String phone = document.getString("phone");
-
-//                                    Admin admin = new Admin(name,email,phone, roomName.getText().toString(),category);
-
-//                                    // creates game management object
-//                                    GameManagement gm = GameManagement.getInstance();
-//                                    // checks if a room can be created with that admin
-//                                    if(gm.roomsAvailability() && gm.canBeAdmin(0)) { // TODO: player id
-//                                        // upgrade the player to be an admin
-//                                        int adminID = gm.createAdmin(userID);
-//                                        // creates a new room with the given admin
-//                                        int roomID = gm.createRoom(adminID);
-//                                        // updates the room in the admin object
-//                                        gm.updateAdminRoom(roomID, adminID);
-////                                    }
-
-//                                    DocumentReference docRefAdmin = fStore.collection("admins").document(userID);
-
-//                                    // Stores the admin in the collection
-//                                    docRefAdmin.set(admin).addOnSuccessListener(new OnSuccessListener<Void>() {
-//                                        @Override
-//                                        public void onSuccess(Void unused) {
-//                                            Log.d(TAG,"onSuccess: user Profile is created for "+userID);
-//                                        }
-//                                    }).addOnFailureListener(new OnFailureListener() {
-//                                        @Override
-//                                        public void onFailure(@NonNull Exception e) {
-//                                            Log.d(TAG,"onFailure: "+e.toString());
-//                                        }
-//                                    });
-
-                                    // Group storage in database
-                                    String admin = playerDAO.playerID();
-                                    Room newRoom = new Room(roomName.getText().toString(), 20,"Neighborhood A","Tel-Aviv",admin);
-                                    roomDAO.createRoom(category,newRoom);
+                                    // creates game management object
+                                    GameManagement gm = GameManagement.getInstance();
+                                    // checks if a room can be created with that admin
+                                    if(gm.roomsAvailability() && gm.canBeAdmin(playerDAO.playerID())) {
+                                        int capacity = 10; // TODO: have to fix capacity
+                                        String field = "Neighborhood A"; // TODO: have to fix field
+                                        String city = "TLV"; // TODO: have to fix city
+                                        // creates a new room with the given admin
+                                        gm.createRoom(roomName.getText().toString(), capacity, field, city, category, userID);
+                                    }
 
                                 } else {
                                     Log.d(TAG, "get failed with ", task.getException());
