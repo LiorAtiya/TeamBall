@@ -19,6 +19,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.ariel.teamball.Classes.DAO.PlayerDAO;
 import com.ariel.teamball.Classes.Player;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -44,26 +45,20 @@ public class EditProfile extends AppCompatActivity {
     public static final String TAG = "TAG";
     EditText profileFullName,profileEmail,profilePhone;
     ImageView profileImageView;
-    FirebaseAuth fAuth;
     Button saveBtn;
-    FirebaseFirestore fStore;
-    FirebaseUser user;
-    StorageReference storageReference;
+
+    PlayerDAO playerDAO;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_profile);
+        getSupportActionBar().hide();
 
         Intent data = getIntent();
         String fullName = data.getStringExtra("fName");
         String email = data.getStringExtra("email");
         String phone = data.getStringExtra("phone");
-
-        fAuth = FirebaseAuth.getInstance();
-        fStore = FirebaseFirestore.getInstance();
-        user = fAuth.getCurrentUser();
-        storageReference = FirebaseStorage.getInstance().getReference();
 
 
         profileEmail = findViewById(R.id.editProfileEmail);
@@ -72,7 +67,10 @@ public class EditProfile extends AppCompatActivity {
         profileImageView = findViewById(R.id.editProfileImage);
         saveBtn = findViewById(R.id.saveBtn);
 
-        StorageReference profileRef = storageReference.child("users/"+fAuth.getCurrentUser().getUid()+"/profile.jpg");
+        playerDAO = new PlayerDAO(this);
+
+        //Access to profile picture of the player
+        StorageReference profileRef = playerDAO.getStorage("users/"+playerDAO.playerID()+"/profile.jpg");
         profileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
             public void onSuccess(Uri uri) {
@@ -80,6 +78,7 @@ public class EditProfile extends AppCompatActivity {
             }
         });
 
+        //Edit profile picture of the player
         profileImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -95,70 +94,18 @@ public class EditProfile extends AppCompatActivity {
         saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //Check empty editText
                 if(profileEmail.getText().toString().isEmpty() || profilePhone.getText().toString().isEmpty() || profileFullName.getText().toString().isEmpty()){
                     Toast.makeText(EditProfile.this,"One or many fields are empty",Toast.LENGTH_SHORT).show();
                     return;
                 }
 
                 final String email = profileEmail.getText().toString();
-                user.updateEmail(email).addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void unused) {
+                String fullName = profileFullName.getText().toString();
+                String phone = profilePhone.getText().toString();
 
-//                        final FirebaseDatabase database = FirebaseDatabase.getInstance();
-//                        DatabaseReference ref = database.getReference();
-//                        DatabaseReference usersRef = ref.child("Users");
-//
-//                        // Attach a listener to read the data at our players reference
-//                        usersRef.addValueEventListener(new ValueEventListener() {
-//                            @Override
-//                            public void onDataChange(DataSnapshot dataSnapshot) {
-//                                Player p = dataSnapshot.getValue(Player.class);
-//                                p.setEmail(email);
-//                                p.setFirstName(profileFullName.getText().toString());
-//                                p.setPhone(profilePhone.getText().toString());
-//                                Map<String, Object> userUpdates = new HashMap<>();
-//
-//                                userUpdates.put(user.getUid(), p);
-//
-//                                usersRef.updateChildren(userUpdates).addOnSuccessListener(new OnSuccessListener<Void>() {
-//                                    @Override
-//                                    public void onSuccess(Void unused) {
-//                                        Toast.makeText(EditProfile.this,"Profile Updated", Toast.LENGTH_SHORT).show();
-//                                        startActivity(new Intent(getApplicationContext(),MyProfile.class));
-//                                        finish();
-//                                    }
-//                                });
-//                            }
-//
-//                            @Override
-//                            public void onCancelled(DatabaseError databaseError) {
-//                                System.out.println("The read failed: " + databaseError.getCode());
-//                            }
-//                        });
+                playerDAO.editPlayerDetails(email,fullName,phone);
 
-
-                        DocumentReference docRef = fStore.collection("users").document(user.getUid());
-                        Map<String,Object> edited = new HashMap<>();
-                        edited.put("email",email);
-                        edited.put("firstName",profileFullName.getText().toString());
-                        edited.put("phone", profilePhone.getText().toString());
-                        docRef.update(edited).addOnSuccessListener(new OnSuccessListener<Void>() {
-                            @Override
-                            public void onSuccess(Void unused) {
-                                Toast.makeText(EditProfile.this,"Profile Updated", Toast.LENGTH_SHORT).show();
-                                startActivity(new Intent(getApplicationContext(),MyProfile.class));
-                                finish();
-                            }
-                        });
-                        Toast.makeText(EditProfile.this,"Email is changed", Toast.LENGTH_SHORT).show();
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(EditProfile.this,e.getMessage(), Toast.LENGTH_SHORT).show();
-                    }
-                });
             }
         });
     }
@@ -169,34 +116,10 @@ public class EditProfile extends AppCompatActivity {
         if(requestCode == 1000){
             if(resultCode == Activity.RESULT_OK){
                 Uri imageUri = data.getData();
-//                profileImage.setImageURI(imageUri);
 
-                uploadImageToFirebase(imageUri);
+                playerDAO.uploadImage(imageUri,profileImageView);
             }
         }
     }
 
-    private void uploadImageToFirebase(Uri imageUri) {
-        //Upload image to firebase storage
-        StorageReference fileRef = storageReference.child("users/"+fAuth.getCurrentUser().getUid()+"/profile.jpg");
-        fileRef.putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-            @Override
-            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-//                Toast.makeText(MyProfile.this, "Image Uploaded", Toast.LENGTH_SHORT).show();
-                fileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                    @Override
-                    public void onSuccess(Uri uri) {
-                        Picasso.get().load(uri).into(profileImageView);
-                    }
-                });
-
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Toast.makeText(getApplicationContext(), "Failed", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-    }
 }

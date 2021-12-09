@@ -19,6 +19,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.ariel.teamball.Classes.DAO.PlayerDAO;
 import com.ariel.teamball.Classes.Player;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -42,13 +43,12 @@ import com.squareup.picasso.Picasso;
 public class MyProfile extends AppCompatActivity {
 
     TextView fullName, email, phone,verifyMsg;
-    FirebaseAuth fAuth;
     Button logoutBtn, resendCode,resetPassword,changeProfile;
-    FirebaseFirestore fStore;
     String userID;
     FirebaseUser user;
     ImageView profileImage;
-    StorageReference storageReference;
+
+    PlayerDAO playerDAO;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,16 +56,23 @@ public class MyProfile extends AppCompatActivity {
         setContentView(R.layout.activity_my_profile);
         getSupportActionBar().hide();
 
+        profileImage = findViewById(R.id.profileImage);
+        changeProfile = findViewById(R.id.changeProfile);
+        logoutBtn = findViewById(R.id.profileLogoutBtn);
+
         fullName = findViewById(R.id.ProfileName);
         email = findViewById(R.id.ProfileEmail);
         phone = findViewById(R.id.ProfilePhone);
-        logoutBtn = findViewById(R.id.profileLogoutBtn);
 
-        fAuth = FirebaseAuth.getInstance();
-        fStore = FirebaseFirestore.getInstance();
-        storageReference = FirebaseStorage.getInstance().getReference();
+        resendCode = findViewById(R.id.resendCode);
+        verifyMsg = findViewById(R.id.verifyMsg);
+        resetPassword = findViewById(R.id.resetPasswordLocal);
 
-        StorageReference profileRef = storageReference.child("users/"+fAuth.getCurrentUser().getUid()+"/profile.jpg");
+        playerDAO = new PlayerDAO(this);
+
+        //Access to profile picture of the player
+        StorageReference profileRef = playerDAO.getStorage("users/"+playerDAO.playerID()+"/profile.jpg");
+
         profileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
             public void onSuccess(Uri uri) {
@@ -73,16 +80,10 @@ public class MyProfile extends AppCompatActivity {
             }
         });
 
-        resendCode = findViewById(R.id.resendCode);
-        verifyMsg = findViewById(R.id.verifyMsg);
-        resetPassword = findViewById(R.id.resetPasswordLocal);
 
-        profileImage = findViewById(R.id.profileImage);
-        changeProfile = findViewById(R.id.changeProfile);
-
-        userID = fAuth.getCurrentUser().getUid();
-        user = fAuth.getCurrentUser();
-
+        //Player verify
+        userID = playerDAO.playerID();
+        user = playerDAO.getUser();
 
         if(!user.isEmailVerified()){
             resendCode.setVisibility(View.VISIBLE);
@@ -107,27 +108,8 @@ public class MyProfile extends AppCompatActivity {
             });
         }
 
-//        final FirebaseDatabase database = FirebaseDatabase.getInstance();
-//        DatabaseReference ref = database.getReference();
-//        DatabaseReference usersRef = ref.child("Users/"+userID);
-//
-//        // Attach a listener to read the data at our players reference
-//        usersRef.addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(DataSnapshot dataSnapshot) {
-//                Player p = dataSnapshot.getValue(Player.class);
-//                phone.setText(p.getPhone());
-//                fullName.setText(p.getFirstName());
-//                email.setText(p.getEmail());
-//            }
-//
-//            @Override
-//            public void onCancelled(DatabaseError databaseError) {
-//                System.out.println("The read failed: " + databaseError.getCode());
-//            }
-//        });
-
-        DocumentReference documentReference = fStore.collection("users").document(userID);
+        //Access from firebase to details of player
+        DocumentReference documentReference = playerDAO.getCollection("users",userID);
         documentReference.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
             @Override
             public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
@@ -152,17 +134,8 @@ public class MyProfile extends AppCompatActivity {
                     public void onClick(DialogInterface dialog, int which) {
 
                         String newPassword = resetPassword.getText().toString();
-                        user.updatePassword(newPassword).addOnSuccessListener(new OnSuccessListener<Void>() {
-                            @Override
-                            public void onSuccess(Void unused) {
-                                Toast.makeText(MyProfile.this,"Password Reset Successfully", Toast.LENGTH_SHORT).show();
-                            }
-                        }).addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-                                Toast.makeText(MyProfile.this,"Password Reset Failed", Toast.LENGTH_SHORT).show();
-                            }
-                        });
+
+                        playerDAO.updatePassword(newPassword);
                     }
                 });
 
@@ -177,13 +150,13 @@ public class MyProfile extends AppCompatActivity {
             }
         });
 
-        profileImage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-//                Intent openGalleryIntent = new Intent(Intent.ACTION_PICK, MediaStore.Video.Media.EXTERNAL_CONTENT_URI);
-//                startActivityForResult(openGalleryIntent,1000);
-            }
-        });
+//        profileImage.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+////                Intent openGalleryIntent = new Intent(Intent.ACTION_PICK, MediaStore.Video.Media.EXTERNAL_CONTENT_URI);
+////                startActivityForResult(openGalleryIntent,1000);
+//            }
+//        });
 
         changeProfile.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -201,47 +174,12 @@ public class MyProfile extends AppCompatActivity {
         logoutBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FirebaseAuth.getInstance().signOut();
+
+                playerDAO.playerSignOut();
                 startActivity(new Intent(getApplicationContext(),LoginActivity.class));
                 finish();
             }
         });
     }
 
-//    @Override
-//    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-//        super.onActivityResult(requestCode, resultCode, data);
-//        if(requestCode == 1000){
-//            if(resultCode == Activity.RESULT_OK){
-//                Uri imageUri = data.getData();
-////                profileImage.setImageURI(imageUri);
-//
-//                uploadImageToFirebase(imageUri);
-//            }
-//        }
-//    }
-//
-//    private void uploadImageToFirebase(Uri imageUri) {
-//        //Upload image to firebase storage
-//        StorageReference fileRef = storageReference.child("users/"+fAuth.getCurrentUser().getUid()+"/profile.jpg");
-//        fileRef.putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-//            @Override
-//            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-////                Toast.makeText(MyProfile.this, "Image Uploaded", Toast.LENGTH_SHORT).show();
-//                fileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-//                    @Override
-//                    public void onSuccess(Uri uri) {
-//                        Picasso.get().load(uri).into(profileImage);
-//                    }
-//                });
-//
-//            }
-//        }).addOnFailureListener(new OnFailureListener() {
-//            @Override
-//            public void onFailure(@NonNull Exception e) {
-//                Toast.makeText(MyProfile.this, "Failed", Toast.LENGTH_SHORT).show();
-//            }
-//        });
-//
-//    }
 }

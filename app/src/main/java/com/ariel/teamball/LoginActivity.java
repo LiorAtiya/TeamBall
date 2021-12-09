@@ -14,6 +14,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.ariel.teamball.Classes.DAO.PlayerDAO;
 import com.ariel.teamball.Classes.Firebase;
 import com.google.android.material.textfield.TextInputEditText;
 
@@ -24,9 +25,7 @@ public class LoginActivity extends AppCompatActivity {
     TextView mCreateBtn, mForgotPassBtn;
     ProgressBar progressBar;
 
-//    FirebaseAuth fAuth;
-
-    Firebase FB;
+    PlayerDAO playerDAO;
 
     @Override
     public void onBackPressed() {
@@ -47,9 +46,11 @@ public class LoginActivity extends AppCompatActivity {
         mCreateBtn = findViewById(R.id.RegisterFromLogin);
         mForgotPassBtn = findViewById(R.id.ForgotPassBtn);
 
-        FB = new Firebase(this);
 
-        if(FB.userExist()){
+        playerDAO = new PlayerDAO(this);
+
+        //Automatic connection
+        if(playerDAO.playerConnected()){
             startActivity(new Intent(getApplicationContext(), SportsMenu.class));
             finish();
         }
@@ -73,25 +74,7 @@ public class LoginActivity extends AppCompatActivity {
                 //Charging circle while waiting to connect
                 progressBar.setVisibility(View.VISIBLE);
 
-                FB.userLogin(email,password);
-
-                progressBar.setVisibility(View.GONE);
-
-//                //Authenticate the user
-//                fAuth.signInWithEmailAndPassword(email,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-//                    @Override
-//                    public void onComplete(@NonNull Task<AuthResult> task) {
-//                        if(task.isSuccessful()){
-//                            Toast.makeText(LoginActivity.this,"Logged in Successfully", Toast.LENGTH_SHORT).show();
-//                            startActivity(new Intent(getApplicationContext(),GameOptions.class));
-//                            finish();
-//
-//                        }else{
-//                            Toast.makeText(LoginActivity.this,"Error! " + task.getException().getMessage(),Toast.LENGTH_SHORT).show();
-//                            progressBar.setVisibility(View.GONE);
-//                        }
-//                    }
-//                });
+                playerDAO.playerLogin(email,password,progressBar);
 
             }
         });
@@ -109,31 +92,20 @@ public class LoginActivity extends AppCompatActivity {
         mForgotPassBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                EditText resetMail = new EditText(v.getContext());
+                EditText mMail = new EditText(v.getContext());
                 final AlertDialog.Builder passwordResetDialog = new AlertDialog.Builder(v.getContext());
                 passwordResetDialog.setTitle("Reset Password ?");
                 passwordResetDialog.setMessage("Enter Your Email To Receive Reset Link ");
-                passwordResetDialog.setView(resetMail);
+                passwordResetDialog.setView(mMail);
 
                 passwordResetDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
 
-                        String mail = resetMail.getText().toString();
+                        String mail = mMail.getText().toString();
 
-                        FB.resetPassword(mail);
+                        playerDAO.resetPassword(mail);
 
-//                        fAuth.sendPasswordResetEmail(mail).addOnSuccessListener(new OnSuccessListener<Void>() {
-//                            @Override
-//                            public void onSuccess(Void unused) {
-//                                Toast.makeText(LoginActivity.this, "Reset Link Sent to Your Email",Toast.LENGTH_SHORT).show();
-//                            }
-//                        }).addOnFailureListener(new OnFailureListener() {
-//                            @Override
-//                            public void onFailure(@NonNull Exception e) {
-//                                Toast.makeText(LoginActivity.this, "Error! Reset Link Is Not Sent " + e.getMessage(), Toast.LENGTH_SHORT).show();
-//                            }
-//                        });
                     }
                 });
 

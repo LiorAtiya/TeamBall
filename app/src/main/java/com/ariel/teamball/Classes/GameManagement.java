@@ -34,17 +34,17 @@ public class GameManagement {
         return 0;
     }
 
-    // The function creates a new room, updates its admin, and returns the room ID
-    public int createRoom(String _name, int _capacity, Admin _admin) {
-        Room myRoom = new Room(_name, _capacity,"","", _admin);
-        roomsCount++;
-        return myRoom.getId();
-    }
+//    // The function creates a new room, updates its admin, and returns the room ID
+//    public int createRoom(String _name, int _capacity, Admin _admin) {
+//        Room myRoom = new Room(_name, _capacity,"","", _admin);
+//        roomsCount++;
+//        return myRoom.getId();
+//    }
 
-    // The function gets a room id and an admin and update the room attribute in the admin class
-    public void updateAdminRoom(int roomID, Admin _admin) {
-        _admin.getRoomID();
-    }
+//    // The function gets a room id and an admin and update the room attribute in the admin class
+//    public void updateAdminRoom(int roomID, Admin _admin) {
+//        _admin.getRoomID();
+//    }
 
     // The function gets a player id and checks if it can be an admin
     public boolean canBeAdmin(int player) {

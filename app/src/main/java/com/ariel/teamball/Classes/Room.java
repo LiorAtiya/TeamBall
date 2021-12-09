@@ -1,6 +1,11 @@
 package com.ariel.teamball.Classes;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Room {
 
@@ -8,7 +13,7 @@ public class Room {
     private String name, field,city;
     private int capacity, imageID;
 //    private static int id = 1;
-    private Admin admin;
+    private String admin;
 
 
 //    private ArrayList<Player> playersList;
@@ -18,19 +23,35 @@ public class Room {
 //    Chat chat;
 //    private ArrayList<Player> banList;
 
-    public Room(String _name, int _capacity,String _field,String _city, Admin _admin) {
+    public Room(String _name, int _capacity,String _field,String _city, String _admin) {
         this.name = _name;
         this.capacity = _capacity;
         this.field = _field;
         this.city = _city;
         this.status = true;
         this.admin = _admin;
-//        this.id += 1;
     }
 
     public Room() {}
 
-    // sets/adds
+    //-------------Getters & Setters---------------------
+
+
+    public boolean isStatus() {
+        return status;
+    }
+
+    public void setStatus(boolean status) {
+        this.status = status;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 
     public String getField() {
         return field;
@@ -48,6 +69,10 @@ public class Room {
         this.city = city;
     }
 
+    public int getCapacity() {
+        return capacity;
+    }
+
     public int getImageID() {
         return imageID;
     }
@@ -56,16 +81,12 @@ public class Room {
         this.imageID = imageID;
     }
 
-//    public int getId() {
-//        return this.id;
-//    }
-
-    public String getName() {
-        return name;
+    public String getAdmin() {
+        return admin;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setAdmin(String admin) {
+        this.admin = admin;
     }
 
     // updates the room's capacity
@@ -91,15 +112,11 @@ public class Room {
 //        this.players = players;
 //    }
 
-    //gets
 
-    public boolean isOpen() {
-        return status;
-    }
+//    public boolean isOpen() {
+//        return status;
+//    }
 
-    public int getCapacity() {
-        return capacity;
-    }
 
 //    // returns the amount of players in the group
 //    public int getParticipants() {
