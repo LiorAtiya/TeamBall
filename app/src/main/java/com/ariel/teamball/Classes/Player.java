@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 
-public class Player implements User {
+public class Player {
 
     // player attributes
     private String fullName;
@@ -100,27 +100,22 @@ public class Player implements User {
         return this.id;
     }
 
-    @Override
-    public int getAge() {
+//    public int getAge() {
 //        return this.age;
-        return 0;
-    }
+//    }
 
     public String getFullName() {
         return this.fullName;
     }
 
-    @Override
     public String getFirstName() {
         return null;
     }
 
-    @Override
     public String getLastName() {
         return null;
     }
 
-    @Override
     public String getNickName() {
         return this.nickName;
     }
@@ -165,22 +160,18 @@ public class Player implements User {
         this.gender = _Gender;
     }
 
-    @Override
     public void setAge(int age) {
 
     }
 
-    @Override
     public void setFirstName(String _firstName) {
 
     }
 
-    @Override
     public void setLastName(String _lastName) {
 
     }
 
-    @Override
     public void setNickName(String _nickName) {
         this.nickName = _nickName;
     }

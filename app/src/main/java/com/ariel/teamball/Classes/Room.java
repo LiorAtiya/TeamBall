@@ -3,7 +3,9 @@ package com.ariel.teamball.Classes;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.sql.Time;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -15,6 +17,8 @@ public class Room {
     private int capacity, imageID;
 //    private static int id = 1;
     private String admin;
+    private Date date;
+    private Time time;
 
 //    private ArrayList<Player> playersList;
 //    Time expiredTime;
