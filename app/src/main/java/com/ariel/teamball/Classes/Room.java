@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+
 public class Room {
 
     private boolean status; // lock/unlock
@@ -15,13 +16,13 @@ public class Room {
 //    private static int id = 1;
     private String admin;
 
-
 //    private ArrayList<Player> playersList;
 //    Time expiredTime;
 //    ArrayList<Player> teams;
 //    String fieldLocation;
 //    Chat chat;
 //    private ArrayList<Player> banList;
+
 
     public Room(String _name, int _capacity,String _field,String _city, String _admin) {
         this.name = _name;
@@ -30,7 +31,22 @@ public class Room {
         this.city = _city;
         this.status = true;
         this.admin = _admin;
+
+//        this.adminsList = new ArrayList<Integer>();
+//        this.adminsList.add(_adminID);
+//        this.id += 1;
     }
+
+//    // TODO: temporary instructor
+//    public Room(String _name, int _capacity,String _field,String _city) {
+//        this.name = _name;
+//        this.capacity = _capacity;
+//        this.field = _field;
+//        this.city = _city;
+//        this.status = true;
+//        this.adminsList = new ArrayList<Integer>();
+//        this.id += 1;
+//    }
 
     public Room() {}
 
@@ -85,14 +101,21 @@ public class Room {
         return admin;
     }
 
-    public void setAdmin(String admin) {
-        this.admin = admin;
-    }
 
-    // updates the room's capacity
-    public void setCapacity(int updateCapacity) {
-        this.capacity = updateCapacity;
-    }
+//    public void addAdmin(int adminID) {
+//        this.adminsList.add(adminID);
+//    }
+//
+//    public List getAdminsList() {
+//        return this.adminsList;
+//    }
+//
+//    // removes the admin permission to the given user, only if there is another admin in the room
+//    public void removeAdmin(int adminID) {
+//        if(this.adminsList.size() > 1) {
+//            this.adminsList.remove(adminID);
+//        }
+//    }
 
 //    // adds a player to the group if it is not full and if the player did not get ban
 //    public boolean addPlayer(Player _player) {
