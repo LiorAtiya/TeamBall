@@ -1,7 +1,5 @@
 package com.ariel.teamball;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,8 +12,9 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.ariel.teamball.Classes.DAO.PlayerDAO;
-import com.ariel.teamball.Classes.Firebase;
 import com.ariel.teamball.Classes.Player;
 import com.google.android.material.textfield.TextInputEditText;
 
@@ -62,7 +61,7 @@ public class RegisterActivity extends AppCompatActivity {
         allCities.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         mySpinner.setAdapter(allCities);
 
-        /* store and connect our cities names with spinner */
+        /* store and connect  gender options with spinner */
         ArrayAdapter<String> genders = new ArrayAdapter<String>(RegisterActivity.this,
                 android.R.layout.simple_list_item_1,getResources().getStringArray(R.array.genders));
         //for drop down list:
