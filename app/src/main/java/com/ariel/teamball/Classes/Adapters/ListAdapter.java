@@ -38,10 +38,11 @@ public class ListAdapter extends ArrayAdapter<Room> {
         String field = getItem(position).getField();
         String admin = getItem(position).getAdmin();
         int capacity = getItem(position).getCapacity();
+        String time = getItem(position).getTime();
+        String date = getItem(position).getDate();
 
-        // TODO: why null? add a temporary constructor to fix the issue
-//        Room room = new Room(room_name,capacity,field,city,null);
-        Room room = new Room(room_name,capacity,field,city,admin);
+        Room room = new Room(room_name, capacity, field, city, time, date, admin);
+//        Room room = new Room(room_name, capacity, field, city, time, date, admin);
 
         LayoutInflater inflater = LayoutInflater.from(mContext);
         convertView = inflater.inflate(mResource,parent,false);
