@@ -12,6 +12,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.TeamBall">
         <activity
+            android:name=".settingRoom"
+            android:exported="false" />
+        <activity
             android:name=".Classes.playersList"
             android:exported="false" />
         <activity
