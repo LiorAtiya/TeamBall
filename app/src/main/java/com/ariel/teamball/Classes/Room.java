@@ -1,16 +1,20 @@
 package com.ariel.teamball.Classes;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
+
 
 public class Room {
 
     private boolean status; // lock/unlock
     private String name, field,city;
     private int capacity, imageID;
-    private static int id = 1;
-    private List adminsList; // this is a list of all the admins (IDs) associated with this room
-
+//    private static int id = 1;
+    private String admin;
 
 //    private ArrayList<Player> playersList;
 //    Time expiredTime;
@@ -19,45 +23,50 @@ public class Room {
 //    Chat chat;
 //    private ArrayList<Player> banList;
 
-    public Room(String _name, int _capacity,String _field,String _city, int _adminID) {
+
+    public Room(String _name, int _capacity,String _field,String _city, String _admin) {
         this.name = _name;
         this.capacity = _capacity;
         this.field = _field;
         this.city = _city;
         this.status = true;
-        this.adminsList = new ArrayList<Integer>();
-        this.adminsList.add(_adminID);
-        this.id += 1;
+        this.admin = _admin;
+
+//        this.adminsList = new ArrayList<Integer>();
+//        this.adminsList.add(_adminID);
+//        this.id += 1;
     }
 
-    // TODO: temporary instructor
-    public Room(String _name, int _capacity,String _field,String _city) {
-        this.name = _name;
-        this.capacity = _capacity;
-        this.field = _field;
-        this.city = _city;
-        this.status = true;
-        this.adminsList = new ArrayList<Integer>();
-        this.id += 1;
-    }
+//    // TODO: temporary instructor
+//    public Room(String _name, int _capacity,String _field,String _city) {
+//        this.name = _name;
+//        this.capacity = _capacity;
+//        this.field = _field;
+//        this.city = _city;
+//        this.status = true;
+//        this.adminsList = new ArrayList<Integer>();
+//        this.id += 1;
+//    }
 
     public Room() {}
 
-    // sets/adds
+    //-------------Getters & Setters---------------------
 
-    public void addAdmin(int adminID) {
-        this.adminsList.add(adminID);
+
+    public boolean isStatus() {
+        return status;
     }
 
-    public List getAdminsList() {
-        return this.adminsList;
+    public void setStatus(boolean status) {
+        this.status = status;
     }
 
-    // removes the admin permission to the given user, only if there is another admin in the room
-    public void removeAdmin(int adminID) {
-        if(this.adminsList.size() > 1) {
-            this.adminsList.remove(adminID);
-        }
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getField() {
@@ -76,6 +85,10 @@ public class Room {
         this.city = city;
     }
 
+    public int getCapacity() {
+        return capacity;
+    }
+
     public int getImageID() {
         return imageID;
     }
@@ -84,22 +97,25 @@ public class Room {
         this.imageID = imageID;
     }
 
-    public int getId() {
-        return this.id;
+    public String getAdmin() {
+        return admin;
     }
 
-    public String getName() {
-        return name;
-    }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    // updates the room's capacity
-    public void setCapacity(int updateCapacity) {
-        this.capacity = updateCapacity;
-    }
+//    public void addAdmin(int adminID) {
+//        this.adminsList.add(adminID);
+//    }
+//
+//    public List getAdminsList() {
+//        return this.adminsList;
+//    }
+//
+//    // removes the admin permission to the given user, only if there is another admin in the room
+//    public void removeAdmin(int adminID) {
+//        if(this.adminsList.size() > 1) {
+//            this.adminsList.remove(adminID);
+//        }
+//    }
 
 //    // adds a player to the group if it is not full and if the player did not get ban
 //    public boolean addPlayer(Player _player) {
@@ -119,15 +135,11 @@ public class Room {
 //        this.players = players;
 //    }
 
-    //gets
 
-    public boolean isOpen() {
-        return status;
-    }
+//    public boolean isOpen() {
+//        return status;
+//    }
 
-    public int getCapacity() {
-        return capacity;
-    }
 
 //    // returns the amount of players in the group
 //    public int getParticipants() {

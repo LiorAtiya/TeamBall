@@ -19,6 +19,8 @@ import android.widget.Toast;
 
 import com.ariel.teamball.Classes.Adapters.ListAdapter;
 import com.ariel.teamball.Classes.Admin;
+import com.ariel.teamball.Classes.DAO.PlayerDAO;
+import com.ariel.teamball.Classes.DAO.RoomDAO;
 import com.ariel.teamball.Classes.GameManagement;
 import com.ariel.teamball.Classes.Room;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -45,17 +47,15 @@ import java.util.Set;
 public class GameCenter extends AppCompatActivity {
 
     public static final String TAG = "TAG";
-    DatabaseReference reference;
-
     TextView nameCategory;
     ListView listView;
     Button createRoomBtn;
-    ArrayAdapter<String> adapter;
+    ArrayAdapter<Room> adapter;
     String name,category;
     EditText roomName;
 
-    FirebaseFirestore fStore;
-    FirebaseAuth fAuth;
+    PlayerDAO playerDAO;
+    RoomDAO roomDAO;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,31 +67,27 @@ public class GameCenter extends AppCompatActivity {
         listView = findViewById(R.id.listView);
         createRoomBtn = findViewById(R.id.button);
 
-        fAuth = FirebaseAuth.getInstance();
-        fStore = FirebaseFirestore.getInstance();
+        playerDAO = new PlayerDAO(this);
+        roomDAO = new RoomDAO(this);
 
         ArrayList<Room> list = new ArrayList<>();
-        ListAdapter adapter = new ListAdapter(this,R.layout.list_group,list);
+        adapter = new ListAdapter(this,R.layout.list_group,list);
         listView.setAdapter(adapter);
-
-//        //For listview
-//        ArrayList<String> list = new ArrayList<>();
-//        adapter = new ArrayAdapter<String>(this, R.layout.list_group,R.id.txtName, list);
-//        listView.setAdapter(adapter);
 
         category = getIntent().getExtras().get("Category").toString();
         nameCategory.setText(category);
 
-        String userID = fAuth.getCurrentUser().getUid();
-        DocumentReference docRef = fStore.collection("users").document(userID);
 
         //Access to user collection
+        String userID = playerDAO.playerID();
+        DocumentReference docRef = playerDAO.getCollection("users",userID);
+
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 if (task.isSuccessful()) {
                     DocumentSnapshot document = task.getResult();
-                    name = document.getString("firstName");
+                    name = document.getString("fullName");
                 } else {
                     Log.d(TAG, "get failed with ", task.getException());
                 }
@@ -100,27 +96,17 @@ public class GameCenter extends AppCompatActivity {
 
 
         //Access to the list of group category
-        reference = FirebaseDatabase.getInstance().getReference("Rooms/"+category);
+        DatabaseReference reference = roomDAO.getPathReference("Rooms/"+category);
 
-        //Put all the group of the category to list from the firebase
+        //Put all the rooms of the category to list from the firebase
         reference.addValueEventListener(new ValueEventListener() {
 
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 
-//                Set<String> set = new HashSet<String>();
-//
-//                Iterator i = dataSnapshot.getChildren().iterator();
-//                while (i.hasNext()) {
-//                    set.add(((DataSnapshot) i.next()).getKey());
-//
-//                }
-//
-//                list.clear();
-//                list.addAll(set);
-
                 Set<Room> set = new HashSet<Room>();
 
+                //Loop on each room
                 Iterator i = dataSnapshot.getChildren().iterator();
                 while (i.hasNext()) {
                     DataSnapshot childSnapshot = (DataSnapshot) i.next();
@@ -130,6 +116,7 @@ public class GameCenter extends AppCompatActivity {
 
                 list.clear();
                 list.addAll(set);
+                //Set the list on viewlist
                 adapter.notifyDataSetChanged();
             }
 
@@ -139,7 +126,7 @@ public class GameCenter extends AppCompatActivity {
             }
         });
 
-
+        //Click on some room
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int room, long l) {
@@ -150,22 +137,16 @@ public class GameCenter extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
 
-//                        String roomName = (String) (listView.getItemAtPosition(room));
                         String roomName = adapter.getItem(room).getName();
 
-                        //Add group to list of private rooms user
-                        final FirebaseDatabase database = FirebaseDatabase.getInstance();
-                        DatabaseReference ref = database.getReference();
+                        //Add room to list of private rooms user
+                        playerDAO.addRoom(category,roomName);
 
-                        DatabaseReference usersRef = ref.child("userGroups/"+userID);
-                        Map<String, Object> groups = new HashMap<>();
-                        groups.put(category,roomName);
-
-                        usersRef.updateChildren(groups);
-
-                        Toast.makeText(GameCenter.this,"My Groups Updated", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(GameCenter.this,"My rooms updated", Toast.LENGTH_SHORT).show();
 
                         //----------------------------------------
+
+                        //Go to a Chatroom page
                         Intent intent = new Intent(GameCenter.this, Chatroom.class);
                         intent.putExtra("room_name", roomName);
                         intent.putExtra("user_name", name);
@@ -185,6 +166,7 @@ public class GameCenter extends AppCompatActivity {
             }
         });
 
+
         createRoomBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -198,23 +180,18 @@ public class GameCenter extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
 
-                        String userID = fAuth.getCurrentUser().getUid();
-                        DocumentReference docRef = fStore.collection("users").document(userID);
-
                         // makes player to be an admin on the group
-
                         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                             @Override
                             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                                 if (task.isSuccessful()) {
-                                    DocumentSnapshot document = task.getResult();
-                                    name = document.getString("firstName");
-                                    String email = document.getString("email");
-                                    String phone = document.getString("phone");
 
-                                    // TODO: have to delete Admin object and replace with Player object
+//                                    DocumentSnapshot document = task.getResult();
+//                                    name = document.getString("fullName");
+//                                    String email = document.getString("email");
+//                                    String phone = document.getString("phone");
 
-                                    Admin admin = new Admin(name,email,phone, roomName.getText().toString(),category);
+//                                    Admin admin = new Admin(name,email,phone, roomName.getText().toString(),category);
 
 //                                    // creates game management object
 //                                    GameManagement gm = GameManagement.getInstance();
@@ -228,33 +205,25 @@ public class GameCenter extends AppCompatActivity {
 //                                        gm.updateAdminRoom(roomID, adminID);
 ////                                    }
 
-                                    DocumentReference docRefAdmin = fStore.collection("admins").document(userID);
+//                                    DocumentReference docRefAdmin = fStore.collection("admins").document(userID);
 
-                                    // Stores the admin in the collection
-                                    docRefAdmin.set(admin).addOnSuccessListener(new OnSuccessListener<Void>() {
-                                        @Override
-                                        public void onSuccess(Void unused) {
-                                            Log.d(TAG,"onSuccess: user Profile is created for "+userID);
-                                        }
-                                    }).addOnFailureListener(new OnFailureListener() {
-                                        @Override
-                                        public void onFailure(@NonNull Exception e) {
-                                            Log.d(TAG,"onFailure: "+e.toString());
-                                        }
-                                    });
+//                                    // Stores the admin in the collection
+//                                    docRefAdmin.set(admin).addOnSuccessListener(new OnSuccessListener<Void>() {
+//                                        @Override
+//                                        public void onSuccess(Void unused) {
+//                                            Log.d(TAG,"onSuccess: user Profile is created for "+userID);
+//                                        }
+//                                    }).addOnFailureListener(new OnFailureListener() {
+//                                        @Override
+//                                        public void onFailure(@NonNull Exception e) {
+//                                            Log.d(TAG,"onFailure: "+e.toString());
+//                                        }
+//                                    });
 
                                     // Group storage in database
-                                    // TODO: have to fix userID(database id or object id?)
-                                    Room newRoom = new Room(roomName.getText().toString(), 20,"Neighborhood A","Tel-Aviv",Integer.valueOf(userID));
-
-                                    final FirebaseDatabase database = FirebaseDatabase.getInstance();
-                                    DatabaseReference ref = database.getReference();
-
-                                    DatabaseReference roomsRef = ref.child("Rooms").child(category);
-                                    Map<String, Object> room = new HashMap<>();
-                                    room.put(roomName.getText().toString(),newRoom);
-
-                                    roomsRef.updateChildren(room);
+                                    String admin = playerDAO.playerID();
+                                    Room newRoom = new Room(roomName.getText().toString(), 20,"Neighborhood A","Tel-Aviv",admin);
+                                    roomDAO.createRoom(category,newRoom);
 
                                 } else {
                                     Log.d(TAG, "get failed with ", task.getException());
@@ -270,26 +239,4 @@ public class GameCenter extends AppCompatActivity {
         });
     }
 
-//    public void request_username()
-//    {
-//        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
-//        builder.setTitle("Enter your name?");
-//        ee = new EditText(this);
-//        builder.setView(ee);
-//        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-//            @Override
-//            public void onClick(DialogInterface dialogInterface, int i) {
-//                name = ee.getText().toString();
-//            }
-//        });
-//
-//        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-//            @Override
-//            public void onClick(DialogInterface dialogInterface, int i) {
-//                dialogInterface.cancel();
-//                request_username();
-//            }
-//        });
-//        builder.show();
-//    }
 }

@@ -3,6 +3,8 @@ package com.ariel.teamball.Classes;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
+import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -43,7 +45,7 @@ public class Firebase {
     }
 
 
-    public static void userRegister(Player p){
+    public static void userRegister(Player p, ProgressBar pb){
 
         //Register the user in firebase
         fAuth.createUserWithEmailAndPassword(p.getEmail(),p.getPassword()).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
@@ -51,8 +53,9 @@ public class Firebase {
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if(task.isSuccessful()){
 
-                    //Send verification link
                     FirebaseUser fuser = fAuth.getCurrentUser();
+
+                    //Send verification link
                     fuser.sendEmailVerification().addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void unused) {
@@ -67,29 +70,12 @@ public class Firebase {
 
                     Toast.makeText(context,"User Created", Toast.LENGTH_SHORT).show();
 
-                    //Storing user information in firestore
-
-                    //Create collection
-//
-//                    final FirebaseDatabase database = FirebaseDatabase.getInstance();
-//                    DatabaseReference ref = database.getReference();
-//
-//                    DatabaseReference usersRef = ref.child("Users");
-//                    Map<String, Object> users = new HashMap<>();
-//                    users.put(userID,p);
-//
-//                    usersRef.updateChildren(users);
 
                     String userID = fuser.getUid();
+                    //Create collection
                     DocumentReference documentReference = fStore.collection("users").document(userID);
 
-//                    Map<String, Object> user = new HashMap<>();
-//                    user.put(userID, p);
-//                    user.put("fName", p.getFirstName());
-//                    user.put("email", p.getEmail());
-//                    user.put("phone", p.getPhone());
-
-                    //Store in the collection
+                    //Store player in the collection
                     documentReference.set(p).addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void unused) {
@@ -102,8 +88,11 @@ public class Firebase {
                         }
                     });
 
+                    //Go to a SportsMenu page
                     Intent myIntent = new Intent(context, SportsMenu.class);
                     context.startActivity(myIntent);
+
+                    pb.setVisibility(View.GONE);
 
                 }else{
                     Toast.makeText(context,"Error! " + task.getException().getMessage(),Toast.LENGTH_SHORT).show();

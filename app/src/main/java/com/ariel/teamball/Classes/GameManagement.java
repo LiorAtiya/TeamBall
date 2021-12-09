@@ -34,12 +34,12 @@ public class GameManagement {
 
     }
 
-    // The function creates a new room, updates its admin, and returns the room ID
-    public int createRoom(String _name, int _capacity, int playerID) {
-        Room myRoom = new Room(_name, _capacity,"","", playerID);
-        roomsCount++;
-        return myRoom.getId();
-    }
+//    // The function creates a new room, updates its admin, and returns the room ID
+//    public int createRoom(String _name, int _capacity, String playerID) {
+//        Room myRoom = new Room(_name, _capacity,"","", playerID);
+//        roomsCount++;
+//        return myRoom.getId();
+//    }
 
     // The function gets a room id and an admin and update the rooms list in the admin class
     public void updateAdminRoom(int roomID, Player _admin) {

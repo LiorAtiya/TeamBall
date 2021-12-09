@@ -8,12 +8,14 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.ariel.teamball.Classes.DAO.PlayerDAO;
 import com.ariel.teamball.Classes.Firebase;
 
 public class SportsMenu extends AppCompatActivity {
-    /*..  Setting Buttons ..*/
+
     Button mLogoutBtn, SoccerBtn, BasketBallBtn, TennisBtn, TableTennisBtn, HandBallBtn, VolleyBallBtn, DogeBallBtn,myProfile;
-    Firebase FB;
+
+    PlayerDAO playerDAO;
 
     @Override
     public void onBackPressed() {
@@ -38,14 +40,13 @@ public class SportsMenu extends AppCompatActivity {
         VolleyBallBtn = findViewById(R.id.VolleyBallBtn);
         DogeBallBtn = findViewById(R.id.DogeBallBtn);
 
-        FB = new Firebase(this);
+        playerDAO = new PlayerDAO(this);
 
         mLogoutBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                FirebaseAuth.getInstance().signOut();
 
-                FB.userSignOut();
+                playerDAO.playerSignOut();
                 startActivity(new Intent(getApplicationContext(),LoginActivity.class));
                 finish();
             }
