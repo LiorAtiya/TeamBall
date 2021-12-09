@@ -26,8 +26,7 @@
         app:layout_constraintHorizontal_bias="0.555"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.166"
-        app:startIconDrawable="@drawable/myGroupName">
+        app:layout_constraintVertical_bias="0.166">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/GroupName"
@@ -53,8 +52,7 @@
         app:layout_constraintHorizontal_bias="0.521"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.354"
-        app:startIconDrawable="@drawable/curtName_icon">
+        app:layout_constraintVertical_bias="0.354">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/courtName"
@@ -76,7 +74,7 @@
         app:layout_constraintVertical_bias="0.747" />
 
     <Spinner
-        android:id="@+id/cityGame"
+        android:id="@+id/cityGameSpinner"
         android:layout_width="338dp"
         android:layout_height="49dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -88,13 +86,44 @@
 
     <Button
         android:id="@+id/timePicker"
-        android:layout_width="323dp"
-        android:layout_height="55dp"
-        android:text="Game Time"
+        android:layout_width="327dp"
+        android:layout_height="43dp"
+        android:background="@drawable/background"
+        android:text="Start Game"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.513" />
+        app:layout_constraintVertical_bias="0.54" />
+
+    <TextView
+        android:id="@+id/TimeText"
+        android:layout_width="328dp"
+        android:layout_height="38dp"
+        android:shadowColor="@color/black"
+        android:text="time"
+        android:textColor="@color/black"
+        app:counterTextColor="@color/black"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.493"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.481" />
+
+    <Button
+        android:id="@+id/donedef"
+        android:layout_width="223dp"
+        android:layout_height="46dp"
+        android:background="@drawable/custom_button"
+        android:fontFamily="sans-serif"
+        android:text="done"
+        android:textAllCaps="false"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.887" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
