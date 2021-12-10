@@ -17,8 +17,8 @@ public class Room {
     private int capacity, imageID;
 //    private static int id = 1;
     private String admin;
-    private Date date;
-    private Time time;
+    private String date;
+    private String time;
 
 //    private ArrayList<Player> playersList;
 //    Time expiredTime;
@@ -28,11 +28,13 @@ public class Room {
 //    private ArrayList<Player> banList;
 
 
-    public Room(String _name, int _capacity,String _field,String _city, String _admin) {
+    public Room(String _name, int _capacity,String _field,String _city, String _time, String _date, String _admin) {
         this.name = _name;
         this.capacity = _capacity;
         this.field = _field;
         this.city = _city;
+        this.time = _time;
+        this.date = _date;
         this.status = true;
         this.admin = _admin;
 
@@ -63,6 +65,14 @@ public class Room {
 
     public void setStatus(boolean status) {
         this.status = status;
+    }
+
+    public String getDate() {
+        return this.date;
+    }
+
+    public String getTime() {
+        return this.time;
     }
 
     public String getName() {

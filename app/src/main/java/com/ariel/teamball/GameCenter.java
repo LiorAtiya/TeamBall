@@ -184,8 +184,10 @@ public class GameCenter extends AppCompatActivity {
                                         int capacity = 10; // TODO: have to fix capacity
                                         String field = "Neighborhood A"; // TODO: have to fix field
                                         String city = "TLV"; // TODO: have to fix city
+                                        String time = "20:00"; // TODO: have to fix time
+                                        String date = "01/01/2022"; // TODO: have to fix date
                                         // creates a new room with the given admin
-                                        gm.createRoom(roomName.getText().toString(), capacity, field, city, category, userID);
+                                        gm.createRoom(roomName.getText().toString(), capacity, field, city, time, date, category, userID);
                                     }
 
                                 } else {
