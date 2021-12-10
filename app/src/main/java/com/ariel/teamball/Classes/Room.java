@@ -1,15 +1,10 @@
 package com.ariel.teamball.Classes;
 
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-
-import java.sql.Time;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
+import java.util.List;
 
 public class Room {
 
@@ -19,8 +14,8 @@ public class Room {
     private String admin;
     private String date;
     private String time;
+    private List usersList; // list of IDs of all the group's users
 
-    private List playersList;
 //    Time expiredTime;
 //    ArrayList<Player> teams;
 //    String fieldLocation;
@@ -35,9 +30,9 @@ public class Room {
         this.city = _city;
         this.time = _time;
         this.date = _date;
+        this.usersList = new ArrayList<String>();
         this.status = true;
         this.admin = _admin;
-        this.playersList = new ArrayList<String>();
 //        this.adminsList = new ArrayList<Integer>();
 //        this.adminsList.add(_adminID);
     }
@@ -55,12 +50,16 @@ public class Room {
         this.status = status;
     }
 
-    public String getTime() {
-        return this.time;
+    public void addUser(String userID) {
+        this.usersList.add(userID);
     }
 
     public String getDate() {
         return this.date;
+    }
+
+    public String getTime() {
+        return this.time;
     }
 
     public String getName() {
@@ -102,11 +101,6 @@ public class Room {
     public String getAdmin() {
         return admin;
     }
-
-    public void addPlayer(String playerID) {
-        this.playersList.add(playerID);
-    }
-
 
 //    public void addAdmin(int adminID) {
 //        this.adminsList.add(adminID);

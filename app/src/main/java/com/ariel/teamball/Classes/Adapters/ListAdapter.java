@@ -40,9 +40,8 @@ public class ListAdapter extends ArrayAdapter<Room> {
         int capacity = getItem(position).getCapacity();
         String time = getItem(position).getTime();
         String date = getItem(position).getDate();
-
+        
         Room room = new Room(room_name, capacity, field, city, time, date, admin);
-//        Room room = new Room(room_name, capacity, field, city, time, date, admin);
 
         LayoutInflater inflater = LayoutInflater.from(mContext);
         convertView = inflater.inflate(mResource,parent,false);
