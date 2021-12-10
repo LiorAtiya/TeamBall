@@ -33,6 +33,7 @@ public class GameManagement {
     // The function creates a new room and updates its admin and updates the database
     public void createRoom(String _name, int _capacity, String field, String city, String time, String date, String category, String playerID) {
         Room newRoom = new Room(_name, _capacity, field, city, time, date, playerID);
+        newRoom.addUser(playerID);
         this.roomDAO.createRoom(category,newRoom);
     }
 
