@@ -1,6 +1,7 @@
 package com.ariel.teamball;
 
 import android.app.TimePickerDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -12,6 +13,9 @@ import android.widget.TimePicker;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.ariel.teamball.Classes.DAO.PlayerDAO;
+import com.ariel.teamball.Classes.DAO.RoomDAO;
+import com.ariel.teamball.Classes.Room;
 import com.google.android.material.textfield.TextInputEditText;
 
 import java.util.Calendar;
@@ -35,8 +39,8 @@ public class settingRoom extends AppCompatActivity {
         setContentView(R.layout.activity_setting_room);
 
         //catch the design by id - Link to layout
-        mGroupName = findViewById(R.id.FullName);
-        mCurtName = findViewById(R.id.tvNickName);
+        mGroupName = findViewById(R.id.RoomName);
+        mCurtName = findViewById(R.id.courtName);
         mPickTimeBtn = (Button) findViewById(R.id.timePicker);
         showCurrentTime = findViewById(R.id.TimeText);
         mDoneDefine = findViewById(R.id.donedef);
@@ -61,7 +65,7 @@ public class settingRoom extends AppCompatActivity {
         /* For Choose City */
         CitySpinner = findViewById(R.id.cityGameSpinner);
         /* For Choose Capacity */
-        playersCapacitySpinner = findViewById(R.id.genderSpinner);
+        playersCapacitySpinner = findViewById(R.id.playersCapacity);
 
         ArrayAdapter<String> allCities = new ArrayAdapter<String>(settingRoom.this,
                 android.R.layout.simple_list_item_1,getResources().getStringArray(R.array.names));
@@ -69,22 +73,27 @@ public class settingRoom extends AppCompatActivity {
         allCities.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         CitySpinner.setAdapter(allCities);
 
-        ArrayAdapter<String> genders = new ArrayAdapter<String>(settingRoom.this,
+        ArrayAdapter<String> capacityAdapter = new ArrayAdapter<String>(settingRoom.this,
                 android.R.layout.simple_list_item_1,getResources().getStringArray(R.array.capacity));
         //for drop down list:
-        genders.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        playersCapacitySpinner.setAdapter(genders);
+        capacityAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        playersCapacitySpinner.setAdapter(capacityAdapter);
 
 
         /* when we click on done button then what will happen */
         mDoneDefine.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String GroupN = mGroupName.getText().toString().trim();
+                // catch details
+                String RoomN = mGroupName.getText().toString();
                 String CurtN = mCurtName.getText().toString();
+                String chosenCity = CitySpinner.getSelectedItem().toString();
+                String chosenTime = calendar.getTime().toString();
+                String chosenCapacity = playersCapacitySpinner.getSelectedItem().toString();
+                int capacityInteger = Integer.parseInt(chosenCapacity); //convert for Room constructor
 
                 /* if the user click on "done button and left one of the field empty */
-                if(TextUtils.isEmpty(GroupN)){
+                if(TextUtils.isEmpty(RoomN)){
                     mGroupName.setError("Group name is Required");
                     return;
                 }
@@ -94,8 +103,25 @@ public class settingRoom extends AppCompatActivity {
                     return;
                 }
 
-                //TODO: need to connect the page to the group message page
+                String category = getIntent().getExtras().get("category").toString();
+                PlayerDAO playerDAO = new PlayerDAO();
+                RoomDAO roomDAO = new RoomDAO();
+                // Room details storage in database
+                String admin = playerDAO.playerID();
+                Room newRoom = new Room(RoomN, capacityInteger,CurtN,chosenCity,chosenTime,"date",admin);
+                roomDAO.createRoom(category,newRoom);
+
+                // move user back to game center
+                openGameCenter(category);
             }
         });
+    }
+
+    /* function that moves the user (Creator of the group)
+       from the group setting room back to game center */
+    public void openGameCenter(String category){
+        Intent intent = new Intent(this , GameCenter.class);
+        intent.putExtra("Category", category);
+        startActivity(intent);
     }
 }
