@@ -42,8 +42,8 @@ public class GameCenter extends AppCompatActivity {
     ListView listView;
     Button createRoomBtn;
     ArrayAdapter<Room> adapter;
-    String name, category;
-    EditText roomName;
+    String name,category, adminID;
+    EditText room_name;
 
     PlayerDAO playerDAO;
     RoomDAO roomDAO;
@@ -137,12 +137,29 @@ public class GameCenter extends AppCompatActivity {
 
                         //----------------------------------------
 
-                        //Go to a Chatroom page
-                        Intent intent = new Intent(GameCenter.this, Chatroom.class);
-                        intent.putExtra("room_name", roomName);
-                        intent.putExtra("user_name", name);
-                        intent.putExtra("category", category);
-                        startActivity(intent);
+                        DatabaseReference roomRef = roomDAO.getPathReference("Rooms/"+category+"/"+roomName);
+
+                        // Attach a listener to read the data at our rooms reference
+                        roomRef.addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                Room room = dataSnapshot.getValue(Room.class);
+                                adminID = room.getAdmin();
+
+                                //Go to a GameRoom page
+                                Intent intent = new Intent(GameCenter.this, GameRoom.class);
+                                intent.putExtra("room_name", roomName);
+                                intent.putExtra("user_name", name);
+                                intent.putExtra("category", category);
+                                intent.putExtra("adminID", adminID);
+                                startActivity(intent);
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+
+                            }
+                        });
 
                     }
                 });
@@ -162,6 +179,47 @@ public class GameCenter extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
+//<<<<<<< HEAD
+//                final AlertDialog.Builder newRoomDialog = new AlertDialog.Builder(v.getContext());
+//                newRoomDialog.setTitle("Enter room name: ");
+//                room_name = new EditText(v.getContext());
+//                newRoomDialog.setView(room_name);
+//
+//                newRoomDialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialogInterface, int i) {
+//
+//                        // makes player to be an admin on the group
+//                        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+//                            @Override
+//                            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+//                                if (task.isSuccessful()) {
+//
+////                                    // Group storage in database
+////                                    String admin = playerDAO.playerID();
+////                                    Room newRoom = new Room(room_name.getText().toString(), 20,"Neighborhood A","Tel-Aviv",admin);
+////                                    roomDAO.createRoom(category,newRoom);
+//
+//                                    // creates game management object
+//                                    GameManagement gm = GameManagement.getInstance();
+//                                    // checks if a room can be created with that admin
+//                                    if(gm.roomsAvailability() && gm.canBeAdmin(playerDAO.playerID())) {
+//                                        int capacity = 10; // TODO: have to fix capacity
+//                                        String field = "Neighborhood A"; // TODO: have to fix field
+//                                        String city = "TLV"; // TODO: have to fix city
+//                                        String time = "20:00"; // TODO: have to fix time
+//                                        String date = "01/01/2022"; // TODO: have to fix date
+//                                        // creates a new room with the given admin
+//                                        gm.createRoom(room_name.getText().toString(), capacity, field, city, time, date, category, userID);
+//                                    }
+//
+//                                } else {
+//                                    Log.d(TAG, "get failed with ", task.getException());
+//                                }
+//                            }
+//                        });
+//
+//=======
                 final AlertDialog.Builder EnterGroupDialog = new AlertDialog.Builder(v.getContext());
                 EnterGroupDialog.setTitle("Want to open new Room?");
                 EnterGroupDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
