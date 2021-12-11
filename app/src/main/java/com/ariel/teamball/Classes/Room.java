@@ -1,13 +1,7 @@
 package com.ariel.teamball.Classes;
 
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-
-import java.sql.Time;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
 
 
 public class Room {
@@ -15,12 +9,12 @@ public class Room {
     private boolean status; // lock/unlock
     private String name, field,city;
     private int capacity, imageID;
-//    private static int id = 1;
     private String admin;
+
     private String date;
     private String time;
+    private List usersList; // list of IDs of all the group's users
 
-//    private ArrayList<Player> playersList;
 //    Time expiredTime;
 //    ArrayList<Player> teams;
 //    String fieldLocation;
@@ -35,29 +29,26 @@ public class Room {
         this.city = _city;
         this.time = _time;
         this.date = _date;
+        this.usersList = new ArrayList<String>();
         this.status = true;
         this.admin = _admin;
 
 //        this.adminsList = new ArrayList<Integer>();
 //        this.adminsList.add(_adminID);
-//        this.id += 1;
     }
-
-//    // TODO: temporary instructor
-//    public Room(String _name, int _capacity,String _field,String _city) {
-//        this.name = _name;
-//        this.capacity = _capacity;
-//        this.field = _field;
-//        this.city = _city;
-//        this.status = true;
-//        this.adminsList = new ArrayList<Integer>();
-//        this.id += 1;
-//    }
 
     public Room() {}
 
     //-------------Getters & Setters---------------------
 
+
+    public List getUsersList() {
+        return usersList;
+    }
+
+    public void setUsersList(List usersList) {
+        this.usersList = usersList;
+    }
 
     public boolean isStatus() {
         return status;
@@ -65,6 +56,10 @@ public class Room {
 
     public void setStatus(boolean status) {
         this.status = status;
+    }
+
+    public void addUser(String userID) {
+        this.usersList.add(userID);
     }
 
     public String getDate() {
