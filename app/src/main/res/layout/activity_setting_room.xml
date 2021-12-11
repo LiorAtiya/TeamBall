@@ -9,7 +9,7 @@
 
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/HeaderTextView"
         android:layout_width="385dp"
         android:layout_height="85dp"
         android:fontFamily="sans-serif"
