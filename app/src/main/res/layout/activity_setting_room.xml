@@ -10,20 +10,20 @@
 
     <TextView
         android:id="@+id/HeaderTextView"
-        android:layout_width="385dp"
-        android:layout_height="85dp"
+        android:layout_width="278dp"
+        android:layout_height="58dp"
         android:fontFamily="sans-serif"
-        android:text="Setting room details"
+        android:text="Create Room"
         android:textAlignment="textStart"
         android:textColor="#000000"
         android:textSize="40sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.63"
+        app:layout_constraintHorizontal_bias="0.578"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.024" />
+        app:layout_constraintVertical_bias="0.05" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/textGroupName"
