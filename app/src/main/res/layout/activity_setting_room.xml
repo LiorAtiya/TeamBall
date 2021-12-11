@@ -15,7 +15,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="40dp"
         android:layout_marginEnd="40dp"
-        android:hint="Group Name"
+        android:hint="Room Name"
         android:textColorHint="@color/black"
         app:boxStrokeColor="@color/black"
         app:counterEnabled="true"
@@ -29,7 +29,7 @@
         app:layout_constraintVertical_bias="0.166">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/GroupName"
+            android:id="@+id/RoomName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:shadowColor="@color/black"
@@ -89,7 +89,7 @@
         android:layout_width="327dp"
         android:layout_height="43dp"
         android:background="@drawable/background"
-        android:text="Start Game"
+        android:text="Pick Time to Start Game"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

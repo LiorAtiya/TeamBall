@@ -1,9 +1,5 @@
 package com.ariel.teamball;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -17,10 +13,13 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.ariel.teamball.Classes.Adapters.ListAdapter;
 import com.ariel.teamball.Classes.DAO.PlayerDAO;
 import com.ariel.teamball.Classes.DAO.RoomDAO;
-import com.ariel.teamball.Classes.GameManagement;
 import com.ariel.teamball.Classes.Room;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -43,7 +42,7 @@ public class GameCenter extends AppCompatActivity {
     ListView listView;
     Button createRoomBtn;
     ArrayAdapter<Room> adapter;
-    String name,category;
+    String name, category;
     EditText roomName;
 
     PlayerDAO playerDAO;
@@ -57,13 +56,13 @@ public class GameCenter extends AppCompatActivity {
 
         nameCategory = findViewById(R.id.nameCategory);
         listView = findViewById(R.id.listView);
-        createRoomBtn = findViewById(R.id.button);
+        createRoomBtn = findViewById(R.id.CR_btn);
 
         playerDAO = new PlayerDAO(this);
         roomDAO = new RoomDAO(this);
 
         ArrayList<Room> list = new ArrayList<>();
-        adapter = new ListAdapter(this,R.layout.list_group,list);
+        adapter = new ListAdapter(this, R.layout.list_group, list);
         listView.setAdapter(adapter);
 
         category = getIntent().getExtras().get("Category").toString();
@@ -72,7 +71,7 @@ public class GameCenter extends AppCompatActivity {
 
         //Access to user collection
         String userID = playerDAO.playerID();
-        DocumentReference docRef = playerDAO.getCollection("users",userID);
+        DocumentReference docRef = playerDAO.getCollection("users", userID);
 
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
@@ -88,7 +87,7 @@ public class GameCenter extends AppCompatActivity {
 
 
         //Access to the list of group category
-        DatabaseReference reference = roomDAO.getPathReference("Rooms/"+category);
+        DatabaseReference reference = roomDAO.getPathReference("Rooms/" + category);
 
         //Put all the rooms of the category to list from the firebase
         reference.addValueEventListener(new ValueEventListener() {
@@ -132,9 +131,9 @@ public class GameCenter extends AppCompatActivity {
                         String roomName = adapter.getItem(room).getName();
 
                         //Add room to list of private rooms user
-                        playerDAO.addRoom(category,roomName);
+                        playerDAO.addRoom(category, roomName);
 
-                        Toast.makeText(GameCenter.this,"My rooms updated", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(GameCenter.this, "My rooms updated", Toast.LENGTH_SHORT).show();
 
                         //----------------------------------------
 
@@ -163,45 +162,31 @@ public class GameCenter extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                final AlertDialog.Builder newRoomDialog = new AlertDialog.Builder(v.getContext());
-                newRoomDialog.setTitle("Enter room name: ");
-                roomName = new EditText(v.getContext());
-                newRoomDialog.setView(roomName);
-
-                newRoomDialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                final AlertDialog.Builder EnterGroupDialog = new AlertDialog.Builder(v.getContext());
+                EnterGroupDialog.setTitle("Want to open new Room?");
+                EnterGroupDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-
-                        // makes player to be an admin on the group
-                        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                            @Override
-                            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                                if (task.isSuccessful()) {
-                                    // creates game management object
-                                    GameManagement gm = GameManagement.getInstance();
-                                    // checks if a room can be created with that admin
-                                    if(gm.roomsAvailability() && gm.canBeAdmin(playerDAO.playerID())) {
-                                        int capacity = 10; // TODO: have to fix capacity
-                                        String field = "Neighborhood A"; // TODO: have to fix field
-                                        String city = "TLV"; // TODO: have to fix city
-                                        String time = "20:00"; // TODO: have to fix time
-                                        String date = "01/01/2022"; // TODO: have to fix date
-                                        // creates a new room with the given admin
-                                        gm.createRoom(roomName.getText().toString(), capacity, field, city, time, date, category, userID);
-                                    }
-
-                                } else {
-                                    Log.d(TAG, "get failed with ", task.getException());
-                                }
-                            }
-                        });
-
+                        openSettingRoom(); //function to next page --> "settingRoom"
                     }
                 });
-
-                newRoomDialog.show();
+                EnterGroupDialog.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.cancel();
+                    }
+                });
+                EnterGroupDialog.show();
             }
         });
+    }
+
+    /* function that moves the user(Admin of the room from now)
+       from the "GameCenter" page to the "settingRoom" page to set the room */
+    public void openSettingRoom() {
+        Intent intentSettingRoom = new Intent(GameCenter.this, settingRoom.class);
+        intentSettingRoom.putExtra("category", category);
+        startActivity(intentSettingRoom);
     }
 
 }
