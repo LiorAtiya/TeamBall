@@ -36,15 +36,15 @@ import java.util.Map;
 import java.util.Set;
 
 
-// Data Access Object class that synchronizes the Player objects with the data base
+// Data Access Object class that synchronizes the Player objects with the database
 public class PlayerDAO {
 
     public static final String TAG = "TAG";
-    private static FirebaseAuth fAuth;
-    private static FirebaseFirestore fStore;
-    private static Context context;
-    private static StorageReference storageReference;
-    private static FirebaseUser user;
+    private static FirebaseAuth fAuth; // access Authentication
+    private static FirebaseFirestore fStore; // access Firesotre Database
+    private static Context context; // the current activity
+    private static StorageReference storageReference; // access Realtime Database
+    private static FirebaseUser user; // access the user who logged in
 
     public PlayerDAO(Context context){
         fAuth = FirebaseAuth.getInstance();
@@ -122,11 +122,11 @@ public class PlayerDAO {
                     }).addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception e) {
-                            Log.d(TAG,"onFailure: Email not sent " + e.getMessage());
+                            Log.d(TAG,"onFailure: The email could not be sent " + e.getMessage());
                         }
                     });
 
-                    Toast.makeText(context,"User Created", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context,"User Created Successfully", Toast.LENGTH_SHORT).show();
 
 
                     String userID = fuser.getUid();
@@ -190,7 +190,7 @@ public class PlayerDAO {
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-                Toast.makeText(context, "Error! Reset Link Is Not Sent " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "Error! Reset Link Was Not Sent " + e.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -200,7 +200,7 @@ public class PlayerDAO {
         user.updatePassword(newPassword).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void unused) {
-                Toast.makeText(context,"Password Reset Successfully", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context,"Password Updated Successfully", Toast.LENGTH_SHORT).show();
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
@@ -261,49 +261,4 @@ public class PlayerDAO {
         });
     }
 
-//    private DatabaseReference databaseReference;
-//
-//    public PlayerDAO() {
-//        FirebaseDatabase db = FirebaseDatabase.getInstance();
-//        databaseReference = db.getReference(Player.class.getSimpleName());
-//    }
-//
-//
-//    public void add(Player _player) {
-//        databaseReference.push().setValue(_player);
-//    }
-//
-//    public void update(String key, HashMap<String, Object> hashMap) {
-//        databaseReference.child(key).updateChildren(hashMap);
-//    }
-//
-//    public void remove(String key) {
-//        databaseReference.child(key).removeValue();
-//    }
-
-
-//    @Override
-//    public Set<Player> getAllUsers() {
-//        return null;
-//    }
-//
-//    @Override
-//    public Player getUserByUserEmailAndPassword() {
-//        return null;
-//    }
-//
-//    @Override
-//    public boolean insertUser() {
-//        return false;
-//    }
-//
-//    @Override
-//    public boolean updateUser() {
-//        return false;
-//    }
-//
-//    @Override
-//    public boolean deleteUser() {
-//        return false;
-//    }
 }

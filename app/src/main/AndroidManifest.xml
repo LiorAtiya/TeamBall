@@ -15,10 +15,13 @@
             android:name=".EditRoom"
             android:exported="false" />
         <activity
-            android:name=".GameRoom"
+            android:name=".settingRoom"
             android:exported="false" />
         <activity
             android:name=".Classes.playersList"
+            android:exported="false" />
+        <activity
+            android:name=".GameRoom"
             android:exported="false" />
         <activity
             android:name=".Chatroom"

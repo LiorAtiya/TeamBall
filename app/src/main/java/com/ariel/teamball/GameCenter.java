@@ -20,6 +20,7 @@ import android.widget.Toast;
 import com.ariel.teamball.Classes.Adapters.ListAdapter;
 import com.ariel.teamball.Classes.DAO.PlayerDAO;
 import com.ariel.teamball.Classes.DAO.RoomDAO;
+import com.ariel.teamball.Classes.GameManagement;
 import com.ariel.teamball.Classes.Room;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -194,29 +195,23 @@ public class GameCenter extends AppCompatActivity {
                             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                                 if (task.isSuccessful()) {
 
-//                                    DocumentSnapshot document = task.getResult();
-//                                    name = document.getString("fullName");
-//                                    String email = document.getString("email");
-//                                    String phone = document.getString("phone");
+//                                    // Group storage in database
+//                                    String admin = playerDAO.playerID();
+//                                    Room newRoom = new Room(room_name.getText().toString(), 20,"Neighborhood A","Tel-Aviv",admin);
+//                                    roomDAO.createRoom(category,newRoom);
 
-//                                    Admin admin = new Admin(name,email,phone, roomName.getText().toString(),category);
-
-//                                    // creates game management object
-//                                    GameManagement gm = GameManagement.getInstance();
-//                                    // checks if a room can be created with that admin
-//                                    if(gm.roomsAvailability() && gm.canBeAdmin(0)) { // TODO: player id
-//                                        // upgrade the player to be an admin
-//                                        int adminID = gm.createAdmin(userID);
-//                                        // creates a new room with the given admin
-//                                        int roomID = gm.createRoom(adminID);
-//                                        // updates the room in the admin object
-//                                        gm.updateAdminRoom(roomID, adminID);
-////                                    }
-
-                                    // Group storage in database
-                                    String admin = playerDAO.playerID();
-                                    Room newRoom = new Room(room_name.getText().toString(), 20,"Neighborhood A","Tel-Aviv",admin);
-                                    roomDAO.createRoom(category,newRoom);
+                                    // creates game management object
+                                    GameManagement gm = GameManagement.getInstance();
+                                    // checks if a room can be created with that admin
+                                    if(gm.roomsAvailability() && gm.canBeAdmin(playerDAO.playerID())) {
+                                        int capacity = 10; // TODO: have to fix capacity
+                                        String field = "Neighborhood A"; // TODO: have to fix field
+                                        String city = "TLV"; // TODO: have to fix city
+                                        String time = "20:00"; // TODO: have to fix time
+                                        String date = "01/01/2022"; // TODO: have to fix date
+                                        // creates a new room with the given admin
+                                        gm.createRoom(room_name.getText().toString(), capacity, field, city, time, date, category, userID);
+                                    }
 
                                 } else {
                                     Log.d(TAG, "get failed with ", task.getException());
