@@ -18,30 +18,21 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ariel.teamball.Classes.Adapters.ListAdapter;
-import com.ariel.teamball.Classes.Admin;
 import com.ariel.teamball.Classes.DAO.PlayerDAO;
 import com.ariel.teamball.Classes.DAO.RoomDAO;
-import com.ariel.teamball.Classes.GameManagement;
 import com.ariel.teamball.Classes.Room;
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.Map;
 import java.util.Set;
 
 public class GameCenter extends AppCompatActivity {
@@ -51,8 +42,8 @@ public class GameCenter extends AppCompatActivity {
     ListView listView;
     Button createRoomBtn;
     ArrayAdapter<Room> adapter;
-    String name,category;
-    EditText roomName;
+    String name,category, adminID;
+    EditText room_name;
 
     PlayerDAO playerDAO;
     RoomDAO roomDAO;
@@ -146,12 +137,29 @@ public class GameCenter extends AppCompatActivity {
 
                         //----------------------------------------
 
-                        //Go to a Chatroom page
-                        Intent intent = new Intent(GameCenter.this, Chatroom.class);
-                        intent.putExtra("room_name", roomName);
-                        intent.putExtra("user_name", name);
-                        intent.putExtra("category", category);
-                        startActivity(intent);
+                        DatabaseReference roomRef = roomDAO.getPathReference("Rooms/"+category+"/"+roomName);
+
+                        // Attach a listener to read the data at our rooms reference
+                        roomRef.addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                Room room = dataSnapshot.getValue(Room.class);
+                                adminID = room.getAdmin();
+
+                                //Go to a GameRoom page
+                                Intent intent = new Intent(GameCenter.this, GameRoom.class);
+                                intent.putExtra("room_name", roomName);
+                                intent.putExtra("user_name", name);
+                                intent.putExtra("category", category);
+                                intent.putExtra("adminID", adminID);
+                                startActivity(intent);
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+
+                            }
+                        });
 
                     }
                 });
@@ -173,8 +181,8 @@ public class GameCenter extends AppCompatActivity {
 
                 final AlertDialog.Builder newRoomDialog = new AlertDialog.Builder(v.getContext());
                 newRoomDialog.setTitle("Enter room name: ");
-                roomName = new EditText(v.getContext());
-                newRoomDialog.setView(roomName);
+                room_name = new EditText(v.getContext());
+                newRoomDialog.setView(room_name);
 
                 newRoomDialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override
@@ -205,24 +213,9 @@ public class GameCenter extends AppCompatActivity {
 //                                        gm.updateAdminRoom(roomID, adminID);
 ////                                    }
 
-//                                    DocumentReference docRefAdmin = fStore.collection("admins").document(userID);
-
-//                                    // Stores the admin in the collection
-//                                    docRefAdmin.set(admin).addOnSuccessListener(new OnSuccessListener<Void>() {
-//                                        @Override
-//                                        public void onSuccess(Void unused) {
-//                                            Log.d(TAG,"onSuccess: user Profile is created for "+userID);
-//                                        }
-//                                    }).addOnFailureListener(new OnFailureListener() {
-//                                        @Override
-//                                        public void onFailure(@NonNull Exception e) {
-//                                            Log.d(TAG,"onFailure: "+e.toString());
-//                                        }
-//                                    });
-
                                     // Group storage in database
                                     String admin = playerDAO.playerID();
-                                    Room newRoom = new Room(roomName.getText().toString(), 20,"Neighborhood A","Tel-Aviv",admin);
+                                    Room newRoom = new Room(room_name.getText().toString(), 20,"Neighborhood A","Tel-Aviv",admin);
                                     roomDAO.createRoom(category,newRoom);
 
                                 } else {

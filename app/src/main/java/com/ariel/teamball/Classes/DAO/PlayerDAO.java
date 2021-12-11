@@ -55,6 +55,13 @@ public class PlayerDAO {
         this.context = context;
     }
 
+    public PlayerDAO(){
+        fAuth = FirebaseAuth.getInstance();
+        fStore = FirebaseFirestore.getInstance();
+        storageReference = FirebaseStorage.getInstance().getReference();
+        user = fAuth.getCurrentUser();
+    }
+
     public static FirebaseUser getUser() {
         return user;
     }

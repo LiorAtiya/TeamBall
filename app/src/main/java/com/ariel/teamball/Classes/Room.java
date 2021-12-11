@@ -16,7 +16,7 @@ public class Room {
 //    private static int id = 1;
     private String admin;
 
-//    private ArrayList<Player> playersList;
+    private ArrayList<String> playersList;
 //    Time expiredTime;
 //    ArrayList<Player> teams;
 //    String fieldLocation;
@@ -31,6 +31,7 @@ public class Room {
         this.city = _city;
         this.status = true;
         this.admin = _admin;
+        this.playersList = new ArrayList<>();
 
 //        this.adminsList = new ArrayList<Integer>();
 //        this.adminsList.add(_adminID);
@@ -52,6 +53,14 @@ public class Room {
 
     //-------------Getters & Setters---------------------
 
+
+    public ArrayList<String> getPlayersList() {
+        return playersList;
+    }
+
+    public void setPlayersList(ArrayList<String> playersList) {
+        this.playersList = playersList;
+    }
 
     public boolean isStatus() {
         return status;
