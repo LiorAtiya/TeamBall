@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
@@ -36,6 +37,14 @@ public class GameRoom extends AppCompatActivity {
 
     RoomDAO roomDAO;
     PlayerDAO playerDAO;
+
+    @Override
+    public void onBackPressed() {
+        Intent i = new Intent(getApplicationContext(),MyRooms.class);
+        i.putExtra("category",category);
+        startActivity(i);
+        finish();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

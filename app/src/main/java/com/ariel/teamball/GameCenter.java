@@ -78,6 +78,7 @@ public class GameCenter extends AppCompatActivity {
                         Intent i = new Intent(getApplicationContext(),MyRooms.class);
                         i.putExtra("category",category);
                         startActivity(i);
+                        finish();
                         overridePendingTransition(0,0);
                         return true;
                     case R.id.all_rooms:
@@ -96,7 +97,7 @@ public class GameCenter extends AppCompatActivity {
         adapter = new ListAdapter(this, R.layout.list_group, list);
         listView.setAdapter(adapter);
 
-        //Access to user collection
+        //Access to user collection to take my name
         String userID = playerDAO.playerID();
         DocumentReference docRef = playerDAO.getCollection("users", userID);
 
@@ -112,8 +113,34 @@ public class GameCenter extends AppCompatActivity {
             }
         });
 
+        //--------------------------------------------------------------
 
-        //Access to the list of group category
+        //Access to the list of my rooms category
+        DatabaseReference myRoomsRef = roomDAO.getPathReference("userRooms/"+playerDAO.playerID()+"/"+category);
+
+        Set<String> myRoomsName = new HashSet<String>();
+
+        //Put all the my rooms of the category to list
+        myRoomsRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                //Loop on each room
+                Iterator i = dataSnapshot.getChildren().iterator();
+                while (i.hasNext()) {
+                    DataSnapshot childSnapshot = (DataSnapshot) i.next();
+                    String room = childSnapshot.getValue(String.class);
+                    myRoomsName.add(room);
+                }
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Toast.makeText(GameCenter.this, "No network connectivity", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        //--------------------------------------------------------------
+
+        //Access to the list of room category
         DatabaseReference reference = roomDAO.getPathReference("Rooms/" + category);
 
         //Put all the rooms of the category to list from the firebase
@@ -129,7 +156,10 @@ public class GameCenter extends AppCompatActivity {
                 while (i.hasNext()) {
                     DataSnapshot childSnapshot = (DataSnapshot) i.next();
                     Room room = childSnapshot.getValue(Room.class);
-                    set.add(room);
+                    //Add to the list all the rooms that the user does not enter.
+                    if(!myRoomsName.contains(room.getName())){
+                        set.add(room);
+                    }
                 }
 
                 list.clear();
