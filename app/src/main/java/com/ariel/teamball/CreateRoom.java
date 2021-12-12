@@ -20,7 +20,7 @@ import com.google.android.material.textfield.TextInputEditText;
 
 import java.util.Calendar;
 
-public class settingRoom extends AppCompatActivity {
+public class CreateRoom extends AppCompatActivity {
     TextInputEditText mGroupName , mCurtName;
     // for start game picker
     Button mPickTimeBtn , mDoneDefine;
@@ -36,7 +36,8 @@ public class settingRoom extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_setting_room);
+        setContentView(R.layout.activity_create_room);
+        getSupportActionBar().hide();
 
         //catch the design by id - Link to layout
         mGroupName = findViewById(R.id.RoomName);
@@ -52,7 +53,7 @@ public class settingRoom extends AppCompatActivity {
 
         //when we click the time picker
         mPickTimeBtn.setOnClickListener(view -> {
-            TimePickerDialog dialog = new TimePickerDialog(settingRoom.this,new TimePickerDialog.OnTimeSetListener(){
+            TimePickerDialog dialog = new TimePickerDialog(CreateRoom.this,new TimePickerDialog.OnTimeSetListener(){
                 @Override
                 public void onTimeSet(TimePicker view, int hourOfDay, int minute){
                     showCurrentTime.setText(hourOfDay + ":" + minute);
@@ -67,13 +68,13 @@ public class settingRoom extends AppCompatActivity {
         /* For Choose Capacity */
         playersCapacitySpinner = findViewById(R.id.playersCapacity);
 
-        ArrayAdapter<String> allCities = new ArrayAdapter<String>(settingRoom.this,
+        ArrayAdapter<String> allCities = new ArrayAdapter<String>(CreateRoom.this,
                 android.R.layout.simple_list_item_1,getResources().getStringArray(R.array.names));
         //for drop down list:
         allCities.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         CitySpinner.setAdapter(allCities);
 
-        ArrayAdapter<String> capacityAdapter = new ArrayAdapter<String>(settingRoom.this,
+        ArrayAdapter<String> capacityAdapter = new ArrayAdapter<String>(CreateRoom.this,
                 android.R.layout.simple_list_item_1,getResources().getStringArray(R.array.capacity));
         //for drop down list:
         capacityAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
