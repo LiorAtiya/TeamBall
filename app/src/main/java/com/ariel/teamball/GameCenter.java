@@ -4,6 +4,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -16,6 +17,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 
 import com.ariel.teamball.Classes.Adapters.ListAdapter;
 import com.ariel.teamball.Classes.DAO.PlayerDAO;
@@ -23,6 +25,7 @@ import com.ariel.teamball.Classes.DAO.RoomDAO;
 import com.ariel.teamball.Classes.Room;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -45,6 +48,8 @@ public class GameCenter extends AppCompatActivity {
     String name,category, adminID;
     EditText room_name;
 
+    BottomNavigationView bottomNavigationView;
+
     PlayerDAO playerDAO;
     RoomDAO roomDAO;
 
@@ -58,16 +63,38 @@ public class GameCenter extends AppCompatActivity {
         listView = findViewById(R.id.listView);
         createRoomBtn = findViewById(R.id.CR_btn);
 
+        category = getIntent().getExtras().get("Category").toString();
+        nameCategory.setText(category);
+
+        bottomNavigationView = findViewById(R.id.bottomNavigation);
+        bottomNavigationView.setSelectedItemId(R.id.all_rooms);
+
+        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+
+                switch (item.getItemId()){
+                    case R.id.my_rooms:
+                        Intent i = new Intent(getApplicationContext(),MyRooms.class);
+                        i.putExtra("category",category);
+                        startActivity(i);
+                        overridePendingTransition(0,0);
+                        return true;
+                    case R.id.all_rooms:
+                        return true;
+
+                }
+
+                return false;
+            }
+        });
+
         playerDAO = new PlayerDAO(this);
         roomDAO = new RoomDAO(this);
 
         ArrayList<Room> list = new ArrayList<>();
         adapter = new ListAdapter(this, R.layout.list_group, list);
         listView.setAdapter(adapter);
-
-        category = getIntent().getExtras().get("Category").toString();
-        nameCategory.setText(category);
-
 
         //Access to user collection
         String userID = playerDAO.playerID();
@@ -242,7 +269,7 @@ public class GameCenter extends AppCompatActivity {
     /* function that moves the user(Admin of the room from now)
        from the "GameCenter" page to the "settingRoom" page to set the room */
     public void openSettingRoom() {
-        Intent intentSettingRoom = new Intent(GameCenter.this, settingRoom.class);
+        Intent intentSettingRoom = new Intent(GameCenter.this, CreateRoom.class);
         intentSettingRoom.putExtra("category", category);
         startActivity(intentSettingRoom);
     }

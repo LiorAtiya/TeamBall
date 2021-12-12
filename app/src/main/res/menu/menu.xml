@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:id="@+id/all_rooms"
+        android:title="All Rooms"
+        android:icon="@drawable/ic_baseline_meeting_room_24"></item>
+
+    <item android:id="@+id/my_rooms"
+        android:title="My rooms"
+        android:icon="@drawable/ic_baseline_person_24"></item>
+</menu>
