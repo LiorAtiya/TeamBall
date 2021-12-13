@@ -112,6 +112,9 @@ public class CreateRoom extends AppCompatActivity {
                 Room newRoom = new Room(RoomN, capacityInteger,CurtN,chosenCity,chosenTime,"date",admin);
                 roomDAO.createRoom(category,newRoom);
 
+//                //User enters the room - add to current in room
+//                RoomDAO.newUserInRoom(category,RoomN);
+
                 // move user back to game center
                 openGameCenter(category);
             }
@@ -122,7 +125,8 @@ public class CreateRoom extends AppCompatActivity {
        from the group setting room back to game center */
     public void openGameCenter(String category){
         Intent intent = new Intent(this , GameCenter.class);
-        intent.putExtra("Category", category);
+        intent.putExtra("category", category);
         startActivity(intent);
+        finish();
     }
 }

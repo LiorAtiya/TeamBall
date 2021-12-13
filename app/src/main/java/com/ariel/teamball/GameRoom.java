@@ -86,7 +86,7 @@ public class GameRoom extends AppCompatActivity {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Room room = dataSnapshot.getValue(Room.class);
                 roomName.setText(room.getName());
-                capacity.setText("Capacity: "+room.getCapacity());
+                capacity.setText("Capacity: "+room.getCurrentInRoom()+"/"+room.getCapacity());
                 city.setText("City: "+room.getCity());
                 field.setText("Field: "+room.getField());
 
@@ -160,6 +160,7 @@ public class GameRoom extends AppCompatActivity {
                 intent.putExtra("user_name", my_name);
                 intent.putExtra("category", category);
                 startActivity(intent);
+                finish();
             }
         });
 

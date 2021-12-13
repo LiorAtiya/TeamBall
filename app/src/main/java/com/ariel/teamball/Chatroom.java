@@ -2,6 +2,7 @@ package com.ariel.teamball;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -28,6 +29,15 @@ public class Chatroom extends AppCompatActivity {
 
     DatabaseReference reference;
     String temp_key;
+
+    @Override
+    public void onBackPressed() {
+        Intent i = new Intent(getApplicationContext(),MyRooms.class);
+        i.putExtra("category",category);
+        startActivity(i);
+        overridePendingTransition(0,0);
+        finish();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,7 +85,6 @@ public class Chatroom extends AppCompatActivity {
 
             }
         });
-
     }
 
     @Override

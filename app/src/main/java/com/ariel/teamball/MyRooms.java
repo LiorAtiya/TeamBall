@@ -78,11 +78,10 @@ public class MyRooms extends AppCompatActivity {
                         return true;
                     case R.id.all_rooms:
                         Intent i = new Intent(getApplicationContext(),GameCenter.class);
-                        i.putExtra("Category",category);
+                        i.putExtra("category",category);
                         startActivity(i);
-                        finish();
                         overridePendingTransition(0,0);
-                        return true;
+                        finish();                        return true;
 
                 }
 
@@ -174,6 +173,8 @@ public class MyRooms extends AppCompatActivity {
             }
         });
 
+        //--------------------------------------------------------------
+
         //Click on some room
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -191,7 +192,7 @@ public class MyRooms extends AppCompatActivity {
                         adminID = room.getAdmin();
 
                         //Go to a GameRoom page
-                        Intent intent = new Intent(MyRooms.this, GameRoom.class);
+                        Intent intent = new Intent(MyRooms.this, Chatroom.class);
                         intent.putExtra("room_name", roomName);
                         intent.putExtra("user_name", name);
                         intent.putExtra("category", category);

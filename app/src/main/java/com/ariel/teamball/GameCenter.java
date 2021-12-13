@@ -63,7 +63,7 @@ public class GameCenter extends AppCompatActivity {
         listView = findViewById(R.id.listView);
         createRoomBtn = findViewById(R.id.CR_btn);
 
-        category = getIntent().getExtras().get("Category").toString();
+        category = getIntent().getExtras().get("category").toString();
         nameCategory.setText(category);
 
         bottomNavigationView = findViewById(R.id.bottomNavigation);

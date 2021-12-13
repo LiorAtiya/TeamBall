@@ -15,7 +15,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ariel.teamball.Classes.DAO.PlayerDAO;
-import com.ariel.teamball.Classes.Firebase;
 import com.google.android.material.textfield.TextInputEditText;
 
 public class LoginActivity extends AppCompatActivity {
