@@ -91,7 +91,10 @@ public class CreateRoom extends AppCompatActivity {
                 String chosenCity = CitySpinner.getSelectedItem().toString();
                 String chosenTime = calendar.getTime().toString();
                 String chosenCapacity = playersCapacitySpinner.getSelectedItem().toString();
-                int capacityInteger = Integer.parseInt(chosenCapacity); //convert for Room constructor
+                int capacityInteger = 0;
+                if(!chosenCapacity.contains("N")) {
+                    capacityInteger = Integer.parseInt(chosenCapacity); //convert for Room constructor
+                }
 
                 /* if the user click on "done button and left one of the field empty */
                 if(TextUtils.isEmpty(RoomN)){
@@ -103,6 +106,7 @@ public class CreateRoom extends AppCompatActivity {
                     mCurtName.setError("Curt name is Required");
                     return;
                 }
+
 
                 String category = getIntent().getExtras().get("category").toString();
                 PlayerDAO playerDAO = new PlayerDAO();
