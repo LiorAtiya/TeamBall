@@ -89,8 +89,8 @@ public class PlayerDAO {
         PlayerDAO.user = user;
     }
 
-    //Add room to list of private rooms user
-    public static void addRoom(String category,String roomName){
+    // Add room to list of private rooms user
+    public static void addRoom(String category, String roomName){
 
         final FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference ref = database.getReference();

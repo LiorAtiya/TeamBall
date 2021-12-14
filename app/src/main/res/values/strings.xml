@@ -12,11 +12,11 @@
     <string-array name="names">
         <item>City</item>
         <item>Ariel</item>
-        <item>shaarei-tikva</item>
+        <item>Shaarei Tikva</item>
         <item>Afula</item>
-        <item>Tel aviv</item>
+        <item>Tel Aviv</item>
         <item>Jerusalem</item>
-        <item>petah tikva</item>
+        <item>Petah Tikva</item>
         <item>Haifa</item>
         <item>Rishon Lezion</item>
         <item>Ashdod</item>
@@ -30,7 +30,7 @@
         <item>Beit Shemesh</item>
         <item>Bat Yam</item>
         <item>Herzliya</item>
-        <item>Kfar-Saba</item>
+        <item>Kfar Saba</item>
         <item>Ramat Hasharon</item>
         <item>Hadera</item>
         <item>modiin</item>
@@ -46,7 +46,7 @@
         <item>Nahariya</item>
         <item>Kiryat Ata</item>
         <item>Qiryat Gat</item>
-        <item> al-Fahm</item>
+        <item>Umm al-Fahm</item>
         <item>Yavne</item>
         <item>Eilat</item>
         <item>Ness Ziona</item>

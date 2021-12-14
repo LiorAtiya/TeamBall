@@ -1,9 +1,14 @@
 package com.ariel.teamball.Classes;
 
 import android.content.Context;
+import android.text.TextUtils;
+import android.widget.Spinner;
 
 import com.ariel.teamball.Classes.DAO.PlayerDAO;
 import com.ariel.teamball.Classes.DAO.RoomDAO;
+import com.google.android.material.textfield.TextInputEditText;
+
+import java.util.Calendar;
 
 /*
 A singleton class that creates and manages rooms, players, and admins
@@ -31,10 +36,12 @@ public class GameManagement {
     // functions
 
     // The function creates a new room and updates its admin and updates the database
-    public void createRoom(String _name, int _capacity, String field, String city, String time, String date, String category, String playerID) {
-        Room newRoom = new Room(_name, _capacity, field, city, time, date, playerID);
-        newRoom.addUser(playerID);
-        this.roomDAO.createRoom(category,newRoom);
+    public void createRoom(String RoomN, int capacityInteger, String CurtN, String chosenCity, String chosenTime, String date, String category) {
+        // Room details storage in database
+        String admin = this.playerDAO.playerID();
+        Room newRoom = new Room(RoomN, capacityInteger, CurtN, chosenCity, chosenTime, "date", admin);
+        newRoom.addUser(this.playerDAO.playerID());
+        this.roomDAO.createRoom(category, newRoom);
     }
 
     // The function checks if we can create a new room
