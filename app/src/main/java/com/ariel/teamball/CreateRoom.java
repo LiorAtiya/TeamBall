@@ -35,6 +35,16 @@ public class CreateRoom extends AppCompatActivity {
     Calendar calendar; // calendar object
 
     @Override
+    public void onBackPressed() {
+        Intent i = new Intent(getApplicationContext(),GameCenter.class);
+        //Get date from previous page
+        String category = getIntent().getExtras().get("category").toString();
+        i.putExtra("category", category);
+        startActivity(i);
+        finish();
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_room);
@@ -92,7 +102,10 @@ public class CreateRoom extends AppCompatActivity {
                 String chosenCity = CitySpinner.getSelectedItem().toString();
                 String chosenTime = calendar.getTime().toString();
                 String chosenCapacity = playersCapacitySpinner.getSelectedItem().toString();
-                int capacityInteger = Integer.parseInt(chosenCapacity); //convert for Room constructor
+                int capacityInteger = 0;
+                if(!chosenCapacity.contains("N")) {
+                    capacityInteger = Integer.parseInt(chosenCapacity); //convert for Room constructor
+                }
 
                 /* if the user click on "done button and left one of the field empty */
                 if (TextUtils.isEmpty(RoomN)) {
@@ -106,18 +119,17 @@ public class CreateRoom extends AppCompatActivity {
                 }
 
                 String category = getIntent().getExtras().get("category").toString();
+//                // creates game management object
+//                GameManagement gm = GameManagement.getInstance();
+//                // creates a new room and makes the current user the admin of the room
+//                gm.createRoom(RoomN, capacityInteger, CurtN, chosenCity, chosenTime, "date", category);
 
-                // creates game management object
-                GameManagement gm = GameManagement.getInstance();
-                // creates a new room and makes the current user the admin of the room
-                gm.createRoom(RoomN, capacityInteger, CurtN, chosenCity, chosenTime, "date", category);
-
-//                PlayerDAO playerDAO = new PlayerDAO();
-//                RoomDAO roomDAO = new RoomDAO();
-//                // Room details storage in database
-//                String admin = playerDAO.playerID();
-//                Room newRoom = new Room(RoomN, capacityInteger, CurtN, chosenCity, chosenTime, "date", admin);
-//                roomDAO.createRoom(category, newRoom);
+                PlayerDAO playerDAO = new PlayerDAO();
+                RoomDAO roomDAO = new RoomDAO();
+                // Room details storage in database
+                String admin = playerDAO.playerID();
+                Room newRoom = new Room(RoomN, capacityInteger, CurtN, chosenCity, chosenTime, "date", admin);
+                roomDAO.createRoom(category, newRoom);
 
                 // moves the user back to game center
                 openGameCenter(category);
@@ -129,7 +141,9 @@ public class CreateRoom extends AppCompatActivity {
        from the group setting room, back to game center */
     public void openGameCenter(String category) {
         Intent intent = new Intent(this, GameCenter.class);
-        intent.putExtra("Category", category);
+        intent.putExtra("category", category);
+
         startActivity(intent);
+        finish();
     }
 }
