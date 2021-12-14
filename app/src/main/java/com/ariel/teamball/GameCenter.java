@@ -194,7 +194,7 @@ public class GameCenter extends AppCompatActivity {
             public void onItemClick(AdapterView<?> adapterView, View view, int room, long l) {
 
                 final AlertDialog.Builder EnterGroupDialog = new AlertDialog.Builder(view.getContext());
-                EnterGroupDialog.setTitle("Do you want to join this room?");
+                EnterGroupDialog.setTitle("Want to join the room?");
                 EnterGroupDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
@@ -234,11 +234,11 @@ public class GameCenter extends AppCompatActivity {
             public void onClick(View v) {
 
                 final AlertDialog.Builder EnterGroupDialog = new AlertDialog.Builder(v.getContext());
-                EnterGroupDialog.setTitle("Do you want to open a new Room?");
+                EnterGroupDialog.setTitle("Want to open new Room?");
                 EnterGroupDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        openCreateRoom(); //function to next page --> "settingRoom"
+                        openSettingRoom(); //function to next page --> "settingRoom"
                     }
                 });
                 EnterGroupDialog.setNegativeButton("No", new DialogInterface.OnClickListener() {
@@ -252,10 +252,9 @@ public class GameCenter extends AppCompatActivity {
         });
     }
 
-
     /* function that moves the user(Admin of the room from now)
        from the "GameCenter" page to the "settingRoom" page to set the room */
-    public void openCreateRoom() {
+    public void openSettingRoom() {
         Intent intentSettingRoom = new Intent(GameCenter.this, CreateRoom.class);
         intentSettingRoom.putExtra("category", category);
         startActivity(intentSettingRoom);
