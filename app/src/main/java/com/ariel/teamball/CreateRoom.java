@@ -34,6 +34,16 @@ public class CreateRoom extends AppCompatActivity {
     Calendar calendar; // calendar object
 
     @Override
+    public void onBackPressed() {
+        Intent i = new Intent(getApplicationContext(),GameCenter.class);
+        //Get date from previous page
+        String category = getIntent().getExtras().get("category").toString();
+        i.putExtra("category", category);
+        startActivity(i);
+        finish();
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_room);
@@ -107,7 +117,6 @@ public class CreateRoom extends AppCompatActivity {
                     return;
                 }
 
-
                 String category = getIntent().getExtras().get("category").toString();
                 PlayerDAO playerDAO = new PlayerDAO();
                 RoomDAO roomDAO = new RoomDAO();
@@ -115,6 +124,14 @@ public class CreateRoom extends AppCompatActivity {
                 String admin = playerDAO.playerID();
                 Room newRoom = new Room(RoomN, capacityInteger,CurtN,chosenCity,chosenTime,"date",admin);
                 roomDAO.createRoom(category,newRoom);
+
+                //-----------------------------------------
+
+                //Add room to list of private rooms user
+                playerDAO.addRoom(category, RoomN);
+
+//                //User enters the room - add to current in room
+//                RoomDAO.newUserInRoom(category,RoomN);
 
                 // move user back to game center
                 openGameCenter(category);
@@ -125,8 +142,9 @@ public class CreateRoom extends AppCompatActivity {
     /* function that moves the user (Creator of the group)
        from the group setting room back to game center */
     public void openGameCenter(String category){
-        Intent intent = new Intent(this , GameCenter.class);
-        intent.putExtra("Category", category);
+        Intent intent = new Intent(this , MyRooms.class);
+        intent.putExtra("category", category);
         startActivity(intent);
+        finish();
     }
 }

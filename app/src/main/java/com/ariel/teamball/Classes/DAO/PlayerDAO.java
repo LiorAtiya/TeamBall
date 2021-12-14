@@ -25,6 +25,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -45,6 +46,7 @@ public class PlayerDAO {
     private static Context context; // the current activity
     private static StorageReference storageReference; // access Realtime Database
     private static FirebaseUser user; // access the user who logged in
+    private static String value; //Take value from details of player
 
     public PlayerDAO(Context context){
         fAuth = FirebaseAuth.getInstance();
@@ -60,6 +62,23 @@ public class PlayerDAO {
         fStore = FirebaseFirestore.getInstance();
         storageReference = FirebaseStorage.getInstance().getReference();
         user = fAuth.getCurrentUser();
+    }
+
+    public static String getValueFromPlayer(String key){
+        //Access to user collection to take my name
+        DocumentReference docRef = getCollection("users", playerID());
+        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    value = document.getString(key);
+                } else {
+                    Log.d(TAG, "get failed with ", task.getException());
+                }
+            }
+        });
+        return value;
     }
 
     public static FirebaseUser getUser() {

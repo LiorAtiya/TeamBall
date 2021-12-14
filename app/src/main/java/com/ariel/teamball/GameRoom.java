@@ -62,22 +62,18 @@ public class GameRoom extends AppCompatActivity {
         chat = findViewById(R.id.chat);
         editRoom = findViewById(R.id.edit_room);
 
+        //Access to firebase
         roomDAO = new RoomDAO(this);
         playerDAO = new PlayerDAO(this);
 
+        //Get date from previous page
         my_name = getIntent().getExtras().get("user_name").toString();
         category = getIntent().getExtras().get("category").toString();
         room_name = getIntent().getExtras().get("room_name").toString();
-        adminID = getIntent().getExtras().get("adminID").toString();
 
+        //---------------------------------------------------
 
-        //Show button of edit room only for admin
-        if(playerDAO.playerID().equals(adminID)){
-            editRoom.setVisibility(View.VISIBLE);
-        }else{
-            editRoom.setVisibility(View.INVISIBLE);
-        }
-
+        //Check for editRoom button
         DatabaseReference roomRef = roomDAO.getPathReference("Rooms/"+category+"/"+room_name);
 
         // Attach a listener to read the data at our rooms reference
@@ -85,8 +81,31 @@ public class GameRoom extends AppCompatActivity {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Room room = dataSnapshot.getValue(Room.class);
+                adminID = room.getAdmin();
+
+                //Show button of edit room only for admin
+                if(playerDAO.playerID().equals(adminID)){
+                    editRoom.setVisibility(View.VISIBLE);
+                }else{
+                    editRoom.setVisibility(View.INVISIBLE);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+        //---------------------------------------------------
+
+        //Fill the details of room in TextView
+        roomRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Room room = dataSnapshot.getValue(Room.class);
                 roomName.setText(room.getName());
-                capacity.setText("Capacity: "+room.getCapacity());
+                capacity.setText("Capacity: "+room.getCurrentInRoom()+"/"+room.getCapacity());
                 city.setText("City: "+room.getCity());
                 field.setText("Field: "+room.getField());
 
@@ -112,7 +131,9 @@ public class GameRoom extends AppCompatActivity {
             }
         });
 
+        //---------------------------------------------------
 
+        //Show the list of players of room
         players.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -149,6 +170,7 @@ public class GameRoom extends AppCompatActivity {
             }
         });
 
+        //---------------------------------------------------
 
         chat.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -160,8 +182,11 @@ public class GameRoom extends AppCompatActivity {
                 intent.putExtra("user_name", my_name);
                 intent.putExtra("category", category);
                 startActivity(intent);
+                finish();
             }
         });
+
+        //---------------------------------------------------
 
         editRoom.setOnClickListener(new View.OnClickListener() {
             @Override

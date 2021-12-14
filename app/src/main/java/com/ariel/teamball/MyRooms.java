@@ -46,13 +46,20 @@ public class MyRooms extends AppCompatActivity {
     ListView listView;
     Button createRoomBtn;
     ArrayAdapter<Room> adapter;
-    String name,category, adminID;
-    EditText room_name;
+    String name,category;
+//    EditText room_name;
 
     BottomNavigationView bottomNavigationView;
 
     PlayerDAO playerDAO;
     RoomDAO roomDAO;
+
+    @Override
+    public void onBackPressed() {
+        Intent i = new Intent(getApplicationContext(),SportsMenu.class);
+        startActivity(i);
+        finish();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,9 +71,11 @@ public class MyRooms extends AppCompatActivity {
         listView = findViewById(R.id.listView);
         createRoomBtn = findViewById(R.id.CR_btn);
 
+        //Get date from previous page
         category = getIntent().getExtras().get("category").toString();
         nameCategory.setText(category);
 
+        //Move to GameCenter Activity from navigator bar
         bottomNavigationView = findViewById(R.id.bottomNavigation);
         bottomNavigationView.setSelectedItemId(R.id.my_rooms);
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -78,11 +87,10 @@ public class MyRooms extends AppCompatActivity {
                         return true;
                     case R.id.all_rooms:
                         Intent i = new Intent(getApplicationContext(),GameCenter.class);
-                        i.putExtra("Category",category);
+                        i.putExtra("category",category);
                         startActivity(i);
-                        finish();
                         overridePendingTransition(0,0);
-                        return true;
+                        finish();                        return true;
 
                 }
 
@@ -90,12 +98,17 @@ public class MyRooms extends AppCompatActivity {
             }
         });
 
+        //---------------------------------------------------
+
         playerDAO = new PlayerDAO(this);
         roomDAO = new RoomDAO(this);
 
+        //Custom design for listView
         ArrayList<Room> list = new ArrayList<>();
         adapter = new ListAdapter(this, R.layout.list_group, list);
         listView.setAdapter(adapter);
+
+        //---------------------------------------------------
 
         //Access to user collection to take my name
         String userID = playerDAO.playerID();
@@ -113,7 +126,7 @@ public class MyRooms extends AppCompatActivity {
             }
         });
 
-        //--------------------------------------------------------------
+        //---------------------------------------------------
 
         //Access to the list of my rooms category
         DatabaseReference myRoomsRef = roomDAO.getPathReference("userRooms/"+playerDAO.playerID()+"/"+category);
@@ -174,6 +187,8 @@ public class MyRooms extends AppCompatActivity {
             }
         });
 
+        //---------------------------------------------------
+
         //Click on some room
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -181,33 +196,16 @@ public class MyRooms extends AppCompatActivity {
 
                 String roomName = adapter.getItem(room).getName();
 
-                DatabaseReference roomRef = roomDAO.getPathReference("Rooms/"+category+"/"+roomName);
-
-                // Attach a listener to read the data at our rooms reference
-                roomRef.addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        Room room = dataSnapshot.getValue(Room.class);
-                        adminID = room.getAdmin();
-
-                        //Go to a GameRoom page
-                        Intent intent = new Intent(MyRooms.this, GameRoom.class);
-                        intent.putExtra("room_name", roomName);
-                        intent.putExtra("user_name", name);
-                        intent.putExtra("category", category);
-                        intent.putExtra("adminID", adminID);
-                        startActivity(intent);
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
-
-                    }
-                });
-
+                //Go to a GameRoom page
+                Intent intent = new Intent(MyRooms.this, GameRoom.class);
+                intent.putExtra("room_name", roomName);
+                intent.putExtra("user_name", name);
+                intent.putExtra("category", category);
+                startActivity(intent);
             }
         });
 
+        //---------------------------------------------------
 
         createRoomBtn.setOnClickListener(new View.OnClickListener() {
             @Override
