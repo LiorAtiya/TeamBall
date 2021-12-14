@@ -15,6 +15,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -72,6 +73,16 @@ public class RoomDAO {
 
         roomsRef.updateChildren(room);
     }
+
+//    // The function add a new player to the given room
+//    public static void addPlayer(String category, String roomName){
+//
+//        final FirebaseDatabase database = FirebaseDatabase.getInstance();
+//        DatabaseReference ref = database.getReference();
+//
+//        DatabaseReference mDatabase = ref.child("Rooms/"+category+"/"+roomName);
+//        String key = mDatabase.child("usersList").getKey();
+//    }
 
     public static DatabaseReference getPathReference(String path){
         return FirebaseDatabase.getInstance().getReference(path);
