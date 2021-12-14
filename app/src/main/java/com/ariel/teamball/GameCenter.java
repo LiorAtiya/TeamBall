@@ -238,7 +238,7 @@ public class GameCenter extends AppCompatActivity {
                 EnterGroupDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        openSettingRoom(); //function to next page --> "settingRoom"
+                        openCreateRoom(); //function to next page --> "settingRoom"
                     }
                 });
                 EnterGroupDialog.setNegativeButton("No", new DialogInterface.OnClickListener() {
@@ -254,7 +254,7 @@ public class GameCenter extends AppCompatActivity {
 
     /* function that moves the user(Admin of the room from now)
        from the "GameCenter" page to the "settingRoom" page to set the room */
-    public void openSettingRoom() {
+    public void openCreateRoom() {
         Intent intentSettingRoom = new Intent(GameCenter.this, CreateRoom.class);
         intentSettingRoom.putExtra("category", category);
         startActivity(intentSettingRoom);
