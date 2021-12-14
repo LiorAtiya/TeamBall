@@ -169,7 +169,7 @@ public class GameCenter extends AppCompatActivity {
                     DataSnapshot childSnapshot = (DataSnapshot) i.next();
                     Room room = childSnapshot.getValue(Room.class);
                     //Add to the list all the rooms that the user does not enter.
-                    if(!myRoomsName.contains(room.getName())){
+                    if(!myRoomsName.contains(room.getRoomID())){
                         set.add(room);
                     }
                 }
@@ -200,9 +200,10 @@ public class GameCenter extends AppCompatActivity {
                     public void onClick(DialogInterface dialogInterface, int i) {
 
                         String roomName = adapter.getItem(room).getName();
+                        String roomID =  adapter.getItem(room).getRoomID();
 
                         //Add room to list of private rooms user
-                        playerDAO.addRoom(category, roomName);
+                        playerDAO.addRoom(category,roomID);
 
                         Toast.makeText(GameCenter.this, "My rooms updated", Toast.LENGTH_SHORT).show();
 
@@ -213,6 +214,7 @@ public class GameCenter extends AppCompatActivity {
                         intent.putExtra("room_name", roomName);
                         intent.putExtra("user_name", name);
                         intent.putExtra("category", category);
+                        intent.putExtra("roomID",roomID);
                         startActivity(intent);
                     }
                 });

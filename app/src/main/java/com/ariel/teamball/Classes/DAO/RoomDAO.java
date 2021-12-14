@@ -29,7 +29,7 @@ public class RoomDAO {
 //    private static FirebaseAuth fAuth;
 //    private static FirebaseFirestore fStore;
 //    private static Context context;
-//    private static DatabaseReference reference;
+    private static DatabaseReference reference;
     private static String adminID;
 
     public RoomDAO(Context context){
@@ -63,15 +63,23 @@ public class RoomDAO {
         return adminID;
     }
 
-    public static void createRoom(String category, Room newRoom){
+    public static String createRoom(String category, Room newRoom){
         final FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference ref = database.getReference();
 
         DatabaseReference roomsRef = ref.child("Rooms").child(category);
         Map<String, Object> room = new HashMap<>();
-        room.put(newRoom.getName(),newRoom);
+
+        //Get and set unique key for room
+        reference = FirebaseDatabase.getInstance().getReference("Rooms").child(category);
+        String temp_key = reference.push().getKey();
+        newRoom.setRoomID(temp_key);
+
+        room.put(temp_key,newRoom);
 
         roomsRef.updateChildren(room);
+
+        return temp_key;
     }
 
 //    // The function add a new player to the given room

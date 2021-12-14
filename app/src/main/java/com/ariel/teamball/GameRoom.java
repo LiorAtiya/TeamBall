@@ -33,7 +33,7 @@ public class GameRoom extends AppCompatActivity {
     public static final String TAG = "TAG";
     TextView roomName, capacity, city, field, admin;
     Button players, chat, editRoom;
-    String category,room_name,admin_name,my_name,adminID;
+    String category,room_name,admin_name,my_name,adminID,roomID;
 
     RoomDAO roomDAO;
     PlayerDAO playerDAO;
@@ -70,11 +70,12 @@ public class GameRoom extends AppCompatActivity {
         my_name = getIntent().getExtras().get("user_name").toString();
         category = getIntent().getExtras().get("category").toString();
         room_name = getIntent().getExtras().get("room_name").toString();
+        roomID = getIntent().getExtras().get("roomID").toString();
 
         //---------------------------------------------------
 
         //Check for editRoom button
-        DatabaseReference roomRef = roomDAO.getPathReference("Rooms/"+category+"/"+room_name);
+        DatabaseReference roomRef = roomDAO.getPathReference("Rooms/"+category+"/"+roomID);
 
         // Attach a listener to read the data at our rooms reference
         roomRef.addValueEventListener(new ValueEventListener() {
@@ -181,6 +182,7 @@ public class GameRoom extends AppCompatActivity {
                 intent.putExtra("room_name", room_name);
                 intent.putExtra("user_name", my_name);
                 intent.putExtra("category", category);
+                intent.putExtra("roomID",roomID);
                 startActivity(intent);
                 finish();
             }

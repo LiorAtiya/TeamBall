@@ -90,14 +90,14 @@ public class PlayerDAO {
     }
 
     // Add room to list of private rooms user
-    public static void addRoom(String category, String roomName){
+    public static void addRoom(String category, String roomKey){
 
         final FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference ref = database.getReference();
 
         DatabaseReference usersRef = ref.child("userRooms/"+playerID()+"/"+category);
         Map<String, Object> groups = new HashMap<>();
-        groups.put(roomName,roomName);
+        groups.put(roomKey,roomKey);
 
         usersRef.updateChildren(groups);
     }

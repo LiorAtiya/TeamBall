@@ -131,7 +131,7 @@ public class MyRooms extends AppCompatActivity {
         //Access to the list of my rooms category
         DatabaseReference myRoomsRef = roomDAO.getPathReference("userRooms/"+playerDAO.playerID()+"/"+category);
 
-        Set<String> myRoomsName = new HashSet<String>();
+        Set<String> myRoomsID = new HashSet<String>();
 
         //Put all the my rooms of the category to list
         myRoomsRef.addValueEventListener(new ValueEventListener() {
@@ -142,7 +142,7 @@ public class MyRooms extends AppCompatActivity {
                 while (i.hasNext()) {
                     DataSnapshot childSnapshot = (DataSnapshot) i.next();
                     String room = childSnapshot.getValue(String.class);
-                    myRoomsName.add(room);
+                    myRoomsID.add(room);
                 }
             }
             @Override
@@ -170,7 +170,7 @@ public class MyRooms extends AppCompatActivity {
                     DataSnapshot childSnapshot = (DataSnapshot) i.next();
                     Room room = childSnapshot.getValue(Room.class);
                     //Add to list just the my rooms
-                    if(myRoomsName.contains(room.getName())){
+                    if(myRoomsID.contains(room.getRoomID())){
                         set.add(room);
                     }
                 }
@@ -195,12 +195,14 @@ public class MyRooms extends AppCompatActivity {
             public void onItemClick(AdapterView<?> adapterView, View view, int room, long l) {
 
                 String roomName = adapter.getItem(room).getName();
+                String roomID =  adapter.getItem(room).getRoomID();
 
                 //Go to a GameRoom page
                 Intent intent = new Intent(MyRooms.this, GameRoom.class);
                 intent.putExtra("room_name", roomName);
                 intent.putExtra("user_name", name);
                 intent.putExtra("category", category);
+                intent.putExtra("roomID",roomID);
                 startActivity(intent);
             }
         });

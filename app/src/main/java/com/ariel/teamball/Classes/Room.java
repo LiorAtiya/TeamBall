@@ -10,7 +10,7 @@ public class Room {
     private int capacity, imageID;
     private int currentInRoom;
     private String admin;
-
+    private String roomID;
     private String date;
     private String time;
     private Map<Integer, String> usersList; // list of IDs of all the group's users
@@ -41,6 +41,22 @@ public class Room {
 
     //-------------Getters & Setters---------------------
 
+
+    public String getRoomID() {
+        return roomID;
+    }
+
+    public void setRoomID(String roomID) {
+        this.roomID = roomID;
+    }
+
+    public Map<Integer, String> getUsersList() {
+        return usersList;
+    }
+
+    public void setUsersList(Map<Integer, String> usersList) {
+        this.usersList = usersList;
+    }
 
     public int getCurrentInRoom() {
         return currentInRoom;
