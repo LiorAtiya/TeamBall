@@ -17,7 +17,6 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
 
 import com.ariel.teamball.Classes.Adapters.ListAdapter;
 import com.ariel.teamball.Classes.DAO.PlayerDAO;
@@ -45,13 +44,20 @@ public class GameCenter extends AppCompatActivity {
     ListView listView;
     Button createRoomBtn;
     ArrayAdapter<Room> adapter;
-    String name,category, adminID;
+    String name,category;
     EditText room_name;
 
     BottomNavigationView bottomNavigationView;
 
     PlayerDAO playerDAO;
     RoomDAO roomDAO;
+
+    @Override
+    public void onBackPressed() {
+        Intent i = new Intent(getApplicationContext(),SportsMenu.class);
+        startActivity(i);
+        finish();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,12 +69,13 @@ public class GameCenter extends AppCompatActivity {
         listView = findViewById(R.id.listView);
         createRoomBtn = findViewById(R.id.CR_btn);
 
+        //Get date from previous page
         category = getIntent().getExtras().get("category").toString();
         nameCategory.setText(category);
 
+        //Move to GameCenter Activity from navigator bar
         bottomNavigationView = findViewById(R.id.bottomNavigation);
         bottomNavigationView.setSelectedItemId(R.id.all_rooms);
-
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -90,12 +97,17 @@ public class GameCenter extends AppCompatActivity {
             }
         });
 
+        //---------------------------------------------------
+
         playerDAO = new PlayerDAO(this);
         roomDAO = new RoomDAO(this);
 
+        //Custom design for listView
         ArrayList<Room> list = new ArrayList<>();
         adapter = new ListAdapter(this, R.layout.list_group, list);
         listView.setAdapter(adapter);
+
+        //---------------------------------------------------
 
         //Access to user collection to take my name
         String userID = playerDAO.playerID();
@@ -113,7 +125,7 @@ public class GameCenter extends AppCompatActivity {
             }
         });
 
-        //--------------------------------------------------------------
+        //---------------------------------------------------
 
         //Access to the list of my rooms category
         DatabaseReference myRoomsRef = roomDAO.getPathReference("userRooms/"+playerDAO.playerID()+"/"+category);
@@ -174,6 +186,8 @@ public class GameCenter extends AppCompatActivity {
             }
         });
 
+        //---------------------------------------------------
+
         //Click on some room
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -194,30 +208,12 @@ public class GameCenter extends AppCompatActivity {
 
                         //----------------------------------------
 
-                        DatabaseReference roomRef = roomDAO.getPathReference("Rooms/"+category+"/"+roomName);
-
-                        // Attach a listener to read the data at our rooms reference
-                        roomRef.addValueEventListener(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(DataSnapshot dataSnapshot) {
-                                Room room = dataSnapshot.getValue(Room.class);
-                                adminID = room.getAdmin();
-
-                                //Go to a GameRoom page
-                                Intent intent = new Intent(GameCenter.this, GameRoom.class);
-                                intent.putExtra("room_name", roomName);
-                                intent.putExtra("user_name", name);
-                                intent.putExtra("category", category);
-                                intent.putExtra("adminID", adminID);
-                                startActivity(intent);
-                            }
-
-                            @Override
-                            public void onCancelled(@NonNull DatabaseError error) {
-
-                            }
-                        });
-
+                        //Go to a GameRoom page
+                        Intent intent = new Intent(GameCenter.this, GameRoom.class);
+                        intent.putExtra("room_name", roomName);
+                        intent.putExtra("user_name", name);
+                        intent.putExtra("category", category);
+                        startActivity(intent);
                     }
                 });
                 EnterGroupDialog.setNegativeButton("No", new DialogInterface.OnClickListener() {
@@ -231,52 +227,12 @@ public class GameCenter extends AppCompatActivity {
             }
         });
 
+        //---------------------------------------------------
 
         createRoomBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-//<<<<<<< HEAD
-//                final AlertDialog.Builder newRoomDialog = new AlertDialog.Builder(v.getContext());
-//                newRoomDialog.setTitle("Enter room name: ");
-//                room_name = new EditText(v.getContext());
-//                newRoomDialog.setView(room_name);
-//
-//                newRoomDialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialogInterface, int i) {
-//
-//                        // makes player to be an admin on the group
-//                        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-//                            @Override
-//                            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-//                                if (task.isSuccessful()) {
-//
-////                                    // Group storage in database
-////                                    String admin = playerDAO.playerID();
-////                                    Room newRoom = new Room(room_name.getText().toString(), 20,"Neighborhood A","Tel-Aviv",admin);
-////                                    roomDAO.createRoom(category,newRoom);
-//
-//                                    // creates game management object
-//                                    GameManagement gm = GameManagement.getInstance();
-//                                    // checks if a room can be created with that admin
-//                                    if(gm.roomsAvailability() && gm.canBeAdmin(playerDAO.playerID())) {
-//                                        int capacity = 10; // TODO: have to fix capacity
-//                                        String field = "Neighborhood A"; // TODO: have to fix field
-//                                        String city = "TLV"; // TODO: have to fix city
-//                                        String time = "20:00"; // TODO: have to fix time
-//                                        String date = "01/01/2022"; // TODO: have to fix date
-//                                        // creates a new room with the given admin
-//                                        gm.createRoom(room_name.getText().toString(), capacity, field, city, time, date, category, userID);
-//                                    }
-//
-//                                } else {
-//                                    Log.d(TAG, "get failed with ", task.getException());
-//                                }
-//                            }
-//                        });
-//
-//=======
                 final AlertDialog.Builder EnterGroupDialog = new AlertDialog.Builder(v.getContext());
                 EnterGroupDialog.setTitle("Want to open new Room?");
                 EnterGroupDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {

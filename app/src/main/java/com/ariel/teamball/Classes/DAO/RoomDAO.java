@@ -43,6 +43,25 @@ public class RoomDAO {
 
     }
 
+    public static String getAdminOfRoom(String category,String roomName){
+        DatabaseReference roomRef = getPathReference("Rooms/"+category+"/"+roomName);
+
+        // Attach a listener to read the data at our rooms reference
+        roomRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Room room = dataSnapshot.getValue(Room.class);
+                adminID = room.getAdmin();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+        return adminID;
+    }
+
     public static void createRoom(String category, Room newRoom){
         final FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference ref = database.getReference();

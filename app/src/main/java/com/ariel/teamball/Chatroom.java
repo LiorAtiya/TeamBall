@@ -26,7 +26,6 @@ public class Chatroom extends AppCompatActivity {
     EditText text2send;
     TextView message;
     private String user_name,room_name,category;
-
     DatabaseReference reference;
     String temp_key;
 
