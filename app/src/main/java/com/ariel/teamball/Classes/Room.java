@@ -12,6 +12,7 @@ public class Room {
     private String name, field,city;
     private int capacity, imageID;
     private String admin;
+
     private String date;
     private String time;
     private List usersList; // list of IDs of all the group's users
@@ -41,6 +42,14 @@ public class Room {
 
     //-------------Getters & Setters---------------------
 
+
+    public List getUsersList() {
+        return usersList;
+    }
+
+    public void setUsersList(List usersList) {
+        this.usersList = usersList;
+    }
 
     public boolean isStatus() {
         return status;

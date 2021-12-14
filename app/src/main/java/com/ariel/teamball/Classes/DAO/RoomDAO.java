@@ -2,13 +2,20 @@ package com.ariel.teamball.Classes.DAO;
 
 import android.content.Context;
 
+import androidx.annotation.NonNull;
+
 import com.ariel.teamball.Classes.Room;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 // Data Access Object class that synchronizes the Room objects with the database
@@ -19,8 +26,10 @@ public class RoomDAO {
 //    private static FirebaseFirestore fStore;
 //    private static Context context;
 //    private static DatabaseReference reference;
+    private static String adminID;
 
     public RoomDAO(Context context){
+
 //        fAuth = FirebaseAuth.getInstance();
 //        fStore = FirebaseFirestore.getInstance();
 //
@@ -42,7 +51,42 @@ public class RoomDAO {
         roomsRef.updateChildren(room);
     }
 
+//    // The function add a new player to the given room
+//    public static void addPlayer(String category, String roomName){
+//
+//        final FirebaseDatabase database = FirebaseDatabase.getInstance();
+//        DatabaseReference ref = database.getReference();
+//
+//        DatabaseReference mDatabase = ref.child("Rooms/"+category+"/"+roomName);
+//        String key = mDatabase.child("usersList").getKey();
+//    }
+
     public static DatabaseReference getPathReference(String path){
         return FirebaseDatabase.getInstance().getReference(path);
+    }
+
+    public static boolean isAdminOfRoom(String playerID,String category,String room_name){
+
+        DatabaseReference roomRef = getPathReference("Rooms/"+category+"/"+room_name);
+
+        // Attach a listener to read the data at our rooms reference
+        roomRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Room room = dataSnapshot.getValue(Room.class);
+                adminID = room.getAdmin();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+        if(playerID == adminID){
+            return true;
+        }
+
+        return false;
     }
 }

@@ -12,16 +12,22 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.TeamBall">
         <activity
-            android:name=".settingRoom"
+            android:name=".MyRooms"
+            android:exported="false" />
+        <activity
+            android:name=".EditRoom"
+            android:exported="false" />
+        <activity
+            android:name=".CreateRoom"
             android:exported="false" />
         <activity
             android:name=".Classes.playersList"
             android:exported="false" />
         <activity
-            android:name=".Chatroom"
+            android:name=".GameRoom"
             android:exported="false" />
         <activity
-            android:name=".Chat.Chatroom"
+            android:name=".Chatroom"
             android:exported="false" />
         <activity
             android:name=".GameCenter"
@@ -31,9 +37,6 @@
             android:exported="false" />
         <activity
             android:name=".MyProfile"
-            android:exported="false" />
-        <activity
-            android:name=".Games.Soccer"
             android:exported="false" />
         <activity
             android:name=".SportsMenu"

@@ -1,5 +1,6 @@
 package com.ariel.teamball;
 
+
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -17,6 +18,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 
 import com.ariel.teamball.Classes.Adapters.ListAdapter;
 import com.ariel.teamball.Classes.DAO.PlayerDAO;
@@ -37,7 +39,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
-public class GameCenter extends AppCompatActivity {
+public class MyRooms extends AppCompatActivity {
 
     public static final String TAG = "TAG";
     TextView nameCategory;
@@ -55,32 +57,31 @@ public class GameCenter extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_game_center);
+        setContentView(R.layout.activity_my_rooms);
         getSupportActionBar().hide();
 
         nameCategory = findViewById(R.id.nameCategory);
         listView = findViewById(R.id.listView);
         createRoomBtn = findViewById(R.id.CR_btn);
 
-        category = getIntent().getExtras().get("Category").toString();
+        category = getIntent().getExtras().get("category").toString();
         nameCategory.setText(category);
 
         bottomNavigationView = findViewById(R.id.bottomNavigation);
-        bottomNavigationView.setSelectedItemId(R.id.all_rooms);
-
+        bottomNavigationView.setSelectedItemId(R.id.my_rooms);
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
                 switch (item.getItemId()){
                     case R.id.my_rooms:
-                        Intent i = new Intent(getApplicationContext(),MyRooms.class);
-                        i.putExtra("category",category);
+                        return true;
+                    case R.id.all_rooms:
+                        Intent i = new Intent(getApplicationContext(),GameCenter.class);
+                        i.putExtra("Category",category);
                         startActivity(i);
                         finish();
                         overridePendingTransition(0,0);
-                        return true;
-                    case R.id.all_rooms:
                         return true;
 
                 }
@@ -133,13 +134,13 @@ public class GameCenter extends AppCompatActivity {
             }
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                Toast.makeText(GameCenter.this, "No network connectivity", Toast.LENGTH_SHORT).show();
+                Toast.makeText(MyRooms.this, "No network connectivity", Toast.LENGTH_SHORT).show();
             }
         });
 
         //--------------------------------------------------------------
 
-        //Access to the list of room category
+        //Access to the list of rooms category
         DatabaseReference reference = roomDAO.getPathReference("Rooms/" + category);
 
         //Put all the rooms of the category to list from the firebase
@@ -155,8 +156,8 @@ public class GameCenter extends AppCompatActivity {
                 while (i.hasNext()) {
                     DataSnapshot childSnapshot = (DataSnapshot) i.next();
                     Room room = childSnapshot.getValue(Room.class);
-                    //Add to the list all the rooms that the user does not enter.
-                    if(!myRoomsName.contains(room.getName())){
+                    //Add to list just the my rooms
+                    if(myRoomsName.contains(room.getName())){
                         set.add(room);
                     }
                 }
@@ -169,7 +170,7 @@ public class GameCenter extends AppCompatActivity {
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                Toast.makeText(GameCenter.this, "No network connectivity", Toast.LENGTH_SHORT).show();
+                Toast.makeText(MyRooms.this, "No network connectivity", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -178,54 +179,31 @@ public class GameCenter extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int room, long l) {
 
-                final AlertDialog.Builder EnterGroupDialog = new AlertDialog.Builder(view.getContext());
-                EnterGroupDialog.setTitle("Do you want to join this room?");
-                EnterGroupDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                String roomName = adapter.getItem(room).getName();
+
+                DatabaseReference roomRef = roomDAO.getPathReference("Rooms/"+category+"/"+roomName);
+
+                // Attach a listener to read the data at our rooms reference
+                roomRef.addValueEventListener(new ValueEventListener() {
                     @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        Room room = dataSnapshot.getValue(Room.class);
+                        adminID = room.getAdmin();
 
-                        String roomName = adapter.getItem(room).getName();
+                        //Go to a GameRoom page
+                        Intent intent = new Intent(MyRooms.this, GameRoom.class);
+                        intent.putExtra("room_name", roomName);
+                        intent.putExtra("user_name", name);
+                        intent.putExtra("category", category);
+                        intent.putExtra("adminID", adminID);
+                        startActivity(intent);
+                    }
 
-                        //Add room to list of private rooms user
-                        playerDAO.addRoom(category, roomName);
-
-                        Toast.makeText(GameCenter.this, "My rooms updated", Toast.LENGTH_SHORT).show();
-
-                        //----------------------------------------
-
-                        DatabaseReference roomRef = roomDAO.getPathReference("Rooms/"+category+"/"+roomName);
-
-                        // Attach a listener to read the data at our rooms reference
-                        roomRef.addValueEventListener(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(DataSnapshot dataSnapshot) {
-                                Room room = dataSnapshot.getValue(Room.class);
-                                adminID = room.getAdmin();
-
-                                //Go to a GameRoom page
-                                Intent intent = new Intent(GameCenter.this, GameRoom.class);
-                                intent.putExtra("room_name", roomName);
-                                intent.putExtra("user_name", name);
-                                intent.putExtra("category", category);
-                                intent.putExtra("adminID", adminID);
-                                startActivity(intent);
-                            }
-
-                            @Override
-                            public void onCancelled(@NonNull DatabaseError error) {
-
-                            }
-                        });
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
 
                     }
                 });
-                EnterGroupDialog.setNegativeButton("No", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        dialogInterface.cancel();
-                    }
-                });
-                EnterGroupDialog.show();
 
             }
         });
@@ -236,11 +214,11 @@ public class GameCenter extends AppCompatActivity {
             public void onClick(View v) {
 
                 final AlertDialog.Builder EnterGroupDialog = new AlertDialog.Builder(v.getContext());
-                EnterGroupDialog.setTitle("Do you want to open a new Room?");
+                EnterGroupDialog.setTitle("Want to open new Room?");
                 EnterGroupDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        openCreateRoom(); //function to next page --> "CreateRoom"
+                        openSettingRoom(); //function to next page --> "settingRoom"
                     }
                 });
                 EnterGroupDialog.setNegativeButton("No", new DialogInterface.OnClickListener() {
@@ -254,9 +232,10 @@ public class GameCenter extends AppCompatActivity {
         });
     }
 
-    /* function that moves the admin from the "GameCenter" page to the "settingRoom" page to set the room */
-    public void openCreateRoom() {
-        Intent intentSettingRoom = new Intent(GameCenter.this, CreateRoom.class);
+    /* function that moves the user(Admin of the room from now)
+       from the "GameCenter" page to the "settingRoom" page to set the room */
+    public void openSettingRoom() {
+        Intent intentSettingRoom = new Intent(MyRooms.this, CreateRoom.class);
         intentSettingRoom.putExtra("category", category);
         startActivity(intentSettingRoom);
     }
