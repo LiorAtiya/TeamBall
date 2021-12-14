@@ -45,7 +45,7 @@ public class GameCenter extends AppCompatActivity {
     Button createRoomBtn;
     ArrayAdapter<Room> adapter;
     String name,category;
-    EditText room_name;
+//    EditText room_name;
 
     BottomNavigationView bottomNavigationView;
 
