@@ -2,13 +2,10 @@ package com.ariel.teamball.Classes.DAO;
 
 import android.content.Context;
 import android.util.Log;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
 import com.ariel.teamball.Classes.Room;
-import com.ariel.teamball.MyRooms;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -16,19 +13,14 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.MutableData;
 import com.google.firebase.database.Transaction;
 import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.firestore.FirebaseFirestore;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.Map;
-import java.util.Set;
 
 // Data Access Object class that synchronizes the Room objects with the database
 public class RoomDAO {
 
-//    public static final String TAG = "TAG";
+    //    public static final String TAG = "TAG";
 //    private static FirebaseAuth fAuth;
 //    private static FirebaseFirestore fStore;
 //    private static Context context;
@@ -36,7 +28,7 @@ public class RoomDAO {
     private static String adminID;
     private static int currentInRoom;
 
-    public RoomDAO(Context context){
+    public RoomDAO(Context context) {
 
 //        fAuth = FirebaseAuth.getInstance();
 //        fStore = FirebaseFirestore.getInstance();
@@ -48,8 +40,8 @@ public class RoomDAO {
 
     }
 
-    public static String getAdminOfRoom(String category,String roomName){
-        DatabaseReference roomRef = getPathReference("Rooms/"+category+"/"+roomName);
+    public static String getAdminOfRoom(String category, String roomName) {
+        DatabaseReference roomRef = getPathReference("Rooms/" + category + "/" + roomName);
 
         // Attach a listener to read the data at our rooms reference
         roomRef.addValueEventListener(new ValueEventListener() {
@@ -67,14 +59,16 @@ public class RoomDAO {
         return adminID;
     }
 
-    public static void addUser(String userID,String category,String roomID){
-        reference = FirebaseDatabase.getInstance().getReference("Rooms").child(category).child(roomID).child("playerList");
-        Map<String,Object> user = new HashMap<>();
-        user.put(userID,userID);
-        reference.updateChildren(user);
-    }
+//<<<<<<< HEAD
+//    public static void addUser(String userID,String category,String roomID){
+//        reference = FirebaseDatabase.getInstance().getReference("Rooms").child(category).child(roomID).child("playerList");
+//        Map<String,Object> user = new HashMap<>();
+//        user.put(userID,userID);
+//        reference.updateChildren(user);
+//    }
 
     public static String createRoom(String category, Room newRoom){
+
         final FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference ref = database.getReference();
 
@@ -86,27 +80,18 @@ public class RoomDAO {
         String temp_key = reference.push().getKey();
         newRoom.setRoomID(temp_key);
 
-        room.put(temp_key,newRoom);
+        room.put(temp_key, newRoom);
 
         roomsRef.updateChildren(room);
         return temp_key;
     }
 
-    public static DatabaseReference getPathReference(String path){
+    public static DatabaseReference getPathReference(String path) {
         return FirebaseDatabase.getInstance().getReference(path);
     }
 
-    //    // The function add a new player to the given room
-//    public static void addPlayer(String category, String roomName){
-//
-//        final FirebaseDatabase database = FirebaseDatabase.getInstance();
-//        DatabaseReference ref = database.getReference();
-//
-//        DatabaseReference mDatabase = ref.child("Rooms/"+category+"/"+roomName);
-//        String key = mDatabase.child("usersList").getKey();
-//    }
-
     public static void addNewUser(String category, String roomID,String playerID){
+
         //Access to the list of rooms category
         DatabaseReference reference = getPathReference("Rooms/" + category + "/" + roomID);
 
@@ -130,6 +115,7 @@ public class RoomDAO {
                 // Set value and report transaction success
                 mutableData.setValue(room);
                 return Transaction.success(mutableData);
+
             }
 
             @Override
@@ -141,6 +127,16 @@ public class RoomDAO {
         });
 
     }
+
+                //    // The function add a new player to the given room
+//    public static void addPlayer(String category, String roomName){
+//
+//        final FirebaseDatabase database = FirebaseDatabase.getInstance();
+//        DatabaseReference ref = database.getReference();
+//
+//        DatabaseReference mDatabase = ref.child("Rooms/"+category+"/"+roomID);
+//        String key = mDatabase.child("usersList").getKey();
+//    }
 
 //    public static boolean isAdminOfRoom(String playerID,String category,String room_name){
 //

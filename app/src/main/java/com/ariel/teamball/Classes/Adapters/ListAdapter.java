@@ -53,7 +53,7 @@ public class ListAdapter extends ArrayAdapter<Room> {
 
 //        imageView.setImageResource(room.getImageID());
         roomName.setText(room.getName());
-        details.setText("Capacity: " +room.getCurrentInRoom() +"/"+ room.getCapacity() + " | City: " + room.getCity() +" \nField: " + room.getField());
+        details.setText("Capacity: " + room.getCapacity() + " | City: " + room.getCity() +" \nField: " + room.getField());
 
         return convertView;
     }

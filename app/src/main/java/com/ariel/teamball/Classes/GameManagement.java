@@ -35,13 +35,19 @@ public class GameManagement {
 
     // functions
 
-    // The function creates a new room and updates its admin and updates the database
-    public void createRoom(String RoomN, int capacityInteger, String CurtN, String chosenCity, String chosenTime, String date, String category) {
+    /* The function creates a new room, updates its admin, updates the database,
+    returns the room's key and add the room to the user's room list
+     */
+    public String createRoom(String RoomN, int capacityInteger, String CurtN, String chosenCity, String chosenTime, String date, String category) {
         // Room details storage in database
-        String admin = this.playerDAO.playerID();
-        Room newRoom = new Room(RoomN, capacityInteger, CurtN, chosenCity, chosenTime, "date", admin);
-//        newRoom.addUser(this.playerDAO.playerID());
-        this.roomDAO.createRoom(category, newRoom);
+        String adminID = this.playerDAO.playerID();
+        Room newRoom = new Room(RoomN, capacityInteger, CurtN, chosenCity, chosenTime, "date", adminID);
+//        newRoom.addLastUser(adminID);
+        String roomKey = this.roomDAO.createRoom(category, newRoom);
+        // add the room to the user's rooms list
+        playerDAO.addRoom(category, roomKey);
+
+        return roomKey;
     }
 
     // The function checks if we can create a new room

@@ -4,21 +4,21 @@ import com.google.firebase.database.Exclude;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
+
 
 public class Room {
 
     private boolean status; // lock/unlock
     private String name, field,city;
     private int capacity, imageID;
-    private int currentInRoom;
+    private int numOfPlayers;
     private String admin;
     private String roomID;
     private String date;
     private String time;
     private Map<String,String> usersList; // list of IDs of all the group's users
+    private int currentInRoom;
 
 //    Time expiredTime;
 //    ArrayList<Player> teams;
@@ -42,21 +42,6 @@ public class Room {
 
     public Room() {}
 
-
-    @Exclude
-    public Map<String, Object> toMap() {
-        HashMap<String, Object> result = new HashMap<>();
-        result.put("name", name);
-        result.put("capacity", capacity);
-        result.put("field", field);
-        result.put("city", city);
-        result.put("time", time);
-        result.put("date", date);
-        result.put("date", date);
-        result.put("currentInRoom", currentInRoom);
-
-        return result;
-    }
 
     //-------------Getters & Setters---------------------
 
@@ -83,6 +68,7 @@ public class Room {
 
     public void setCurrentInRoom(int currentInRoom) {
         this.currentInRoom = currentInRoom;
+
     }
 
     public boolean isStatus() {
@@ -165,10 +151,8 @@ public class Room {
 //        this.usersList = usersList;
 //    }
 
-    public void addUser(String userID) {
-        this.usersList.put(userID,userID);
-        this.currentInRoom++;
-    }
-
+//    public void addLastUser(String userID) {
+//        this.lastUSer = userID;
+//    }
 
 }

@@ -4,9 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background"
+    android:background="@drawable/ournewbackground"
     android:visibility="visible"
     tools:context=".RegisterActivity">
+
+    // TODO: have to split full name to first and last
+    // TODO: have to add age
 
     <TextView
         android:id="@+id/textView2"
@@ -20,13 +23,11 @@
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.63"
+        app:layout_constraintHorizontal_bias="0.663"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.024" />
+        app:layout_constraintVertical_bias="0.006" />
 
-    // TODO: have to split full name to first and last
-    // TODO: have to add age
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/textInputLayoutName"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
@@ -45,7 +46,7 @@
         app:layout_constraintHorizontal_bias="0.555"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.134"
+        app:layout_constraintVertical_bias="0.093"
         app:startIconDrawable="@drawable/user_icon">
 
         <com.google.android.material.textfield.TextInputEditText
@@ -72,7 +73,7 @@
         app:layout_constraintHorizontal_bias="0.492"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.26"
+        app:layout_constraintVertical_bias="0.22"
         app:startIconDrawable="@drawable/user_icon">
 
         <com.google.android.material.textfield.TextInputEditText
@@ -97,10 +98,10 @@
         app:hintTextColor="#403E3E"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.492"
+        app:layout_constraintHorizontal_bias="0.535"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.442"
+        app:layout_constraintVertical_bias="0.396"
         app:startIconDrawable="@drawable/icon_password">
 
         <com.google.android.material.textfield.TextInputEditText
@@ -147,10 +148,10 @@
         app:hintTextColor="#403E3E"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.492"
+        app:layout_constraintHorizontal_bias="0.563"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.639"
+        app:layout_constraintVertical_bias="0.599"
         app:startIconDrawable="@drawable/phone_icon">
 
         <com.google.android.material.textfield.TextInputEditText
@@ -165,17 +166,6 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <Spinner
-        android:id="@+id/citySpinner"
-        android:layout_width="340dp"
-        android:layout_height="45dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.563"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.793" />
-
-    <Spinner
         android:id="@+id/genderSpinner"
         android:layout_width="342dp"
         android:layout_height="42dp"
@@ -184,7 +174,29 @@
         app:layout_constraintHorizontal_bias="0.55"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.718" />
+        app:layout_constraintVertical_bias="0.683" />
+
+    <Spinner
+        android:id="@+id/citySpinner"
+        android:layout_width="340dp"
+        android:layout_height="45dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.563"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.747" />
+
+    <Spinner
+        android:id="@+id/ageSpinner"
+        android:layout_width="340dp"
+        android:layout_height="45dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.563"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.82" />
 
     <Button
         android:id="@+id/RegisterBtn"

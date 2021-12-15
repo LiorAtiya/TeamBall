@@ -1,19 +1,21 @@
 package com.ariel.teamball;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.ariel.teamball.Classes.DAO.PlayerDAO;
 
 public class SportsMenu extends AppCompatActivity {
 
-    Button mLogoutBtn, SoccerBtn, BasketBallBtn, TennisBtn, TableTennisBtn, HandBallBtn, VolleyBallBtn, DogeBallBtn,myProfile;
-
+    Button mLogoutBtn, myProfile;
+    ImageButton SoccerBtn , BasketBallBtn , TennisBtn, TableTennisBtn,
+            HandBallBtn, VolleyBallBtn, DogeBallBtn,footballBtn;
     PlayerDAO playerDAO;
 
     @Override
@@ -38,6 +40,7 @@ public class SportsMenu extends AppCompatActivity {
         HandBallBtn = findViewById(R.id.HandBallBtn);
         VolleyBallBtn = findViewById(R.id.VolleyBallBtn);
         DogeBallBtn = findViewById(R.id.DogeBallBtn);
+        footballBtn = findViewById(R.id.football);
 
         playerDAO = new PlayerDAO(this);
 
@@ -111,7 +114,7 @@ public class SportsMenu extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-//
+
         DogeBallBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -121,6 +124,14 @@ public class SportsMenu extends AppCompatActivity {
             }
         });
 
+        footballBtn.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), GameCenter.class);
+                intent.putExtra("category", "FootBall");
+                startActivity(intent);
+            }
+        });
     }
 
 
