@@ -1,17 +1,11 @@
 package com.ariel.teamball.Classes;
 
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Set;
 
 public class Player {
 
-    // player attributes
     private String fullName;
-    //    private String firstName;
-//    private String lastName;
     private String nickName;
     private String email;
     private String password;
@@ -19,29 +13,22 @@ public class Player {
     private String city;
     private String gender;
     private List roomsList; // this is a list of all the rooms (IDs) in which the player is an admin
-//    private int age;
+    private String age;
     private static int id = 1;
 
-    // admin attributes
-    private String plan; // free/premium
-
     /* Constructor */
-//    public Player(String _firstName, String _lastName, String _nickname, String _Email, String _Password, String _Phone , String _city, int _age) {
-    public Player(String _fullName, String _nickname, String _Email, String _Password, String _Phone, String _city) {
-//        this.firstName = _firstName;
-//        this.lastName = _lastName;
+    public Player(String _fullName, String _nickname, String _Email,
+                  String _Password, String _Phone, String _city,String _gender, String _age) {
         this.fullName = _fullName;
         this.nickName = _nickname;
         this.email = _Email;
         this.password = _Password;
         this.phone = _Phone;
-        this.city = "";
+        this.city = _city;
         this.roomsList = new ArrayList<Integer>();
-//        this.age = _age;
+        this.age = _age;
+        this.gender = _gender;
         this.id += 1;
-    }
-
-    public Player(String _FirstName, String _Email, String _Phone, String _group, String _Category) {
     }
 
     public Player() {
@@ -100,9 +87,7 @@ public class Player {
         return this.id;
     }
 
-//    public int getAge() {
-//        return this.age;
-//    }
+    public String getAge() { return this.age; }
 
     public String getFullName() {
         return this.fullName;
@@ -203,16 +188,6 @@ public class Player {
     }
 
     public void changeChatPermission() {
-    }
-
-    /* Get and Set */
-
-    public String getPlan() {
-        return this.plan;
-    }
-
-    public void setPlan(String _plan) {
-        this.plan = _plan;
     }
 
 }
