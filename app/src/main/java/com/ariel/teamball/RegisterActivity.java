@@ -124,15 +124,17 @@ public class RegisterActivity extends AppCompatActivity {
 
                 /* Not chosen item in Spinners */
                 if(chosenGender.contains("G")){ //gender not chosen
+                    ((TextView)genderSpinner.getSelectedView()).setError("choose gender");
                     return;
                 }
 
-                if(chosenCity.contains("C")){ //city not chosen
-
+                if(chosenCity.contains("ty")){ //city not chosen
+                    ((TextView)citySpinner.getSelectedView()).setError("choose city");
                     return;
                 }
 
-                if(chosenAge.contains("N")){ //age not chosen
+                if(chosenAge.contains("A")){ //age not chosen
+                    ((TextView)ageSpinner.getSelectedView()).setError("choose age");
                     return;
                 }
 

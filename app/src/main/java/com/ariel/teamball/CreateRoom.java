@@ -13,10 +13,7 @@ import android.widget.TimePicker;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.ariel.teamball.Classes.DAO.PlayerDAO;
-import com.ariel.teamball.Classes.DAO.RoomDAO;
 import com.ariel.teamball.Classes.GameManagement;
-import com.ariel.teamball.Classes.Room;
 import com.google.android.material.textfield.TextInputEditText;
 
 import java.util.Calendar;
@@ -107,7 +104,9 @@ public class CreateRoom extends AppCompatActivity {
                     capacityInteger = Integer.parseInt(chosenCapacity); //convert for Room constructor
                 }
 
-                /* if the user click on "done button and left one of the field empty */
+
+
+                /* if the user click on "done button and left one of the field empty or not choose option */
                 if (TextUtils.isEmpty(RoomN)) {
                     mGroupName.setError("Group name is Required");
                     return;
@@ -115,6 +114,14 @@ public class CreateRoom extends AppCompatActivity {
 
                 if (TextUtils.isEmpty(CurtN)) {
                     mCurtName.setError("Curt name is Required");
+                    return;
+                }
+                if(chosenCity.contains("ty")){
+                    ((TextView)CitySpinner.getSelectedView()).setError("choose city");
+                    return;
+                }
+                if(chosenCapacity.contains("N")){
+                    ((TextView)playersCapacitySpinner.getSelectedView()).setError("choose number of players");
                     return;
                 }
 
