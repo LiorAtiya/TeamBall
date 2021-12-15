@@ -1,19 +1,20 @@
 package com.ariel.teamball;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.ariel.teamball.Classes.DAO.PlayerDAO;
 
 public class SportsMenu extends AppCompatActivity {
 
-    Button mLogoutBtn, SoccerBtn, BasketBallBtn, TennisBtn, TableTennisBtn, HandBallBtn, VolleyBallBtn, DogeBallBtn,myProfile;
-
+    Button mLogoutBtn, myProfile;
+    ImageButton SoccerBtn , BasketBallBtn , TennisBtn, TableTennisBtn, HandBallBtn, VolleyBallBtn, DogeBallBtn;
     PlayerDAO playerDAO;
 
     @Override
