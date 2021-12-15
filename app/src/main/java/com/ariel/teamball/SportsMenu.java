@@ -14,7 +14,8 @@ import com.ariel.teamball.Classes.DAO.PlayerDAO;
 public class SportsMenu extends AppCompatActivity {
 
     Button mLogoutBtn, myProfile;
-    ImageButton SoccerBtn , BasketBallBtn , TennisBtn, TableTennisBtn, HandBallBtn, VolleyBallBtn, DogeBallBtn;
+    ImageButton SoccerBtn , BasketBallBtn , TennisBtn, TableTennisBtn,
+            HandBallBtn, VolleyBallBtn, DogeBallBtn,footballBtn;
     PlayerDAO playerDAO;
 
     @Override
@@ -39,6 +40,7 @@ public class SportsMenu extends AppCompatActivity {
         HandBallBtn = findViewById(R.id.HandBallBtn);
         VolleyBallBtn = findViewById(R.id.VolleyBallBtn);
         DogeBallBtn = findViewById(R.id.DogeBallBtn);
+        footballBtn = findViewById(R.id.football);
 
         playerDAO = new PlayerDAO(this);
 
@@ -112,7 +114,7 @@ public class SportsMenu extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-//
+
         DogeBallBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -122,6 +124,14 @@ public class SportsMenu extends AppCompatActivity {
             }
         });
 
+        footballBtn.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), GameCenter.class);
+                intent.putExtra("category", "FootBall");
+                startActivity(intent);
+            }
+        });
     }
 
 
