@@ -1,6 +1,11 @@
 package com.ariel.teamball.Classes;
 
+import com.google.firebase.database.Exclude;
+
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 
 public class Room {
@@ -13,7 +18,7 @@ public class Room {
     private String roomID;
     private String date;
     private String time;
-    private Map<Integer, String> usersList; // list of IDs of all the group's users
+    private Map<String,String> usersList; // list of IDs of all the group's users
 
 //    Time expiredTime;
 //    ArrayList<Player> teams;
@@ -29,15 +34,29 @@ public class Room {
         this.city = _city;
         this.time = _time;
         this.date = _date;
-        this.usersList = new HashMap<Integer, String>();
+        this.usersList = new HashMap<>();
         this.status = true;
         this.admin = _admin;
         this.currentInRoom = 0;
-//        this.adminsList = new ArrayList<Integer>();
-//        this.adminsList.add(_adminID);
     }
 
     public Room() {}
+
+
+    @Exclude
+    public Map<String, Object> toMap() {
+        HashMap<String, Object> result = new HashMap<>();
+        result.put("name", name);
+        result.put("capacity", capacity);
+        result.put("field", field);
+        result.put("city", city);
+        result.put("time", time);
+        result.put("date", date);
+        result.put("date", date);
+        result.put("currentInRoom", currentInRoom);
+
+        return result;
+    }
 
     //-------------Getters & Setters---------------------
 
@@ -50,11 +69,11 @@ public class Room {
         this.roomID = roomID;
     }
 
-    public Map<Integer, String> getUsersList() {
+    public Map<String, String> getUsersList() {
         return usersList;
     }
 
-    public void setUsersList(Map<Integer, String> usersList) {
+    public void setUsersList(Map<String, String> usersList) {
         this.usersList = usersList;
     }
 
@@ -147,7 +166,8 @@ public class Room {
 //    }
 
     public void addUser(String userID) {
-        this.usersList.put(currentInRoom, userID);
+        this.usersList.put(userID,userID);
+        this.currentInRoom++;
     }
 
 

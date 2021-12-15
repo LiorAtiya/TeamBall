@@ -1,6 +1,7 @@
 package com.ariel.teamball.Classes.DAO;
 
 import android.content.Context;
+import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -12,6 +13,8 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.MutableData;
+import com.google.firebase.database.Transaction;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -31,6 +34,7 @@ public class RoomDAO {
 //    private static Context context;
     private static DatabaseReference reference;
     private static String adminID;
+    private static int currentInRoom;
 
     public RoomDAO(Context context){
 
@@ -63,6 +67,13 @@ public class RoomDAO {
         return adminID;
     }
 
+    public static void addUser(String userID,String category,String roomID){
+        reference = FirebaseDatabase.getInstance().getReference("Rooms").child(category).child(roomID).child("playerList");
+        Map<String,Object> user = new HashMap<>();
+        user.put(userID,userID);
+        reference.updateChildren(user);
+    }
+
     public static String createRoom(String category, Room newRoom){
         final FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference ref = database.getReference();
@@ -78,11 +89,14 @@ public class RoomDAO {
         room.put(temp_key,newRoom);
 
         roomsRef.updateChildren(room);
-
         return temp_key;
     }
 
-//    // The function add a new player to the given room
+    public static DatabaseReference getPathReference(String path){
+        return FirebaseDatabase.getInstance().getReference(path);
+    }
+
+    //    // The function add a new player to the given room
 //    public static void addPlayer(String category, String roomName){
 //
 //        final FirebaseDatabase database = FirebaseDatabase.getInstance();
@@ -92,27 +106,37 @@ public class RoomDAO {
 //        String key = mDatabase.child("usersList").getKey();
 //    }
 
-    public static DatabaseReference getPathReference(String path){
-        return FirebaseDatabase.getInstance().getReference(path);
-    }
-
-    public static void newUserInRoom(String category, String _room){
+    public static void addNewUser(String category, String roomID,String playerID){
         //Access to the list of rooms category
-        DatabaseReference reference = getPathReference("Rooms/" + category + "/" + _room);
+        DatabaseReference reference = getPathReference("Rooms/" + category + "/" + roomID);
 
-        //Put all the rooms of the category to list from the firebase
-        reference.addValueEventListener(new ValueEventListener() {
+        //Add new player to usersList
+        DatabaseReference usersList = reference.child("usersList");
+        HashMap<String,Object> newUser = new HashMap<>();
+        newUser.put(playerID,playerID);
+        usersList.updateChildren(newUser);
 
+        //Increase the number of users in room
+        reference.runTransaction(new Transaction.Handler() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                Room room = dataSnapshot.getValue(Room.class);
+            public Transaction.Result doTransaction(MutableData mutableData) {
+                Room room = mutableData.getValue(Room.class);
+                if (room == null) {
+                    return Transaction.success(mutableData);
+                }
+
                 room.setCurrentInRoom(room.getCurrentInRoom()+1);
-                createRoom(category,room);
+
+                // Set value and report transaction success
+                mutableData.setValue(room);
+                return Transaction.success(mutableData);
             }
 
             @Override
-            public void onCancelled(DatabaseError databaseError) {
-
+            public void onComplete(DatabaseError databaseError, boolean committed,
+                                   DataSnapshot currentData) {
+                // Transaction completed
+                Log.d("TAG", "postTransaction:onComplete:" + databaseError);
             }
         });
 

@@ -4,6 +4,7 @@ import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -61,6 +62,10 @@ public class CreateRoom extends AppCompatActivity {
         currentHr = calendar.get(Calendar.HOUR);
         currentHr = calendar.get(Calendar.MINUTE);
 
+        String category = getIntent().getExtras().get("category").toString();
+        PlayerDAO playerDAO = new PlayerDAO();
+        RoomDAO roomDAO = new RoomDAO();
+
         //when we click the time picker
         mPickTimeBtn.setOnClickListener(view -> {
             TimePickerDialog dialog = new TimePickerDialog(CreateRoom.this,new TimePickerDialog.OnTimeSetListener(){
@@ -91,7 +96,7 @@ public class CreateRoom extends AppCompatActivity {
         playersCapacitySpinner.setAdapter(capacityAdapter);
 
 
-        /* when we click on done button then what will happen */
+        /* When we click on done button then what will happen */
         mDoneDefine.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -117,21 +122,19 @@ public class CreateRoom extends AppCompatActivity {
                     return;
                 }
 
-                String category = getIntent().getExtras().get("category").toString();
-                PlayerDAO playerDAO = new PlayerDAO();
-                RoomDAO roomDAO = new RoomDAO();
                 // Room details storage in database
                 String admin = playerDAO.playerID();
                 Room newRoom = new Room(RoomN, capacityInteger,CurtN,chosenCity,chosenTime,"date",admin);
-                String roomKey = roomDAO.createRoom(category,newRoom);
 
-                //-----------------------------------------
+                String roomKey = roomDAO.createRoom(category,newRoom);
+                //Add admin to playerList
+//                newRoom.addUser(admin);
+
+                //Add admin to playerList
+                roomDAO.addNewUser(category,roomKey,admin);
 
                 //Add room to list of private rooms user
                 playerDAO.addRoom(category,roomKey);
-
-//                //User enters the room - add to current in room
-//                RoomDAO.newUserInRoom(category,RoomN);
 
                 // move user back to game center
                 openGameCenter(category);
