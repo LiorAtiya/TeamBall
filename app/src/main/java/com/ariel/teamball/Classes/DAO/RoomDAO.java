@@ -1,38 +1,30 @@
 package com.ariel.teamball.Classes.DAO;
 
 import android.content.Context;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
 import com.ariel.teamball.Classes.Room;
-import com.ariel.teamball.MyRooms;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.firestore.FirebaseFirestore;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.Map;
-import java.util.Set;
 
 // Data Access Object class that synchronizes the Room objects with the database
 public class RoomDAO {
 
-//    public static final String TAG = "TAG";
+    //    public static final String TAG = "TAG";
 //    private static FirebaseAuth fAuth;
 //    private static FirebaseFirestore fStore;
 //    private static Context context;
     private static DatabaseReference reference;
     private static String adminID;
 
-    public RoomDAO(Context context){
+    public RoomDAO(Context context) {
 
 //        fAuth = FirebaseAuth.getInstance();
 //        fStore = FirebaseFirestore.getInstance();
@@ -44,8 +36,8 @@ public class RoomDAO {
 
     }
 
-    public static String getAdminOfRoom(String category,String roomName){
-        DatabaseReference roomRef = getPathReference("Rooms/"+category+"/"+roomName);
+    public static String getAdminOfRoom(String category, String roomName) {
+        DatabaseReference roomRef = getPathReference("Rooms/" + category + "/" + roomName);
 
         // Attach a listener to read the data at our rooms reference
         roomRef.addValueEventListener(new ValueEventListener() {
@@ -63,7 +55,7 @@ public class RoomDAO {
         return adminID;
     }
 
-    public static String createRoom(String category, Room newRoom){
+    public static String createRoom(String category, Room newRoom) {
         final FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference ref = database.getReference();
 
@@ -75,28 +67,28 @@ public class RoomDAO {
         String temp_key = reference.push().getKey();
         newRoom.setRoomID(temp_key);
 
-        room.put(temp_key,newRoom);
+        room.put(temp_key, newRoom);
 
         roomsRef.updateChildren(room);
 
         return temp_key;
     }
 
-//    // The function add a new player to the given room
-//    public static void addPlayer(String category, String roomName){
+    // The function add a new player to the given room
+//    public static void addPlayer(String category, String roomID){
 //
 //        final FirebaseDatabase database = FirebaseDatabase.getInstance();
 //        DatabaseReference ref = database.getReference();
 //
-//        DatabaseReference mDatabase = ref.child("Rooms/"+category+"/"+roomName);
+//        DatabaseReference mDatabase = ref.child("Rooms/"+category+"/"+roomID);
 //        String key = mDatabase.child("usersList").getKey();
 //    }
 
-    public static DatabaseReference getPathReference(String path){
+    public static DatabaseReference getPathReference(String path) {
         return FirebaseDatabase.getInstance().getReference(path);
     }
 
-    public static void newUserInRoom(String category, String _room){
+    public static void newUserInRoom(String category, String _room) {
         //Access to the list of rooms category
         DatabaseReference reference = getPathReference("Rooms/" + category + "/" + _room);
 
@@ -106,8 +98,8 @@ public class RoomDAO {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Room room = dataSnapshot.getValue(Room.class);
-                room.setCurrentInRoom(room.getCurrentInRoom()+1);
-                createRoom(category,room);
+                room.setNumOfPlayers(room.getNumOfPlayers() + 1);
+                createRoom(category, room);
             }
 
             @Override

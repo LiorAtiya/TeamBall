@@ -1,19 +1,20 @@
 package com.ariel.teamball.Classes;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Room {
 
     private boolean status; // lock/unlock
     private String name, field,city;
     private int capacity, imageID;
-    private int currentInRoom;
+    private int numOfPlayers;
     private String admin;
     private String roomID;
     private String date;
     private String time;
-    private Map<Integer, String> usersList; // list of IDs of all the group's users
+    private List usersList; // list of IDs of all the group's users
+    private String lastUSer;
 
 //    Time expiredTime;
 //    ArrayList<Player> teams;
@@ -29,10 +30,10 @@ public class Room {
         this.city = _city;
         this.time = _time;
         this.date = _date;
-        this.usersList = new HashMap<Integer, String>();
+        this.usersList = new ArrayList<String>();
         this.status = true;
         this.admin = _admin;
-        this.currentInRoom = 0;
+        this.numOfPlayers = 0;
 //        this.adminsList = new ArrayList<Integer>();
 //        this.adminsList.add(_adminID);
     }
@@ -50,20 +51,12 @@ public class Room {
         this.roomID = roomID;
     }
 
-    public Map<Integer, String> getUsersList() {
-        return usersList;
+    public int getNumOfPlayers() {
+        return numOfPlayers;
     }
 
-    public void setUsersList(Map<Integer, String> usersList) {
-        this.usersList = usersList;
-    }
-
-    public int getCurrentInRoom() {
-        return currentInRoom;
-    }
-
-    public void setCurrentInRoom(int currentInRoom) {
-        this.currentInRoom = currentInRoom;
+    public void setNumOfPlayers(int numOfPlayers) {
+        this.numOfPlayers = numOfPlayers;
     }
 
     public boolean isStatus() {
@@ -147,8 +140,12 @@ public class Room {
 //    }
 
     public void addUser(String userID) {
-        this.usersList.put(currentInRoom, userID);
+        this.usersList.add(userID);
+        this.numOfPlayers++;
     }
 
+    public void addLastUser(String userID) {
+        this.lastUSer = userID;
+    }
 
 }

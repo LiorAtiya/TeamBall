@@ -6,9 +6,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
@@ -25,8 +23,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
-
-import java.util.Arrays;
 
 public class GameRoom extends AppCompatActivity {
 
@@ -106,7 +102,7 @@ public class GameRoom extends AppCompatActivity {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Room room = dataSnapshot.getValue(Room.class);
                 roomName.setText(room.getName());
-                capacity.setText("Capacity: "+room.getCurrentInRoom()+"/"+room.getCapacity());
+                capacity.setText("Capacity: "+room.getNumOfPlayers()+"/"+room.getCapacity());
                 city.setText("City: "+room.getCity());
                 field.setText("Field: "+room.getField());
 
