@@ -165,7 +165,7 @@ public class GameRoom extends AppCompatActivity {
                         if (!GameRoom.this.isFinishing()){
                             playersDialog.create().show();
                         }
-                        
+
                     }
 
                     @Override

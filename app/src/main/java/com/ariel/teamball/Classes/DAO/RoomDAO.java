@@ -6,16 +6,10 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.util.Log;
 import android.widget.Toast;
-
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
-
 import com.ariel.teamball.Classes.Player;
 import com.ariel.teamball.Classes.Room;
-import com.ariel.teamball.GameCenter;
 import com.ariel.teamball.GameRoom;
-import com.ariel.teamball.MyRooms;
-import com.ariel.teamball.SportsMenu;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -23,7 +17,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.MutableData;
 import com.google.firebase.database.Transaction;
-import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -59,7 +52,7 @@ public class RoomDAO {
         return FirebaseDatabase.getInstance().getReference(path);
     }
 
-    public static String createRoom(String category, Room newRoom){
+  public static String createRoom(String category, Room newRoom){
 
         DatabaseReference roomsRef = reference.child("Rooms").child(category);
         Map<String, Object> room = new HashMap<>();
@@ -72,6 +65,12 @@ public class RoomDAO {
 
         roomsRef.updateChildren(room);
         return temp_key;
+    }
+
+    // The function gets the key and the category of the room and removes it from the Rooms table in the DB
+    public void removeRoom(String roomKey, String category) {
+        DatabaseReference reference = getPathReference("Rooms/" + category);
+        reference.child(roomKey).removeValue();
     }
 
     public static void addNewUser(String category, String roomID,String playerID){
