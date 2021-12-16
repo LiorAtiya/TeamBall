@@ -15,7 +15,10 @@ import com.google.firebase.database.Transaction;
 import java.util.HashMap;
 import java.util.Map;
 
-// Data Access Object class that synchronizes the Room objects with the database
+/*
+Data Access Object class that synchronizes the Room objects with the database.
+The methods in that class add, update and remove the data from the Rooms table in the database.
+ */
 public class RoomDAO {
 
     private static DatabaseReference reference;
@@ -32,7 +35,7 @@ public class RoomDAO {
         reference = database.getReference();
     }
 
-  public static String createRoom(String category, Room newRoom){
+  public static String addRoom(String category, Room newRoom){
 
         DatabaseReference roomsRef = reference.child("Rooms").child(category);
         Map<String, Object> room = new HashMap<>();

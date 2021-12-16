@@ -1,18 +1,11 @@
 package com.ariel.teamball.Classes;
 
-import android.content.Context;
-import android.text.TextUtils;
-import android.widget.Spinner;
-import android.widget.Toast;
-
 import com.ariel.teamball.Classes.DAO.PlayerDAO;
 import com.ariel.teamball.Classes.DAO.RoomDAO;
-import com.google.android.material.textfield.TextInputEditText;
-
-import java.util.Calendar;
 
 /*
-A singleton class that creates and manages rooms, players, and admins
+A singleton class that use to manage the app.
+The purpose of this class is to connect the front-end to the database.
  */
 public class GameManagement {
     private static GameManagement gmObject;
@@ -44,8 +37,9 @@ public class GameManagement {
         // Room details storage in database
         String adminID = this.playerDAO.playerID();
         Room newRoom = new Room(RoomN, capacityInteger, CurtN, chosenCity, chosenTime, "date", adminID,category);
-//        newRoom.addLastUser(adminID);
-        String roomKey = this.roomDAO.createRoom(category, newRoom);
+        String roomKey = this.roomDAO.addRoom(category, newRoom);
+        // adds the admin to the playerList
+        roomDAO.addNewUser(category,roomKey,adminID);
         // add the room to the user's rooms list
         this.playerDAO.addRoom(category, roomKey);
 

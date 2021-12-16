@@ -44,8 +44,10 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
-
-// Data Access Object class that synchronizes the Player objects with the database
+/*
+Data Access Object class that synchronizes the Player objects with the database.
+The methods in that class add, update and remove the data from the userRooms table in the database.
+ */
 public class PlayerDAO {
 
     public static final String TAG = "TAG";
