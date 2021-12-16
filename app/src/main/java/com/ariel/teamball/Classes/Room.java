@@ -149,16 +149,4 @@ public class Room {
         this.time = time;
     }
 
-//    public  getUsersList() {
-//        return usersList.toString();
-//    }
-
-//    public void setUsersList(List usersList) {
-//        this.usersList = usersList;
-//    }
-
-//    public void addLastUser(String userID) {
-//        this.lastUSer = userID;
-//    }
-
 }

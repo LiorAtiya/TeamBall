@@ -4,6 +4,7 @@ import android.content.Context;
 import android.util.Log;
 
 import com.ariel.teamball.Classes.Room;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -31,7 +32,7 @@ public class RoomDAO {
         reference = database.getReference();
     }
 
-    public static String createRoom(String category, Room newRoom){
+  public static String createRoom(String category, Room newRoom){
 
         DatabaseReference roomsRef = reference.child("Rooms").child(category);
         Map<String, Object> room = new HashMap<>();
@@ -44,6 +45,12 @@ public class RoomDAO {
 
         roomsRef.updateChildren(room);
         return temp_key;
+    }
+
+    // The function gets the key and the category of the room and removes it from the Rooms table in the DB
+    public void removeRoom(String roomKey, String category) {
+        DatabaseReference reference = getPathReference("Rooms/" + category);
+        reference.child(roomKey).removeValue();
     }
 
     public static DatabaseReference getPathReference(String path) {

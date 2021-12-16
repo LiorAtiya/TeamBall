@@ -123,22 +123,16 @@ public class CreateRoom extends AppCompatActivity {
                     mCurtName.setError("Curt name is Required");
                     return;
                 }
-                if(chosenCity.contains("ty")){
-                    ((TextView)CitySpinner.getSelectedView()).setError("choose city");
+                if (chosenCity.contains("ty")) {
+                    ((TextView) CitySpinner.getSelectedView()).setError("choose city");
                     return;
                 }
-                if(chosenCapacity.contains("N")){
-                    ((TextView)playersCapacitySpinner.getSelectedView()).setError("choose number of players");
+                if (chosenCapacity.contains("N")) {
+                    ((TextView) playersCapacitySpinner.getSelectedView()).setError("choose number of players");
                     return;
                 }
 
-//<<<<<<< HEAD
-//                // Room details storage in database
-//                String admin = playerDAO.playerID();
-//                Room newRoom = new Room(RoomN, capacityInteger,CurtN,chosenCity,chosenTime,"date",admin);
-//
-//                String roomKey = roomDAO.createRoom(category,newRoom);
-//=======
+              
                 String category = getIntent().getExtras().get("category").toString();
                 // creates game management object
                 GameManagement gm = GameManagement.getInstance();
@@ -147,24 +141,15 @@ public class CreateRoom extends AppCompatActivity {
                 */
                 String roomKey = gm.createRoom(RoomN, capacityInteger, CurtN, chosenCity, chosenTime, "date", category);
 
-//                PlayerDAO playerDAO = new PlayerDAO();
-//                RoomDAO roomDAO = new RoomDAO();
-//                // Room details storage in database
-//                String admin = playerDAO.playerID();
-//                Room newRoom = new Room(RoomN, capacityInteger, CurtN, chosenCity, chosenTime, "date", admin);
-//                newRoom.addUser(admin);
-//                newRoom.addLastUser(admin);
-//                String roomKey = roomDAO.createRoom(category, newRoom);
-
                 //Add admin to playerList
                 String admin = playerDAO.playerID();
                 roomDAO.addNewUser(category,roomKey,admin);
 
-//                //Add room to list of private rooms user
-//                playerDAO.addRoom(category, roomKey);
-
                 // move user back to game center
                 openGameCenter(category);
+
+                //                //User enters the room - add to current in room
+//                RoomDAO.newUserInRoom(category,RoomN);
             }
         });
     }
