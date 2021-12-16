@@ -1,5 +1,6 @@
 package com.ariel.teamball;
 
+import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -23,6 +24,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+
+import java.util.Map;
 
 public class GameRoom extends AppCompatActivity {
 
@@ -135,35 +138,45 @@ public class GameRoom extends AppCompatActivity {
 
             @Override
             public void onClick(View v) {
-                final AlertDialog.Builder playersDialog = new AlertDialog.Builder(v.getContext());
-                playersDialog.setTitle("Team players");
 
-//                // Attach a listener to read the data at our rooms reference
-//                roomRef.addValueEventListener(new ValueEventListener() {
-//                    @Override
-//                    public void onDataChange(DataSnapshot dataSnapshot) {
-//                        Room room = dataSnapshot.getValue(Room.class);
-//                        room.getPlayersList();
-//                        playersDialog.setMessage(room.getPlayersList().toString());
-//                    }
-//
-//                    @Override
-//                    public void onCancelled(DatabaseError databaseError) {
-//                        System.out.println("The read failed: " + databaseError.getCode());
-//                    }
-//                });
-
-
-                playersDialog.setMessage("Lior\nLioz\nOfir");
-
-                playersDialog.setNegativeButton("Exit", new DialogInterface.OnClickListener() {
+                // Attach a listener to read the data at our rooms reference
+                roomRef.addValueEventListener(new ValueEventListener() {
                     @Override
-                    public void onClick(DialogInterface dialog, int which) {
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        Room room = dataSnapshot.getValue(Room.class);
+                        Map<String,String> players = room.getUsersList();
+                        Log.d("MyTest", "Size map: "+players.size());
+                        String playersName = "";
+                        for (Map.Entry<String,String> player : players.entrySet()){
+                            playersName += player.getValue()+"\n";
+                        }
 
+                        final AlertDialog.Builder playersDialog = new AlertDialog.Builder(v.getContext());
+                        playersDialog.setTitle("Team players");
+                        playersDialog.setMessage(playersName);
+
+                        playersDialog.setNegativeButton("Exit", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+
+                            }
+                        });
+
+                        if (!GameRoom.this.isFinishing()){
+                            playersDialog.create().show();
+                        }
+
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                        System.out.println("The read failed: " + databaseError.getCode());
                     }
                 });
 
-                playersDialog.create().show();
+
+//                playersDialog.setMessage("Lior\nLioz\nOfir");
+
             }
         });
 

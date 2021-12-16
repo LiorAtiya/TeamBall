@@ -32,7 +32,7 @@
                     android:id="@+id/room_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Text view"
+                    android:text=""
                     android:textColor="@color/black"
                     android:textSize="26sp"
                     android:textStyle="bold"/>
@@ -42,7 +42,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
-                    android:text="Capcity: | and more"/>
+                    android:text=""/>
 
             </LinearLayout>
 
