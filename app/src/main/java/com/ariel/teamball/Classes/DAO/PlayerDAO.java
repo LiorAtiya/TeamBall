@@ -12,8 +12,11 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 
 import com.ariel.teamball.Classes.Player;
+import com.ariel.teamball.Classes.Room;
 import com.ariel.teamball.EditProfile;
+import com.ariel.teamball.GameCenter;
 import com.ariel.teamball.MyProfile;
+import com.ariel.teamball.MyRooms;
 import com.ariel.teamball.SportsMenu;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -22,8 +25,11 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -33,6 +39,8 @@ import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
 
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
@@ -100,6 +108,58 @@ public class PlayerDAO {
         groups.put(roomKey,roomKey);
 
         usersRef.updateChildren(groups);
+    }
+
+    // The function gets the key and the category of the room and removes the room from each of the users
+//    public void removeRoomFromUserRooms(String roomKey, String category) {
+//        DatabaseReference userRoomsReference = getPathReference("UserRooms/");
+//        userRoomsReference.addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(DataSnapshot dataSnapshot) {
+//                // iterates over the userRooms
+//                Iterator i = dataSnapshot.getChildren().iterator();
+//                while (i.hasNext()) {
+//                    DataSnapshot childSnapshot = (DataSnapshot) i.next();
+//                    // checks if its the correct room's category
+//                    if(childSnapshot.child(category).equals(category)) {
+//                        userRoomsReference.child(roomKey).removeValue();
+//                        childSnapshot.child(category).child(roomKey);
+//                    }
+//                }
+//            }
+//            @Override
+//            public void onCancelled(DatabaseError databaseError) {
+//
+//            }
+//        });
+//    }
+
+    /*
+    The function gets the key and the category of the room and removes
+    the room from each of the users in the userRooms table in the DB
+     */
+    public void removeRoomFromUserRooms(String roomKey, String category) {
+        DatabaseReference userRoomsReference = getPathReference("userRooms/");
+        ValueEventListener valueEventListener = userRoomsReference.addValueEventListener(new ValueEventListener() {
+
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Log.d("TAG", "enter to onDataChange");
+                // iterates over all the users
+                Iterator i = dataSnapshot.getChildren().iterator();
+                    DataSnapshot childSnapshot = (DataSnapshot) i.next(); // current user
+                    String userID = childSnapshot.getKey();
+                    userRoomsReference.child(userID).child(category).child(roomKey).removeValue();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+            }
+        });
+    }
+
+    public static DatabaseReference getPathReference(String path) {
+        return FirebaseDatabase.getInstance().getReference(path);
     }
 
     public static String playerID(){

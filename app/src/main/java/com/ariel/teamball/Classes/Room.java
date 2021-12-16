@@ -131,14 +131,6 @@ public class Room {
         this.time = time;
     }
 
-//    public  getUsersList() {
-//        return usersList.toString();
-//    }
-
-//    public void setUsersList(List usersList) {
-//        this.usersList = usersList;
-//    }
-
     public void addUser(String userID) {
         this.usersList.add(userID);
         this.numOfPlayers++;

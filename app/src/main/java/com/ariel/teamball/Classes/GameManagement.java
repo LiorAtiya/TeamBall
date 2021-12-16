@@ -3,6 +3,7 @@ package com.ariel.teamball.Classes;
 import android.content.Context;
 import android.text.TextUtils;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.ariel.teamball.Classes.DAO.PlayerDAO;
 import com.ariel.teamball.Classes.DAO.RoomDAO;
@@ -35,7 +36,8 @@ public class GameManagement {
 
     // functions
 
-    /* The function creates a new room, updates its admin, updates the database,
+    /*
+    The function creates a new room, updates its admin, updates the database,
     returns the room's key and add the room to the user's room list
      */
     public String createRoom(String RoomN, int capacityInteger, String CurtN, String chosenCity, String chosenTime, String date, String category) {
@@ -46,9 +48,19 @@ public class GameManagement {
         newRoom.addLastUser(adminID);
         String roomKey = this.roomDAO.createRoom(category, newRoom);
         // add the room to the user's rooms list
-        playerDAO.addRoom(category, roomKey);
+        this.playerDAO.addRoom(category, roomKey);
 
         return roomKey;
+    }
+
+    /*
+    The function gets the key and the category of the room and removes it from the DB:
+    1. removes the room from the Rooms table
+    2. removes the room from the userRooms table
+     */
+    public void removeRoom(String roomKey, String category) {
+        this.roomDAO.removeRoom(roomKey, category);
+        this.playerDAO.removeRoomFromUserRooms(roomKey, category);
     }
 
     // The function checks if we can create a new room

@@ -5,6 +5,7 @@ import android.content.Context;
 import androidx.annotation.NonNull;
 
 import com.ariel.teamball.Classes.Room;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -55,6 +56,7 @@ public class RoomDAO {
         return adminID;
     }
 
+    // The function adds a new room the the realtime database
     public static String createRoom(String category, Room newRoom) {
         final FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference ref = database.getReference();
@@ -83,6 +85,12 @@ public class RoomDAO {
 //        DatabaseReference mDatabase = ref.child("Rooms/"+category+"/"+roomID);
 //        String key = mDatabase.child("usersList").getKey();
 //    }
+
+    // The function gets the key and the category of the room and removes it from the Rooms table in the DB
+    public void removeRoom(String roomKey, String category) {
+        DatabaseReference reference = getPathReference("Rooms/" + category);
+        reference.child(roomKey).removeValue();
+    }
 
     public static DatabaseReference getPathReference(String path) {
         return FirebaseDatabase.getInstance().getReference(path);
