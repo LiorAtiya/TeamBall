@@ -1,8 +1,5 @@
 package com.ariel.teamball.Classes;
 
-import com.google.firebase.database.Exclude;
-
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -12,13 +9,13 @@ public class Room {
     private boolean status; // lock/unlock
     private String name, field,city;
     private int capacity, imageID;
-    private int numOfPlayers;
     private String admin;
     private String roomID;
     private String date;
     private String time;
     private Map<String,String> usersList; // list of IDs of all the group's users
-    private int currentInRoom;
+    private int numOfPlayers;
+    private String category;
 
 //    Time expiredTime;
 //    ArrayList<Player> teams;
@@ -27,7 +24,7 @@ public class Room {
 //    private ArrayList<Player> banList;
 
 
-    public Room(String _name, int _capacity,String _field,String _city, String _time, String _date, String _admin) {
+    public Room(String _name, int _capacity,String _field,String _city, String _time, String _date, String _admin,String _category) {
         this.name = _name;
         this.capacity = _capacity;
         this.field = _field;
@@ -37,7 +34,8 @@ public class Room {
         this.usersList = new HashMap<>();
         this.status = true;
         this.admin = _admin;
-        this.currentInRoom = 0;
+        this.numOfPlayers = 0;
+        this.category = _category;
     }
 
     public Room() {}
@@ -45,6 +43,14 @@ public class Room {
 
     //-------------Getters & Setters---------------------
 
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
 
     public String getRoomID() {
         return roomID;
@@ -62,12 +68,12 @@ public class Room {
         this.usersList = usersList;
     }
 
-    public int getCurrentInRoom() {
-        return currentInRoom;
+    public int getNumOfPlayers() {
+        return numOfPlayers;
     }
 
-    public void setCurrentInRoom(int currentInRoom) {
-        this.currentInRoom = currentInRoom;
+    public void setNumOfPlayers(int numOfPlayers) {
+        this.numOfPlayers = numOfPlayers;
 
     }
 
