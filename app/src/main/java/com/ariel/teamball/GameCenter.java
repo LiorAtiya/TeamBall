@@ -202,6 +202,9 @@ public class GameCenter extends AppCompatActivity {
                         String roomName = adapter.getItem(room).getName();
                         String roomID =  adapter.getItem(room).getRoomID();
 
+                        //Add player to room
+                        roomDAO.addNewUser(category,roomID,playerDAO.playerID());
+
                         //Add room to list of private rooms user
                         playerDAO.addRoom(category,roomID);
 

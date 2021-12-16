@@ -43,9 +43,8 @@ public class GameManagement {
     public String createRoom(String RoomN, int capacityInteger, String CurtN, String chosenCity, String chosenTime, String date, String category) {
         // Room details storage in database
         String adminID = this.playerDAO.playerID();
-        Room newRoom = new Room(RoomN, capacityInteger, CurtN, chosenCity, chosenTime, "date", adminID);
-        newRoom.addUser(adminID);
-        newRoom.addLastUser(adminID);
+        Room newRoom = new Room(RoomN, capacityInteger, CurtN, chosenCity, chosenTime, "date", adminID,category);
+//        newRoom.addLastUser(adminID);
         String roomKey = this.roomDAO.createRoom(category, newRoom);
         // add the room to the user's rooms list
         this.playerDAO.addRoom(category, roomKey);

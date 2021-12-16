@@ -1,20 +1,21 @@
 package com.ariel.teamball.Classes;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
+
 
 public class Room {
 
     private boolean status; // lock/unlock
     private String name, field,city;
     private int capacity, imageID;
-    private int numOfPlayers;
     private String admin;
     private String roomID;
     private String date;
     private String time;
-    private List usersList; // list of IDs of all the group's users
-    private String lastUSer;
+    private Map<String,String> usersList; // list of IDs of all the group's users
+    private int numOfPlayers;
+    private String category;
 
 //    Time expiredTime;
 //    ArrayList<Player> teams;
@@ -23,25 +24,33 @@ public class Room {
 //    private ArrayList<Player> banList;
 
 
-    public Room(String _name, int _capacity,String _field,String _city, String _time, String _date, String _admin) {
+    public Room(String _name, int _capacity,String _field,String _city, String _time, String _date, String _admin,String _category) {
         this.name = _name;
         this.capacity = _capacity;
         this.field = _field;
         this.city = _city;
         this.time = _time;
         this.date = _date;
-        this.usersList = new ArrayList<String>();
+        this.usersList = new HashMap<>();
         this.status = true;
         this.admin = _admin;
         this.numOfPlayers = 0;
-//        this.adminsList = new ArrayList<Integer>();
-//        this.adminsList.add(_adminID);
+        this.category = _category;
     }
 
     public Room() {}
 
+
     //-------------Getters & Setters---------------------
 
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
 
     public String getRoomID() {
         return roomID;
@@ -51,12 +60,21 @@ public class Room {
         this.roomID = roomID;
     }
 
+    public Map<String, String> getUsersList() {
+        return usersList;
+    }
+
+    public void setUsersList(Map<String, String> usersList) {
+        this.usersList = usersList;
+    }
+
     public int getNumOfPlayers() {
         return numOfPlayers;
     }
 
     public void setNumOfPlayers(int numOfPlayers) {
         this.numOfPlayers = numOfPlayers;
+
     }
 
     public boolean isStatus() {
@@ -129,15 +147,6 @@ public class Room {
 
     public void setTime(String time) {
         this.time = time;
-    }
-
-    public void addUser(String userID) {
-        this.usersList.add(userID);
-        this.numOfPlayers++;
-    }
-
-    public void addLastUser(String userID) {
-        this.lastUSer = userID;
     }
 
 }

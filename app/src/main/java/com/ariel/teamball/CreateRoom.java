@@ -4,6 +4,7 @@ import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -13,6 +14,8 @@ import android.widget.TimePicker;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.ariel.teamball.Classes.DAO.PlayerDAO;
+import com.ariel.teamball.Classes.DAO.RoomDAO;
 import com.ariel.teamball.Classes.GameManagement;
 import com.google.android.material.textfield.TextInputEditText;
 
@@ -59,6 +62,10 @@ public class CreateRoom extends AppCompatActivity {
         currentHr = calendar.get(Calendar.HOUR);
         currentHr = calendar.get(Calendar.MINUTE);
 
+        String category = getIntent().getExtras().get("category").toString();
+        PlayerDAO playerDAO = new PlayerDAO();
+        RoomDAO roomDAO = new RoomDAO();
+
         //when we click the time picker
         mPickTimeBtn.setOnClickListener(view -> {
             TimePickerDialog dialog = new TimePickerDialog(CreateRoom.this, new TimePickerDialog.OnTimeSetListener() {
@@ -89,7 +96,7 @@ public class CreateRoom extends AppCompatActivity {
         playersCapacitySpinner.setAdapter(capacityAdapter);
 
 
-        /* when we click on done button then what will happen */
+        /* When we click on done button then what will happen */
         mDoneDefine.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -125,6 +132,7 @@ public class CreateRoom extends AppCompatActivity {
                     return;
                 }
 
+              
                 String category = getIntent().getExtras().get("category").toString();
                 // creates game management object
                 GameManagement gm = GameManagement.getInstance();
@@ -132,6 +140,10 @@ public class CreateRoom extends AppCompatActivity {
                    uses the room's key that received to add the room to the user's room list
                 */
                 String roomKey = gm.createRoom(RoomN, capacityInteger, CurtN, chosenCity, chosenTime, "date", category);
+
+                //Add admin to playerList
+                String admin = playerDAO.playerID();
+                roomDAO.addNewUser(category,roomKey,admin);
 
                 // move user back to game center
                 openGameCenter(category);
