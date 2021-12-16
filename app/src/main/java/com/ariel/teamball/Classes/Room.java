@@ -6,7 +6,7 @@ import java.util.Map;
 
 public class Room {
 
-    private boolean status; // lock/unlock
+    private boolean isFull; // lock/unlock
     private String name, field,city;
     private int capacity, imageID;
     private String admin;
@@ -32,7 +32,7 @@ public class Room {
         this.time = _time;
         this.date = _date;
         this.usersList = new HashMap<>();
-        this.status = true;
+        this.isFull = false;
         this.admin = _admin;
         this.numOfPlayers = 0;
         this.category = _category;
@@ -77,12 +77,12 @@ public class Room {
 
     }
 
-    public boolean isStatus() {
-        return status;
+    public boolean isFull() {
+        return isFull;
     }
 
-    public void setStatus(boolean status) {
-        this.status = status;
+    public void setFull(boolean full) {
+        this.isFull = full;
     }
 
     public String getName() {
