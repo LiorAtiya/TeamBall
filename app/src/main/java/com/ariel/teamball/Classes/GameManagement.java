@@ -1,7 +1,15 @@
 package com.ariel.teamball.Classes;
 
+import android.view.View;
+
+import androidx.annotation.NonNull;
+
 import com.ariel.teamball.Classes.DAO.PlayerDAO;
 import com.ariel.teamball.Classes.DAO.RoomDAO;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.ValueEventListener;
 
 /*
 A singleton class that use to manage the app.
@@ -29,21 +37,63 @@ public class GameManagement {
 
     // functions
 
+//    // The function checks if the user is the admin of the given room
+//    public boolean isAdmin(String roomID, String category) {
+//        final boolean[] isAdmin = {false};
+//        DatabaseReference roomRef = this.roomDAO.getPathReference("Rooms/" + category + "/" + roomID);
+//        // Attach a listener to read the data at our rooms reference
+//        roomRef.addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(DataSnapshot dataSnapshot) {
+//
+//                Room room = dataSnapshot.getValue(Room.class);
+//                String adminID = room.getAdmin();
+//
+//                //Show button of edit room only for admin
+//                if(playerDAO.playerID().equals(adminID)){
+//                    isAdmin[0] = true;
+//                }
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError error) {
+//
+//            }
+//        });
+//        return isAdmin[0];
+//    }
+
     /*
     The function creates a new room, updates its admin, updates the database,
     returns the room's key and add the room to the user's room list
      */
-    public String createRoom(String RoomN, int capacityInteger, String CurtN, String chosenCity, String chosenTime, String date, String category) {
+    public String createRoom(String RoomN, int capacityInteger, String CurtN, String
+            chosenCity, String chosenTime, String date, String category) {
         // Room details storage in database
         String adminID = this.playerDAO.playerID();
-        Room newRoom = new Room(RoomN, capacityInteger, CurtN, chosenCity, chosenTime, "date", adminID,category);
+        Room newRoom = new Room(RoomN, capacityInteger, CurtN, chosenCity, chosenTime, "date", adminID, category);
         String roomKey = this.roomDAO.addRoom(category, newRoom);
         // adds the admin to the playerList
-        roomDAO.addNewUser(category,roomKey,adminID);
+        roomDAO.addNewUser(category, roomKey, adminID);
         // add the room to the user's rooms list
         this.playerDAO.addRoom(category, roomKey);
 
         return roomKey;
+    }
+
+    /*
+    The function gets the room's key and category and if the user is admin
+    if the user is not an admin, then the exit from the room
+    otherwise call removeRoom function
+     */
+    public void leaveRoom(String roomKey, String category, boolean isAdmin) {
+        if (isAdmin) { // admin
+            removeRoom(roomKey, category);
+        } else { // regular user
+            String userID = this.playerDAO.playerID();
+            this.playerDAO.removeRoomFromUserRooms(roomKey, category, userID);
+            this.roomDAO.removeUserFromRoom(roomKey, category, userID);
+        }
     }
 
     /*
@@ -52,8 +102,8 @@ public class GameManagement {
     2. removes the room from the userRooms table
      */
     public void removeRoom(String roomKey, String category) {
-        this.roomDAO.removeRoom(roomKey, category);
         this.playerDAO.removeRoomFromUserRooms(roomKey, category);
+        this.roomDAO.removeRoom(roomKey, category);
     }
 
     // The function checks if we can create a new room

@@ -2,6 +2,9 @@ package com.ariel.teamball.Classes.DAO;
 
 import android.content.Context;
 import android.util.Log;
+import android.view.View;
+
+import androidx.annotation.NonNull;
 
 import com.ariel.teamball.Classes.Room;
 import com.google.android.gms.tasks.Task;
@@ -11,6 +14,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.MutableData;
 import com.google.firebase.database.Transaction;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -48,6 +52,16 @@ public class RoomDAO {
 
         roomsRef.updateChildren(room);
         return temp_key;
+    }
+
+    /*
+    The function gets the key and the category of the room,
+    and a user id and removes the given user from the Rooms table in the DB
+     */
+    public void removeUserFromRoom(String roomKey, String category, String userID) {
+        DatabaseReference reference = getPathReference("Rooms/" + category + "/usersList");
+        Log.d("TAG", "reference.child(userID): " + reference.child(userID));
+        reference.child(userID).removeValue();
     }
 
     // The function gets the key and the category of the room and removes it from the Rooms table in the DB
