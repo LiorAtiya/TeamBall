@@ -60,7 +60,7 @@ public class CreateRoom extends AppCompatActivity {
         calendar = Calendar.getInstance();
 
         currentHr = calendar.get(Calendar.HOUR);
-        currentHr = calendar.get(Calendar.MINUTE);
+        currentMin = calendar.get(Calendar.MINUTE);
 
         String category = getIntent().getExtras().get("category").toString();
         PlayerDAO playerDAO = new PlayerDAO();
