@@ -1,16 +1,9 @@
 package com.ariel.teamball;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -19,30 +12,25 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.ariel.teamball.Classes.DAO.PlayerDAO;
-import com.ariel.teamball.Classes.Player;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
-import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
-import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
 
 public class MyProfile extends AppCompatActivity {
 
-    TextView fullName, email, phone,verifyMsg;
+    TextView fullName, email, phone,verifyMsg, myCity,myNickName,myGender;
     Button logoutBtn, resendCode,resetPassword,changeProfile;
     String userID;
     FirebaseUser user;
@@ -63,6 +51,9 @@ public class MyProfile extends AppCompatActivity {
         fullName = findViewById(R.id.ProfileName);
         email = findViewById(R.id.ProfileEmail);
         phone = findViewById(R.id.ProfilePhone);
+        myCity = findViewById(R.id.City);
+        myNickName = findViewById(R.id.MyNickName);
+        myGender = findViewById(R.id.Gender);
 
         resendCode = findViewById(R.id.resendCode);
         verifyMsg = findViewById(R.id.verifyMsg);
@@ -116,6 +107,9 @@ public class MyProfile extends AppCompatActivity {
                 phone.setText(value.getString("phone"));
                 fullName.setText(value.getString("fullName"));
                 email.setText(value.getString("email"));
+                myCity.setText(value.getString("city"));
+                myGender.setText(value.getString("gender"));
+                myNickName.setText(value.getString("nickName"));
             }
         });
 
@@ -165,6 +159,9 @@ public class MyProfile extends AppCompatActivity {
                 i.putExtra("fName",fullName.getText().toString());
                 i.putExtra("email",email.getText().toString());
                 i.putExtra("phone",phone.getText().toString());
+                i.putExtra("city",myCity.getText().toString());
+                i.putExtra("gender",myGender.getText().toString());
+                i.putExtra("nickName",myNickName.getText().toString());
 
                 startActivity(i);
                 finish();
