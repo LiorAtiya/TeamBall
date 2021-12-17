@@ -89,11 +89,6 @@ public class GameRoom extends AppCompatActivity {
         DatabaseReference roomRef = roomDAO.getPathReference("Rooms/"+category+"/"+roomID);
 
         roomRef.runTransaction(new Transaction.Handler() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-
-                Room room = dataSnapshot.getValue(Room.class);
-                adminID = room.getAdmin();
               
             public Transaction.Result doTransaction(MutableData mutableData) {
                 Room room = mutableData.getValue(Room.class);
