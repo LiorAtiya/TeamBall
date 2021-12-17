@@ -13,7 +13,7 @@ public class Player {
     private String city;
     private String gender;
     private List roomsList; // this is a list of all the rooms (IDs) in which the player is an admin
-    private String age;
+//    private String age;
     private static int id = 1;
 
     /* Constructor */
@@ -26,7 +26,7 @@ public class Player {
         this.phone = _Phone;
         this.city = _city;
         this.roomsList = new ArrayList<Integer>();
-        this.age = _age;
+//        this.age = _age;
         this.gender = _gender;
         this.id += 1;
     }
@@ -87,7 +87,7 @@ public class Player {
         return this.id;
     }
 
-    public String getAge() { return this.age; }
+//    public String getAge() { return this.age; }
 
     public String getFullName() {
         return this.fullName;

@@ -9,7 +9,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -193,41 +192,10 @@ public class GameCenter extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int room, long l) {
 
-                final AlertDialog.Builder EnterGroupDialog = new AlertDialog.Builder(view.getContext());
-                EnterGroupDialog.setTitle("Want to join the room?");
-                EnterGroupDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
+                String roomName = adapter.getItem(room).getName();
+                String roomID =  adapter.getItem(room).getRoomID();
 
-                        String roomName = adapter.getItem(room).getName();
-                        String roomID =  adapter.getItem(room).getRoomID();
-
-                        //Add player to room
-                        roomDAO.addNewUser(category,roomID,playerDAO.playerID());
-
-                        //Add room to list of private rooms user
-                        playerDAO.addRoom(category,roomID);
-
-                        Toast.makeText(GameCenter.this, "My rooms updated", Toast.LENGTH_SHORT).show();
-
-                        //----------------------------------------
-
-                        //Go to a GameRoom page
-                        Intent intent = new Intent(GameCenter.this, GameRoom.class);
-                        intent.putExtra("room_name", roomName);
-                        intent.putExtra("user_name", name);
-                        intent.putExtra("category", category);
-                        intent.putExtra("roomID",roomID);
-                        startActivity(intent);
-                    }
-                });
-                EnterGroupDialog.setNegativeButton("No", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        dialogInterface.cancel();
-                    }
-                });
-                EnterGroupDialog.show();
+                roomDAO.checkLimitOfRoom_And_JoinToRoom(category,roomID,name,roomName);
 
             }
         });
