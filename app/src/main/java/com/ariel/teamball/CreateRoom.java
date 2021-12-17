@@ -133,23 +133,6 @@ public class CreateRoom extends AppCompatActivity {
                 */
                 String roomKey = gm.createRoom(RoomN, capacityInteger, CurtN, chosenCity, chosenTime, "date", category);
 
-//                PlayerDAO playerDAO = new PlayerDAO();
-//                RoomDAO roomDAO = new RoomDAO();
-//                // Room details storage in database
-//                String admin = playerDAO.playerID();
-//                Room newRoom = new Room(RoomN, capacityInteger, CurtN, chosenCity, chosenTime, "date", admin);
-//                newRoom.addUser(admin);
-//                newRoom.addLastUser(admin);
-//                String roomKey = roomDAO.createRoom(category, newRoom);
-
-                //-----------------------------------------
-
-//                //Add room to list of private rooms user
-//                playerDAO.addRoom(category, roomKey);
-
-//                //User enters the room - add to current in room
-//                RoomDAO.newUserInRoom(category,RoomN);
-
                 // move user back to game center
                 openGameCenter(category);
             }
