@@ -4,6 +4,7 @@ import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -13,6 +14,8 @@ import android.widget.TimePicker;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.ariel.teamball.Classes.DAO.PlayerDAO;
+import com.ariel.teamball.Classes.DAO.RoomDAO;
 import com.ariel.teamball.Classes.GameManagement;
 import com.google.android.material.textfield.TextInputEditText;
 
@@ -57,7 +60,11 @@ public class CreateRoom extends AppCompatActivity {
         calendar = Calendar.getInstance();
 
         currentHr = calendar.get(Calendar.HOUR);
-        currentHr = calendar.get(Calendar.MINUTE);
+        currentMin = calendar.get(Calendar.MINUTE);
+
+        String category = getIntent().getExtras().get("category").toString();
+        PlayerDAO playerDAO = new PlayerDAO();
+        RoomDAO roomDAO = new RoomDAO();
 
         //when we click the time picker
         mPickTimeBtn.setOnClickListener(view -> {
@@ -89,7 +96,7 @@ public class CreateRoom extends AppCompatActivity {
         playersCapacitySpinner.setAdapter(capacityAdapter);
 
 
-        /* when we click on done button then what will happen */
+        /* When we click on done button then what will happen */
         mDoneDefine.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -116,15 +123,16 @@ public class CreateRoom extends AppCompatActivity {
                     mCurtName.setError("Curt name is Required");
                     return;
                 }
-                if(chosenCity.contains("ty")){
-                    ((TextView)CitySpinner.getSelectedView()).setError("choose city");
+                if (chosenCity.contains("ty")) {
+                    ((TextView) CitySpinner.getSelectedView()).setError("choose city");
                     return;
                 }
-                if(chosenCapacity.contains("N")){
-                    ((TextView)playersCapacitySpinner.getSelectedView()).setError("choose number of players");
+                if (chosenCapacity.contains("N")) {
+                    ((TextView) playersCapacitySpinner.getSelectedView()).setError("choose number of players");
                     return;
                 }
 
+              
                 String category = getIntent().getExtras().get("category").toString();
                 // creates game management object
                 GameManagement gm = GameManagement.getInstance();
@@ -133,8 +141,16 @@ public class CreateRoom extends AppCompatActivity {
                 */
                 String roomKey = gm.createRoom(RoomN, capacityInteger, CurtN, chosenCity, chosenTime, "date", category);
 
+<<<<<<< HEAD
+=======
+//                //Add admin to playerList
+//                String admin = playerDAO.playerID();
+//                roomDAO.addNewUser(category,roomKey,admin);
+
+>>>>>>> 10aa59f58d16f84f66c68ccd9a4d0b877c944e93
                 // move user back to game center
                 openGameCenter(category);
+
             }
         });
     }
