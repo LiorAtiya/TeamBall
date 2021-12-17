@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.util.Log;
+import android.view.View;
+import androidx.annotation.NonNull;
 import android.widget.Toast;
 import androidx.appcompat.app.AlertDialog;
 import com.ariel.teamball.Classes.Player;
@@ -17,6 +19,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.MutableData;
 import com.google.firebase.database.Transaction;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -24,7 +27,10 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import java.util.HashMap;
 import java.util.Map;
 
-// Data Access Object class that synchronizes the Room objects with the database
+/*
+Data Access Object class that synchronizes the Room objects with the database.
+The methods in that class add, update and remove the data from the Rooms table in the database.
+ */
 public class RoomDAO {
 
     private static DatabaseReference reference;
@@ -51,7 +57,7 @@ public class RoomDAO {
         return FirebaseDatabase.getInstance().getReference(path);
     }
 
-  public static String createRoom(String category, Room newRoom){
+  public static String addRoom(String category, Room newRoom){
 
         DatabaseReference roomsRef = reference.child("Rooms").child(category);
         Map<String, Object> room = new HashMap<>();
@@ -64,6 +70,16 @@ public class RoomDAO {
 
         roomsRef.updateChildren(room);
         return temp_key;
+    }
+
+    /*
+    The function gets the key and the category of the room,
+    and a user id and removes the given user from the Rooms table in the DB
+     */
+    public void removeUserFromRoom(String roomKey, String category, String userID) {
+        DatabaseReference reference = getPathReference("Rooms/" + category + "/usersList");
+        Log.d("TAG", "reference.child(userID): " + reference.child(userID));
+        reference.child(userID).removeValue();
     }
 
     // The function gets the key and the category of the room and removes it from the Rooms table in the DB

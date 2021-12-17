@@ -16,6 +16,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.ariel.teamball.Classes.DAO.PlayerDAO;
 import com.ariel.teamball.Classes.DAO.RoomDAO;
+import com.ariel.teamball.Classes.GameManagement;
 import com.ariel.teamball.Classes.Room;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -33,17 +34,23 @@ import java.util.Map;
 public class GameRoom extends AppCompatActivity {
 
     public static final String TAG = "TAG";
+    Button players, chat, editRoom, leaveRoom;
     TextView roomName, capacity, city, field, admin,time;
-    Button players, chat, editRoom;
     String category,room_name,admin_name,my_name,adminID,roomID;
 
     RoomDAO roomDAO;
     PlayerDAO playerDAO;
 
+    // creates game management object
+    GameManagement gm = GameManagement.getInstance();
+
+    boolean isAdmin;
+
+
     @Override
     public void onBackPressed() {
         Intent i = new Intent(getApplicationContext(),MyRooms.class);
-        i.putExtra("category",category);
+        i.putExtra("category", category);
         startActivity(i);
         finish();
     }
@@ -64,6 +71,7 @@ public class GameRoom extends AppCompatActivity {
         players = findViewById(R.id.players);
         chat = findViewById(R.id.chat);
         editRoom = findViewById(R.id.edit_room);
+        leaveRoom = findViewById(R.id.leaveRoom);
 
         //Access to firebase
         roomDAO = new RoomDAO(this);
@@ -82,6 +90,11 @@ public class GameRoom extends AppCompatActivity {
 
         roomRef.runTransaction(new Transaction.Handler() {
             @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                Room room = dataSnapshot.getValue(Room.class);
+                adminID = room.getAdmin();
+              
             public Transaction.Result doTransaction(MutableData mutableData) {
                 Room room = mutableData.getValue(Room.class);
                 if (room == null) {
@@ -92,8 +105,10 @@ public class GameRoom extends AppCompatActivity {
                 //Show button of edit room only for admin
                 if(playerDAO.playerID().equals(adminID)){
                     editRoom.setVisibility(View.VISIBLE);
+                    isAdmin = true;
                 }else{
                     editRoom.setVisibility(View.INVISIBLE);
+                    isAdmin = false;
                 }
 
                 // Set value and report transaction success
@@ -110,6 +125,13 @@ public class GameRoom extends AppCompatActivity {
             }
         });
 
+//        //Show button of edit room only for admin
+//        if (isAdmin) {
+//            editRoom.setVisibility(View.VISIBLE);
+//        } else {
+//            editRoom.setVisibility(View.INVISIBLE);
+//        }
+          
 //        // Attach a listener to read the data at our rooms reference
 //        roomRef.addValueEventListener(new ValueEventListener() {
 //            @Override
@@ -297,6 +319,20 @@ public class GameRoom extends AppCompatActivity {
                 i.putExtra("roomID",roomID);
                 i.putExtra("user_name",my_name);
 
+                startActivity(i);
+            }
+        });
+
+        //---------------------------------------------------
+
+        leaveRoom.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                gm.leaveRoom(roomID, category, isAdmin);
+
+                Intent i = new Intent(v.getContext(),GameCenter.class);
+                i.putExtra("category", category);
                 startActivity(i);
             }
         });

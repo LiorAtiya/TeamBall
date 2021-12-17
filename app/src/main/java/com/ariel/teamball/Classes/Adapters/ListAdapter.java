@@ -67,6 +67,7 @@ public class ListAdapter extends ArrayAdapter<Room> {
         roomRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+
                 Room room = snapshot.getValue(Room.class);
                 //        imageView.setImageResource(room.getImageID());
                 roomName.setText(room.getName());
