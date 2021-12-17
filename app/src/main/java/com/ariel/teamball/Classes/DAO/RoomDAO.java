@@ -29,7 +29,6 @@ public class RoomDAO {
 
     private static DatabaseReference reference;
     private static FirebaseDatabase database;
-//    private static String adminID;
     private static Context context;
     private static PlayerDAO playerDAO;
     private static FirebaseFirestore fStore; // access Firesotre Database
@@ -194,19 +193,19 @@ public class RoomDAO {
                 dialogInterface.cancel();
             }
         });
-
-
         EnterGroupDialog.show();
     }
 
-                //    // The function add a new player to the given room
-//    public static void addPlayer(String category, String roomName){
-//
-//        final FirebaseDatabase database = FirebaseDatabase.getInstance();
-//        DatabaseReference ref = database.getReference();
-//
-//        DatabaseReference mDatabase = ref.child("Rooms/"+category+"/"+roomID);
-//        String key = mDatabase.child("usersList").getKey();
-//    }
+    public static void editRoomDetails(String category, String roomID, String roomName,String fieldName, String city, String time){
+
+        //Access to the list of rooms category
+        DatabaseReference reference = getPathReference("Rooms/" + category + "/" + roomID);
+
+        reference.child("name").setValue(roomName);
+        reference.child("field").setValue(fieldName);
+        reference.child("city").setValue(city);
+        reference.child("date").setValue(time);
+
+    }
 
 }
