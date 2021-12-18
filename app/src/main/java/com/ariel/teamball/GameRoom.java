@@ -8,7 +8,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
@@ -88,42 +87,39 @@ public class GameRoom extends AppCompatActivity {
         //Check for editRoom button
         DatabaseReference roomRef = roomDAO.getPathReference("Rooms/"+category+"/"+roomID);
 
-        roomRef.runTransaction(new Transaction.Handler() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-
-                Room room = dataSnapshot.getValue(Room.class);
-                adminID = room.getAdmin();
-              
-            public Transaction.Result doTransaction(MutableData mutableData) {
-                Room room = mutableData.getValue(Room.class);
-                if (room == null) {
-                    return Transaction.success(mutableData);
-                }
-
-                adminID = room.getAdmin();
-                //Show button of edit room only for admin
-                if(playerDAO.playerID().equals(adminID)){
-                    editRoom.setVisibility(View.VISIBLE);
-                    isAdmin = true;
-                }else{
-                    editRoom.setVisibility(View.INVISIBLE);
-                    isAdmin = false;
-                }
-
-                // Set value and report transaction success
-                mutableData.setValue(room);
-                return Transaction.success(mutableData);
-
-            }
-
-            @Override
-            public void onComplete(DatabaseError databaseError, boolean committed,
-                                   DataSnapshot currentData) {
-                // Transaction completed
-                Log.d("TAG", "postTransaction:onComplete:" + databaseError);
-            }
-        });
+//        roomRef.runTransaction(new Transaction.Handler() {
+//            @Override
+//            public void onDataChange(DataSnapshot dataSnapshot) {
+//
+//            public Transaction.Result doTransaction(MutableData mutableData) {
+//                Room room = mutableData.getValue(Room.class);
+//                if (room == null) {
+//                    return Transaction.success(mutableData);
+//                }
+//
+//                adminID = room.getAdmin();
+//                //Show button of edit room only for admin
+//                if(playerDAO.playerID().equals(adminID)){
+//                    editRoom.setVisibility(View.VISIBLE);
+//                    isAdmin = true;
+//                }else{
+//                    editRoom.setVisibility(View.INVISIBLE);
+//                    isAdmin = false;
+//                }
+//
+//                // Set value and report transaction success
+//                mutableData.setValue(room);
+//                return Transaction.success(mutableData);
+//
+//            }
+//
+//            @Override
+//            public void onComplete(DatabaseError databaseError, boolean committed,
+//                                   DataSnapshot currentData) {
+//                // Transaction completed
+//                Log.d("TAG", "postTransaction:onComplete:" + databaseError);
+//            }
+//        });
 
 //        //Show button of edit room only for admin
 //        if (isAdmin) {
