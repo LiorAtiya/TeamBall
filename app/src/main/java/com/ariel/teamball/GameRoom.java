@@ -324,13 +324,53 @@ public class GameRoom extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                gm.leaveRoom(roomID, category, isAdmin);
+                if(isAdmin) { // the user is the admin of the group
+                    final AlertDialog.Builder EnterGroupDialog = new AlertDialog.Builder(v.getContext());
+                    EnterGroupDialog.setMessage("If you leave this room, it will be deleted.\nAre you sure you want to leave?");
+                    EnterGroupDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() { // delete the room and go back
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            gm.removeRoom(roomID, category);
+                            moveToGameCenterScreen(v);
+                        }
+                    });
+                    EnterGroupDialog.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) { // do nothing
+                            dialogInterface.cancel();
+                        }
+                    });
+                    EnterGroupDialog.show();
+                }
 
-                Intent i = new Intent(v.getContext(),GameCenter.class);
-                i.putExtra("category", category);
-                startActivity(i);
+                else { // the user is not the admin of the room
+                    final AlertDialog.Builder EnterGroupDialog = new AlertDialog.Builder(v.getContext());
+                    EnterGroupDialog.setMessage("Are you sure you want to leave?");
+                    EnterGroupDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() { // leave and go back
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            gm.leaveRoom(roomID, category);
+                            moveToGameCenterScreen(v);
+                        }
+                    });
+                    EnterGroupDialog.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) { // do nothing
+                            dialogInterface.cancel();
+                        }
+                    });
+                    EnterGroupDialog.show();
+                }
+
             }
         });
+    }
+
+    // The function move to user back to the GameCenter activity
+    private void moveToGameCenterScreen(View v) {
+        Intent i = new Intent(v.getContext(),GameCenter.class);
+        i.putExtra("category", category);
+        startActivity(i);
     }
 
 }

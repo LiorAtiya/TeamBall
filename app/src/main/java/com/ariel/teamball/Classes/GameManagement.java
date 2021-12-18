@@ -1,6 +1,7 @@
 package com.ariel.teamball.Classes;
 
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
@@ -82,18 +83,13 @@ public class GameManagement {
     }
 
     /*
-    The function gets the room's key and category and if the user is admin
-    if the user is not an admin, then the exit from the room
-    otherwise call removeRoom function
+    The function gets the room's key and category and exit from the room
+    (removes the room from the userRooms and removes the user from the usersList)
      */
-    public void leaveRoom(String roomKey, String category, boolean isAdmin) {
-        if (isAdmin) { // admin
-            removeRoom(roomKey, category);
-        } else { // regular user
-            String userID = this.playerDAO.playerID();
-            this.playerDAO.removeRoomFromUserRooms(roomKey, category, userID);
-            this.roomDAO.removeUserFromRoom(roomKey, category, userID);
-        }
+    public void leaveRoom(String roomID, String category) {
+        String userID = this.playerDAO.playerID();
+        this.playerDAO.removeRoomFromUserRooms(roomID, category, userID);
+        this.roomDAO.removeUserFromRoom(roomID, category, userID);
     }
 
     /*
