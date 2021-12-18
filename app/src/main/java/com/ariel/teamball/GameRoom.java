@@ -8,7 +8,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
@@ -119,35 +118,7 @@ public class GameRoom extends AppCompatActivity {
                 Log.d("TAG", "postTransaction:onComplete:" + databaseError);
             }
         });
-
-//        //Show button of edit room only for admin
-//        if (isAdmin) {
-//            editRoom.setVisibility(View.VISIBLE);
-//        } else {
-//            editRoom.setVisibility(View.INVISIBLE);
-//        }
-          
-//        // Attach a listener to read the data at our rooms reference
-//        roomRef.addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(DataSnapshot dataSnapshot) {
-//
-//                Room room = dataSnapshot.getValue(Room.class);
-//                adminID = room.getAdmin();
-//
-//                //Show button of edit room only for admin
-//                if(playerDAO.playerID().equals(adminID)){
-//                    editRoom.setVisibility(View.VISIBLE);
-//                }else{
-//                    editRoom.setVisibility(View.INVISIBLE);
-//                }
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError error) {
-//
-//            }
-//        });
+        
 
         //---------------------------------------------------
 

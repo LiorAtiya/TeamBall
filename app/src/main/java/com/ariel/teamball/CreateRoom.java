@@ -141,11 +141,9 @@ public class CreateRoom extends AppCompatActivity {
                 */
                 String roomKey = gm.createRoom(RoomN, capacityInteger, CurtN, chosenCity, chosenTime, "date", category);
 
-
 //                //Add admin to playerList
 //                String admin = playerDAO.playerID();
 //                roomDAO.addNewUser(category,roomKey,admin);
-
                 // move user back to game center
                 openGameCenter(category);
 
