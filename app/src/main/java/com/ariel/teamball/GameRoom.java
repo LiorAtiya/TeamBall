@@ -87,68 +87,38 @@ public class GameRoom extends AppCompatActivity {
         //Check for editRoom button
         DatabaseReference roomRef = roomDAO.getPathReference("Rooms/"+category+"/"+roomID);
 
-//        roomRef.runTransaction(new Transaction.Handler() {
-//            @Override
-//            public void onDataChange(DataSnapshot dataSnapshot) {
-//
-//            public Transaction.Result doTransaction(MutableData mutableData) {
-//                Room room = mutableData.getValue(Room.class);
-//                if (room == null) {
-//                    return Transaction.success(mutableData);
-//                }
-//
-//                adminID = room.getAdmin();
-//                //Show button of edit room only for admin
-//                if(playerDAO.playerID().equals(adminID)){
-//                    editRoom.setVisibility(View.VISIBLE);
-//                    isAdmin = true;
-//                }else{
-//                    editRoom.setVisibility(View.INVISIBLE);
-//                    isAdmin = false;
-//                }
-//
-//                // Set value and report transaction success
-//                mutableData.setValue(room);
-//                return Transaction.success(mutableData);
-//
-//            }
-//
-//            @Override
-//            public void onComplete(DatabaseError databaseError, boolean committed,
-//                                   DataSnapshot currentData) {
-//                // Transaction completed
-//                Log.d("TAG", "postTransaction:onComplete:" + databaseError);
-//            }
-//        });
+        roomRef.runTransaction(new Transaction.Handler() {
+              
+            public Transaction.Result doTransaction(MutableData mutableData) {
+                Room room = mutableData.getValue(Room.class);
+                if (room == null) {
+                    return Transaction.success(mutableData);
+                }
 
-//        //Show button of edit room only for admin
-//        if (isAdmin) {
-//            editRoom.setVisibility(View.VISIBLE);
-//        } else {
-//            editRoom.setVisibility(View.INVISIBLE);
-//        }
-          
-//        // Attach a listener to read the data at our rooms reference
-//        roomRef.addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(DataSnapshot dataSnapshot) {
-//
-//                Room room = dataSnapshot.getValue(Room.class);
-//                adminID = room.getAdmin();
-//
-//                //Show button of edit room only for admin
-//                if(playerDAO.playerID().equals(adminID)){
-//                    editRoom.setVisibility(View.VISIBLE);
-//                }else{
-//                    editRoom.setVisibility(View.INVISIBLE);
-//                }
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError error) {
-//
-//            }
-//        });
+                adminID = room.getAdmin();
+                //Show button of edit room only for admin
+                if(playerDAO.playerID().equals(adminID)){
+                    editRoom.setVisibility(View.VISIBLE);
+                    isAdmin = true;
+                }else{
+                    editRoom.setVisibility(View.INVISIBLE);
+                    isAdmin = false;
+                }
+
+                // Set value and report transaction success
+                mutableData.setValue(room);
+                return Transaction.success(mutableData);
+
+            }
+
+            @Override
+            public void onComplete(DatabaseError databaseError, boolean committed,
+                                   DataSnapshot currentData) {
+                // Transaction completed
+                Log.d("TAG", "postTransaction:onComplete:" + databaseError);
+            }
+        });
+        
 
         //---------------------------------------------------
 
