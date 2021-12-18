@@ -77,8 +77,15 @@ public class RoomDAO {
     and a user id and removes the given user from the Rooms table in the DB
      */
     public void removeUserFromRoom(String roomKey, String category, String userID) {
-        DatabaseReference reference = getPathReference("Rooms/" + category + "/usersList");
-        Log.d("TAG", "reference.child(userID): " + reference.child(userID));
+//        //Add new player to usersList
+//        DatabaseReference usersList = reference.child("usersList");
+//        HashMap<String,Object> newUser = new HashMap<>();
+//
+//        String playerName = p.getFullName();
+//        newUser.put(playerID,playerName);
+//        usersList.updateChildren(newUser);
+
+        DatabaseReference reference = getPathReference("Rooms/" + category + "/" + roomKey + "/usersList");
         reference.child(userID).removeValue();
     }
 
