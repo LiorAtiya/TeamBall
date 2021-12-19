@@ -74,7 +74,7 @@ public class SportsMenu extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), GameCenter.class);
-                intent.putExtra("category", "BasketBall");
+                intent.putExtra("category", "Basketball");
                 startActivity(intent);
             }
         });
@@ -92,7 +92,7 @@ public class SportsMenu extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), GameCenter.class);
-                intent.putExtra("category", "TableTennis");
+                intent.putExtra("category", "Table Tennis");
                 startActivity(intent);
             }
         });
@@ -101,7 +101,7 @@ public class SportsMenu extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), GameCenter.class);
-                intent.putExtra("category", "HandBall");
+                intent.putExtra("category", "Handball");
                 startActivity(intent);
             }
         });
@@ -110,7 +110,7 @@ public class SportsMenu extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), GameCenter.class);
-                intent.putExtra("category", "VolleyBall");
+                intent.putExtra("category", "Volleyball");
                 startActivity(intent);
             }
         });
@@ -119,7 +119,7 @@ public class SportsMenu extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), GameCenter.class);
-                intent.putExtra("category", "DogeBall");
+                intent.putExtra("category", "Dodgeball");
                 startActivity(intent);
             }
         });
@@ -128,7 +128,7 @@ public class SportsMenu extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), GameCenter.class);
-                intent.putExtra("category", "FootBall");
+                intent.putExtra("category", "American Football");
                 startActivity(intent);
             }
         });

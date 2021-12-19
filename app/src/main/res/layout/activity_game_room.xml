@@ -97,43 +97,41 @@
         android:id="@+id/players"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
         android:background="@drawable/custom_button"
         android:text="List Players"
         android:textAllCaps="false"
         android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.459"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.662" />
+        app:layout_constraintTop_toBottomOf="@+id/admin" />
 
     <Button
         android:id="@+id/chat"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="584dp"
+        android:layout_marginTop="20dp"
         android:background="@drawable/custom_button"
         android:text="Chat"
         android:textAllCaps="false"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.462"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/players" />
 
     <Button
         android:id="@+id/leaveRoom"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
         android:backgroundTint="#FF0000"
         android:text="Leave Room"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/edit_room"
-        app:layout_constraintVertical_bias="0.09" />
+        app:layout_constraintVertical_bias="0.276" />
 
     <Button
         android:id="@+id/edit_room"
@@ -145,8 +143,8 @@
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.463"
+        app:layout_constraintHorizontal_bias="0.501"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.873" />
+        app:layout_constraintTop_toBottomOf="@+id/chat"
+        app:layout_constraintVertical_bias="0.159" />
 </androidx.constraintlayout.widget.ConstraintLayout>
