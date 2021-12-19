@@ -25,7 +25,7 @@ public class CreateRoom extends AppCompatActivity {
     TextInputEditText mGroupName, mCurtName;
     // for start game picker
     Button mPickTimeBtn, mDoneDefine;
-    TextView showCurrentTime;
+    TextView showCurrentTime, timeTxt;
 
     Spinner CitySpinner, playersCapacitySpinner; // for spinners pick
 
@@ -56,6 +56,7 @@ public class CreateRoom extends AppCompatActivity {
         mPickTimeBtn = (Button) findViewById(R.id.timePicker);
         showCurrentTime = findViewById(R.id.TimeText);
         mDoneDefine = findViewById(R.id.donedef);
+        timeTxt = findViewById(R.id.TimeText);
 
         calendar = Calendar.getInstance();
 
@@ -104,7 +105,7 @@ public class CreateRoom extends AppCompatActivity {
                 String RoomN = mGroupName.getText().toString();
                 String CurtN = mCurtName.getText().toString();
                 String chosenCity = CitySpinner.getSelectedItem().toString();
-                String chosenTime = calendar.getTime().toString();
+                String chosenTime = timeTxt.getText().toString();
                 String chosenCapacity = playersCapacitySpinner.getSelectedItem().toString();
                 int capacityInteger = 0;
                 if (!chosenCapacity.contains("N")) {
@@ -129,6 +130,11 @@ public class CreateRoom extends AppCompatActivity {
                 }
                 if (chosenCapacity.contains("N")) {
                     ((TextView) playersCapacitySpinner.getSelectedView()).setError("choose number of players");
+                    return;
+                }
+
+                if(chosenTime.contains("Time")){
+                    timeTxt.setError("Choose time start game");
                     return;
                 }
 
