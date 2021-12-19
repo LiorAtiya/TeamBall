@@ -118,7 +118,7 @@ public class GameRoom extends AppCompatActivity {
                 Log.d("TAG", "postTransaction:onComplete:" + databaseError);
             }
         });
-        
+
 
         //---------------------------------------------------
 
