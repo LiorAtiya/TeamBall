@@ -1,4 +1,4 @@
-package com.ariel.teamball;
+package com.ariel.teamball.View;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -14,7 +14,8 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.ariel.teamball.Classes.DAO.PlayerDAO;
+import com.ariel.teamball.Model.DAL.PlayerDAL;
+import com.ariel.teamball.R;
 import com.google.android.material.textfield.TextInputEditText;
 
 public class LoginActivity extends AppCompatActivity {
@@ -24,7 +25,7 @@ public class LoginActivity extends AppCompatActivity {
     TextView mCreateBtn, mForgotPassBtn;
     ProgressBar progressBar;
 
-    PlayerDAO playerDAO;
+    PlayerDAL playerDAL;
 
     @Override
     public void onBackPressed() {
@@ -46,10 +47,10 @@ public class LoginActivity extends AppCompatActivity {
         mForgotPassBtn = findViewById(R.id.ForgotPassBtn);
 
 
-        playerDAO = new PlayerDAO(this);
+        playerDAL = new PlayerDAL(this);
 
         //Automatic connection
-        if(playerDAO.playerConnected()){
+        if(playerDAL.playerConnected()){
             startActivity(new Intent(getApplicationContext(), SportsMenu.class));
             finish();
         }
@@ -73,7 +74,7 @@ public class LoginActivity extends AppCompatActivity {
                 //Charging circle while waiting to connect
                 progressBar.setVisibility(View.VISIBLE);
 
-                playerDAO.playerLogin(email,password,progressBar);
+                playerDAL.playerLogin(email,password,progressBar);
 
             }
         });
@@ -82,7 +83,7 @@ public class LoginActivity extends AppCompatActivity {
         mCreateBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(),RegisterActivity.class));
+                startActivity(new Intent(getApplicationContext(), RegisterActivity.class));
                 finish();
             }
         });
@@ -103,7 +104,7 @@ public class LoginActivity extends AppCompatActivity {
 
                         String mail = mMail.getText().toString();
 
-                        playerDAO.resetPassword(mail);
+                        playerDAL.resetPassword(mail);
 
                     }
                 });

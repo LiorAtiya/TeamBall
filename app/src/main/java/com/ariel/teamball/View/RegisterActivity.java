@@ -1,4 +1,4 @@
-package com.ariel.teamball;
+package com.ariel.teamball.View;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -14,20 +14,21 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.ariel.teamball.Classes.DAO.PlayerDAO;
-import com.ariel.teamball.Classes.Player;
+import com.ariel.teamball.Model.Classes.Validation;
+import com.ariel.teamball.Model.DAL.PlayerDAL;
+import com.ariel.teamball.Model.Classes.Player;
+import com.ariel.teamball.R;
 import com.google.android.material.textfield.TextInputEditText;
 
 public class RegisterActivity extends AppCompatActivity {
 
-    public static final String TAG = "TAG";
     TextInputEditText mFullName, mEmail, mPassword, mPhone,mNickName;
     Spinner citySpinner, genderSpinner , ageSpinner;
     Button mRegisterBtn;
     TextView AlreadyRegisterBtn;
     ProgressBar progressBar;
 
-    PlayerDAO playerDAO;
+    PlayerDAL playerDAL;
 
     @Override
     public void onBackPressed() {
@@ -79,10 +80,7 @@ public class RegisterActivity extends AppCompatActivity {
         AlreadyRegisterBtn = findViewById(R.id.LoginFromRegister);
         progressBar = findViewById(R.id.simpleProgressBar);
 
-
-
-
-        playerDAO = new PlayerDAO(this);
+        playerDAL = new PlayerDAL(this);
 
         mRegisterBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -95,6 +93,7 @@ public class RegisterActivity extends AppCompatActivity {
                 String chosenGender = genderSpinner.getSelectedItem().toString();
                 String chosenCity = citySpinner.getSelectedItem().toString();
                 String chosenAge = ageSpinner.getSelectedItem().toString();
+
 
                 /* -- Character insertion check -- */
                 if(TextUtils.isEmpty(fullName)){
@@ -143,8 +142,7 @@ public class RegisterActivity extends AppCompatActivity {
 
                 //Create new player
                 Player p = new Player(fullName ,nickName,email,password, phone,chosenCity,chosenGender,chosenAge);
-
-                playerDAO.playerRegister(p,progressBar);
+                playerDAL.playerRegister(p,progressBar);
 
             }
         });
@@ -153,7 +151,7 @@ public class RegisterActivity extends AppCompatActivity {
         AlreadyRegisterBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(),LoginActivity.class));
+                startActivity(new Intent(getApplicationContext(), LoginActivity.class));
             }
         });
 

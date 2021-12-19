@@ -1,21 +1,18 @@
-package com.ariel.teamball.Classes.DAO;
+package com.ariel.teamball.Model.DAL;
 
 import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.util.Log;
-import android.view.View;
-
-import androidx.annotation.NonNull;
 
 import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 
-import com.ariel.teamball.Classes.Player;
-import com.ariel.teamball.Classes.Room;
-import com.ariel.teamball.GameRoom;
+import com.ariel.teamball.Model.Classes.Player;
+import com.ariel.teamball.Model.Classes.Room;
+import com.ariel.teamball.View.GameRoom;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -23,7 +20,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.MutableData;
 import com.google.firebase.database.Transaction;
-import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -35,23 +31,23 @@ import java.util.Map;
 Data Access Object class that synchronizes the Room objects with the database.
 The methods in that class add, update and remove the data from the Rooms table in the database.
  */
-public class RoomDAO {
+public class RoomDAL {
 
     private static DatabaseReference reference;
     private static FirebaseDatabase database;
     private static Context context;
-    private static PlayerDAO playerDAO;
+    private static PlayerDAL playerDAL;
     private static FirebaseFirestore fStore; // access Firesotre Database
 
-    public RoomDAO(Context context) {
+    public RoomDAL(Context context) {
         database = FirebaseDatabase.getInstance();
         reference = database.getReference();
         fStore = FirebaseFirestore.getInstance();
         this.context = context;
-        this.playerDAO = new PlayerDAO(context);
+        this.playerDAL = new PlayerDAL(context);
     }
 
-    public RoomDAO() {
+    public RoomDAL() {
         database = FirebaseDatabase.getInstance();
         reference = database.getReference();
         fStore = FirebaseFirestore.getInstance();
@@ -135,12 +131,12 @@ public class RoomDAO {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
                 Player p = documentSnapshot.toObject(Player.class);
+                String playerName = p.getFullName();
 
                 //Add new player to usersList
                 DatabaseReference usersList = reference.child("usersList");
                 HashMap<String, Object> newUser = new HashMap<>();
 
-                String playerName = p.getFullName();
                 newUser.put(playerID, playerName);
                 usersList.updateChildren(newUser);
             }
@@ -223,10 +219,10 @@ public class RoomDAO {
             public void onClick(DialogInterface dialogInterface, int i) {
 
                 //Add player to room
-                addNewUser(category, roomID, playerDAO.playerID());
+                addNewUser(category, roomID, playerDAL.playerID());
 
                 //Add room to list of private rooms user
-                playerDAO.addRoom(category, roomID);
+                playerDAL.addRoom(category, roomID);
 
                 //----------------------------------------
 

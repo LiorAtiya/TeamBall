@@ -1,19 +1,17 @@
-package com.ariel.teamball.Classes.Adapters;
+package com.ariel.teamball.Controller.Adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.ariel.teamball.Classes.DAO.RoomDAO;
-import com.ariel.teamball.Classes.Room;
+import com.ariel.teamball.Model.DAL.RoomDAL;
+import com.ariel.teamball.Model.Classes.Room;
 import com.ariel.teamball.R;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -26,7 +24,7 @@ public class ListAdapter extends ArrayAdapter<Room> {
 
     private static final String TAG = "RoomListAdapter";
     private Context mContext;
-    RoomDAO roomDAO;
+    RoomDAL roomDAL;
     int mResource;
 
     public ListAdapter(Context context,int resource, ArrayList<Room> roomArrayList){
@@ -61,18 +59,19 @@ public class ListAdapter extends ArrayAdapter<Room> {
 //        Button edit = convertView.findViewById(R.id.edit_room_btn);
 
         //Fill the details of room in TextView
-        roomDAO = new RoomDAO(mContext);
-        DatabaseReference roomRef = roomDAO.getPathReference("Rooms/"+category+"/"+roomID);
+        roomDAL = new RoomDAL(mContext);
+        DatabaseReference roomRef = roomDAL.getPathReference("Rooms/"+category+"/"+roomID);
 
         roomRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-
                 Room room = snapshot.getValue(Room.class);
-                //        imageView.setImageResource(room.getImageID());
-                roomName.setText(room.getName());
-                details.setText("Capacity: " + room.getNumOfPlayers()+ "/" + room.getCapacity() +
-                        " | City: " + room.getCity() +" " + "\nField: " + room.getField() );
+                if(room != null){
+                    //        imageView.setImageResource(room.getImageID());
+                    roomName.setText(room.getName());
+                    details.setText("Capacity: " + room.getNumOfPlayers()+ "/" + room.getCapacity() +
+                            " | City: " + room.getCity() +" " + "\nField: " + room.getField() );
+                }
             }
 
             @Override

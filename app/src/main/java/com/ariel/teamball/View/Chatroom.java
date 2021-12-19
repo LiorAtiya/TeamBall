@@ -1,4 +1,4 @@
-package com.ariel.teamball;
+package com.ariel.teamball.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -10,6 +10,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.ariel.teamball.R;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -31,7 +32,7 @@ public class Chatroom extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        Intent i = new Intent(getApplicationContext(),MyRooms.class);
+        Intent i = new Intent(getApplicationContext(), MyRooms.class);
         i.putExtra("category",category);
         startActivity(i);
         overridePendingTransition(0,0);
