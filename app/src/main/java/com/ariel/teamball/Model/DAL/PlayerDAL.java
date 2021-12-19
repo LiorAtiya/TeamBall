@@ -1,4 +1,4 @@
-package com.ariel.teamball.Classes.DAO;
+package com.ariel.teamball.Model.DAL;
 
 import android.content.Context;
 import android.content.Intent;
@@ -11,13 +11,10 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
-import com.ariel.teamball.Classes.Player;
-import com.ariel.teamball.Classes.Room;
-import com.ariel.teamball.EditProfile;
-import com.ariel.teamball.GameCenter;
-import com.ariel.teamball.MyProfile;
-import com.ariel.teamball.MyRooms;
-import com.ariel.teamball.SportsMenu;
+import com.ariel.teamball.Controller.SwitchActivities;
+import com.ariel.teamball.Model.Classes.Player;
+import com.ariel.teamball.View.MyProfile;
+import com.ariel.teamball.View.SportsMenu;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -39,16 +36,14 @@ import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
 
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
-import java.util.Set;
 
 /*
 Data Access Object class that synchronizes the Player objects with the database.
 The methods in that class add, update and remove the data from the userRooms table in the database.
  */
-public class PlayerDAO {
+public class PlayerDAL {
 
     public static final String TAG = "TAG";
     private static FirebaseAuth fAuth; // access Authentication
@@ -58,7 +53,7 @@ public class PlayerDAO {
     private static FirebaseUser user; // access the user who logged in
     private static String value; //Take value from details of player
 
-    public PlayerDAO(Context context) {
+    public PlayerDAL(Context context) {
         fAuth = FirebaseAuth.getInstance();
         fStore = FirebaseFirestore.getInstance();
         storageReference = FirebaseStorage.getInstance().getReference();
@@ -67,7 +62,7 @@ public class PlayerDAO {
         this.context = context;
     }
 
-    public PlayerDAO() {
+    public PlayerDAL() {
         fAuth = FirebaseAuth.getInstance();
         fStore = FirebaseFirestore.getInstance();
         storageReference = FirebaseStorage.getInstance().getReference();
@@ -96,7 +91,7 @@ public class PlayerDAO {
     }
 
     public static void setUser(FirebaseUser user) {
-        PlayerDAO.user = user;
+        PlayerDAL.user = user;
     }
 
     // Add room to list of private rooms user
@@ -206,7 +201,6 @@ public class PlayerDAO {
                 if (task.isSuccessful()) {
 
                     FirebaseUser fuser = fAuth.getCurrentUser();
-
                     //Send verification link
                     fuser.sendEmailVerification().addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
@@ -223,15 +217,14 @@ public class PlayerDAO {
                     Toast.makeText(context, "User Created Successfully", Toast.LENGTH_SHORT).show();
 
 
-                    String userID = fuser.getUid();
                     //Create collection
-                    DocumentReference documentReference = fStore.collection("users").document(userID);
+                    DocumentReference documentReference = fStore.collection("users").document(playerID());
 
                     //Store player in the collection
                     documentReference.set(p).addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void unused) {
-                            Log.d(TAG, "onSuccess: user Profile is created for " + userID);
+                            Log.d(TAG, "onSuccess: user Profile is created for " + playerID());
                         }
                     }).addOnFailureListener(new OnFailureListener() {
                         @Override
@@ -241,8 +234,10 @@ public class PlayerDAO {
                     });
 
                     //Go to a SportsMenu page
-                    Intent myIntent = new Intent(context, SportsMenu.class);
-                    context.startActivity(myIntent);
+                    SwitchActivities.SportMenu(context);
+
+//                    Intent myIntent = new Intent(context, SportsMenu.class);
+//                    context.startActivity(myIntent);
 
                     pb.setVisibility(View.GONE);
 
@@ -304,32 +299,50 @@ public class PlayerDAO {
         });
     }
 
-    public static void editPlayerDetails(String email, String fullName, String phone) {
-        user.updateEmail(email).addOnSuccessListener(new OnSuccessListener<Void>() {
+    public static void editPlayerDetails(String fullName,String nickname, String phone,String age,String gender) {
+
+        DocumentReference docRef = fStore.collection("users").document(user.getUid());
+        Map<String, Object> edited = new HashMap<>();
+        edited.put("fullName", fullName);
+        edited.put("nickName", nickname);
+        edited.put("phone", phone);
+        edited.put("age", age);
+        edited.put("gender", gender);
+
+        docRef.update(edited).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void unused) {
+                Toast.makeText(context, "Profile Updated", Toast.LENGTH_SHORT).show();
+                context.startActivity(new Intent(context, MyProfile.class));
 
-                DocumentReference docRef = fStore.collection("users").document(user.getUid());
-                Map<String, Object> edited = new HashMap<>();
-                edited.put("email", email);
-                edited.put("fullName", fullName);
-                edited.put("phone", phone);
-                docRef.update(edited).addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void unused) {
-                        Toast.makeText(context, "Profile Updated", Toast.LENGTH_SHORT).show();
-                        context.startActivity(new Intent(context, MyProfile.class));
-
-                    }
-                });
-                Toast.makeText(context, "Email is changed", Toast.LENGTH_SHORT).show();
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
+
+//        user.updateEmail(email).addOnSuccessListener(new OnSuccessListener<Void>() {
+//            @Override
+//            public void onSuccess(Void unused) {
+//
+//                DocumentReference docRef = fStore.collection("users").document(user.getUid());
+//                Map<String, Object> edited = new HashMap<>();
+//                edited.put("email", email);
+//                edited.put("fullName", fullName);
+//                edited.put("phone", phone);
+//                docRef.update(edited).addOnSuccessListener(new OnSuccessListener<Void>() {
+//                    @Override
+//                    public void onSuccess(Void unused) {
+//                        Toast.makeText(context, "Profile Updated", Toast.LENGTH_SHORT).show();
+//                        context.startActivity(new Intent(context, MyProfile.class));
+//
+//                    }
+//                });
+//                Toast.makeText(context, "Email is changed", Toast.LENGTH_SHORT).show();
+//            }
+//        }).addOnFailureListener(new OnFailureListener() {
+//            @Override
+//            public void onFailure(@NonNull Exception e) {
+//                Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();
+//            }
+//        });
     }
 
     //Upload image to firebase storage

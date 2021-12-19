@@ -1,4 +1,4 @@
-package com.ariel.teamball.Classes.Adapters;
+package com.ariel.teamball.Controller.Adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -10,7 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 
-import com.ariel.teamball.Classes.Player;
+import com.ariel.teamball.Model.Classes.Player;
 import com.ariel.teamball.R;
 
 import java.util.ArrayList;

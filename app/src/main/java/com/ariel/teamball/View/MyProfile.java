@@ -1,4 +1,4 @@
-package com.ariel.teamball;
+package com.ariel.teamball.View;
 
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -17,7 +17,8 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.ariel.teamball.Classes.DAO.PlayerDAO;
+import com.ariel.teamball.Model.DAL.PlayerDAL;
+import com.ariel.teamball.R;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseUser;
@@ -30,13 +31,13 @@ import com.squareup.picasso.Picasso;
 
 public class MyProfile extends AppCompatActivity {
 
-    TextView fullName, email, phone,verifyMsg, myCity,myNickName,myGender;
+    TextView fullName, email, phone,verifyMsg, myCity,myNickName,myGender,myAge;
     Button logoutBtn, resendCode,resetPassword,changeProfile;
     String userID;
     FirebaseUser user;
     ImageView profileImage;
 
-    PlayerDAO playerDAO;
+    PlayerDAL playerDAL;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,15 +55,16 @@ public class MyProfile extends AppCompatActivity {
         myCity = findViewById(R.id.City);
         myNickName = findViewById(R.id.MyNickName);
         myGender = findViewById(R.id.Gender);
+        myAge = findViewById(R.id.age);
 
         resendCode = findViewById(R.id.resendCode);
         verifyMsg = findViewById(R.id.verifyMsg);
         resetPassword = findViewById(R.id.resetPasswordLocal);
 
-        playerDAO = new PlayerDAO(this);
+        playerDAL = new PlayerDAL(this);
 
         //Access to profile picture of the player
-        StorageReference profileRef = playerDAO.getStorage("users/"+playerDAO.playerID()+"/profile.jpg");
+        StorageReference profileRef = playerDAL.getStorage("users/"+ playerDAL.playerID()+"/profile.jpg");
 
         profileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
@@ -73,8 +75,8 @@ public class MyProfile extends AppCompatActivity {
 
 
         //Player verify
-        userID = playerDAO.playerID();
-        user = playerDAO.getUser();
+        userID = playerDAL.playerID();
+        user = playerDAL.getUser();
 
         if(!user.isEmailVerified()){
             resendCode.setVisibility(View.VISIBLE);
@@ -100,7 +102,7 @@ public class MyProfile extends AppCompatActivity {
         }
 
         //Access from firebase to details of player
-        DocumentReference documentReference = playerDAO.getCollection("users",userID);
+        DocumentReference documentReference = playerDAL.getCollection("users",userID);
         documentReference.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
             @Override
             public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
@@ -110,6 +112,7 @@ public class MyProfile extends AppCompatActivity {
                 myCity.setText(value.getString("city"));
                 myGender.setText(value.getString("gender"));
                 myNickName.setText(value.getString("nickName"));
+                myAge.setText(value.getString("age"));
             }
         });
 
@@ -129,7 +132,7 @@ public class MyProfile extends AppCompatActivity {
 
                         String newPassword = resetPassword.getText().toString();
 
-                        playerDAO.updatePassword(newPassword);
+                        playerDAL.updatePassword(newPassword);
                     }
                 });
 
@@ -155,28 +158,20 @@ public class MyProfile extends AppCompatActivity {
         changeProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(v.getContext(),EditProfile.class);
+                Intent i = new Intent(v.getContext(), EditProfile.class);
                 i.putExtra("fName",fullName.getText().toString());
                 i.putExtra("email",email.getText().toString());
                 i.putExtra("phone",phone.getText().toString());
                 i.putExtra("city",myCity.getText().toString());
                 i.putExtra("gender",myGender.getText().toString());
                 i.putExtra("nickName",myNickName.getText().toString());
+                i.putExtra("age",myNickName.getText().toString());
 
                 startActivity(i);
                 finish();
             }
         });
 
-        logoutBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                playerDAO.playerSignOut();
-                startActivity(new Intent(getApplicationContext(),LoginActivity.class));
-                finish();
-            }
-        });
     }
 
 }
