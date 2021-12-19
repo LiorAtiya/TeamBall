@@ -1,6 +1,7 @@
 package com.ariel.teamball.Classes.Adapters;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,7 +19,6 @@ import java.util.ArrayList;
 public class PlayerAdapter extends RecyclerView.Adapter<PlayerAdapter.MyViewHolder> {
 
     Context context;
-
     ArrayList<Player> list;
 
     public PlayerAdapter(Context context, ArrayList<Player> list) {
@@ -35,6 +35,7 @@ public class PlayerAdapter extends RecyclerView.Adapter<PlayerAdapter.MyViewHold
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
+        Log.d("TAG", "onBindViewHolder");
         Player player = list.get(position);
         holder.fullName.setText(player.getFullName());
         holder.nickName.setText(player.getNickName());
@@ -51,7 +52,7 @@ public class PlayerAdapter extends RecyclerView.Adapter<PlayerAdapter.MyViewHold
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
-
+            Log.d("TAG", "MyViewHolder");
             fullName = itemView.findViewById(R.id.tvFullName);
             nickName = itemView.findViewById(R.id.tvNickName);
         }

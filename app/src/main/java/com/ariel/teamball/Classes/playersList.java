@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
+import android.util.Log;
 
 import com.ariel.teamball.Classes.Adapters.PlayerAdapter;
 import com.ariel.teamball.R;
@@ -26,11 +27,16 @@ public class playersList extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Log.d("TAG", "playersList");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_players_list);
 
+        String category = "Soccer";
+        String roomID = "-MrIdgsAd-Xt-r_tc_c-";
+
         recyclerView = findViewById(R.id.playersList);
-        db = FirebaseDatabase.getInstance().getReference("users");
+        db = FirebaseDatabase.getInstance().getReference("users").child(category).child(roomID).child("usersList");
+        Log.d("TAG", "DB: " + db);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
@@ -43,6 +49,7 @@ public class playersList extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     Player player = dataSnapshot.getValue(Player.class);
+                    Log.d("TAG", "list.add(player): " + player.getId());
                     list.add(player);
                 }
                 playerAdapter.notifyDataSetChanged();

@@ -17,6 +17,7 @@ import com.ariel.teamball.Classes.DAO.PlayerDAO;
 import com.ariel.teamball.Classes.DAO.RoomDAO;
 import com.ariel.teamball.Classes.GameManagement;
 import com.ariel.teamball.Classes.Room;
+import com.ariel.teamball.Classes.playersList;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
@@ -216,28 +217,32 @@ public class GameRoom extends AppCompatActivity {
                 roomRef.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
-                        Room room = dataSnapshot.getValue(Room.class);
-                        Map<String,String> players = room.getUsersList();
-                        Log.d("MyTest", "Size map: "+players.size());
-                        String playersName = "";
-                        for (Map.Entry<String,String> player : players.entrySet()){
-                            playersName += player.getValue()+"\n";
-                        }
 
-                        final AlertDialog.Builder playersDialog = new AlertDialog.Builder(v.getContext());
-                        playersDialog.setTitle("Team players");
-                        playersDialog.setMessage(playersName);
+                        Intent i = new Intent(v.getContext(), playersList.class);
+                        startActivity(i);
 
-                        playersDialog.setNegativeButton("Exit", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-
-                            }
-                        });
-
-                        if (!GameRoom.this.isFinishing()){
-                            playersDialog.create().show();
-                        }
+//                        Room room = dataSnapshot.getValue(Room.class);
+//                        Map<String,String> players = room.getUsersList();
+//                        Log.d("MyTest", "Size map: "+players.size());
+//                        String playersName = "";
+//                        for (Map.Entry<String,String> player : players.entrySet()){
+//                            playersName += player.getValue()+"\n";
+//                        }
+//
+//                        final AlertDialog.Builder playersDialog = new AlertDialog.Builder(v.getContext());
+//                        playersDialog.setTitle("Team players");
+//                        playersDialog.setMessage(playersName);
+//
+//                        playersDialog.setNegativeButton("Exit", new DialogInterface.OnClickListener() {
+//                            @Override
+//                            public void onClick(DialogInterface dialog, int which) {
+//
+//                            }
+//                        });
+//
+//                        if (!GameRoom.this.isFinishing()){
+//                            playersDialog.create().show();
+//                        }
 
                     }
 
@@ -248,7 +253,6 @@ public class GameRoom extends AppCompatActivity {
                 });
 
 
-//                playersDialog.setMessage("Lior\nLioz\nOfir");
 
             }
         });
