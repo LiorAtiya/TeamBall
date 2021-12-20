@@ -219,7 +219,7 @@ public class RoomDAL {
             public void onClick(DialogInterface dialogInterface, int i) {
 
                 //Add player to room
-                addNewUser(category, roomID, playerDAL.playerID());
+                addNewUser(category, roomID, playerDAL.getPlayerID());
 
                 //Add room to list of private rooms user
                 playerDAL.addRoom(category, roomID);

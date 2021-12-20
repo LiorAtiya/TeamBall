@@ -98,7 +98,7 @@ public class GameRoom extends AppCompatActivity {
 
                 adminID = room.getAdmin();
                 //Show button of edit room only for admin
-                if(playerDAL.playerID().equals(adminID)){
+                if(playerDAL.getPlayerID().equals(adminID)){
                     editRoom.setVisibility(View.VISIBLE);
                     isAdmin = true;
                 }else{

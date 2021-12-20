@@ -1,15 +1,18 @@
 package com.ariel.teamball.Model.DAL;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 
 import com.ariel.teamball.Controller.SwitchActivities;
 import com.ariel.teamball.Model.Classes.Player;
@@ -28,7 +31,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -69,29 +71,8 @@ public class PlayerDAL {
         user = fAuth.getCurrentUser();
     }
 
-    public static String getValueFromPlayer(String key) {
-        //Access to user collection to take my name
-        DocumentReference docRef = getCollection("users", playerID());
-        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if (task.isSuccessful()) {
-                    DocumentSnapshot document = task.getResult();
-                    value = document.getString(key);
-                } else {
-                    Log.d(TAG, "get failed with ", task.getException());
-                }
-            }
-        });
-        return value;
-    }
-
     public static FirebaseUser getUser() {
         return user;
-    }
-
-    public static void setUser(FirebaseUser user) {
-        PlayerDAL.user = user;
     }
 
     // Add room to list of private rooms user
@@ -100,36 +81,12 @@ public class PlayerDAL {
         final FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference ref = database.getReference();
 
-        DatabaseReference usersRef = ref.child("userRooms/" + playerID() + "/" + category);
+        DatabaseReference usersRef = ref.child("userRooms/" + getPlayerID() + "/" + category);
         Map<String, Object> groups = new HashMap<>();
         groups.put(roomKey, roomKey);
 
         usersRef.updateChildren(groups);
     }
-
-    // The function gets the key and the category of the room and removes the room from each of the users
-//    public void removeRoomFromUserRooms(String roomKey, String category) {
-//        DatabaseReference userRoomsReference = getPathReference("UserRooms/");
-//        userRoomsReference.addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(DataSnapshot dataSnapshot) {
-//                // iterates over the userRooms
-//                Iterator i = dataSnapshot.getChildren().iterator();
-//                while (i.hasNext()) {
-//                    DataSnapshot childSnapshot = (DataSnapshot) i.next();
-//                    // checks if its the correct room's category
-//                    if(childSnapshot.child(category).equals(category)) {
-//                        userRoomsReference.child(roomKey).removeValue();
-//                        childSnapshot.child(category).child(roomKey);
-//                    }
-//                }
-//            }
-//            @Override
-//            public void onCancelled(DatabaseError databaseError) {
-//
-//            }
-//        });
-//    }
 
     /*
   The function gets the key, the category of the room and a userID and removes
@@ -168,16 +125,41 @@ public class PlayerDAL {
         });
     }
 
-    public static DatabaseReference getPathReference(String path) {
-        return FirebaseDatabase.getInstance().getReference(path);
-    }
-
-    public static String playerID() {
+    public static String getPlayerID() {
         return fAuth.getCurrentUser().getUid();
     }
 
     public static DocumentReference getCollection(String nameCollection, String playerID) {
         return fStore.collection(nameCollection).document(playerID);
+    }
+
+    public static void setProfilePicture(ImageView profileImage,String playerID) {
+        StorageReference profileRef = getStorage("users/"+ playerID +"/profile.jpg");
+
+        profileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+            @Override
+            public void onSuccess(Uri uri) {
+                Picasso.get().load(uri).into(profileImage);
+            }
+        });
+    }
+
+    public static void verifyEmail(View v) {
+        user.sendEmailVerification().addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void unused) {
+                Toast.makeText(v.getContext(),"Verification Email Has Been Sent", Toast.LENGTH_SHORT).show();
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.d("TAG","onFailure: Email not sent " + e.getMessage());
+            }
+        });
+    }
+
+    public static DatabaseReference getPathReference(String path) {
+        return FirebaseDatabase.getInstance().getReference(path);
     }
 
     public static StorageReference getStorage(String path) {
@@ -218,13 +200,13 @@ public class PlayerDAL {
 
 
                     //Create collection
-                    DocumentReference documentReference = fStore.collection("users").document(playerID());
+                    DocumentReference documentReference = fStore.collection("users").document(getPlayerID());
 
                     //Store player in the collection
                     documentReference.set(p).addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void unused) {
-                            Log.d(TAG, "onSuccess: user Profile is created for " + playerID());
+                            Log.d(TAG, "onSuccess: user Profile is created for " + getPlayerID());
                         }
                     }).addOnFailureListener(new OnFailureListener() {
                         @Override
@@ -269,36 +251,86 @@ public class PlayerDAL {
         });
     }
 
-    public static void resetPassword(String mail) {
+    //Reset from Login page
+    public static void resetPassword(View v) {
 
-        fAuth.sendPasswordResetEmail(mail).addOnSuccessListener(new OnSuccessListener<Void>() {
+        EditText mMail = new EditText(v.getContext());
+        final AlertDialog.Builder passwordResetDialog = new AlertDialog.Builder(v.getContext());
+        passwordResetDialog.setTitle("Reset Password ?");
+        passwordResetDialog.setMessage("Enter Your Email To Receive Reset Link ");
+        passwordResetDialog.setView(mMail);
+
+        passwordResetDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
             @Override
-            public void onSuccess(Void unused) {
-                Toast.makeText(context, "Reset Link Sent to Your Email", Toast.LENGTH_SHORT).show();
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Toast.makeText(context, "Error! Reset Link Was Not Sent " + e.getMessage(), Toast.LENGTH_SHORT).show();
+            public void onClick(DialogInterface dialog, int which) {
+
+                String mail = mMail.getText().toString();
+
+                fAuth.sendPasswordResetEmail(mail).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+                        Toast.makeText(context, "Reset Link Sent to Your Email", Toast.LENGTH_SHORT).show();
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(context, "Error! Reset Link Was Not Sent " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
         });
-    }
 
-    public static void updatePassword(String newPassword) {
+        passwordResetDialog.setNegativeButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
 
-        user.updatePassword(newPassword).addOnSuccessListener(new OnSuccessListener<Void>() {
-            @Override
-            public void onSuccess(Void unused) {
-                Toast.makeText(context, "Password Updated Successfully", Toast.LENGTH_SHORT).show();
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Toast.makeText(context, "Password Reset Failed", Toast.LENGTH_SHORT).show();
             }
         });
+
+        passwordResetDialog.create().show();
     }
 
+    //Update from MyProfile page
+    public static void updatePassword(View v) {
+
+        EditText resetPassword = new EditText(v.getContext());
+        final AlertDialog.Builder passwordResetDialog = new AlertDialog.Builder(v.getContext());
+        passwordResetDialog.setTitle("Reset Password ?");
+        passwordResetDialog.setMessage("Enter New Password");
+        passwordResetDialog.setView(resetPassword);
+
+        passwordResetDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+                String newPassword = resetPassword.getText().toString();
+
+                user.updatePassword(newPassword).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+                        Toast.makeText(context, "Password Updated Successfully", Toast.LENGTH_SHORT).show();
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(context, "Password Reset Failed", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+        });
+
+        passwordResetDialog.setNegativeButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+            }
+        });
+
+        passwordResetDialog.create().show();
+
+    }
+
+    //Update from EditProfile page
     public static void editPlayerDetails(String fullName,String nickname, String phone,String age,String gender) {
 
         DocumentReference docRef = fStore.collection("users").document(user.getUid());
@@ -347,7 +379,7 @@ public class PlayerDAL {
 
     //Upload image to firebase storage
     public static void uploadImage(Uri imageUri, ImageView profileImageView) {
-        StorageReference fileRef = getStorage("users/" + playerID() + "/profile.jpg");
+        StorageReference fileRef = getStorage("users/" + getPlayerID() + "/profile.jpg");
         fileRef.putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
@@ -367,5 +399,50 @@ public class PlayerDAL {
             }
         });
     }
+
+    public static void setUser(FirebaseUser user) {
+        PlayerDAL.user = user;
+    }
+
+//    public static String getValueFromPlayer(String key) {
+//        //Access to user collection to take my name
+//        DocumentReference docRef = getCollection("users", playerID());
+//        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+//            @Override
+//            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+//                if (task.isSuccessful()) {
+//                    DocumentSnapshot document = task.getResult();
+//                    value = document.getString(key);
+//                } else {
+//                    Log.d(TAG, "get failed with ", task.getException());
+//                }
+//            }
+//        });
+//        return value;
+//    }
+
+    // The function gets the key and the category of the room and removes the room from each of the users
+//    public void removeRoomFromUserRooms(String roomKey, String category) {
+//        DatabaseReference userRoomsReference = getPathReference("UserRooms/");
+//        userRoomsReference.addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(DataSnapshot dataSnapshot) {
+//                // iterates over the userRooms
+//                Iterator i = dataSnapshot.getChildren().iterator();
+//                while (i.hasNext()) {
+//                    DataSnapshot childSnapshot = (DataSnapshot) i.next();
+//                    // checks if its the correct room's category
+//                    if(childSnapshot.child(category).equals(category)) {
+//                        userRoomsReference.child(roomKey).removeValue();
+//                        childSnapshot.child(category).child(roomKey);
+//                    }
+//                }
+//            }
+//            @Override
+//            public void onCancelled(DatabaseError databaseError) {
+//
+//            }
+//        });
+//    }
 
 }

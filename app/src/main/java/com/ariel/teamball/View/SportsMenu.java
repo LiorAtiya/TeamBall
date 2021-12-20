@@ -9,6 +9,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.ariel.teamball.Controller.SwitchActivities;
 import com.ariel.teamball.Model.DAL.PlayerDAL;
 import com.ariel.teamball.R;
 
@@ -48,9 +49,8 @@ public class SportsMenu extends AppCompatActivity {
         mLogoutBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 playerDAL.playerSignOut();
-                startActivity(new Intent(getApplicationContext(), LoginActivity.class));
+                SwitchActivities.LoginActivity(getApplicationContext());
                 finish();
             }
         });
@@ -65,72 +65,56 @@ public class SportsMenu extends AppCompatActivity {
         SoccerBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), GameCenter.class);
-                intent.putExtra("category", "Soccer");
-                startActivity(intent);
+                SwitchActivities.Categories(getApplicationContext(),"Soccer");
             }
         });
 
         BasketBallBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), GameCenter.class);
-                intent.putExtra("category", "Basketball");
-                startActivity(intent);
+                SwitchActivities.Categories(getApplicationContext(),"Basketball");
             }
         });
 
         TennisBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), GameCenter.class);
-                intent.putExtra("category", "Tennis");
-                startActivity(intent);
+                SwitchActivities.Categories(getApplicationContext(),"Tennis");
             }
         });
 
         TableTennisBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), GameCenter.class);
-                intent.putExtra("category", "Table Tennis");
-                startActivity(intent);
+                SwitchActivities.Categories(getApplicationContext(),"Table Tennis");
             }
         });
 
         HandBallBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), GameCenter.class);
-                intent.putExtra("category", "Handball");
-                startActivity(intent);
+                SwitchActivities.Categories(getApplicationContext(),"Table Tennis");
             }
         });
 
         VolleyBallBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), GameCenter.class);
-                intent.putExtra("category", "Volleyball");
-                startActivity(intent);
+                SwitchActivities.Categories(getApplicationContext(),"Volleyball");
             }
         });
 
         DogeBallBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), GameCenter.class);
-                intent.putExtra("category", "Dodgeball");
-                startActivity(intent);
+                SwitchActivities.Categories(getApplicationContext(),"Dodgeball");
             }
         });
 
         footballBtn.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), GameCenter.class);
-                intent.putExtra("category", "American Football");
-                startActivity(intent);
+                SwitchActivities.Categories(getApplicationContext(),"American Football");
             }
         });
     }
