@@ -1,5 +1,6 @@
 package com.ariel.teamball.View;
 
+import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -7,6 +8,7 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
@@ -35,6 +37,7 @@ public class CreateRoom extends AppCompatActivity {
     int currentMin;
     Calendar calendar; // calendar object
 
+
     String category;
 
     @Override
@@ -59,10 +62,6 @@ public class CreateRoom extends AppCompatActivity {
         mDoneDefine = findViewById(R.id.donedef);
         timeTxt = findViewById(R.id.TimeText);
 
-        calendar = Calendar.getInstance();
-
-        currentHr = calendar.get(Calendar.HOUR);
-        currentMin = calendar.get(Calendar.MINUTE);
 
         //when we click the time picker
         mPickTimeBtn.setOnClickListener(view -> {
@@ -82,6 +81,7 @@ public class CreateRoom extends AppCompatActivity {
             dialog.show();
         });
 
+        /*------- Spinners -------*/
         /* For Choose City */
         CitySpinner = findViewById(R.id.cityGameSpinner);
         /* For Choose Capacity */
@@ -100,7 +100,7 @@ public class CreateRoom extends AppCompatActivity {
         playersCapacitySpinner.setAdapter(capacityAdapter);
 
 
-        /* When we click on done button then what will happen */
+        /*-------- Done button --------*/
         mDoneDefine.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -150,12 +150,10 @@ public class CreateRoom extends AppCompatActivity {
                 */
                 gm.createRoom(RoomN, capacityInteger, CurtN, chosenCity, chosenTime, "date", category);
 
-
                 SwitchActivities.MyRoom(CreateRoom.this,category);
                 finish();
 
             }
         });
     }
-
 }
