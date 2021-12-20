@@ -188,25 +188,27 @@ public class GameRoom extends AppCompatActivity {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         Room room = dataSnapshot.getValue(Room.class);
-                        Map<String,String> players = room.getUsersList();
-                        String playersName = "";
-                        for (Map.Entry<String,String> player : players.entrySet()){
-                            playersName += player.getValue()+"\n";
-                        }
-
-                        final AlertDialog.Builder playersDialog = new AlertDialog.Builder(v.getContext());
-                        playersDialog.setTitle("Team players");
-                        playersDialog.setMessage(playersName);
-
-                        playersDialog.setNegativeButton("Exit", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-
+                        if(room != null) {
+                            Map<String, String> players = room.getUsersList();
+                            String playersName = "";
+                            for (Map.Entry<String, String> player : players.entrySet()) {
+                                playersName += player.getValue() + "\n";
                             }
-                        });
 
-                        if (!GameRoom.this.isFinishing()){
-                            playersDialog.create().show();
+                            final AlertDialog.Builder playersDialog = new AlertDialog.Builder(v.getContext());
+                            playersDialog.setTitle("Team players");
+                            playersDialog.setMessage(playersName);
+
+                            playersDialog.setNegativeButton("Exit", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+
+                                }
+                            });
+
+                            if (!GameRoom.this.isFinishing()) {
+                                playersDialog.create().show();
+                            }
                         }
 
                     }

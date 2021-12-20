@@ -102,14 +102,6 @@ public class MyProfile extends AppCompatActivity {
             }
         });
 
-//        profileImage.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-////                Intent openGalleryIntent = new Intent(Intent.ACTION_PICK, MediaStore.Video.Media.EXTERNAL_CONTENT_URI);
-////                startActivityForResult(openGalleryIntent,1000);
-//            }
-//        });
-
         changeProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
