@@ -222,13 +222,10 @@ public class RoomDAL {
         //Check for editRoom button
         DatabaseReference roomRef = getPathReference("Rooms/"+category+"/"+roomID);
 
-        roomRef.runTransaction(new Transaction.Handler() {
-
-            public Transaction.Result doTransaction(MutableData mutableData) {
-                Room room = mutableData.getValue(Room.class);
-                if (room == null) {
-                    return Transaction.success(mutableData);
-                }
+        roomRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Room room = dataSnapshot.getValue(Room.class);
 
                 String adminID = room.getAdmin();
                 //Show button of edit room only for admin
@@ -239,20 +236,46 @@ public class RoomDAL {
                     editRoom.setVisibility(View.INVISIBLE);
                     isAdmin = false;
                 }
-
-                // Set value and report transaction success
-                mutableData.setValue(room);
-                return Transaction.success(mutableData);
-
             }
 
             @Override
-            public void onComplete(DatabaseError databaseError, boolean committed,
-                                   DataSnapshot currentData) {
-                // Transaction completed
-                Log.d("TAG", "postTransaction:onComplete:" + databaseError);
+            public void onCancelled(@NonNull DatabaseError error) {
+
             }
         });
+
+
+//        roomRef.runTransaction(new Transaction.Handler() {
+//
+//            public Transaction.Result doTransaction(MutableData mutableData) {
+//                Room room = mutableData.getValue(Room.class);
+//                if (room == null) {
+//                    return Transaction.success(mutableData);
+//                }
+//
+//                String adminID = room.getAdmin();
+//                //Show button of edit room only for admin
+//                if(playerDAL.getPlayerID().equals(adminID)){
+//                    editRoom.setVisibility(View.VISIBLE);
+//                    isAdmin = true;
+//                }else{
+//                    editRoom.setVisibility(View.INVISIBLE);
+//                    isAdmin = false;
+//                }
+//
+//                // Set value and report transaction success
+//                mutableData.setValue(room);
+//                return Transaction.success(mutableData);
+//
+//            }
+//
+//            @Override
+//            public void onComplete(DatabaseError databaseError, boolean committed,
+//                                   DataSnapshot currentData) {
+//                // Transaction completed
+//                Log.d("TAG", "postTransaction:onComplete:" + databaseError);
+//            }
+//        });
     }
 
     public static void setDetailsRoom(Context context, String category, String roomID, TextView roomName,
@@ -588,15 +611,33 @@ public class RoomDAL {
 
     }
 
-    public static void editRoomDetails(String category, String roomID, String roomName, String fieldName, String city, String time) {
+    public static void editRoomDetails(String category, String roomID, String roomName,
+                                       String fieldName, String city, String time,String date) {
 
         //Access to the list of rooms category
         DatabaseReference reference = getPathReference("Rooms/" + category + "/" + roomID);
 
-        reference.child("name").setValue(roomName);
-        reference.child("field").setValue(fieldName);
-        reference.child("city").setValue(city);
-        reference.child("time").setValue(time);
+        //make changes if player fill the details properly
+
+        if(!roomName.isEmpty()) {
+            reference.child("name").setValue(roomName);
+        }
+
+        if(!fieldName.isEmpty()) {
+            reference.child("field").setValue(fieldName);
+        }
+
+        if(!city.contains("ty")) {
+            reference.child("city").setValue(city);
+        }
+
+        if(!time.contains("Game")) {
+            reference.child("time").setValue(time);
+        }
+
+        if(!date.contains("Date")) {
+            reference.child("dayGame").setValue(date);
+        }
 
     }
 

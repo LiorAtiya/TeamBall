@@ -60,6 +60,8 @@ public class CreateRoom extends AppCompatActivity {
         mPickTimeBtn = findViewById(R.id.timePicker);
         showCurrentTime = findViewById(R.id.TimeText);
         mDoneDefine = findViewById(R.id.donedef);
+        CitySpinner = findViewById(R.id.cityGameSpinner);
+        playersCapacitySpinner = findViewById(R.id.playersCapacity);
         timeTxt = findViewById(R.id.TimeText);
 
 
@@ -82,10 +84,6 @@ public class CreateRoom extends AppCompatActivity {
         });
 
         /*------- Spinners -------*/
-        /* For Choose City */
-        CitySpinner = findViewById(R.id.cityGameSpinner);
-        /* For Choose Capacity */
-        playersCapacitySpinner = findViewById(R.id.playersCapacity);
 
         ArrayAdapter<String> allCities = new ArrayAdapter<String>(CreateRoom.this,
                 android.R.layout.simple_list_item_1, getResources().getStringArray(R.array.names));
@@ -104,18 +102,20 @@ public class CreateRoom extends AppCompatActivity {
         mDoneDefine.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // catch details
+                // catch what player pick/fill
                 String RoomN = mGroupName.getText().toString();
                 String CurtN = mCurtName.getText().toString();
                 String chosenCity = CitySpinner.getSelectedItem().toString();
                 String chosenTime = timeTxt.getText().toString();
                 String chosenCapacity = playersCapacitySpinner.getSelectedItem().toString();
+//                String chosenDate = tvDate.getText().toString();
                 int capacityInteger = 0;
 
                 //Check valid details
                 if (!chosenCapacity.contains("N")) {
                     capacityInteger = Integer.parseInt(chosenCapacity); //convert for Room constructor
                 }
+
 
                 /* if the user click on "done button and left one of the field empty or not choose option */
                 if (TextUtils.isEmpty(RoomN)) {
@@ -140,6 +140,11 @@ public class CreateRoom extends AppCompatActivity {
                     timeTxt.setError("Choose time start game");
                     return;
                 }
+
+//                if(chosenDate.contains("Date")){
+//                    tvDate.setError("Choose date game");
+//                    return;
+//                }
 
                 // ---------------------------------------------------
 

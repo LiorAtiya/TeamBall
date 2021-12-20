@@ -17,23 +17,24 @@ import com.ariel.teamball.Controller.GameManagement;
 import com.ariel.teamball.R;
 
 public class GameRoom extends AppCompatActivity {
-
+    /* Page objects */
     public static final String TAG = "TAG";
     Button players, chat, editRoom, leaveRoom;
     TextView roomName, capacity, city, field, admin,timeText;
     String category,room_name,admin_name,my_name,adminID,roomID,time;
 
+    /* logic objects */
     RoomDAL roomDAL;
     PlayerDAL playerDAL;
-
     // creates game management object
     GameManagement gm = GameManagement.getInstance();
-
+    //permission
     boolean isAdmin;
 
 
     @Override
     public void onBackPressed() {
+        /*-----  Information from the previous page ------*/
         Intent i = new Intent(getApplicationContext(), MyRooms.class);
         i.putExtra("category", category);
         startActivity(i);
@@ -46,6 +47,7 @@ public class GameRoom extends AppCompatActivity {
         setContentView(R.layout.activity_game_room);
         getSupportActionBar().hide();
 
+        //catch the design by id - Link to layout
         roomName = findViewById(R.id.room_name);
         capacity = findViewById(R.id.capacity);
         city = findViewById(R.id.city);
@@ -62,7 +64,7 @@ public class GameRoom extends AppCompatActivity {
         roomDAL = new RoomDAL(this);
         playerDAL = new PlayerDAL(this);
 
-        //Get date from previous page
+        /*-----  Information from the previous page ------*/
         my_name = getIntent().getExtras().get("user_name").toString();
         category = getIntent().getExtras().get("category").toString();
         roomID = getIntent().getExtras().get("roomID").toString();
