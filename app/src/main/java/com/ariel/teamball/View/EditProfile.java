@@ -1,6 +1,5 @@
-package com.ariel.teamball;
+package com.ariel.teamball.View;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -11,43 +10,24 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.View;
 import android.widget.Button;
-import androidx.appcompat.app.AppCompatActivity;
-import android.content.Intent;
-import android.os.Bundle;
-import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.ariel.teamball.Classes.DAO.PlayerDAO;
-import com.ariel.teamball.Classes.Player;
-import com.google.android.gms.tasks.OnFailureListener;
+import com.ariel.teamball.Model.DAL.PlayerDAL;
+import com.ariel.teamball.R;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
-
-import java.util.HashMap;
-import java.util.Map;
 
 public class EditProfile extends AppCompatActivity {
 
     public static final String TAG = "TAG";
-    EditText profileFullName,profileEmail,profilePhone;
+    EditText profileFullName,profilePhone,profileNickname,profileCity,profileGender,profileAge;
     ImageView profileImageView;
     Button saveBtn;
 
-    PlayerDAO playerDAO;
+    PlayerDAL playerDAL;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,20 +37,29 @@ public class EditProfile extends AppCompatActivity {
 
         Intent data = getIntent();
         String fullName = data.getStringExtra("fName");
-        String email = data.getStringExtra("email");
+        String nickname = data.getStringExtra("nickName");
+        String city = data.getStringExtra("city");
+        String gender = data.getStringExtra("gender");
         String phone = data.getStringExtra("phone");
+        String age = data.getStringExtra("age");
+        //        String email = data.getStringExtra("email");
 
 
-        profileEmail = findViewById(R.id.editProfileEmail);
         profilePhone = findViewById(R.id.editProfilePhone);
         profileFullName = findViewById(R.id.editProfileName);
         profileImageView = findViewById(R.id.editProfileImage);
+        profileNickname = findViewById(R.id.editProfileNickname);
+        profileGender = findViewById(R.id.editProfileGender);
+        profileAge = findViewById(R.id.editProfileAge);
+
+//        profileCity = findViewById(R.id.editProfileCity);
+
         saveBtn = findViewById(R.id.saveBtn);
 
-        playerDAO = new PlayerDAO(this);
+        playerDAL = new PlayerDAL(this);
 
         //Access to profile picture of the player
-        StorageReference profileRef = playerDAO.getStorage("users/"+playerDAO.playerID()+"/profile.jpg");
+        StorageReference profileRef = playerDAL.getStorage("users/"+ playerDAL.playerID()+"/profile.jpg");
         profileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
             public void onSuccess(Uri uri) {
@@ -87,24 +76,31 @@ public class EditProfile extends AppCompatActivity {
             }
         });
 
-        profileEmail.setText(email);
         profileFullName.setText(fullName);
+        profileNickname.setText(nickname);
         profilePhone.setText(phone);
+        profileAge.setText(age);
+        profileGender.setText(gender);
 
         saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //Check empty editText
-                if(profileEmail.getText().toString().isEmpty() || profilePhone.getText().toString().isEmpty() || profileFullName.getText().toString().isEmpty()){
+                if(profilePhone.getText().toString().isEmpty() || profileFullName.getText().toString().isEmpty()
+                   || profileNickname.getText().toString().isEmpty() || profileAge.getText().toString().isEmpty()
+                    || profileAge.getText().toString().isEmpty()){
                     Toast.makeText(EditProfile.this,"One or many fields are empty",Toast.LENGTH_SHORT).show();
                     return;
                 }
 
-                final String email = profileEmail.getText().toString();
+//                final String email = profileEmail.getText().toString();
                 String fullName = profileFullName.getText().toString();
+                String nickname = profileNickname.getText().toString();
                 String phone = profilePhone.getText().toString();
+                String age = profileAge.getText().toString();
+                String gender = profileGender.getText().toString();
 
-                playerDAO.editPlayerDetails(email,fullName,phone);
+                playerDAL.editPlayerDetails(fullName,nickname,phone,age,gender);
 
             }
         });
@@ -117,7 +113,7 @@ public class EditProfile extends AppCompatActivity {
             if(resultCode == Activity.RESULT_OK){
                 Uri imageUri = data.getData();
 
-                playerDAO.uploadImage(imageUri,profileImageView);
+                playerDAL.uploadImage(imageUri,profileImageView);
             }
         }
     }

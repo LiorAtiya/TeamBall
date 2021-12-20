@@ -1,5 +1,4 @@
-package com.ariel.teamball;
-
+package com.ariel.teamball.View;
 
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -10,7 +9,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -18,12 +16,12 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
 
-import com.ariel.teamball.Classes.Adapters.ListAdapter;
-import com.ariel.teamball.Classes.DAO.PlayerDAO;
-import com.ariel.teamball.Classes.DAO.RoomDAO;
-import com.ariel.teamball.Classes.Room;
+import com.ariel.teamball.Controller.Adapters.ListAdapter;
+import com.ariel.teamball.Model.DAL.PlayerDAL;
+import com.ariel.teamball.Model.DAL.RoomDAL;
+import com.ariel.teamball.Model.Classes.Room;
+import com.ariel.teamball.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -39,7 +37,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
-public class MyRooms extends AppCompatActivity {
+public class GameCenter extends AppCompatActivity {
 
     public static final String TAG = "TAG";
     TextView nameCategory;
@@ -51,12 +49,12 @@ public class MyRooms extends AppCompatActivity {
 
     BottomNavigationView bottomNavigationView;
 
-    PlayerDAO playerDAO;
-    RoomDAO roomDAO;
+    PlayerDAL playerDAL;
+    RoomDAL roomDAL;
 
     @Override
     public void onBackPressed() {
-        Intent i = new Intent(getApplicationContext(),SportsMenu.class);
+        Intent i = new Intent(getApplicationContext(), SportsMenu.class);
         startActivity(i);
         finish();
     }
@@ -64,7 +62,7 @@ public class MyRooms extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_my_rooms);
+        setContentView(R.layout.activity_game_center);
         getSupportActionBar().hide();
 
         nameCategory = findViewById(R.id.nameCategory);
@@ -77,20 +75,21 @@ public class MyRooms extends AppCompatActivity {
 
         //Move to GameCenter Activity from navigator bar
         bottomNavigationView = findViewById(R.id.bottomNavigation);
-        bottomNavigationView.setSelectedItemId(R.id.my_rooms);
+        bottomNavigationView.setSelectedItemId(R.id.all_rooms);
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
                 switch (item.getItemId()){
                     case R.id.my_rooms:
-                        return true;
-                    case R.id.all_rooms:
-                        Intent i = new Intent(getApplicationContext(),GameCenter.class);
+                        Intent i = new Intent(getApplicationContext(), MyRooms.class);
                         i.putExtra("category",category);
                         startActivity(i);
+                        finish();
                         overridePendingTransition(0,0);
-                        finish();                        return true;
+                        return true;
+                    case R.id.all_rooms:
+                        return true;
 
                 }
 
@@ -100,8 +99,8 @@ public class MyRooms extends AppCompatActivity {
 
         //---------------------------------------------------
 
-        playerDAO = new PlayerDAO(this);
-        roomDAO = new RoomDAO(this);
+        playerDAL = new PlayerDAL(this);
+        roomDAL = new RoomDAL(this);
 
         //Custom design for listView
         ArrayList<Room> list = new ArrayList<>();
@@ -111,8 +110,8 @@ public class MyRooms extends AppCompatActivity {
         //---------------------------------------------------
 
         //Access to user collection to take my name
-        String userID = playerDAO.playerID();
-        DocumentReference docRef = playerDAO.getCollection("users", userID);
+        String userID = playerDAL.playerID();
+        DocumentReference docRef = playerDAL.getCollection("users", userID);
 
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
@@ -129,9 +128,9 @@ public class MyRooms extends AppCompatActivity {
         //---------------------------------------------------
 
         //Access to the list of my rooms category
-        DatabaseReference myRoomsRef = roomDAO.getPathReference("userRooms/"+playerDAO.playerID()+"/"+category);
+        DatabaseReference myRoomsRef = roomDAL.getPathReference("userRooms/"+ playerDAL.playerID()+"/"+category);
 
-        Set<String> myRoomsID = new HashSet<String>();
+        Set<String> myRoomsName = new HashSet<String>();
 
         //Put all the my rooms of the category to list
         myRoomsRef.addValueEventListener(new ValueEventListener() {
@@ -142,19 +141,19 @@ public class MyRooms extends AppCompatActivity {
                 while (i.hasNext()) {
                     DataSnapshot childSnapshot = (DataSnapshot) i.next();
                     String room = childSnapshot.getValue(String.class);
-                    myRoomsID.add(room);
+                    myRoomsName.add(room);
                 }
             }
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                Toast.makeText(MyRooms.this, "No network connectivity", Toast.LENGTH_SHORT).show();
+                Toast.makeText(GameCenter.this, "No network connectivity", Toast.LENGTH_SHORT).show();
             }
         });
 
         //--------------------------------------------------------------
 
-        //Access to the list of rooms category
-        DatabaseReference reference = roomDAO.getPathReference("Rooms/" + category);
+        //Access to the list of room category
+        DatabaseReference reference = roomDAL.getPathReference("Rooms/" + category);
 
         //Put all the rooms of the category to list from the firebase
         reference.addValueEventListener(new ValueEventListener() {
@@ -169,8 +168,8 @@ public class MyRooms extends AppCompatActivity {
                 while (i.hasNext()) {
                     DataSnapshot childSnapshot = (DataSnapshot) i.next();
                     Room room = childSnapshot.getValue(Room.class);
-                    //Add to list just the my rooms
-                    if(myRoomsID.contains(room.getRoomID())){
+                    //Add to the list all the rooms that the user does not enter.
+                    if(!myRoomsName.contains(room.getRoomID())){
                         set.add(room);
                     }
                 }
@@ -183,7 +182,7 @@ public class MyRooms extends AppCompatActivity {
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                Toast.makeText(MyRooms.this, "No network connectivity", Toast.LENGTH_SHORT).show();
+                Toast.makeText(GameCenter.this, "No network connectivity", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -197,13 +196,8 @@ public class MyRooms extends AppCompatActivity {
                 String roomName = adapter.getItem(room).getName();
                 String roomID =  adapter.getItem(room).getRoomID();
 
-                //Go to a GameRoom page
-                Intent intent = new Intent(MyRooms.this, GameRoom.class);
-                intent.putExtra("room_name", roomName);
-                intent.putExtra("user_name", name);
-                intent.putExtra("category", category);
-                intent.putExtra("roomID",roomID);
-                startActivity(intent);
+                roomDAL.checkLimitOfRoom_And_JoinToRoom(category,roomID,name,roomName);
+
             }
         });
 
@@ -235,7 +229,7 @@ public class MyRooms extends AppCompatActivity {
     /* function that moves the user(Admin of the room from now)
        from the "GameCenter" page to the "settingRoom" page to set the room */
     public void openSettingRoom() {
-        Intent intentSettingRoom = new Intent(MyRooms.this, CreateRoom.class);
+        Intent intentSettingRoom = new Intent(GameCenter.this, CreateRoom.class);
         intentSettingRoom.putExtra("category", category);
         startActivity(intentSettingRoom);
     }

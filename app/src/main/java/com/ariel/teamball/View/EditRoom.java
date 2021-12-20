@@ -1,4 +1,4 @@
-package com.ariel.teamball;
+package com.ariel.teamball.View;
 
 import android.app.TimePickerDialog;
 import android.content.Intent;
@@ -15,7 +15,8 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.ariel.teamball.Classes.DAO.RoomDAO;
+import com.ariel.teamball.Model.DAL.RoomDAL;
+import com.ariel.teamball.R;
 
 import java.util.Calendar;
 
@@ -27,7 +28,7 @@ public class EditRoom extends AppCompatActivity {
     TextView timeText;
     ImageView profileImageView;
     Button saveBtn,editTime;
-    RoomDAO roomDAO;
+    RoomDAL roomDAL;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,7 +100,7 @@ public class EditRoom extends AppCompatActivity {
 
                 String category = getIntent().getExtras().get("category").toString();
                 String roomID = getIntent().getExtras().get("roomID").toString();
-                roomDAO.editRoomDetails(category,roomID,roomName,fieldName,city,time);
+                roomDAL.editRoomDetails(category,roomID,roomName,fieldName,city,time);
 
                 String name = getIntent().getExtras().get("user_name").toString();
                 //Go to a GameRoom page

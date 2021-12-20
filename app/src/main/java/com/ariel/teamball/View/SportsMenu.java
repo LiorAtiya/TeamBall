@@ -1,4 +1,4 @@
-package com.ariel.teamball;
+package com.ariel.teamball.View;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,14 +9,15 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.ariel.teamball.Classes.DAO.PlayerDAO;
+import com.ariel.teamball.Model.DAL.PlayerDAL;
+import com.ariel.teamball.R;
 
 public class SportsMenu extends AppCompatActivity {
 
     Button mLogoutBtn, myProfile;
     ImageButton SoccerBtn , BasketBallBtn , TennisBtn, TableTennisBtn,
             HandBallBtn, VolleyBallBtn, DogeBallBtn,footballBtn;
-    PlayerDAO playerDAO;
+    PlayerDAL playerDAL;
 
     @Override
     public void onBackPressed() {
@@ -42,14 +43,14 @@ public class SportsMenu extends AppCompatActivity {
         DogeBallBtn = findViewById(R.id.DogeBallBtn);
         footballBtn = findViewById(R.id.football);
 
-        playerDAO = new PlayerDAO(this);
+        playerDAL = new PlayerDAL(this);
 
         mLogoutBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                playerDAO.playerSignOut();
-                startActivity(new Intent(getApplicationContext(),LoginActivity.class));
+                playerDAL.playerSignOut();
+                startActivity(new Intent(getApplicationContext(), LoginActivity.class));
                 finish();
             }
         });
@@ -57,7 +58,7 @@ public class SportsMenu extends AppCompatActivity {
         myProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(),MyProfile.class));
+                startActivity(new Intent(getApplicationContext(), MyProfile.class));
             }
         });
 

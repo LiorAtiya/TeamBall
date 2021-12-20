@@ -1,4 +1,4 @@
-package com.ariel.teamball.Classes;
+package com.ariel.teamball.Model.Classes;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -11,8 +11,8 @@ public class Room {
     private int capacity, imageID;
     private String admin;
     private String roomID;
-    private String date;
-    private String time;
+    private String dayGame;
+    private String startGame;
     private Map<String,String> usersList; // list of IDs of all the group's users
     private int numOfPlayers;
     private String category;
@@ -24,13 +24,13 @@ public class Room {
 //    private ArrayList<Player> banList;
 
 
-    public Room(String _name, int _capacity,String _field,String _city, String _time, String _date, String _admin,String _category) {
+    public Room(String _name, int _capacity,String _field,String _city, String _startGame, String _dayGame, String _admin,String _category) {
         this.name = _name;
         this.capacity = _capacity;
         this.field = _field;
         this.city = _city;
-        this.time = _time;
-        this.date = _date;
+        this.startGame = _startGame;
+        this.dayGame = _dayGame;
         this.usersList = new HashMap<>();
         this.isFull = false;
         this.admin = _admin;
@@ -133,20 +133,20 @@ public class Room {
         this.admin = admin;
     }
 
-    public String getDate() {
-        return date;
+    public String getDayGame() {
+        return dayGame;
     }
 
-    public void setDate(String date) {
-        this.date = date;
+    public void setDayGame(String dayGame) {
+        this.dayGame = dayGame;
     }
 
     public String getTime() {
-        return time;
+        return startGame;
     }
 
     public void setTime(String time) {
-        this.time = time;
+        this.startGame = time;
     }
 
 }

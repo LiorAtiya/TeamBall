@@ -1,10 +1,9 @@
-package com.ariel.teamball;
+package com.ariel.teamball.View;
 
 import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -14,9 +13,10 @@ import android.widget.TimePicker;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.ariel.teamball.Classes.DAO.PlayerDAO;
-import com.ariel.teamball.Classes.DAO.RoomDAO;
-import com.ariel.teamball.Classes.GameManagement;
+import com.ariel.teamball.Model.DAL.PlayerDAL;
+import com.ariel.teamball.Model.DAL.RoomDAL;
+import com.ariel.teamball.Controller.GameManagement;
+import com.ariel.teamball.R;
 import com.google.android.material.textfield.TextInputEditText;
 
 import java.util.Calendar;
@@ -25,7 +25,7 @@ public class CreateRoom extends AppCompatActivity {
     TextInputEditText mGroupName, mCurtName;
     // for start game picker
     Button mPickTimeBtn, mDoneDefine;
-    TextView showCurrentTime;
+    TextView showCurrentTime, timeTxt;
 
     Spinner CitySpinner, playersCapacitySpinner; // for spinners pick
 
@@ -56,6 +56,7 @@ public class CreateRoom extends AppCompatActivity {
         mPickTimeBtn = (Button) findViewById(R.id.timePicker);
         showCurrentTime = findViewById(R.id.TimeText);
         mDoneDefine = findViewById(R.id.donedef);
+        timeTxt = findViewById(R.id.TimeText);
 
         calendar = Calendar.getInstance();
 
@@ -63,8 +64,8 @@ public class CreateRoom extends AppCompatActivity {
         currentMin = calendar.get(Calendar.MINUTE);
 
         String category = getIntent().getExtras().get("category").toString();
-        PlayerDAO playerDAO = new PlayerDAO();
-        RoomDAO roomDAO = new RoomDAO();
+        PlayerDAL playerDAL = new PlayerDAL();
+        RoomDAL roomDAL = new RoomDAL();
 
         //when we click the time picker
         mPickTimeBtn.setOnClickListener(view -> {
@@ -104,7 +105,7 @@ public class CreateRoom extends AppCompatActivity {
                 String RoomN = mGroupName.getText().toString();
                 String CurtN = mCurtName.getText().toString();
                 String chosenCity = CitySpinner.getSelectedItem().toString();
-                String chosenTime = calendar.getTime().toString();
+                String chosenTime = timeTxt.getText().toString();
                 String chosenCapacity = playersCapacitySpinner.getSelectedItem().toString();
                 int capacityInteger = 0;
                 if (!chosenCapacity.contains("N")) {
@@ -129,6 +130,11 @@ public class CreateRoom extends AppCompatActivity {
                 }
                 if (chosenCapacity.contains("N")) {
                     ((TextView) playersCapacitySpinner.getSelectedView()).setError("choose number of players");
+                    return;
+                }
+
+                if(chosenTime.contains("Time")){
+                    timeTxt.setError("Choose time start game");
                     return;
                 }
 

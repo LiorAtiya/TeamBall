@@ -6,13 +6,13 @@
     android:layout_height="match_parent"
     android:background="@drawable/ournewbackground"
     android:visibility="visible"
-    tools:context=".RegisterActivity">
+    tools:context=".View.RegisterActivity">
 
     // TODO: have to split full name to first and last
     // TODO: have to add age
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/Register"
         android:layout_width="319dp"
         android:layout_height="83dp"
         android:fontFamily="sans-serif"
@@ -155,7 +155,6 @@
         app:startIconDrawable="@drawable/phone_icon">
 
         <com.google.android.material.textfield.TextInputEditText
-
 
             android:id="@+id/Phone"
             android:layout_width="match_parent"
