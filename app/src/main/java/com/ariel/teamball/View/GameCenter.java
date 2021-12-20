@@ -110,7 +110,7 @@ public class GameCenter extends AppCompatActivity {
         //---------------------------------------------------
 
         //Access to user collection to take my name
-        String userID = playerDAL.playerID();
+        String userID = playerDAL.getPlayerID();
         DocumentReference docRef = playerDAL.getCollection("users", userID);
 
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -128,7 +128,7 @@ public class GameCenter extends AppCompatActivity {
         //---------------------------------------------------
 
         //Access to the list of my rooms category
-        DatabaseReference myRoomsRef = roomDAL.getPathReference("userRooms/"+ playerDAL.playerID()+"/"+category);
+        DatabaseReference myRoomsRef = roomDAL.getPathReference("userRooms/"+ playerDAL.getPlayerID()+"/"+category);
 
         Set<String> myRoomsName = new HashSet<String>();
 
