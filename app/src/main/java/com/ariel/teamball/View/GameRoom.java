@@ -32,23 +32,24 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import java.util.Map;
 
 public class GameRoom extends AppCompatActivity {
-
+    /* Page objects */
     public static final String TAG = "TAG";
     Button players, chat, editRoom, leaveRoom;
     TextView roomName, capacity, city, field, admin,time;
     String category,room_name,admin_name,my_name,adminID,roomID;
 
+    /* logic objects */
     RoomDAL roomDAL;
     PlayerDAL playerDAL;
-
     // creates game management object
     GameManagement gm = GameManagement.getInstance();
-
+    //permission
     boolean isAdmin;
 
 
     @Override
     public void onBackPressed() {
+        /*-----  Information from the previous page ------*/
         Intent i = new Intent(getApplicationContext(), MyRooms.class);
         i.putExtra("category", category);
         startActivity(i);
@@ -61,6 +62,7 @@ public class GameRoom extends AppCompatActivity {
         setContentView(R.layout.activity_game_room);
         getSupportActionBar().hide();
 
+        //catch the design by id - Link to layout
         roomName = findViewById(R.id.room_name);
         capacity = findViewById(R.id.capacity);
         city = findViewById(R.id.city);
@@ -77,7 +79,7 @@ public class GameRoom extends AppCompatActivity {
         roomDAL = new RoomDAL(this);
         playerDAL = new PlayerDAL(this);
 
-        //Get date from previous page
+        /*-----  Information from the previous page ------*/
         my_name = getIntent().getExtras().get("user_name").toString();
         category = getIntent().getExtras().get("category").toString();
         room_name = getIntent().getExtras().get("room_name").toString();
@@ -172,38 +174,6 @@ public class GameRoom extends AppCompatActivity {
                 Log.d("TAG", "postTransaction:onComplete:" + databaseError);
             }
         });
-
-//        roomRef.addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(DataSnapshot dataSnapshot) {
-//                Room room = dataSnapshot.getValue(Room.class);
-//                roomName.setText(room.getName());
-//                capacity.setText("Capacity: "+room.getNumOfPlayers()+"/"+room.getCapacity());
-//                city.setText("City: "+room.getCity());
-//                field.setText("Field: "+room.getField());
-////                time.setText("Start Game: "+room.getTime());
-//
-//                DocumentReference adminRef = playerDAO.getCollection("users",room.getAdmin());
-//
-//                adminRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-//                    @Override
-//                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-//                        if (task.isSuccessful()) {
-//                            DocumentSnapshot document = task.getResult();
-//                            admin_name = document.getString("fullName");
-//                            admin.setText("Admin: " + admin_name);
-//                        } else {
-//                            Log.d(TAG, "get failed with ", task.getException());
-//                        }
-//                    }
-//                });
-//            }
-//
-//            @Override
-//            public void onCancelled(DatabaseError databaseError) {
-//                System.out.println("The read failed: " + databaseError.getCode());
-//            }
-//        });
 
         //---------------------------------------------------
 

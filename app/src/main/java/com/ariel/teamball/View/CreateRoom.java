@@ -56,6 +56,8 @@ public class CreateRoom extends AppCompatActivity {
         mPickTimeBtn =findViewById(R.id.timePicker);
         showCurrentTime = findViewById(R.id.TimeText);
         mDoneDefine = findViewById(R.id.donedef);
+        CitySpinner = findViewById(R.id.cityGameSpinner);
+        playersCapacitySpinner = findViewById(R.id.playersCapacity);
         timeTxt = findViewById(R.id.TimeText);
         dateButton = findViewById(R.id.datePickerButton);
         tvDate = findViewById(R.id.datePicker_textView);
@@ -104,10 +106,6 @@ public class CreateRoom extends AppCompatActivity {
         });
 
         /*------- Spinners -------*/
-        /* For Choose City */
-        CitySpinner = findViewById(R.id.cityGameSpinner);
-        /* For Choose Capacity */
-        playersCapacitySpinner = findViewById(R.id.playersCapacity);
 
         ArrayAdapter<String> allCities = new ArrayAdapter<String>(CreateRoom.this,
                 android.R.layout.simple_list_item_1, getResources().getStringArray(R.array.names));
@@ -126,17 +124,17 @@ public class CreateRoom extends AppCompatActivity {
         mDoneDefine.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // catch details
+                // catch what player pick/fill
                 String RoomN = mGroupName.getText().toString();
                 String CurtN = mCurtName.getText().toString();
                 String chosenCity = CitySpinner.getSelectedItem().toString();
                 String chosenTime = timeTxt.getText().toString();
                 String chosenCapacity = playersCapacitySpinner.getSelectedItem().toString();
+                String chosenDate = tvDate.getText().toString();
                 int capacityInteger = 0;
                 if (!chosenCapacity.contains("N")) {
                     capacityInteger = Integer.parseInt(chosenCapacity); //convert for Room constructor
                 }
-
 
 
                 /*-- if the user click on "done button and left one of the field empty or not choose option --*/
@@ -164,6 +162,11 @@ public class CreateRoom extends AppCompatActivity {
                     return;
                 }
 
+                if(chosenDate.contains("Date")){
+                    tvDate.setError("Choose date game");
+                    return;
+                }
+
               
                 String category = getIntent().getExtras().get("category").toString();
                 // creates game management object
@@ -171,11 +174,7 @@ public class CreateRoom extends AppCompatActivity {
                 /* creates a new room, updates its admin, updates the database,
                    uses the room's key that received to add the room to the user's room list
                 */
-                String roomKey = gm.createRoom(RoomN, capacityInteger, CurtN, chosenCity, chosenTime, "date", category);
-
-//                //Add admin to playerList
-//                String admin = playerDAO.playerID();
-//                roomDAO.addNewUser(category,roomKey,admin);
+                String roomKey = gm.createRoom(RoomN, capacityInteger, CurtN, chosenCity, chosenTime, chosenDate, category);
 
                 // move user back to game center
                 openGameCenter(category);
