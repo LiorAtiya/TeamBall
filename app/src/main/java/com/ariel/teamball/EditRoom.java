@@ -38,7 +38,8 @@ public class EditRoom extends AppCompatActivity {
         Intent data = getIntent();
         String roomName = data.getStringExtra("roomName");
         String fieldName = data.getStringExtra("fieldName").substring(7);
-//        String time = data.getStringExtra("time");
+        String myCity = data.getStringExtra("city");
+        String time = data.getStringExtra("time");
 
         profileImageView = findViewById(R.id.editProfileImage);
         editRoomName = findViewById(R.id.editRoomName);
@@ -58,7 +59,7 @@ public class EditRoom extends AppCompatActivity {
 
         editRoomName.setText(roomName);
         editFieldName.setText(fieldName);
-//        timeText.setText(time);
+        timeText.setText(time);
 
         //for setting hours and minute
         int currentHr;
