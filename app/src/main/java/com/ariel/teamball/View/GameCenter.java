@@ -39,14 +39,13 @@ import java.util.Iterator;
 import java.util.Set;
 
 public class GameCenter extends AppCompatActivity {
-
+    /* Page objects */
     public static final String TAG = "TAG";
     TextView nameCategory;
     ListView listView;
     Button createRoomBtn;
     ArrayAdapter<Room> adapter;
     String name,category;
-//    EditText room_name;
 
     BottomNavigationView bottomNavigationView; //Switch between gameCenter to MyRoom
 
@@ -69,6 +68,7 @@ public class GameCenter extends AppCompatActivity {
         setContentView(R.layout.activity_game_center);
         getSupportActionBar().hide();
 
+        //catch the design by id - Link to layout
         nameCategory = findViewById(R.id.nameCategory);
         listView = findViewById(R.id.listView);
         createRoomBtn = findViewById(R.id.CR_btn);

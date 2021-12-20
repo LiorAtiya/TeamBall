@@ -1,7 +1,5 @@
 package com.ariel.teamball.View;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -9,6 +7,8 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.ariel.teamball.R;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -23,7 +23,7 @@ import java.util.Iterator;
 import java.util.Map;
 
 public class Chatroom extends AppCompatActivity {
-
+    /* Page objects */
     EditText text2send;
     TextView message;
     private String user_name,room_name,category,roomID;
@@ -32,6 +32,7 @@ public class Chatroom extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
+        /*-----  Information from the previous page ------*/
         Intent i = new Intent(getApplicationContext(), MyRooms.class);
         i.putExtra("category",category);
         startActivity(i);

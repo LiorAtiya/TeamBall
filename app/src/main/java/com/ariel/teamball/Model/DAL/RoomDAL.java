@@ -334,15 +334,33 @@ public class RoomDAL {
         EnterGroupDialog.show();
     }
 
-    public static void editRoomDetails(String category, String roomID, String roomName, String fieldName, String city, String time) {
+    public static void editRoomDetails(String category, String roomID, String roomName,
+                                       String fieldName, String city, String time,String date) {
 
         //Access to the list of rooms category
         DatabaseReference reference = getPathReference("Rooms/" + category + "/" + roomID);
 
-        reference.child("name").setValue(roomName);
-        reference.child("field").setValue(fieldName);
-        reference.child("city").setValue(city);
-        reference.child("date").setValue(time);
+        //make changes if player fill the details properly
+
+        if(!roomName.isEmpty()) {
+            reference.child("name").setValue(roomName);
+        }
+
+        if(!fieldName.isEmpty()) {
+            reference.child("field").setValue(fieldName);
+        }
+
+        if(!city.contains("ty")) {
+            reference.child("city").setValue(city);
+        }
+
+        if(!time.contains("Game")) {
+            reference.child("time").setValue(time);
+        }
+
+        if(!date.contains("Date")) {
+            reference.child("dayGame").setValue(date);
+        }
 
     }
 
