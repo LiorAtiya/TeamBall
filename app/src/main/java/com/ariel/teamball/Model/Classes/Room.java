@@ -1,4 +1,4 @@
-package com.ariel.teamball.Classes;
+package com.ariel.teamball.Model.Classes;
 
 import java.util.HashMap;
 import java.util.Map;

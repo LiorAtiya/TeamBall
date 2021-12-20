@@ -1,4 +1,6 @@
-package com.ariel.teamball.Classes;
+package com.ariel.teamball.Model.Classes;
+
+import com.ariel.teamball.Model.Classes.Room;
 
 import java.util.ArrayList;
 

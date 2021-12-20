@@ -1,4 +1,4 @@
-package com.ariel.teamball;
+package com.ariel.teamball.View;
 
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -17,10 +17,11 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.ariel.teamball.Classes.Adapters.ListAdapter;
-import com.ariel.teamball.Classes.DAO.PlayerDAO;
-import com.ariel.teamball.Classes.DAO.RoomDAO;
-import com.ariel.teamball.Classes.Room;
+import com.ariel.teamball.Controller.Adapters.ListAdapter;
+import com.ariel.teamball.Model.DAL.PlayerDAL;
+import com.ariel.teamball.Model.DAL.RoomDAL;
+import com.ariel.teamball.Model.Classes.Room;
+import com.ariel.teamball.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -48,12 +49,12 @@ public class GameCenter extends AppCompatActivity {
 
     BottomNavigationView bottomNavigationView;
 
-    PlayerDAO playerDAO;
-    RoomDAO roomDAO;
+    PlayerDAL playerDAL;
+    RoomDAL roomDAL;
 
     @Override
     public void onBackPressed() {
-        Intent i = new Intent(getApplicationContext(),SportsMenu.class);
+        Intent i = new Intent(getApplicationContext(), SportsMenu.class);
         startActivity(i);
         finish();
     }
@@ -81,7 +82,7 @@ public class GameCenter extends AppCompatActivity {
 
                 switch (item.getItemId()){
                     case R.id.my_rooms:
-                        Intent i = new Intent(getApplicationContext(),MyRooms.class);
+                        Intent i = new Intent(getApplicationContext(), MyRooms.class);
                         i.putExtra("category",category);
                         startActivity(i);
                         finish();
@@ -98,8 +99,8 @@ public class GameCenter extends AppCompatActivity {
 
         //---------------------------------------------------
 
-        playerDAO = new PlayerDAO(this);
-        roomDAO = new RoomDAO(this);
+        playerDAL = new PlayerDAL(this);
+        roomDAL = new RoomDAL(this);
 
         //Custom design for listView
         ArrayList<Room> list = new ArrayList<>();
@@ -109,8 +110,8 @@ public class GameCenter extends AppCompatActivity {
         //---------------------------------------------------
 
         //Access to user collection to take my name
-        String userID = playerDAO.playerID();
-        DocumentReference docRef = playerDAO.getCollection("users", userID);
+        String userID = playerDAL.getPlayerID();
+        DocumentReference docRef = playerDAL.getCollection("users", userID);
 
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
@@ -127,7 +128,7 @@ public class GameCenter extends AppCompatActivity {
         //---------------------------------------------------
 
         //Access to the list of my rooms category
-        DatabaseReference myRoomsRef = roomDAO.getPathReference("userRooms/"+playerDAO.playerID()+"/"+category);
+        DatabaseReference myRoomsRef = roomDAL.getPathReference("userRooms/"+ playerDAL.getPlayerID()+"/"+category);
 
         Set<String> myRoomsName = new HashSet<String>();
 
@@ -152,7 +153,7 @@ public class GameCenter extends AppCompatActivity {
         //--------------------------------------------------------------
 
         //Access to the list of room category
-        DatabaseReference reference = roomDAO.getPathReference("Rooms/" + category);
+        DatabaseReference reference = roomDAL.getPathReference("Rooms/" + category);
 
         //Put all the rooms of the category to list from the firebase
         reference.addValueEventListener(new ValueEventListener() {
@@ -195,7 +196,7 @@ public class GameCenter extends AppCompatActivity {
                 String roomName = adapter.getItem(room).getName();
                 String roomID =  adapter.getItem(room).getRoomID();
 
-                roomDAO.checkLimitOfRoom_And_JoinToRoom(category,roomID,name,roomName);
+                roomDAL.checkLimitOfRoom_And_JoinToRoom(category,roomID,name,roomName);
 
             }
         });

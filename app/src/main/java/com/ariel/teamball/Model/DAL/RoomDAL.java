@@ -1,17 +1,18 @@
-package com.ariel.teamball.Classes.DAO;
+package com.ariel.teamball.Model.DAL;
 
 import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.util.Log;
-import android.view.View;
-import androidx.annotation.NonNull;
+
 import android.widget.Toast;
+
 import androidx.appcompat.app.AlertDialog;
-import com.ariel.teamball.Classes.Player;
-import com.ariel.teamball.Classes.Room;
-import com.ariel.teamball.GameRoom;
+
+import com.ariel.teamball.Model.Classes.Player;
+import com.ariel.teamball.Model.Classes.Room;
+import com.ariel.teamball.View.GameRoom;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -19,7 +20,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.MutableData;
 import com.google.firebase.database.Transaction;
-import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -31,23 +31,23 @@ import java.util.Map;
 Data Access Object class that synchronizes the Room objects with the database.
 The methods in that class add, update and remove the data from the Rooms table in the database.
  */
-public class RoomDAO {
+public class RoomDAL {
 
     private static DatabaseReference reference;
     private static FirebaseDatabase database;
     private static Context context;
-    private static PlayerDAO playerDAO;
+    private static PlayerDAL playerDAL;
     private static FirebaseFirestore fStore; // access Firesotre Database
 
-    public RoomDAO(Context context) {
+    public RoomDAL(Context context) {
         database = FirebaseDatabase.getInstance();
         reference = database.getReference();
         fStore = FirebaseFirestore.getInstance();
         this.context = context;
-        this.playerDAO = new PlayerDAO(context);
+        this.playerDAL = new PlayerDAL(context);
     }
 
-    public RoomDAO() {
+    public RoomDAL() {
         database = FirebaseDatabase.getInstance();
         reference = database.getReference();
         fStore = FirebaseFirestore.getInstance();
@@ -57,7 +57,7 @@ public class RoomDAO {
         return FirebaseDatabase.getInstance().getReference(path);
     }
 
-  public static String addRoom(String category, Room newRoom){
+    public static String addRoom(String category, Room newRoom) {
 
         DatabaseReference roomsRef = reference.child("Rooms").child(category);
         Map<String, Object> room = new HashMap<>();
@@ -77,16 +77,41 @@ public class RoomDAO {
     and a user id and removes the given user from the Rooms table in the DB
      */
     public void removeUserFromRoom(String roomKey, String category, String userID) {
-//        //Add new player to usersList
-//        DatabaseReference usersList = reference.child("usersList");
-//        HashMap<String,Object> newUser = new HashMap<>();
-//
-//        String playerName = p.getFullName();
-//        newUser.put(playerID,playerName);
-//        usersList.updateChildren(newUser);
-
         DatabaseReference reference = getPathReference("Rooms/" + category + "/" + roomKey + "/usersList");
         reference.child(userID).removeValue();
+        decreaseNumOfPlayers(roomKey, category); // numOfPlayers--
+    }
+
+    // The function gets a roomID and decreases the amount of current players in the given room
+    private void decreaseNumOfPlayers(String roomKey, String category) {
+        DatabaseReference reference = getPathReference("Rooms/" + category + "/" + roomKey);
+
+        reference.runTransaction(new Transaction.Handler() {
+            @Override
+            public Transaction.Result doTransaction(MutableData mutableData) {
+                Room room = mutableData.getValue(Room.class);
+                if (room == null) {
+                    return Transaction.success(mutableData);
+                }
+
+                ((Activity) context).runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        int prevNum = room.getNumOfPlayers(); // get the current num of players in the room
+                        int updateNum = prevNum - 1; // decreases the number by one
+                        reference.child("numOfPlayers").setValue(updateNum); // update the new number in the DB
+                    }
+                });
+                return Transaction.success(mutableData);
+            }
+
+            @Override
+            public void onComplete(DatabaseError databaseError, boolean committed,
+                                   DataSnapshot currentData) {
+                // Transaction completed
+                Log.d("TAG", "postTransaction:onComplete:" + databaseError);
+            }
+        });
     }
 
     // The function gets the key and the category of the room and removes it from the Rooms table in the DB
@@ -95,7 +120,7 @@ public class RoomDAO {
         reference.child(roomKey).removeValue();
     }
 
-    public static void addNewUser(String category, String roomID,String playerID){
+    public static void addNewUser(String category, String roomID, String playerID) {
 
         //Access to the list of rooms category
         DatabaseReference reference = getPathReference("Rooms/" + category + "/" + roomID);
@@ -106,13 +131,13 @@ public class RoomDAO {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
                 Player p = documentSnapshot.toObject(Player.class);
+                String playerName = p.getFullName();
 
                 //Add new player to usersList
                 DatabaseReference usersList = reference.child("usersList");
-                HashMap<String,Object> newUser = new HashMap<>();
+                HashMap<String, Object> newUser = new HashMap<>();
 
-                String playerName = p.getFullName();
-                newUser.put(playerID,playerName);
+                newUser.put(playerID, playerName);
                 usersList.updateChildren(newUser);
             }
         });
@@ -127,7 +152,7 @@ public class RoomDAO {
                 }
 
                 //Update number of players
-                room.setNumOfPlayers(room.getNumOfPlayers()+1);
+                room.setNumOfPlayers(room.getNumOfPlayers() + 1);
 
                 // Set value and report transaction success
                 mutableData.setValue(room);
@@ -139,13 +164,13 @@ public class RoomDAO {
             public void onComplete(DatabaseError databaseError, boolean committed,
                                    DataSnapshot currentData) {
                 // Transaction completed
-                Log.d("TAG", "postTransaction:onComplete:" + databaseError);
+//                Log.d("TAG", "postTransaction:onComplete:" + databaseError);
             }
         });
 
     }
 
-    public static void checkLimitOfRoom_And_JoinToRoom(String category, String roomID,String namePlayer,String nameRoom){
+    public static void checkLimitOfRoom_And_JoinToRoom(String category, String roomID, String namePlayer, String nameRoom) {
 
         //Access to the list of rooms category
         DatabaseReference reference = getPathReference("Rooms/" + category + "/" + roomID);
@@ -162,10 +187,10 @@ public class RoomDAO {
                     @Override
                     public void run() {
                         //Check the number of players in the room
-                        if(room.getNumOfPlayers() == room.getCapacity()){
+                        if (room.getNumOfPlayers() == room.getCapacity()) {
                             Toast.makeText(context, "The room is full", Toast.LENGTH_SHORT).show();
-                        }else{
-                            JoinToRoom(category,roomID,namePlayer,nameRoom);
+                        } else {
+                            JoinToRoom(category, roomID, namePlayer, nameRoom);
                         }
                     }
                 });
@@ -185,7 +210,7 @@ public class RoomDAO {
         });
     }
 
-    private static void JoinToRoom(String category,String roomID,String name,String roomName){
+    private static void JoinToRoom(String category, String roomID, String name, String roomName) {
 
         final AlertDialog.Builder EnterGroupDialog = new AlertDialog.Builder(context);
         EnterGroupDialog.setTitle("Want to join the room?");
@@ -194,10 +219,10 @@ public class RoomDAO {
             public void onClick(DialogInterface dialogInterface, int i) {
 
                 //Add player to room
-                addNewUser(category,roomID,playerDAO.playerID());
+                addNewUser(category, roomID, playerDAL.getPlayerID());
 
                 //Add room to list of private rooms user
-                playerDAO.addRoom(category,roomID);
+                playerDAL.addRoom(category, roomID);
 
                 //----------------------------------------
 
@@ -206,7 +231,7 @@ public class RoomDAO {
                 intent.putExtra("room_name", roomName);
                 intent.putExtra("user_name", name);
                 intent.putExtra("category", category);
-                intent.putExtra("roomID",roomID);
+                intent.putExtra("roomID", roomID);
                 context.startActivity(intent);
             }
         });
@@ -219,7 +244,7 @@ public class RoomDAO {
         EnterGroupDialog.show();
     }
 
-    public static void editRoomDetails(String category, String roomID, String roomName,String fieldName, String city, String time){
+    public static void editRoomDetails(String category, String roomID, String roomName, String fieldName, String city, String time) {
 
         //Access to the list of rooms category
         DatabaseReference reference = getPathReference("Rooms/" + category + "/" + roomID);

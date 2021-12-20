@@ -1,4 +1,4 @@
-package com.ariel.teamball.Classes;
+package com.ariel.teamball.Model.Classes;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -7,7 +7,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 
-import com.ariel.teamball.Classes.Adapters.PlayerAdapter;
+import com.ariel.teamball.Controller.Adapters.PlayerAdapter;
+import com.ariel.teamball.Model.Classes.Player;
 import com.ariel.teamball.R;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;

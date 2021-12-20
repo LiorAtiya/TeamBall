@@ -12,43 +12,43 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.TeamBall">
         <activity
-            android:name=".MyRooms"
+            android:name=".View.MyRooms"
             android:exported="false" />
         <activity
-            android:name=".EditRoom"
+            android:name=".View.EditRoom"
             android:exported="false" />
         <activity
-            android:name=".CreateRoom"
+            android:name=".View.CreateRoom"
             android:exported="false" />
         <activity
-            android:name=".Classes.playersList"
+            android:name=".Model.Classes.playersList"
             android:exported="false" />
         <activity
-            android:name=".GameRoom"
+            android:name=".View.GameRoom"
             android:exported="false" />
         <activity
-            android:name=".Chatroom"
+            android:name=".View.Chatroom"
             android:exported="false" />
         <activity
-            android:name=".GameCenter"
+            android:name=".View.GameCenter"
             android:exported="false" />
         <activity
-            android:name=".EditProfile"
+            android:name=".View.EditProfile"
             android:exported="false" />
         <activity
-            android:name=".MyProfile"
+            android:name=".View.MyProfile"
             android:exported="false" />
         <activity
-            android:name=".SportsMenu"
+            android:name=".View.SportsMenu"
             android:exported="false" />
         <activity
-            android:name=".RegisterActivity"
+            android:name=".View.RegisterActivity"
             android:exported="false" />
         <activity
-            android:name=".LoginActivity"
+            android:name=".View.LoginActivity"
             android:exported="false" />
         <activity
-            android:name=".SplashScreen"
+            android:name=".View.SplashScreen"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -1,4 +1,4 @@
-package com.ariel.teamball;
+package com.ariel.teamball.View;
 
 import android.app.Activity;
 import android.content.DialogInterface;
@@ -13,10 +13,11 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.ariel.teamball.Classes.DAO.PlayerDAO;
-import com.ariel.teamball.Classes.DAO.RoomDAO;
-import com.ariel.teamball.Classes.GameManagement;
-import com.ariel.teamball.Classes.Room;
+import com.ariel.teamball.Model.DAL.PlayerDAL;
+import com.ariel.teamball.Model.DAL.RoomDAL;
+import com.ariel.teamball.Controller.GameManagement;
+import com.ariel.teamball.Model.Classes.Room;
+import com.ariel.teamball.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
@@ -37,8 +38,8 @@ public class GameRoom extends AppCompatActivity {
     TextView roomName, capacity, city, field, admin,time;
     String category,room_name,admin_name,my_name,adminID,roomID;
 
-    RoomDAO roomDAO;
-    PlayerDAO playerDAO;
+    RoomDAL roomDAL;
+    PlayerDAL playerDAL;
 
     // creates game management object
     GameManagement gm = GameManagement.getInstance();
@@ -48,7 +49,7 @@ public class GameRoom extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        Intent i = new Intent(getApplicationContext(),MyRooms.class);
+        Intent i = new Intent(getApplicationContext(), MyRooms.class);
         i.putExtra("category", category);
         startActivity(i);
         finish();
@@ -73,8 +74,8 @@ public class GameRoom extends AppCompatActivity {
         leaveRoom = findViewById(R.id.leaveRoom);
 
         //Access to firebase
-        roomDAO = new RoomDAO(this);
-        playerDAO = new PlayerDAO(this);
+        roomDAL = new RoomDAL(this);
+        playerDAL = new PlayerDAL(this);
 
         //Get date from previous page
         my_name = getIntent().getExtras().get("user_name").toString();
@@ -85,7 +86,7 @@ public class GameRoom extends AppCompatActivity {
         //---------------------------------------------------
 
         //Check for editRoom button
-        DatabaseReference roomRef = roomDAO.getPathReference("Rooms/"+category+"/"+roomID);
+        DatabaseReference roomRef = roomDAL.getPathReference("Rooms/"+category+"/"+roomID);
 
         roomRef.runTransaction(new Transaction.Handler() {
               
@@ -97,7 +98,7 @@ public class GameRoom extends AppCompatActivity {
 
                 adminID = room.getAdmin();
                 //Show button of edit room only for admin
-                if(playerDAO.playerID().equals(adminID)){
+                if(playerDAL.getPlayerID().equals(adminID)){
                     editRoom.setVisibility(View.VISIBLE);
                     isAdmin = true;
                 }else{
@@ -140,7 +141,7 @@ public class GameRoom extends AppCompatActivity {
                         field.setText("Field: "+room.getField());
 //                time.setText("Start Game: "+room.getTime());
 
-                        DocumentReference adminRef = playerDAO.getCollection("users",room.getAdmin());
+                        DocumentReference adminRef = playerDAL.getCollection("users",room.getAdmin());
 
                         adminRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                             @Override
@@ -218,7 +219,6 @@ public class GameRoom extends AppCompatActivity {
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         Room room = dataSnapshot.getValue(Room.class);
                         Map<String,String> players = room.getUsersList();
-                        Log.d("MyTest", "Size map: "+players.size());
                         String playersName = "";
                         for (Map.Entry<String,String> player : players.entrySet()){
                             playersName += player.getValue()+"\n";
@@ -246,10 +246,6 @@ public class GameRoom extends AppCompatActivity {
                         System.out.println("The read failed: " + databaseError.getCode());
                     }
                 });
-
-
-//                playersDialog.setMessage("Lior\nLioz\nOfir");
-
             }
         });
 
@@ -276,7 +272,7 @@ public class GameRoom extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                Intent i = new Intent(v.getContext(),EditRoom.class);
+                Intent i = new Intent(v.getContext(), EditRoom.class);
                 i.putExtra("roomName",roomName.getText().toString());
                 i.putExtra("time",time.getText().toString());
                 i.putExtra("city",city.getText().toString());
@@ -295,13 +291,53 @@ public class GameRoom extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                gm.leaveRoom(roomID, category, isAdmin);
+                if(isAdmin) { // the user is the admin of the group
+                    final AlertDialog.Builder EnterGroupDialog = new AlertDialog.Builder(v.getContext());
+                    EnterGroupDialog.setMessage("If you leave this room, it will be deleted.\nAre you sure you want to leave?");
+                    EnterGroupDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() { // delete the room and go back
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            gm.removeRoom(roomID, category);
+                            moveToGameCenterScreen(v);
+                        }
+                    });
+                    EnterGroupDialog.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) { // do nothing
+                            dialogInterface.cancel();
+                        }
+                    });
+                    EnterGroupDialog.show();
+                }
 
-                Intent i = new Intent(v.getContext(),GameCenter.class);
-                i.putExtra("category", category);
-                startActivity(i);
+                else { // the user is not the admin of the room
+                    final AlertDialog.Builder EnterGroupDialog = new AlertDialog.Builder(v.getContext());
+                    EnterGroupDialog.setMessage("Are you sure you want to leave?");
+                    EnterGroupDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() { // leave and go back
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            gm.leaveRoom(roomID, category);
+                            moveToGameCenterScreen(v);
+                        }
+                    });
+                    EnterGroupDialog.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) { // do nothing
+                            dialogInterface.cancel();
+                        }
+                    });
+                    EnterGroupDialog.show();
+                }
+
             }
         });
+    }
+
+    // The function move to user back to the GameCenter activity
+    private void moveToGameCenterScreen(View v) {
+        Intent i = new Intent(v.getContext(), GameCenter.class);
+        i.putExtra("category", category);
+        startActivity(i);
     }
 
 }

@@ -5,38 +5,24 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/ournewbackground"
-    tools:context=".MyProfile">
+    tools:context=".View.MyProfile">
 
-    <Button
-        android:id="@+id/profileLogoutBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
-        android:background="@drawable/custom_button"
-        android:backgroundTint="#4CAF50"
-        android:text="Logout"
-        android:textAllCaps="false"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.058"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/textView5"
+        android:id="@+id/MyNickName"
         android:layout_width="319dp"
         android:layout_height="74dp"
         android:fontFamily="sans-serif"
-        android:text="My Profile"
+        android:text="Your Nickname"
         android:textAlignment="center"
         android:textColor="#000000"
-        android:textSize="50sp"
+        android:textSize="45sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.095" />
-
+        app:layout_constraintVertical_bias="0.062" />
 
     <TextView
         android:id="@+id/ProfileName"
@@ -54,10 +40,10 @@
         app:layout_constraintVertical_bias="0.432" />
 
     <TextView
-        android:id="@+id/MyNickName"
+        android:id="@+id/age"
         android:layout_width="230dp"
         android:layout_height="40dp"
-        android:text="Your Nick name"
+        android:text="Your age"
         android:textAlignment="textStart"
         android:textColor="#020202"
         android:textSize="25sp"
@@ -136,41 +122,42 @@
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.234"
+        app:layout_constraintVertical_bias="0.214"
         app:srcCompat="@android:drawable/sym_def_app_icon"
         tools:srcCompat="@tools:sample/avatars" />
 
     <TextView
         android:id="@+id/verifyMsg"
-        android:layout_width="88dp"
-        android:layout_height="190dp"
+        android:layout_width="151dp"
+        android:layout_height="41dp"
         android:text="Email Not Verified!"
+        android:visibility="gone"
         android:textAlignment="center"
         android:textColor="#FF0000"
         android:textStyle="bold"
-        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.046"
+        app:layout_constraintHorizontal_bias="0.921"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.172" />
+        app:layout_constraintVertical_bias="0.912" />
 
     <Button
-        android:id="@+id/resendCode"
+        android:id="@+id/verifyBtn"
         android:layout_width="139dp"
         android:layout_height="42dp"
-        android:layout_marginEnd="120dp"
         android:backgroundTint="#FB1201"
         android:text="Verify Now"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.271"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.84" />
+        app:layout_constraintVertical_bias="0.896" />
 
     <Button
         android:id="@+id/resetPasswordLocal"
@@ -206,6 +193,18 @@
         android:layout_height="40dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.084"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.512"
+        app:srcCompat="@drawable/ic_baseline_calendar_today_24" />
+
+    <ImageView
+        android:id="@+id/imageViewUser7"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.086"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -223,18 +222,6 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.584"
         app:srcCompat="@drawable/email_icon" />
-
-    <ImageView
-        android:id="@+id/imageViewUserNickName"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.086"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.512"
-        app:srcCompat="@drawable/nickname_icon" />
 
     <ImageView
         android:id="@+id/imageViewUser2"

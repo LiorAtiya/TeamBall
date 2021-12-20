@@ -1,4 +1,4 @@
-package com.ariel.teamball;
+package com.ariel.teamball.View;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
@@ -15,9 +15,10 @@ import android.widget.TimePicker;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.ariel.teamball.Classes.DAO.PlayerDAO;
-import com.ariel.teamball.Classes.DAO.RoomDAO;
-import com.ariel.teamball.Classes.GameManagement;
+import com.ariel.teamball.Model.DAL.PlayerDAL;
+import com.ariel.teamball.Model.DAL.RoomDAL;
+import com.ariel.teamball.Controller.GameManagement;
+import com.ariel.teamball.R;
 import com.google.android.material.textfield.TextInputEditText;
 
 import java.util.Calendar;
@@ -61,8 +62,8 @@ public class CreateRoom extends AppCompatActivity {
 
 
         String category = getIntent().getExtras().get("category").toString();
-        PlayerDAO playerDAO = new PlayerDAO();
-        RoomDAO roomDAO = new RoomDAO();
+        PlayerDAL playerDAL = new PlayerDAL();
+        RoomDAL roomDAL = new RoomDAL();
 
         /*----- Date picker -----*/
 

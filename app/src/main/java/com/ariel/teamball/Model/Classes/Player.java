@@ -1,4 +1,6 @@
-package com.ariel.teamball.Classes;
+package com.ariel.teamball.Model.Classes;
+
+import com.google.firebase.database.GenericTypeIndicator;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,8 +14,7 @@ public class Player {
     private String phone;
     private String city;
     private String gender;
-    private List roomsList; // this is a list of all the rooms (IDs) in which the player is an admin
-//    private String age;
+    private String age;
     private static int id = 1;
 
     /* Constructor */
@@ -25,8 +26,7 @@ public class Player {
         this.password = _Password;
         this.phone = _Phone;
         this.city = _city;
-        this.roomsList = new ArrayList<Integer>();
-//        this.age = _age;
+        this.age = _age;
         this.gender = _gender;
         this.id += 1;
     }
@@ -36,17 +36,17 @@ public class Player {
 
     //========================================Player-Methods========================================
 
-    public void addRoomToManage(int roomID) {
-        this.roomsList.add(roomID);
-    }
-
-    public void removeRoomToManage(int roomID) {
-        this.roomsList.remove(roomID);
-    }
-
-    public boolean isAdmin(int roomID) {
-        return this.roomsList.contains(roomID);
-    }
+//    public void addRoomToManage(int roomID) {
+//        this.roomsList.add(roomID);
+//    }
+//
+//    public void removeRoomToManage(int roomID) {
+//        this.roomsList.remove(roomID);
+//    }
+//
+//    public boolean isAdmin(int roomID) {
+//        return this.roomsList.contains(roomID);
+//    }
 
     public void JoinGame() {
 
@@ -83,30 +83,21 @@ public class Player {
 
     //--------Getters & Setters---------
 
-    public int getId() {
-        return this.id;
-    }
-
-//    public String getAge() { return this.age; }
 
     public String getFullName() {
-        return this.fullName;
+        return fullName;
     }
 
-    public String getFirstName() {
-        return null;
-    }
-
-    public String getLastName() {
-        return null;
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
     }
 
     public String getNickName() {
-        return this.nickName;
+        return nickName;
     }
 
-    public String getGender() {
-        return this.gender;
+    public void setNickName(String nickName) {
+        this.nickName = nickName;
     }
 
     public String getEmail() {
@@ -134,33 +125,44 @@ public class Player {
     }
 
     public String getCity() {
-        return this.city;
+        return city;
     }
 
-    public void setCity(String _city) {
-        this.city = _city;
+    public void setCity(String city) {
+        this.city = city;
     }
 
-    public void setGender(String _Gender) {
-        this.gender = _Gender;
+    public String getGender() {
+        return gender;
     }
 
-    public void setAge(int age) {
-
+    public void setGender(String gender) {
+        this.gender = gender;
     }
 
-    public void setFirstName(String _firstName) {
+//    public List getRoomsList() {
+//        return roomsList;
+//    }
+//
+//    public void setRoomsList(List roomsList) {
+//        this.roomsList = roomsList;
+//    }
 
+    public String getAge() {
+        return age;
     }
 
-    public void setLastName(String _lastName) {
-
+    public void setAge(String age) {
+        this.age = age;
     }
 
-    public void setNickName(String _nickName) {
-        this.nickName = _nickName;
+    public static int getId() {
+        return id;
     }
 
+    public static void setId(int id) {
+        Player.id = id;
+    }
 
     //========================================Admin-Methods========================================
     public void deleteGroup() {

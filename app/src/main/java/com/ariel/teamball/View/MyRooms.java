@@ -1,4 +1,4 @@
-package com.ariel.teamball;
+package com.ariel.teamball.View;
 
 
 import android.content.DialogInterface;
@@ -10,7 +10,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -18,12 +17,12 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
 
-import com.ariel.teamball.Classes.Adapters.ListAdapter;
-import com.ariel.teamball.Classes.DAO.PlayerDAO;
-import com.ariel.teamball.Classes.DAO.RoomDAO;
-import com.ariel.teamball.Classes.Room;
+import com.ariel.teamball.Controller.Adapters.ListAdapter;
+import com.ariel.teamball.Model.DAL.PlayerDAL;
+import com.ariel.teamball.Model.DAL.RoomDAL;
+import com.ariel.teamball.Model.Classes.Room;
+import com.ariel.teamball.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -51,12 +50,12 @@ public class MyRooms extends AppCompatActivity {
 
     BottomNavigationView bottomNavigationView;
 
-    PlayerDAO playerDAO;
-    RoomDAO roomDAO;
+    PlayerDAL playerDAL;
+    RoomDAL roomDAL;
 
     @Override
     public void onBackPressed() {
-        Intent i = new Intent(getApplicationContext(),SportsMenu.class);
+        Intent i = new Intent(getApplicationContext(), SportsMenu.class);
         startActivity(i);
         finish();
     }
@@ -86,7 +85,7 @@ public class MyRooms extends AppCompatActivity {
                     case R.id.my_rooms:
                         return true;
                     case R.id.all_rooms:
-                        Intent i = new Intent(getApplicationContext(),GameCenter.class);
+                        Intent i = new Intent(getApplicationContext(), GameCenter.class);
                         i.putExtra("category",category);
                         startActivity(i);
                         overridePendingTransition(0,0);
@@ -100,8 +99,8 @@ public class MyRooms extends AppCompatActivity {
 
         //---------------------------------------------------
 
-        playerDAO = new PlayerDAO(this);
-        roomDAO = new RoomDAO(this);
+        playerDAL = new PlayerDAL(this);
+        roomDAL = new RoomDAL(this);
 
         //Custom design for listView
         ArrayList<Room> list = new ArrayList<>();
@@ -111,8 +110,8 @@ public class MyRooms extends AppCompatActivity {
         //---------------------------------------------------
 
         //Access to user collection to take my name
-        String userID = playerDAO.playerID();
-        DocumentReference docRef = playerDAO.getCollection("users", userID);
+        String userID = playerDAL.getPlayerID();
+        DocumentReference docRef = playerDAL.getCollection("users", userID);
 
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
@@ -129,7 +128,7 @@ public class MyRooms extends AppCompatActivity {
         //---------------------------------------------------
 
         //Access to the list of my rooms category
-        DatabaseReference myRoomsRef = roomDAO.getPathReference("userRooms/"+playerDAO.playerID()+"/"+category);
+        DatabaseReference myRoomsRef = roomDAL.getPathReference("userRooms/"+ playerDAL.getPlayerID()+"/"+category);
 
         Set<String> myRoomsID = new HashSet<String>();
 
@@ -154,7 +153,7 @@ public class MyRooms extends AppCompatActivity {
         //--------------------------------------------------------------
 
         //Access to the list of rooms category
-        DatabaseReference reference = roomDAO.getPathReference("Rooms/" + category);
+        DatabaseReference reference = roomDAL.getPathReference("Rooms/" + category);
 
         //Put all the rooms of the category to list from the firebase
         reference.addValueEventListener(new ValueEventListener() {

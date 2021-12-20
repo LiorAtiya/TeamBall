@@ -1,4 +1,4 @@
-package com.ariel.teamball;
+package com.ariel.teamball.View;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,14 +9,16 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.ariel.teamball.Classes.DAO.PlayerDAO;
+import com.ariel.teamball.Controller.SwitchActivities;
+import com.ariel.teamball.Model.DAL.PlayerDAL;
+import com.ariel.teamball.R;
 
 public class SportsMenu extends AppCompatActivity {
 
     Button mLogoutBtn, myProfile;
     ImageButton SoccerBtn , BasketBallBtn , TennisBtn, TableTennisBtn,
             HandBallBtn, VolleyBallBtn, DogeBallBtn,footballBtn;
-    PlayerDAO playerDAO;
+    PlayerDAL playerDAL;
 
     @Override
     public void onBackPressed() {
@@ -42,14 +44,13 @@ public class SportsMenu extends AppCompatActivity {
         DogeBallBtn = findViewById(R.id.DogeBallBtn);
         footballBtn = findViewById(R.id.football);
 
-        playerDAO = new PlayerDAO(this);
+        playerDAL = new PlayerDAL(this);
 
         mLogoutBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                playerDAO.playerSignOut();
-                startActivity(new Intent(getApplicationContext(),LoginActivity.class));
+                playerDAL.playerSignOut();
+                SwitchActivities.LoginActivity(getApplicationContext());
                 finish();
             }
         });
@@ -57,79 +58,63 @@ public class SportsMenu extends AppCompatActivity {
         myProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(),MyProfile.class));
+                startActivity(new Intent(getApplicationContext(), MyProfile.class));
             }
         });
 
         SoccerBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), GameCenter.class);
-                intent.putExtra("category", "Soccer");
-                startActivity(intent);
+                SwitchActivities.Categories(getApplicationContext(),"Soccer");
             }
         });
 
         BasketBallBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), GameCenter.class);
-                intent.putExtra("category", "BasketBall");
-                startActivity(intent);
+                SwitchActivities.Categories(getApplicationContext(),"Basketball");
             }
         });
 
         TennisBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), GameCenter.class);
-                intent.putExtra("category", "Tennis");
-                startActivity(intent);
+                SwitchActivities.Categories(getApplicationContext(),"Tennis");
             }
         });
 
         TableTennisBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), GameCenter.class);
-                intent.putExtra("category", "TableTennis");
-                startActivity(intent);
+                SwitchActivities.Categories(getApplicationContext(),"Table Tennis");
             }
         });
 
         HandBallBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), GameCenter.class);
-                intent.putExtra("category", "HandBall");
-                startActivity(intent);
+                SwitchActivities.Categories(getApplicationContext(),"Table Tennis");
             }
         });
 
         VolleyBallBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), GameCenter.class);
-                intent.putExtra("category", "VolleyBall");
-                startActivity(intent);
+                SwitchActivities.Categories(getApplicationContext(),"Volleyball");
             }
         });
 
         DogeBallBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), GameCenter.class);
-                intent.putExtra("category", "DogeBall");
-                startActivity(intent);
+                SwitchActivities.Categories(getApplicationContext(),"Dodgeball");
             }
         });
 
         footballBtn.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), GameCenter.class);
-                intent.putExtra("category", "FootBall");
-                startActivity(intent);
+                SwitchActivities.Categories(getApplicationContext(),"American Football");
             }
         });
     }
