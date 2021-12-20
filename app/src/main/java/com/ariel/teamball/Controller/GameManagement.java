@@ -37,7 +37,7 @@ public class GameManagement {
     public String createRoom(String RoomN, int capacityInteger, String CurtN, String
             chosenCity, String chosenTime, String date, String category) {
         // Room details storage in database
-        String adminID = this.playerDAL.playerID();
+        String adminID = this.playerDAL.getPlayerID();
         Room newRoom = new Room(RoomN, capacityInteger, CurtN, chosenCity, chosenTime, "date", adminID, category);
         String roomKey = this.roomDAL.addRoom(category, newRoom);
         // adds the admin to the playerList
@@ -53,7 +53,7 @@ public class GameManagement {
     (removes the room from the userRooms and removes the user from the usersList)
      */
     public void leaveRoom(String roomID, String category) {
-        String userID = this.playerDAL.playerID();
+        String userID = this.playerDAL.getPlayerID();
         this.playerDAL.removeRoomFromUserRooms(roomID, category, userID);
         this.roomDAL.removeUserFromRoom(roomID, category, userID);
     }

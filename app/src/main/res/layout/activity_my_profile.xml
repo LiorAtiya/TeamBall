@@ -146,7 +146,7 @@
         app:layout_constraintVertical_bias="0.912" />
 
     <Button
-        android:id="@+id/resendCode"
+        android:id="@+id/verifyBtn"
         android:layout_width="139dp"
         android:layout_height="42dp"
         android:backgroundTint="#FB1201"

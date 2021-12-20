@@ -22,7 +22,6 @@ import com.squareup.picasso.Picasso;
 
 public class EditProfile extends AppCompatActivity {
 
-    public static final String TAG = "TAG";
     EditText profileFullName,profilePhone,profileNickname,profileCity,profileGender,profileAge;
     ImageView profileImageView;
     Button saveBtn;
@@ -38,10 +37,10 @@ public class EditProfile extends AppCompatActivity {
         Intent data = getIntent();
         String fullName = data.getStringExtra("fName");
         String nickname = data.getStringExtra("nickName");
-        String city = data.getStringExtra("city");
         String gender = data.getStringExtra("gender");
         String phone = data.getStringExtra("phone");
         String age = data.getStringExtra("age");
+        String city = data.getStringExtra("city");
         //        String email = data.getStringExtra("email");
 
 
@@ -59,13 +58,8 @@ public class EditProfile extends AppCompatActivity {
         playerDAL = new PlayerDAL(this);
 
         //Access to profile picture of the player
-        StorageReference profileRef = playerDAL.getStorage("users/"+ playerDAL.playerID()+"/profile.jpg");
-        profileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-            @Override
-            public void onSuccess(Uri uri) {
-                Picasso.get().load(uri).into(profileImageView);
-            }
-        });
+        playerDAL.setProfilePicture(profileImageView,playerDAL.getPlayerID());
+
 
         //Edit profile picture of the player
         profileImageView.setOnClickListener(new View.OnClickListener() {
