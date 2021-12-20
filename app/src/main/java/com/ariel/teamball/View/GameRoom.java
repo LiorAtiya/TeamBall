@@ -200,33 +200,7 @@ public class GameRoom extends AppCompatActivity {
                             playersDialog.setTitle("Team players");
                             playersDialog.setMessage(playersName);
 
-<<<<<<< HEAD
-                        Intent i = new Intent(v.getContext(), playersList.class);
-                        startActivity(i);
 
-//                        Room room = dataSnapshot.getValue(Room.class);
-//                        Map<String,String> players = room.getUsersList();
-//                        Log.d("MyTest", "Size map: "+players.size());
-//                        String playersName = "";
-//                        for (Map.Entry<String,String> player : players.entrySet()){
-//                            playersName += player.getValue()+"\n";
-//                        }
-//
-//                        final AlertDialog.Builder playersDialog = new AlertDialog.Builder(v.getContext());
-//                        playersDialog.setTitle("Team players");
-//                        playersDialog.setMessage(playersName);
-//
-//                        playersDialog.setNegativeButton("Exit", new DialogInterface.OnClickListener() {
-//                            @Override
-//                            public void onClick(DialogInterface dialog, int which) {
-//
-//                            }
-//                        });
-//
-//                        if (!GameRoom.this.isFinishing()){
-//                            playersDialog.create().show();
-//                        }
-=======
                             playersDialog.setNegativeButton("Exit", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
@@ -238,8 +212,6 @@ public class GameRoom extends AppCompatActivity {
                                 playersDialog.create().show();
                             }
                         }
->>>>>>> f7c99ce31cab5cef24a8273a54817c64201cb547
-
                     }
 
                     @Override
