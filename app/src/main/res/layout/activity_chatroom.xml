@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:text="Send"
         android:textAllCaps="false"
-        android:id="@+id/button2"
+        android:id="@+id/send"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
@@ -23,11 +23,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/textToSend"
-        android:layout_alignTop="@+id/button2"
+        android:layout_alignTop="@+id/send"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_toLeftOf="@+id/button2"
-        android:layout_toStartOf="@+id/button2" />
+        android:layout_toLeftOf="@+id/send"
+        android:layout_toStartOf="@+id/send" />
 
     <ScrollView
         android:layout_width="400dp"

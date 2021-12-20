@@ -4,21 +4,30 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.MenuItem;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 
+import com.ariel.teamball.Model.DAL.PlayerDAL;
 import com.ariel.teamball.R;
+import com.ariel.teamball.View.Chatroom;
 import com.ariel.teamball.View.CreateRoom;
 import com.ariel.teamball.View.EditProfile;
+import com.ariel.teamball.View.EditRoom;
 import com.ariel.teamball.View.GameCenter;
+import com.ariel.teamball.View.GameRoom;
 import com.ariel.teamball.View.LoginActivity;
 import com.ariel.teamball.View.MyRooms;
 import com.ariel.teamball.View.RegisterActivity;
 import com.ariel.teamball.View.SportsMenu;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 
 public class SwitchActivities {
 
@@ -40,7 +49,7 @@ public class SwitchActivities {
         context.startActivity(myIntent);
     }
 
-    public static void Categories(Context context,String nameCategory){
+    public static void GameCenter(Context context, String nameCategory){
         Intent intent = new Intent(context, GameCenter.class);
         intent.putExtra("category", nameCategory);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -93,4 +102,54 @@ public class SwitchActivities {
 
     }
 
+    public static void GameRoom(Context context,String roomName, String category, String roomID) {
+
+        //Access to user collection to take my name
+        String userID = PlayerDAL.getPlayerID();
+        DocumentReference docRef = PlayerDAL.getCollection("users", userID);
+
+        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+
+
+                    DocumentSnapshot document = task.getResult();
+                    String name = document.getString("fullName");
+                    Intent intent = new Intent(context, GameRoom.class);
+                    intent.putExtra("room_name", roomName);
+                    intent.putExtra("user_name", name);
+                    intent.putExtra("category", category);
+                    intent.putExtra("roomID",roomID);
+                    context.startActivity(intent);
+
+                } else {
+                    Log.d("TAG", "get failed with ", task.getException());
+                }
+            }
+        });
+    }
+
+    public static void Chatroom(Context context, String room_name, String my_name, String category, String roomID){
+        Intent intent = new Intent(context, Chatroom.class);
+        intent.putExtra("room_name", room_name);
+        intent.putExtra("user_name", my_name);
+        intent.putExtra("category", category);
+        intent.putExtra("roomID",roomID);
+        context.startActivity(intent);
+    }
+
+    public static void EditRoom(Context context, String roomName, String timeText, String city,String field,
+                                String category, String roomID, String my_name){
+        Intent i = new Intent(context, EditRoom.class);
+        i.putExtra("roomName",roomName);
+        i.putExtra("time",timeText);
+        i.putExtra("city",city);
+        i.putExtra("fieldName",field);
+        i.putExtra("category",category);
+        i.putExtra("roomID",roomID);
+        i.putExtra("user_name",my_name);
+
+        context.startActivity(i);
+    }
 }

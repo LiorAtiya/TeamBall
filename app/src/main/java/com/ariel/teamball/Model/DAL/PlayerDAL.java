@@ -218,9 +218,6 @@ public class PlayerDAL {
                     //Go to a SportsMenu page
                     SwitchActivities.SportMenu(context);
 
-//                    Intent myIntent = new Intent(context, SportsMenu.class);
-//                    context.startActivity(myIntent);
-
                     pb.setVisibility(View.GONE);
 
                 } else {
@@ -403,23 +400,6 @@ public class PlayerDAL {
     public static void setUser(FirebaseUser user) {
         PlayerDAL.user = user;
     }
-
-//    public static String getValueFromPlayer(String key) {
-//        //Access to user collection to take my name
-//        DocumentReference docRef = getCollection("users", playerID());
-//        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-//            @Override
-//            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-//                if (task.isSuccessful()) {
-//                    DocumentSnapshot document = task.getResult();
-//                    value = document.getString(key);
-//                } else {
-//                    Log.d(TAG, "get failed with ", task.getException());
-//                }
-//            }
-//        });
-//        return value;
-//    }
 
     // The function gets the key and the category of the room and removes the room from each of the users
 //    public void removeRoomFromUserRooms(String roomKey, String category) {

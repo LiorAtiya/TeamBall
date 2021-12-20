@@ -2,6 +2,7 @@ package com.ariel.teamball.View;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -17,6 +18,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.ariel.teamball.Controller.SwitchActivities;
 import com.ariel.teamball.Model.DAL.RoomDAL;
 import com.ariel.teamball.R;
 
@@ -45,7 +47,6 @@ public class EditRoom extends AppCompatActivity {
         Intent data = getIntent();
         String roomName = data.getStringExtra("roomName");
         String fieldName = data.getStringExtra("fieldName").substring(7);
-        String myCity = data.getStringExtra("city");
         String time = data.getStringExtra("time");
 
         //catch the design by id - Link to layout
@@ -67,26 +68,28 @@ public class EditRoom extends AppCompatActivity {
         allCities.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         editCitySpinner.setAdapter(allCities);
 
-
         editRoomName.setText(roomName);
         editFieldName.setText(fieldName);
-        timeText.setText(time);
+        timeText.setText(time.substring(12));
 
         /* -----Edit Time Picker -----*/
 
         //for setting hours and minute
-        int currentHr;
-        int currentMin;
-
-        calendarTime = Calendar.getInstance();
-        currentHr = calendarTime.get(Calendar.HOUR);
-        currentMin = calendarTime.get(Calendar.MINUTE);
-
+        int currentHr = 0;
+        int currentMin = 0;
+        
+        //when we click the time picker
         editTime.setOnClickListener(view -> {
             TimePickerDialog dialog = new TimePickerDialog(this, new TimePickerDialog.OnTimeSetListener() {
                 @Override
                 public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                    timeText.setText(hourOfDay + ":" + minute);
+                    String hour_with_zero = Integer.toString(hourOfDay);
+                    String minute_with_zero = Integer.toString(minute);
+
+                    if(hourOfDay < 10) hour_with_zero = "0" + hour_with_zero;
+                    if(minute < 10) minute_with_zero = "0" + minute_with_zero;
+
+                    timeText.setText(hour_with_zero + ":" + minute_with_zero);
                 }
             }, currentHr, currentMin, false);
 
@@ -127,20 +130,14 @@ public class EditRoom extends AppCompatActivity {
                 String fieldName = editFieldName.getText().toString();
                 String city = editCitySpinner.getSelectedItem().toString();
                 String time = timeText.getText().toString();
-                String date = tvDate.getText().toString();
-
                 String category = getIntent().getExtras().get("category").toString();
                 String roomID = getIntent().getExtras().get("roomID").toString();
-                roomDAL.editRoomDetails(category,roomID,roomName,fieldName,city,time,date);
+
+                roomDAL.editRoomDetails(category,roomID,roomName,fieldName,city,time,"date");
 
                 String name = getIntent().getExtras().get("user_name").toString();
                 //Go to a GameRoom page
-                Intent intent = new Intent(EditRoom.this, GameRoom.class);
-                intent.putExtra("room_name", roomName);
-                intent.putExtra("user_name", name);
-                intent.putExtra("category", category);
-                intent.putExtra("roomID",roomID);
-                startActivity(intent);
+                SwitchActivities.GameRoom(EditRoom.this,roomName,category, roomID);
 
             }
         });
