@@ -18,6 +18,7 @@ public class Room {
     private Map<String,String> usersList; // list of IDs of all the group's users
     private int numOfPlayers;
     private String category;
+    private Chatroom chat;
 
 //    Time expiredTime;
 //    ArrayList<Player> teams;
