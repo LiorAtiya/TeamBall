@@ -1,8 +1,8 @@
 package com.ariel.teamball.Model.Classes;
 
-import com.ariel.teamball.View.Chatroom;
-
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 
@@ -46,6 +46,14 @@ public class Room {
 
     //-------------Getters & Setters---------------------
 
+
+    public String getStartGame() {
+        return startGame;
+    }
+
+    public void setStartGame(String startGame) {
+        this.startGame = startGame;
+    }
 
     public String getCategory() {
         return category;

@@ -39,8 +39,7 @@ import java.util.Iterator;
 import java.util.Set;
 
 public class GameCenter extends AppCompatActivity {
-    /* Page objects */
-    public static final String TAG = "TAG";
+
     TextView nameCategory;
     ListView listView;
     Button createRoomBtn;
@@ -57,9 +56,6 @@ public class GameCenter extends AppCompatActivity {
     public void onBackPressed() {
         SwitchActivities.SportMenu(getApplicationContext());
         finish();
-
-//        Intent i = new Intent(getApplicationContext(), SportsMenu.class);
-//        startActivity(i);
     }
 
     @Override
@@ -89,20 +85,13 @@ public class GameCenter extends AppCompatActivity {
 
                 switch (item.getItemId()){
                     case R.id.my_rooms:
-
                         SwitchActivities.MyRoom(getApplicationContext(),category);
-
-//                        Intent i = new Intent(getApplicationContext(), MyRooms.class);
-//                        i.putExtra("category",category);
-//                        startActivity(i);
                         finish();
                         overridePendingTransition(0,0);
                         return true;
                     case R.id.all_rooms:
                         return true;
-
                 }
-
                 return false;
             }
         });
@@ -119,86 +108,9 @@ public class GameCenter extends AppCompatActivity {
 
         //---------------------------------------------------
 
-//        //Access to the list of my rooms category
-//        DatabaseReference myRoomsRef = roomDAL.getPathReference("userRooms/"+ playerDAL.getPlayerID()+"/"+category);
-//
-//        Set<String> myRoomsName = new HashSet<String>();
-//
-//        //Put all the my rooms of the category to list
-//        myRoomsRef.addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(DataSnapshot dataSnapshot) {
-//                //Loop on each room
-//                Iterator i = dataSnapshot.getChildren().iterator();
-//                while (i.hasNext()) {
-//                    DataSnapshot childSnapshot = (DataSnapshot) i.next();
-//                    String room = childSnapshot.getValue(String.class);
-//                    myRoomsName.add(room);
-//                }
-//            }
-//            @Override
-//            public void onCancelled(DatabaseError databaseError) {
-//                Toast.makeText(GameCenter.this, "No network connectivity", Toast.LENGTH_SHORT).show();
-//            }
-//        });
-
+        //Show the list of all rooms
         Set<String> myRoomsList = roomDAL.getMyListRooms(category);
-
-        //--------------------------------------------------------------
-
-//        roomDAL.setRoomsOnListview(myRoomsList,category,adapter);
-
-        //Access to the list of room category
-        DatabaseReference reference = roomDAL.getPathReference("Rooms/" + category);
-
-        //Put all the rooms of the category to list from the firebase
-        reference.addValueEventListener(new ValueEventListener() {
-
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-
-                Set<Room> set = new HashSet<Room>();
-
-                //Loop on each room
-                Iterator i = dataSnapshot.getChildren().iterator();
-                while (i.hasNext()) {
-                    DataSnapshot childSnapshot = (DataSnapshot) i.next();
-                    Room room = childSnapshot.getValue(Room.class);
-                    //Add to the list all the rooms that the user does not enter.
-                    if(!myRoomsList.contains(room.getRoomID())){
-                        set.add(room);
-                    }
-                }
-
-                list.clear();
-                list.addAll(set);
-                //Set the list on viewlist
-                adapter.notifyDataSetChanged();
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                Toast.makeText(GameCenter.this, "No network connectivity", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        //---------------------------------------------------
-
-//        //Access to user collection to take my name
-//        String userID = playerDAL.getPlayerID();
-//        DocumentReference docRef = playerDAL.getCollection("users", userID);
-//
-//        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-//            @Override
-//            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-//                if (task.isSuccessful()) {
-//                    DocumentSnapshot document = task.getResult();
-//                    name = document.getString("fullName");
-//                } else {
-//                    Log.d(TAG, "get failed with ", task.getException());
-//                }
-//            }
-//        });
+        roomDAL.setRoomsOnListview(myRoomsList,category,list,adapter,false);
 
         //---------------------------------------------------
 
@@ -220,35 +132,9 @@ public class GameCenter extends AppCompatActivity {
         createRoomBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 SwitchActivities.createRoom(GameCenter.this,category);
-
-//                final AlertDialog.Builder EnterGroupDialog = new AlertDialog.Builder(v.getContext());
-//                EnterGroupDialog.setTitle("Want to open new Room?");
-//                EnterGroupDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialogInterface, int i) {
-////                        openSettingRoom(); //function to next page --> "settingRoom"
-//                        SwitchActivities.createRoom(GameCenter.this,category);
-//                    }
-//                });
-//                EnterGroupDialog.setNegativeButton("No", new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialogInterface, int i) {
-//                        dialogInterface.cancel();
-//                    }
-//                });
-//                EnterGroupDialog.show();
             }
         });
     }
-
-//    /* function that moves the user(Admin of the room from now)
-//       from the "GameCenter" page to the "settingRoom" page to set the room */
-//    public void openSettingRoom() {
-//        Intent intentSettingRoom = new Intent(GameCenter.this, CreateRoom.class);
-//        intentSettingRoom.putExtra("category", category);
-//        startActivity(intentSettingRoom);
-//    }
 
 }

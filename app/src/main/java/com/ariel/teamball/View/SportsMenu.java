@@ -65,56 +65,56 @@ public class SportsMenu extends AppCompatActivity {
         SoccerBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SwitchActivities.Categories(getApplicationContext(),"Soccer");
+                SwitchActivities.GameCenter(getApplicationContext(),"Soccer");
             }
         });
 
         BasketBallBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SwitchActivities.Categories(getApplicationContext(),"Basketball");
+                SwitchActivities.GameCenter(getApplicationContext(),"Basketball");
             }
         });
 
         TennisBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SwitchActivities.Categories(getApplicationContext(),"Tennis");
+                SwitchActivities.GameCenter(getApplicationContext(),"Tennis");
             }
         });
 
         TableTennisBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SwitchActivities.Categories(getApplicationContext(),"Table Tennis");
+                SwitchActivities.GameCenter(getApplicationContext(),"Table Tennis");
             }
         });
 
         HandBallBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SwitchActivities.Categories(getApplicationContext(),"Table Tennis");
+                SwitchActivities.GameCenter(getApplicationContext(),"Table Tennis");
             }
         });
 
         VolleyBallBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SwitchActivities.Categories(getApplicationContext(),"Volleyball");
+                SwitchActivities.GameCenter(getApplicationContext(),"Volleyball");
             }
         });
 
         DogeBallBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SwitchActivities.Categories(getApplicationContext(),"Dodgeball");
+                SwitchActivities.GameCenter(getApplicationContext(),"Dodgeball");
             }
         });
 
         footballBtn.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                SwitchActivities.Categories(getApplicationContext(),"American Football");
+                SwitchActivities.GameCenter(getApplicationContext(),"American Football");
             }
         });
     }
