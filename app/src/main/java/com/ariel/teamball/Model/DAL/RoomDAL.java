@@ -227,14 +227,16 @@ public class RoomDAL {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Room room = dataSnapshot.getValue(Room.class);
 
-                String adminID = room.getAdmin();
-                //Show button of edit room only for admin
-                if(playerDAL.getPlayerID().equals(adminID)){
-                    editRoom.setVisibility(View.VISIBLE);
-                    isAdmin = true;
-                }else{
-                    editRoom.setVisibility(View.INVISIBLE);
-                    isAdmin = false;
+                if(room != null) {
+                    String adminID = room.getAdmin();
+                    //Show button of edit room only for admin
+                    if(playerDAL.getPlayerID().equals(adminID)){
+                        editRoom.setVisibility(View.VISIBLE);
+                        isAdmin = true;
+                    }else{
+                        editRoom.setVisibility(View.INVISIBLE);
+                        isAdmin = false;
+                    }
                 }
             }
 

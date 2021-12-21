@@ -1,5 +1,7 @@
 package com.ariel.teamball.Model.Classes;
 
+import com.ariel.teamball.View.Chatroom;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
