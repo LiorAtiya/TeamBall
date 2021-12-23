@@ -35,18 +35,20 @@
                             app:title=" "
                             app:titleMarginStart="40dp" />
 
+                        // first row
+
                         <ImageView
                             android:id="@+id/logo_image"
                             android:layout_width="336dp"
                             android:layout_height="130dp"
+                            android:layout_marginTop="56dp"
                             android:contentDescription="TODO"
                             app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintHorizontal_bias="0.493"
                             app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="@+id/toolbar"
                             app:srcCompat="@drawable/games_logo_back"
-                            tools:ignore="ImageContrastCheck"
-                            tools:layout_editor_absoluteY="56dp" />
-
-                        // first row
+                            tools:ignore="ImageContrastCheck" />
 
                         <LinearLayout
                             android:id="@+id/linearLayout1"
@@ -85,7 +87,7 @@
                                                     android:layout_alignParentBottom="true"
                                                     android:layout_centerInParent="true"
                                                     android:layout_centerHorizontal="true"
-                                                    android:layout_marginStart="58dp"
+                                                    android:layout_marginStart="50dp"
                                                     android:layout_marginBottom="5dp"
                                                     android:text="Soccer"
                                                     android:textColor="@color/black"
@@ -122,8 +124,7 @@
                                                     android:layout_alignParentStart="true"
                                                     android:layout_alignParentBottom="true"
                                                     android:layout_centerInParent="true"
-                                                    android:layout_centerHorizontal="true"
-                                                    android:layout_marginStart="42dp"
+                                                    android:layout_marginStart="38dp"
                                                     android:layout_marginBottom="5dp"
                                                     android:text="Basketball"
                                                     android:textColor="@color/black"
@@ -175,7 +176,7 @@
                                                     android:layout_alignParentBottom="true"
                                                     android:layout_centerInParent="true"
                                                     android:layout_centerHorizontal="true"
-                                                    android:layout_marginStart="58dp"
+                                                    android:layout_marginStart="50dp"
                                                     android:layout_marginBottom="5dp"
                                                     android:text="Tennis"
                                                     android:textColor="@color/black"
@@ -212,8 +213,7 @@
                                                     android:layout_alignParentStart="true"
                                                     android:layout_alignParentBottom="true"
                                                     android:layout_centerInParent="true"
-                                                    android:layout_centerHorizontal="true"
-                                                    android:layout_marginStart="32dp"
+                                                    android:layout_marginStart="26dp"
                                                     android:layout_marginBottom="5dp"
                                                     android:text="Tennis Table"
                                                     android:textColor="@color/black"
@@ -265,7 +265,7 @@
                                                     android:layout_alignParentBottom="true"
                                                     android:layout_centerInParent="true"
                                                     android:layout_centerHorizontal="true"
-                                                    android:layout_marginStart="47dp"
+                                                    android:layout_marginStart="44dp"
                                                     android:layout_marginBottom="5dp"
                                                     android:text="Handball"
                                                     android:textColor="@color/black"
@@ -302,8 +302,7 @@
                                                     android:layout_alignParentStart="true"
                                                     android:layout_alignParentBottom="true"
                                                     android:layout_centerInParent="true"
-                                                    android:layout_centerHorizontal="true"
-                                                    android:layout_marginStart="42dp"
+                                                    android:layout_marginStart="40dp"
                                                     android:layout_marginBottom="5dp"
                                                     android:text="Volleyball"
                                                     android:textColor="@color/black"
@@ -392,7 +391,7 @@
                                                     android:layout_alignParentBottom="true"
                                                     android:layout_centerInParent="true"
                                                     android:layout_centerHorizontal="true"
-                                                    android:layout_marginStart="52dp"
+                                                    android:layout_marginStart="46dp"
                                                     android:layout_marginBottom="6dp"
                                                     android:text="Football"
                                                     android:textColor="@color/black"
