@@ -37,10 +37,12 @@
             android:exported="false" />
         <activity
             android:name=".View.MyProfile"
-            android:exported="false" />
+            android:exported="false"
+            android:theme="@style/Theme.TeamBall.NoActionBar"/>
         <activity
             android:name=".View.SportsMenu"
-            android:exported="false" />
+            android:exported="false"
+            android:theme="@style/Theme.TeamBall.NoActionBar"/>
         <activity
             android:name=".View.RegisterActivity"
             android:exported="false" />

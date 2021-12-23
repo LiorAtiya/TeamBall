@@ -1,10 +1,7 @@
 package com.ariel.teamball.View;
 
 
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -12,10 +9,8 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.ariel.teamball.Controller.Adapters.ListAdapter;
@@ -24,19 +19,9 @@ import com.ariel.teamball.Model.DAL.PlayerDAL;
 import com.ariel.teamball.Model.DAL.RoomDAL;
 import com.ariel.teamball.Model.Classes.Room;
 import com.ariel.teamball.R;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
 
 import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.Set;
 
 public class MyRooms extends AppCompatActivity {
@@ -102,7 +87,7 @@ public class MyRooms extends AppCompatActivity {
 
         //Custom design for listView
         ArrayList<Room> list = new ArrayList<>();
-        adapter = new ListAdapter(this, R.layout.list_group, list);
+        adapter = new ListAdapter(this, R.layout.list_rooms, list);
         listView.setAdapter(adapter);
 
         //---------------------------------------------------

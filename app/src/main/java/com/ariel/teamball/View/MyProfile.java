@@ -4,6 +4,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -13,38 +14,60 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.ariel.teamball.Controller.SwitchActivities;
 import com.ariel.teamball.Model.DAL.PlayerDAL;
 import com.ariel.teamball.R;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 
-public class MyProfile extends AppCompatActivity {
+public class MyProfile extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
 
     TextView fullName, email, phone,verifyMsg, myCity,myNickName,myGender,myAge;
-    Button logoutBtn, verifyNowBtn,resetPassword,changeProfile;
+    Button verifyNowBtn,resetPassword,changeProfile;
     String userID;
     FirebaseUser user;
     ImageView profileImage;
 
     PlayerDAL playerDAL;
 
+    DrawerLayout drawerLayout;
+    NavigationView navigationView;
+    Toolbar toolbar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_profile);
-        getSupportActionBar().hide();
+//        getSupportActionBar().hide();
+
+        drawerLayout = findViewById(R.id.drawerlayout);
+        navigationView = findViewById(R.id.navigationview);
+        toolbar = findViewById(R.id.toolbar);
+
+        setSupportActionBar(toolbar);
+
+        // ----------Navigation Drawer Menu -----------------------//
+        navigationView.bringToFront();
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this,drawerLayout,toolbar,R.string.navigation_open,R.string.navigation_close);
+        drawerLayout.addDrawerListener(toggle);
+        toggle.syncState();
+        navigationView.setNavigationItemSelectedListener(this);
+        navigationView.setCheckedItem(R.id.nav_myprofile);
 
         changeProfile = findViewById(R.id.changeProfile);
-        logoutBtn = findViewById(R.id.profileLogoutBtn);
         profileImage = findViewById(R.id.profileImage);
 
         myNickName = findViewById(R.id.MyNickName);
@@ -110,6 +133,27 @@ public class MyProfile extends AppCompatActivity {
             }
         });
 
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+
+        switch (item.getItemId()) {
+            case R.id.nav_home:
+                SwitchActivities.SportMenu(this);
+                break;
+            case R.id.nav_myprofile:
+                break;
+            case R.id.nav_logout:
+                playerDAL.playerSignOut();
+                SwitchActivities.LoginActivity(getApplicationContext());
+                finish();
+                break;
+
+        }
+
+        drawerLayout.closeDrawer(GravityCompat.START);
+        return true;
     }
 
 }

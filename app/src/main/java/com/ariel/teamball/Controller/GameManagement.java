@@ -30,6 +30,8 @@ public class GameManagement {
 
     // functions
 
+    //--------------------Room Management ------------------------//
+
     /*
     The function creates a new room, updates its admin, updates the database,
     returns the room's key and add the room to the user's room list

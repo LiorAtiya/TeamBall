@@ -20,6 +20,7 @@ import com.ariel.teamball.View.EditRoom;
 import com.ariel.teamball.View.GameCenter;
 import com.ariel.teamball.View.GameRoom;
 import com.ariel.teamball.View.LoginActivity;
+import com.ariel.teamball.View.MyProfile;
 import com.ariel.teamball.View.MyRooms;
 import com.ariel.teamball.View.RegisterActivity;
 import com.ariel.teamball.View.SportsMenu;
@@ -33,6 +34,12 @@ public class SwitchActivities {
 
     public static void SportMenu(Context context){
         Intent myIntent = new Intent(context, SportsMenu.class);
+        myIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        context.startActivity(myIntent);
+    }
+
+    public static void MyProfile(Context context){
+        Intent myIntent = new Intent(context, MyProfile.class);
         myIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(myIntent);
     }

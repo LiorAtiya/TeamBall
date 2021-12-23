@@ -227,7 +227,7 @@ public class RoomDAL {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Room room = dataSnapshot.getValue(Room.class);
 
-                if(room != null) {
+                if(room != null){
                     String adminID = room.getAdmin();
                     //Show button of edit room only for admin
                     if(playerDAL.getPlayerID().equals(adminID)){
