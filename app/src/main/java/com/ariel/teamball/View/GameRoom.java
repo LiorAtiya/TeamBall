@@ -5,12 +5,12 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import androidx.appcompat.app.AlertDialog;
+
 import androidx.appcompat.app.AppCompatActivity;
-import com.ariel.teamball.Controller.SwitchActivities;
-import com.ariel.teamball.Model.DAL.PlayerDAL;
-import com.ariel.teamball.Model.DAL.RoomDAL;
+
 import com.ariel.teamball.Controller.GameManagement;
+import com.ariel.teamball.Controller.SwitchActivities;
+import com.ariel.teamball.Model.DAL.RoomDAL;
 import com.ariel.teamball.R;
 
 public class GameRoom extends AppCompatActivity {
@@ -22,7 +22,6 @@ public class GameRoom extends AppCompatActivity {
 
     /* logic objects */
     RoomDAL roomDAL;
-    PlayerDAL playerDAL;
     // creates game management object
     GameManagement gm = GameManagement.getInstance();
     //permission
@@ -59,7 +58,6 @@ public class GameRoom extends AppCompatActivity {
 
         //Access to firebase
         roomDAL = new RoomDAL(this);
-        playerDAL = new PlayerDAL(this);
 
         /*-----  Information from the previous page ------*/
         my_name = getIntent().getExtras().get("user_name").toString();

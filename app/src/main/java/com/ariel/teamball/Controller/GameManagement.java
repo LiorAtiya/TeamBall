@@ -3,21 +3,13 @@ package com.ariel.teamball.Controller;
 import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
-import android.util.Log;
 import android.widget.ArrayAdapter;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 
-import com.ariel.teamball.Model.DAL.PlayerDAL;
 import com.ariel.teamball.Model.Classes.Room;
+import com.ariel.teamball.Model.DAL.PlayerDAL;
 import com.ariel.teamball.Model.DAL.RoomDAL;
-import com.ariel.teamball.View.GameRoom;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
 
 import java.util.ArrayList;
 import java.util.Set;
@@ -113,9 +105,8 @@ public class GameManagement {
                     public void run() {
                         // adds the player to the room
                         RoomDAL.addNewUser(category, roomID, playerDAL.getPlayerID());
-                        Context context = RoomDAL.getContext();
-                        // switches screen to GameRoom
-                        moveToGameRoomActivity(category, roomID, roomName, context);
+                        // switches activity to GameRoom
+                        SwitchActivities.GameRoom(RoomDAL.getContext(), roomName, category, roomID);
                         // updates the player's rooms list
                         playerDAL.addRoom(category, roomID);
                     }
@@ -150,32 +141,6 @@ public class GameManagement {
             }
         });
 
-    }
-
-    // The function takes the player to the GameRoom screen
-    private void moveToGameRoomActivity(String category, String roomID, String roomName, Context context) {
-        DocumentReference docRef = playerDAL.getCollection("users", playerDAL.getPlayerID());
-
-        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if (task.isSuccessful()) {
-                    DocumentSnapshot document = task.getResult();
-                    String name = document.getString("fullName");
-
-                    //Go to a GameRoom page
-                    Intent intent = new Intent(context, GameRoom.class);
-                    intent.putExtra("room_name", roomName);
-                    intent.putExtra("user_name", name);
-                    intent.putExtra("category", category);
-                    intent.putExtra("roomID", roomID);
-                    context.startActivity(intent);
-
-                } else {
-                    Log.d("TAG", "get failed with ", task.getException());
-                }
-            }
-        });
     }
 
     // The function checks if we can create a new room
