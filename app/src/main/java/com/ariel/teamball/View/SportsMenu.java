@@ -2,65 +2,76 @@ package com.ariel.teamball.View;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.widget.Toolbar;
+
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.ariel.teamball.Controller.SwitchActivities;
 import com.ariel.teamball.Model.DAL.PlayerDAL;
 import com.ariel.teamball.R;
+import com.google.android.material.navigation.NavigationView;
 
-public class SportsMenu extends AppCompatActivity {
+public class SportsMenu extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
-    Button mLogoutBtn, myProfile;
-    ImageButton SoccerBtn , BasketBallBtn , TennisBtn, TableTennisBtn,
+    CardView SoccerBtn , BasketBallBtn , TennisBtn, TableTennisBtn,
             HandBallBtn, VolleyBallBtn, DogeBallBtn,footballBtn;
+
     PlayerDAL playerDAL;
+
+    DrawerLayout drawerLayout;
+    NavigationView navigationView;
+    Toolbar toolbar;
 
     @Override
     public void onBackPressed() {
-        Toast.makeText(this,"Don't go out :(", Toast.LENGTH_SHORT).show();
+        if(drawerLayout.isDrawerOpen(GravityCompat.START)){
+            drawerLayout.closeDrawer(GravityCompat.START);
+        }else{
+            super.onBackPressed();
+        }
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sports_menu);
-        getSupportActionBar().hide();
 
-        //Link to layout
-        mLogoutBtn = findViewById(R.id.LogoutBtn);
-        myProfile = findViewById(R.id.myProfileBtn);
+        drawerLayout = findViewById(R.id.drawerlayout);
+        navigationView = findViewById(R.id.navigationview);
+        toolbar = findViewById(R.id.toolbar);
 
+        setSupportActionBar(toolbar);
+
+        // ----------Navigation Drawer Menu -----------------------//
+        navigationView.bringToFront();
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this,drawerLayout,toolbar,R.string.navigation_open,R.string.navigation_close);
+        drawerLayout.addDrawerListener(toggle);
+        toggle.syncState();
+        navigationView.setNavigationItemSelectedListener(this);
+        navigationView.setCheckedItem(R.id.nav_home);
+
+//        //Link to layout
         SoccerBtn = findViewById(R.id.SoccerBtn);
         BasketBallBtn = findViewById(R.id.BasketBallBtn);
         TennisBtn = findViewById(R.id.TennisBtn);
         TableTennisBtn = findViewById(R.id.TableTennisBtn);
         HandBallBtn = findViewById(R.id.HandBallBtn);
         VolleyBallBtn = findViewById(R.id.VolleyBallBtn);
-        DogeBallBtn = findViewById(R.id.DogeBallBtn);
-        footballBtn = findViewById(R.id.football);
+        DogeBallBtn = findViewById(R.id.DodgeballBtn);
+        footballBtn = findViewById(R.id.FootballBtn);
 
         playerDAL = new PlayerDAL(this);
-
-        mLogoutBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                playerDAL.playerSignOut();
-                SwitchActivities.LoginActivity(getApplicationContext());
-                finish();
-            }
-        });
-
-        myProfile.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(), MyProfile.class));
-            }
-        });
 
         SoccerBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -114,10 +125,29 @@ public class SportsMenu extends AppCompatActivity {
         footballBtn.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                SwitchActivities.GameCenter(getApplicationContext(),"American Football");
+                SwitchActivities.GameCenter(getApplicationContext(),"Football");
             }
         });
     }
 
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
+        switch (item.getItemId()) {
+            case R.id.nav_home:
+                break;
+            case R.id.nav_myprofile:
+                SwitchActivities.MyProfile(this);
+                break;
+            case R.id.nav_logout:
+                playerDAL.playerSignOut();
+                SwitchActivities.LoginActivity(getApplicationContext());
+                finish();
+                break;
+
+        }
+
+        drawerLayout.closeDrawer(GravityCompat.START);
+        return true;
+    }
 }
