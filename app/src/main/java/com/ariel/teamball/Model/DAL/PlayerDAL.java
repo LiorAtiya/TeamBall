@@ -75,7 +75,7 @@ public class PlayerDAL {
         return user;
     }
 
-    // Add room to list of private rooms user
+    // The function adds the given room to the user's rooms list in the userRooms table in the DB
     public static void addRoom(String category, String roomKey) {
 
         final FirebaseDatabase database = FirebaseDatabase.getInstance();

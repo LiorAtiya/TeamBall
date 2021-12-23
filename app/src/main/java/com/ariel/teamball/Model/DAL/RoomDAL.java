@@ -3,7 +3,6 @@ package com.ariel.teamball.Model.DAL;
 import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -18,7 +17,6 @@ import com.ariel.teamball.Controller.GameManagement;
 import com.ariel.teamball.Controller.SwitchActivities;
 import com.ariel.teamball.Model.Classes.Player;
 import com.ariel.teamball.Model.Classes.Room;
-import com.ariel.teamball.View.GameRoom;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -67,10 +65,15 @@ public class RoomDAL {
         fStore = FirebaseFirestore.getInstance();
     }
 
+    public static Context getContext() {
+        return context;
+    }
+
     public static DatabaseReference getPathReference(String path) {
         return FirebaseDatabase.getInstance().getReference(path);
     }
 
+    // The function returns a set of all the rooms of the current player in the given category
     public static Set<String> getMyListRooms(String category){
         //Access to the list of my rooms category
         DatabaseReference myRoomsRef = getPathReference("userRooms/"+ playerDAL.getPlayerID()+"/"+category);
@@ -179,6 +182,7 @@ public class RoomDAL {
         EnterGroupDialog.show();
     }
 
+    // The function updates 'all rooms' so it does not contain the user's rooms
     public static void setRoomsOnListview(Set<String> myRoomsList, String category,ArrayList<Room> list, ArrayAdapter<Room> adapter,boolean myRooms){
         //Access to the list of room category
         DatabaseReference reference = getPathReference("Rooms/" + category);
@@ -191,12 +195,12 @@ public class RoomDAL {
 
                 Set<Room> set = new HashSet<Room>();
 
-                //Loop on each room
+                // iterates over each room
                 Iterator i = dataSnapshot.getChildren().iterator();
                 while (i.hasNext()) {
                     DataSnapshot childSnapshot = (DataSnapshot) i.next();
                     Room room = childSnapshot.getValue(Room.class);
-                    //Add to the list all the rooms that the user does not enter.
+                    //Add to the list all the rooms that the user did not join.
                     if(myRoomsList.contains(room.getRoomID()) == myRooms){
                         set.add(room);
                     }
@@ -520,8 +524,9 @@ public class RoomDAL {
 
     }
 
-    public static void checkLimitOfRoom_And_JoinToRoom(String category, String roomID, String nameRoom) {
-
+    // The function checks if the given room is full
+    public static boolean isTheRoomFull(String category, String roomID, String nameRoom) {
+        final boolean[] isFull = {false};
         //Access to the list of rooms category
         DatabaseReference reference = getPathReference("Rooms/" + category + "/" + roomID);
 
@@ -537,7 +542,7 @@ public class RoomDAL {
                 if (room.getNumOfPlayers() == room.getCapacity()) {
                     Toast.makeText(context, "The room is full", Toast.LENGTH_SHORT).show();
                 } else {
-                    JoinToRoom(category, roomID, nameRoom);
+                    isFull[0] = true;
                 }
 
                 // Set value and report transaction success
@@ -553,63 +558,10 @@ public class RoomDAL {
                 Log.d("TAG", "postTransaction:onComplete:" + databaseError);
             }
         });
+        return isFull[0];
     }
 
-    private static void JoinToRoom(String category, String roomID, String roomName) {
 
-        final AlertDialog.Builder EnterGroupDialog = new AlertDialog.Builder(context);
-        EnterGroupDialog.setTitle("Want to join the room?");
-        EnterGroupDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-
-                //Add player to room
-                addNewUser(category, roomID, playerDAL.getPlayerID());
-
-                //Add room to list of private rooms user
-                playerDAL.addRoom(category, roomID);
-
-                //----------------------------------------
-
-                DocumentReference docRef = playerDAL.getCollection("users", playerDAL.getPlayerID());
-
-                docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                        if (task.isSuccessful()) {
-                            DocumentSnapshot document = task.getResult();
-                            String name = document.getString("fullName");
-
-                            //Go to a GameRoom page
-                            Intent intent = new Intent(context, GameRoom.class);
-                            intent.putExtra("room_name", roomName);
-                            intent.putExtra("user_name", name);
-                            intent.putExtra("category", category);
-                            intent.putExtra("roomID", roomID);
-                            context.startActivity(intent);
-
-                        } else {
-                            Log.d("TAG", "get failed with ", task.getException());
-                        }
-                    }
-                });
-
-            }
-        });
-        EnterGroupDialog.setNegativeButton("No", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                dialogInterface.cancel();
-            }
-        });
-
-        ((Activity) context).runOnUiThread(new Runnable() {
-            public void run() {
-                EnterGroupDialog.show();
-            }
-        });
-
-    }
 
     // The function update the room values in the DB in the Rooms table
     public static void updateRoom(String category, String roomID, String roomName,
