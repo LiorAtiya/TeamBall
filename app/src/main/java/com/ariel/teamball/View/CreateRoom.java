@@ -1,24 +1,19 @@
 package com.ariel.teamball.View;
 
-import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
-import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.ariel.teamball.Controller.SwitchActivities;
-import com.ariel.teamball.Model.DAL.PlayerDAL;
-import com.ariel.teamball.Model.DAL.RoomDAL;
 import com.ariel.teamball.Controller.GameManagement;
+import com.ariel.teamball.Controller.SwitchActivities;
 import com.ariel.teamball.R;
 import com.google.android.material.textfield.TextInputEditText;
 
@@ -37,8 +32,11 @@ public class CreateRoom extends AppCompatActivity {
     int currentMin;
     Calendar calendar; // calendar object
 
-
     String category;
+
+    // creates game management object
+    GameManagement gm = GameManagement.getInstance();
+
 
     @Override
     public void onBackPressed() {
@@ -148,8 +146,6 @@ public class CreateRoom extends AppCompatActivity {
 
                 // ---------------------------------------------------
 
-                // creates game management object
-                GameManagement gm = GameManagement.getInstance();
                 /* creates a new room, updates its admin, updates the database,
                    uses the room's key that received to add the room to the user's room list
                 */

@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.util.Log;
-
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -19,7 +18,6 @@ import com.ariel.teamball.Controller.GameManagement;
 import com.ariel.teamball.Controller.SwitchActivities;
 import com.ariel.teamball.Model.Classes.Player;
 import com.ariel.teamball.Model.Classes.Room;
-import com.ariel.teamball.View.GameCenter;
 import com.ariel.teamball.View.GameRoom;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -613,8 +611,9 @@ public class RoomDAL {
 
     }
 
-    public static void editRoomDetails(String category, String roomID, String roomName,
-                                       String fieldName, String city, String time,String date) {
+    // The function update the room values in the DB in the Rooms table
+    public static void updateRoom(String category, String roomID, String roomName,
+                                  String fieldName, String city, String time, String date) {
 
         //Access to the list of rooms category
         DatabaseReference reference = getPathReference("Rooms/" + category + "/" + roomID);

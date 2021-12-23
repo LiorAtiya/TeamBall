@@ -50,6 +50,11 @@ public class GameManagement {
         return roomKey;
     }
 
+    // The function edit the details of the given room
+    public void editRoom(String category, String roomID, String roomName, String fieldName, String city, String time, String date) {
+        roomDAL.updateRoom(category,roomID,roomName,fieldName,city,time,"date");
+    }
+
     /*
     The function gets the room's key and category and exit from the room
     (removes the room from the userRooms and removes the user from the usersList)

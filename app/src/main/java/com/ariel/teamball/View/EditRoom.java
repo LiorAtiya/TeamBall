@@ -2,7 +2,6 @@ package com.ariel.teamball.View;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -18,8 +17,8 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.ariel.teamball.Controller.GameManagement;
 import com.ariel.teamball.Controller.SwitchActivities;
-import com.ariel.teamball.Model.DAL.RoomDAL;
 import com.ariel.teamball.R;
 
 import java.util.Calendar;
@@ -35,7 +34,8 @@ public class EditRoom extends AppCompatActivity {
     Calendar calendarTime; // calendar object
     Calendar calendarDate;
 
-    RoomDAL roomDAL;
+    // creates game management object
+    GameManagement gm = GameManagement.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -133,8 +133,9 @@ public class EditRoom extends AppCompatActivity {
                 String category = getIntent().getExtras().get("category").toString();
                 String roomID = getIntent().getExtras().get("roomID").toString();
 
-                roomDAL.editRoomDetails(category,roomID,roomName,fieldName,city,time,"date");
+                gm.editRoom(category,roomID,roomName,fieldName,city,time,"date");
 
+                // TODO: why name is not use?
                 String name = getIntent().getExtras().get("user_name").toString();
                 //Go to a GameRoom page
                 SwitchActivities.GameRoom(EditRoom.this,roomName,category, roomID);
