@@ -19,6 +19,10 @@
         <item name="windowNoTitle">true</item>
     </style>
 
+    <style name="Circular">
+        <item name="cornerSize">50%</item>
+    </style>
+
     <style name="Theme.TeamBall.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="Theme.TeamBall.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />

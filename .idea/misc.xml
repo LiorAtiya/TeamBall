@@ -45,6 +45,10 @@
         <entry key="..\:/AndroidStudio/TeamBall/app/src/main/res/layout/content_main.xml" value="0.134765625" />
         <entry key="..\:/AndroidStudio/TeamBall/app/src/main/res/layout/fragment_gallery.xml" value="0.134765625" />
         <entry key="..\:/AndroidStudio/TeamBall/app/src/main/res/layout/header.xml" value="0.16666666666666666" />
+        <entry key="..\:/AndroidStudio/TeamBall/app/src/main/res/layout/item_add.xml" value="0.22" />
+        <entry key="..\:/AndroidStudio/TeamBall/app/src/main/res/layout/item_email.xml" value="0.3333333333333333" />
+        <entry key="..\:/AndroidStudio/TeamBall/app/src/main/res/layout/item_image.xml" value="0.22" />
+        <entry key="..\:/AndroidStudio/TeamBall/app/src/main/res/layout/item_info.xml" value="0.3333333333333333" />
         <entry key="..\:/AndroidStudio/TeamBall/app/src/main/res/layout/list_group.xml" value="0.3333333333333333" />
         <entry key="..\:/AndroidStudio/TeamBall/app/src/main/res/layout/list_room.xml" value="0.12432432432432433" />
         <entry key="..\:/AndroidStudio/TeamBall/app/src/main/res/layout/list_rooms.xml" value="0.134765625" />

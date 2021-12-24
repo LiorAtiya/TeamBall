@@ -30,7 +30,7 @@
                             android:id="@+id/toolbar"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:background="#F1EAEA"
+                            android:background="#07689f"
                             android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
                             app:title=" "
                             app:titleMarginStart="40dp" />
