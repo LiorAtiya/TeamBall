@@ -152,6 +152,7 @@ public class RoomDAL {
                     SwitchActivities.GameCenter(context,category);
 
                 }
+
             });
             EnterGroupDialog.setNegativeButton("No", new DialogInterface.OnClickListener() {
                 @Override
@@ -180,6 +181,12 @@ public class RoomDAL {
         }
         EnterGroupDialog.show();
     }
+
+    private static void sendNotificationOnRemoveRoom(String category, String roomID) {
+        DatabaseReference reference = getPathReference("Rooms/" + category + "/" + roomID + "/usersList");
+
+    }
+
 
     public static void setRoomsOnListview(Set<String> myRoomsList, String category,ArrayList<Room> list, ArrayAdapter<Room> adapter,boolean myRooms){
         //Access to the list of room category
@@ -245,39 +252,6 @@ public class RoomDAL {
 
             }
         });
-
-
-//        roomRef.runTransaction(new Transaction.Handler() {
-//
-//            public Transaction.Result doTransaction(MutableData mutableData) {
-//                Room room = mutableData.getValue(Room.class);
-//                if (room == null) {
-//                    return Transaction.success(mutableData);
-//                }
-//
-//                String adminID = room.getAdmin();
-//                //Show button of edit room only for admin
-//                if(playerDAL.getPlayerID().equals(adminID)){
-//                    editRoom.setVisibility(View.VISIBLE);
-//                    isAdmin = true;
-//                }else{
-//                    editRoom.setVisibility(View.INVISIBLE);
-//                    isAdmin = false;
-//                }
-//
-//                // Set value and report transaction success
-//                mutableData.setValue(room);
-//                return Transaction.success(mutableData);
-//
-//            }
-//
-//            @Override
-//            public void onComplete(DatabaseError databaseError, boolean committed,
-//                                   DataSnapshot currentData) {
-//                // Transaction completed
-//                Log.d("TAG", "postTransaction:onComplete:" + databaseError);
-//            }
-//        });
     }
 
     public static void setDetailsRoom(Context context, String category, String roomID, TextView roomName,
@@ -321,50 +295,6 @@ public class RoomDAL {
                 System.out.println("The read failed: " + databaseError.getCode());
             }
         });
-
-//        DatabaseReference roomRef = getPathReference("Rooms/"+category+"/"+roomID);
-//        roomRef.runTransaction(new Transaction.Handler() {
-//            @Override
-//            public Transaction.Result doTransaction(MutableData mutableData) {
-//                Room room = mutableData.getValue(Room.class);
-//                if (room == null) {
-//                    return Transaction.success(mutableData);
-//                }
-//
-//                roomName.setText(room.getName());
-//                capacity.setText("Capacity: "+room.getNumOfPlayers()+"/"+room.getCapacity());
-//                city.setText("City: "+room.getCity());
-//                field.setText("Field: "+room.getField());
-//                timeText.setText("Start Game: "+room.getTime());
-//
-//                DocumentReference adminRef = playerDAL.getCollection("users",room.getAdmin());
-//
-//                adminRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-//                    @Override
-//                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-//                        if (task.isSuccessful()) {
-//                            DocumentSnapshot document = task.getResult();
-//                            String admin_name = document.getString("fullName");
-//                            admin.setText("Admin: " + admin_name);
-//                        } else {
-//                            Log.d("TAG", "get failed with ", task.getException());
-//                        }
-//                    }
-//                });
-//
-//                // Set value and report transaction success
-//                mutableData.setValue(room);
-//                return Transaction.success(mutableData);
-//
-//            }
-//
-//            @Override
-//            public void onComplete(DatabaseError databaseError, boolean committed,
-//                                   DataSnapshot currentData) {
-//                // Transaction completed
-//                Log.d("TAG", "postTransaction:onComplete:" + databaseError);
-//            }
-//        });
     }
 
     public static void showPlayersList(Context context,String category,String roomID){
