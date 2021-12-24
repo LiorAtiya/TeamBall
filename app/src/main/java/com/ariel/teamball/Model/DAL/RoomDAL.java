@@ -268,10 +268,10 @@ public class RoomDAL {
                 if(room != null) {
 
                     roomName.setText(room.getName());
-                    capacity.setText("Capacity: "+room.getNumOfPlayers()+"/"+room.getCapacity());
-                    city.setText("City: "+room.getCity());
-                    field.setText("Field: "+room.getField());
-                    timeText.setText("Start Game: "+room.getTime());
+                    capacity.setText(room.getNumOfPlayers()+"/"+room.getCapacity());
+                    city.setText(room.getCity());
+                    field.setText(room.getField());
+                    timeText.setText(room.getTime());
 
                     DocumentReference adminRef = playerDAL.getCollection("users",room.getAdmin());
 
@@ -281,7 +281,7 @@ public class RoomDAL {
                             if (task.isSuccessful()) {
                                 DocumentSnapshot document = task.getResult();
                                 String admin_name = document.getString("fullName");
-                                admin.setText("Admin: " + admin_name);
+                                admin.setText(admin_name);
                             } else {
                                 Log.d("TAG", "get failed with ", task.getException());
                             }
