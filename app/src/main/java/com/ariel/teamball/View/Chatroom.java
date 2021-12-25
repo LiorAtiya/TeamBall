@@ -206,7 +206,7 @@ public class Chatroom extends AppCompatActivity {
         setContentView(R.layout.activity_chatroom);
 
         text2send = findViewById(R.id.textToSend);
-        message = findViewById(R.id.message);
+        message = findViewById(R.id.send_message);
 
         if(getSupportActionBar()!=null)
         {

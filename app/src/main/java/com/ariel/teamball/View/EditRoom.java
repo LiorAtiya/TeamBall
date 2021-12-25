@@ -2,7 +2,6 @@ package com.ariel.teamball.View;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -132,8 +131,9 @@ public class EditRoom extends AppCompatActivity {
                 String time = timeText.getText().toString();
                 String category = getIntent().getExtras().get("category").toString();
                 String roomID = getIntent().getExtras().get("roomID").toString();
+                String editDate = tvDate.getText().toString();
 
-                roomDAL.editRoomDetails(category,roomID,roomName,fieldName,city,time,"date");
+                roomDAL.editRoomDetails(category,roomID,roomName,fieldName,city,time,editDate);
 
                 String name = getIntent().getExtras().get("user_name").toString();
                 //Go to a GameRoom page
