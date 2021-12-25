@@ -2,9 +2,7 @@ package com.ariel.teamball.Model.Classes;
 
 import com.ariel.teamball.View.Chatroom;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 
@@ -29,7 +27,8 @@ public class Room {
 //    private ArrayList<Player> banList;
 
 
-    public Room(String _name, int _capacity,String _field,String _city, String _startGame, String _dayGame, String _admin,String _category) {
+    public Room(String _name, int _capacity,String _field,String _city, String _startGame,
+                String _dayGame, String _admin,String _category) {
         this.name = _name;
         this.capacity = _capacity;
         this.field = _field;
