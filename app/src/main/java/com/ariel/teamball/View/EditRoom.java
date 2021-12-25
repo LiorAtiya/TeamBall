@@ -69,7 +69,7 @@ public class EditRoom extends AppCompatActivity {
 
         editRoomName.setText(roomName);
         editFieldName.setText(fieldName);
-        timeText.setText(time.substring(12));
+        timeText.setText(time);
 
         /* -----Edit Time Picker -----*/
 

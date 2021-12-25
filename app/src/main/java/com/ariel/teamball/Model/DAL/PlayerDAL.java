@@ -13,9 +13,12 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 
 import com.ariel.teamball.Controller.SwitchActivities;
 import com.ariel.teamball.Model.Classes.Player;
+import com.ariel.teamball.R;
 import com.ariel.teamball.View.MyProfile;
 import com.ariel.teamball.View.SportsMenu;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -116,6 +119,7 @@ public class PlayerDAL {
                     String userID = childSnapshot.getKey();
                     Log.d("TAG", "userID: " + userID);
                     userRoomsReference.child(userID).child(category).child(roomKey).removeValue();
+//                    sendNotificationOnRemoveRoom(category,roomKey);
                 }
             }
 
@@ -124,6 +128,19 @@ public class PlayerDAL {
             }
         });
     }
+
+//    private static void sendNotificationOnRemoveRoom(String category, String roomID,String userID) {
+//        DatabaseReference reference = getPathReference("Rooms/" + category + "/" + roomID + "/usersList");
+//
+//        NotificationCompat.Builder builder = new NotificationCompat.Builder(context,"My Notification");
+//        builder.setContentTitle("My Title");
+//        builder.setContentText("The room is removed!");
+//        builder.setSmallIcon(R.id.icon_group);
+//        builder.setAutoCancel(true);
+//
+//        NotificationManagerCompat managerCompat = NotificationManagerCompat.from(context);
+//        managerCompat.notify(1,builder.build());
+//    }
 
     public static String getPlayerID() {
         return fAuth.getCurrentUser().getUid();

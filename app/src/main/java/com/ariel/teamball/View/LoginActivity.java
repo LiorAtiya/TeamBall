@@ -14,6 +14,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.ariel.teamball.Controller.GameManagement;
 import com.ariel.teamball.Controller.SwitchActivities;
 import com.ariel.teamball.Model.DAL.PlayerDAL;
 import com.ariel.teamball.R;
@@ -26,7 +27,7 @@ public class LoginActivity extends AppCompatActivity {
     TextView mCreateBtn, mForgotPassBtn;
     ProgressBar progressBar;
 
-    PlayerDAL playerDAL;
+    GameManagement gm;
 
     @Override
     public void onBackPressed() {
@@ -47,11 +48,11 @@ public class LoginActivity extends AppCompatActivity {
         mCreateBtn = findViewById(R.id.RegisterFromLogin);
         mForgotPassBtn = findViewById(R.id.ForgotPassBtn);
 
-
-        playerDAL = new PlayerDAL(this);
+        //Controller between view and model
+        gm = new GameManagement(this);
 
         //Automatic connection
-        if(playerDAL.playerConnected()){
+        if(gm.playerConnected()){
             SwitchActivities.SportMenu(getApplicationContext());
             finish();
         }
@@ -75,7 +76,7 @@ public class LoginActivity extends AppCompatActivity {
                 //Charging circle while waiting to connect
                 progressBar.setVisibility(View.VISIBLE);
 
-                playerDAL.playerLogin(email,password,progressBar);
+                gm.playerLogin(email,password,progressBar);
 
             }
         });
@@ -93,7 +94,7 @@ public class LoginActivity extends AppCompatActivity {
         mForgotPassBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                playerDAL.resetPassword(v);
+                gm.resetPassword(v);
             }
         });
     }

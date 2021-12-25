@@ -22,9 +22,9 @@ public class GameRoom extends AppCompatActivity {
 
     /* logic objects */
     RoomDAL roomDAL;
-    PlayerDAL playerDAL;
+//    PlayerDAL playerDAL;
     // creates game management object
-    GameManagement gm = GameManagement.getInstance();
+    GameManagement gm;
     //permission
     boolean isAdmin;
 
@@ -59,7 +59,9 @@ public class GameRoom extends AppCompatActivity {
 
         //Access to firebase
         roomDAL = new RoomDAL(this);
-        playerDAL = new PlayerDAL(this);
+//        playerDAL = new PlayerDAL(this);
+
+        gm = GameManagement.getInstance();
 
         /*-----  Information from the previous page ------*/
         my_name = getIntent().getExtras().get("user_name").toString();
@@ -70,12 +72,16 @@ public class GameRoom extends AppCompatActivity {
         //---------------------------------------------------
 
         //Show button of edit room only for admin
-        roomDAL.permissionForAdmin(category,roomID,editRoom);
+        gm.permissionForAdmin(category,roomID,editRoom);
+
+        //        roomDAL.permissionForAdmin(category,roomID,editRoom);
 
         //---------------------------------------------------
 
         //Fill the details of room in TextView
-        roomDAL.setDetailsRoom(GameRoom.this, category,roomID, roomName, capacity, city,field, timeText, admin);
+        gm.setDetailsRoom(GameRoom.this, category,roomID, roomName, capacity, city,field, timeText, admin);
+
+//        roomDAL.setDetailsRoom(GameRoom.this, category,roomID, roomName, capacity, city,field, timeText, admin);
 
         //---------------------------------------------------
 
@@ -84,7 +90,9 @@ public class GameRoom extends AppCompatActivity {
 
             @Override
             public void onClick(View v) {
-                roomDAL.showPlayersList(GameRoom.this, category, roomID);
+                gm.showPlayersList(GameRoom.this, category, roomID);
+
+//                roomDAL.showPlayersList(GameRoom.this, category, roomID);
             }
         });
 
@@ -117,6 +125,7 @@ public class GameRoom extends AppCompatActivity {
         leaveRoom.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 roomDAL.leaveOrRemoveRoom(roomID,category);
             }
         });
