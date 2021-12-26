@@ -41,12 +41,13 @@ public class EditRoom extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_room);
-        getSupportActionBar().hide();
+        if (getSupportActionBar() != null)
+            getSupportActionBar().hide();
 
         /*-----  Information from the previous page ------*/
         Intent data = getIntent();
         String roomName = data.getStringExtra("roomName");
-        String fieldName = data.getStringExtra("fieldName").substring(7);
+        String fieldName = data.getStringExtra("fieldName");
         String time = data.getStringExtra("time");
 
         //catch the design by id - Link to layout
@@ -62,15 +63,14 @@ public class EditRoom extends AppCompatActivity {
 
 
         /*----- Spinners -----*/
-        ArrayAdapter<String> allCities = new ArrayAdapter<String>(EditRoom.this,
-                android.R.layout.simple_list_item_1, getResources().getStringArray(R.array.names));
-        //for drop down list:
-        allCities.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        ArrayAdapter allCities = ArrayAdapter.createFromResource(this
+                ,R.array.names,R.layout.color_spinner);
+        allCities.setDropDownViewResource(R.layout.spinner_dropdown);
         editCitySpinner.setAdapter(allCities);
 
         editRoomName.setText(roomName);
         editFieldName.setText(fieldName);
-        timeText.setText(time.substring(12));
+        timeText.setText(time);
 
         /* -----Edit Time Picker -----*/
 
@@ -132,8 +132,9 @@ public class EditRoom extends AppCompatActivity {
                 String time = timeText.getText().toString();
                 String category = getIntent().getExtras().get("category").toString();
                 String roomID = getIntent().getExtras().get("roomID").toString();
+                String editDate = tvDate.getText().toString();
 
-                gm.editRoom(category,roomID,roomName,fieldName,city,time,"date");
+                gm.editRoom(category,roomID,roomName,fieldName,city,time,editDate);
 
                 // TODO: why name is not use?
                 String name = getIntent().getExtras().get("user_name").toString();

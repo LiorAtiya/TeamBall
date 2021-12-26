@@ -48,10 +48,17 @@ public class MyProfile extends AppCompatActivity implements NavigationView.OnNav
     Toolbar toolbar;
 
     @Override
+    public void onBackPressed() {
+       SwitchActivities.SportMenu(this);
+       finish();
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_profile);
-//        getSupportActionBar().hide();
+        if (getSupportActionBar() != null)
+            getSupportActionBar().hide();
 
         drawerLayout = findViewById(R.id.drawerlayout);
         navigationView = findViewById(R.id.navigationview);

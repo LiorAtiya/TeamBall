@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/ournewbackground"
+    android:background="@drawable/main_background"
     tools:context=".View.CreateRoom">
 
 
@@ -15,15 +15,15 @@
         android:fontFamily="sans-serif"
         android:text="Create Room"
         android:textAlignment="textStart"
-        android:textColor="#000000"
+        android:textColor="@color/white"
         android:textSize="40sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintHorizontal_bias="0.639"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.023" />
+        app:layout_constraintVertical_bias="0.019" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/textGroupName"
@@ -33,11 +33,11 @@
         android:layout_marginStart="40dp"
         android:layout_marginEnd="40dp"
         android:hint="Room Name"
-        android:textColorHint="@color/black"
-        app:boxStrokeColor="@color/black"
+        android:textColorHint="@color/white"
+        app:boxStrokeColor="@color/white"
         app:counterEnabled="true"
-        app:counterTextColor="@color/black"
-        app:hintTextColor="#403E3E"
+        app:counterTextColor="@color/white"
+        app:hintTextColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.444"
@@ -50,8 +50,8 @@
             android:id="@+id/RoomName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:shadowColor="@color/black"
-            android:textColor="@color/black" />
+            android:shadowColor="@color/white"
+            android:textColor="@color/white" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -60,11 +60,11 @@
         android:layout_width="340dp"
         android:layout_height="wrap_content"
         android:hint="Field Name"
-        android:textColorHint="@color/black"
-        app:boxStrokeColor="@color/black"
+        android:textColorHint="@color/white"
+        app:boxStrokeColor="@color/white"
         app:counterEnabled="true"
-        app:counterTextColor="@color/black"
-        app:hintTextColor="#403E3E"
+        app:counterTextColor="@color/white"
+        app:hintTextColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.507"
@@ -77,8 +77,8 @@
             android:id="@+id/courtName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:shadowColor="@color/black"
-            android:textColor="@color/black" />
+            android:shadowColor="@color/white"
+            android:textColor="@color/white" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <Spinner
@@ -105,10 +105,14 @@
 
     <Button
         android:id="@+id/timePicker"
-        android:layout_width="327dp"
-        android:layout_height="43dp"
-        android:background="@drawable/background"
+        android:layout_width="300dp"
+        android:layout_height="45dp"
+        android:background="@drawable/custom_button"
         android:text="Pick Time to Start Game"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        android:textAllCaps="false"
+        android:textColor="@color/teamball"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -122,7 +126,7 @@
         android:shadowColor="@color/black"
         android:text="Time"
         android:textAlignment="center"
-        android:textColor="@color/black"
+        android:textColor="@color/white"
         android:textSize="30dp"
         app:counterTextColor="@color/black"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -138,7 +142,7 @@
         android:layout_height="48dp"
         android:text="Date"
         android:textAlignment="center"
-        android:textColor="@color/black"
+        android:textColor="@color/white"
         android:textSize="30sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintHorizontal_bias="0.47"
@@ -149,11 +153,15 @@
 
     <Button
         android:id="@+id/datePickerButton"
-        android:layout_width="240dp"
-        android:layout_height="58dp"
+        android:layout_width="300dp"
+        android:layout_height="45dp"
         android:layout_marginTop="43dp"
         android:text="Pick Date"
+        android:textAllCaps="false"
+        android:background="@drawable/custom_button"
         android:textSize="20sp"
+        android:textColor="@color/teamball"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -163,11 +171,13 @@
 
     <Button
         android:id="@+id/donedef"
-        android:layout_width="223dp"
-        android:layout_height="46dp"
+        android:layout_width="300dp"
+        android:layout_height="45dp"
         android:background="@drawable/custom_button"
         android:fontFamily="sans-serif"
-        android:text="done"
+        android:text="Done"
+        android:textColor="@color/teamball"
+        android:textStyle="bold"
         android:textAllCaps="false"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"

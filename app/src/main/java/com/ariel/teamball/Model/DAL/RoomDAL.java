@@ -17,6 +17,7 @@ import com.ariel.teamball.Controller.GameManagement;
 import com.ariel.teamball.Controller.SwitchActivities;
 import com.ariel.teamball.Model.Classes.Player;
 import com.ariel.teamball.Model.Classes.Room;
+import com.ariel.teamball.View.GameRoom;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -143,41 +144,42 @@ public class RoomDAL {
         return myRoomsName;
     }
 
-    public static void setRoomsOnListview(Set<String> myRoomsList, String category,ArrayList<Room> list, ArrayAdapter<Room> adapter){
-        //Access to the list of room category
-        DatabaseReference reference = getPathReference("Rooms/" + category);
 
-        //Put all the rooms of the category to list from the firebase
-        reference.addValueEventListener(new ValueEventListener() {
-
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-
-                Set<Room> set = new HashSet<Room>();
-
-                //Loop on each room
-                Iterator i = dataSnapshot.getChildren().iterator();
-                while (i.hasNext()) {
-                    DataSnapshot childSnapshot = (DataSnapshot) i.next();
-                    Room room = childSnapshot.getValue(Room.class);
-                    //Add to the list all the rooms that the user does not enter.
-                    if(!myRoomsList.contains(room.getRoomID())){
-                        set.add(room);
-                    }
-                }
-
-                list.clear();
-                list.addAll(set);
-                //Set the list on viewlist
-                adapter.notifyDataSetChanged();
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                Toast.makeText(context, "No network connectivity", Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
+//    public static void setRoomsOnListview(Set<String> myRoomsList, String category,ArrayList<Room> list, ArrayAdapter<Room> adapter){
+//        //Access to the list of room category
+//        DatabaseReference reference = getPathReference("Rooms/" + category);
+//
+//        //Put all the rooms of the category to list from the firebase
+//        reference.addValueEventListener(new ValueEventListener() {
+//
+//            @Override
+//            public void onDataChange(DataSnapshot dataSnapshot) {
+//
+//                Set<Room> set = new HashSet<Room>();
+//
+//                //Loop on each room
+//                Iterator i = dataSnapshot.getChildren().iterator();
+//                while (i.hasNext()) {
+//                    DataSnapshot childSnapshot = (DataSnapshot) i.next();
+//                    Room room = childSnapshot.getValue(Room.class);
+//                    //Add to the list all the rooms that the user does not enter.
+//                    if(!myRoomsList.contains(room.getRoomID())){
+//                        set.add(room);
+//                    }
+//                }
+//
+//                list.clear();
+//                list.addAll(set);
+//                //Set the list on viewlist
+//                adapter.notifyDataSetChanged();
+//            }
+//
+//            @Override
+//            public void onCancelled(DatabaseError databaseError) {
+//                Toast.makeText(context, "No network connectivity", Toast.LENGTH_SHORT).show();
+//            }
+//        });
+//    }
 
     public static void leaveOrRemoveRoom(String roomID, String category){
         final AlertDialog.Builder EnterGroupDialog;
@@ -195,6 +197,7 @@ public class RoomDAL {
                     SwitchActivities.GameCenter(context,category);
 
                 }
+
             });
             EnterGroupDialog.setNegativeButton("No", new DialogInterface.OnClickListener() {
                 @Override
@@ -224,7 +227,53 @@ public class RoomDAL {
         EnterGroupDialog.show();
     }
 
+
     // The function updates 'all rooms' so it does not contain the user's rooms
+
+    private static void sendNotificationOnRemoveRoom(String category, String roomID) {
+        DatabaseReference reference = getPathReference("Rooms/" + category + "/" + roomID + "/usersList");
+
+    }
+
+    public static void setListViewByFilter(Set<String> myRoomsList, String category,ArrayList<Room> list, ArrayAdapter<Room> adapter, String city){
+        //Access to the list of room category
+        DatabaseReference reference = getPathReference("Rooms/" + category);
+
+        //Put all the rooms of the category to list from the firebase
+        reference.addValueEventListener(new ValueEventListener() {
+
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                Set<Room> set = new HashSet<Room>();
+                //Loop on each room
+                Iterator i = dataSnapshot.getChildren().iterator();
+                while (i.hasNext()) {
+                    DataSnapshot childSnapshot = (DataSnapshot) i.next();
+                    Room room = childSnapshot.getValue(Room.class);
+                    //Add to the list all the rooms that the user does not enter & filtered.
+                    if(!myRoomsList.contains(room.getRoomID()) && city.equals("City")){
+                        set.add(room);
+                    }else {
+                        if (!myRoomsList.contains(room.getRoomID()) && room.getCity().equals(city)){
+                            set.add(room);
+                        }
+                    }
+                }
+
+                list.clear();
+                list.addAll(set);
+                //Set the list on viewlist
+                adapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Toast.makeText(context, "No network connectivity", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
     public static void setRoomsOnListview(Set<String> myRoomsList, String category,ArrayList<Room> list, ArrayAdapter<Room> adapter,boolean myRooms){
         //Access to the list of room category
         DatabaseReference reference = getPathReference("Rooms/" + category);
@@ -290,7 +339,6 @@ public class RoomDAL {
             }
         });
 
-
     }
 
     public static void setDetailsRoom(Context context, String category, String roomID, TextView roomName,
@@ -307,10 +355,10 @@ public class RoomDAL {
                 if(room != null) {
 
                     roomName.setText(room.getName());
-                    capacity.setText("Capacity: "+room.getNumOfPlayers()+"/"+room.getCapacity());
-                    city.setText("City: "+room.getCity());
-                    field.setText("Field: "+room.getField());
-                    timeText.setText("Start Game: "+room.getTime());
+                    capacity.setText(room.getNumOfPlayers()+"/"+room.getCapacity());
+                    city.setText(room.getCity());
+                    field.setText(room.getField());
+                    timeText.setText(room.getTime());
 
                     DocumentReference adminRef = playerDAL.getCollection("users",room.getAdmin());
 
@@ -320,7 +368,7 @@ public class RoomDAL {
                             if (task.isSuccessful()) {
                                 DocumentSnapshot document = task.getResult();
                                 String admin_name = document.getString("fullName");
-                                admin.setText("Admin: " + admin_name);
+                                admin.setText(admin_name);
                             } else {
                                 Log.d("TAG", "get failed with ", task.getException());
                             }
@@ -509,14 +557,13 @@ public class RoomDAL {
                 //Check the number of players in the room
                 if (room.getNumOfPlayers() == room.getCapacity()) {
                     Toast.makeText(context, "The room is full", Toast.LENGTH_SHORT).show();
-                } else {
+                }
+                else {
                     isFull[0] = true;
                 }
-
                 // Set value and report transaction success
                 mutableData.setValue(room);
                 return Transaction.success(mutableData);
-
             }
 
             @Override
@@ -529,7 +576,57 @@ public class RoomDAL {
         return isFull[0];
     }
 
-
+//    private static void JoinToRoom(String category, String roomID, String roomName) {
+//        final AlertDialog.Builder EnterGroupDialog = new AlertDialog.Builder(context);
+//        EnterGroupDialog.setTitle("Want to join the room?");
+//        EnterGroupDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+//            @Override
+//            public void onClick(DialogInterface dialogInterface, int i) {
+//                //Add player to room
+//                addNewUser(category, roomID, playerDAL.getPlayerID());
+//
+//                //Add room to list of private rooms user
+//                playerDAL.addRoom(category, roomID);
+//
+//                //----------------------------------------
+//
+//                DocumentReference docRef = playerDAL.getCollection("users", playerDAL.getPlayerID());
+//
+//                docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+//                    @Override
+//                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+//                        if (task.isSuccessful()) {
+//                            DocumentSnapshot document = task.getResult();
+//                            String name = document.getString("fullName");
+//
+//                            //Go to a GameRoom page
+//                            Intent intent = new Intent(context, GameRoom.class);
+//                            intent.putExtra("room_name", roomName);
+//                            intent.putExtra("user_name", name);
+//                            intent.putExtra("category", category);
+//                            intent.putExtra("roomID", roomID);
+//                            context.startActivity(intent);
+//
+//                        } else {
+//                            Log.d("TAG", "get failed with ", task.getException());
+//                        }
+//                    }
+//                });
+//            }
+//        });
+//        EnterGroupDialog.setNegativeButton("No", new DialogInterface.OnClickListener() {
+//            @Override
+//            public void onClick(DialogInterface dialogInterface, int i) {
+//                dialogInterface.cancel();
+//            }
+//        });
+//
+//        ((Activity) context).runOnUiThread(new Runnable() {
+//            public void run() {
+//                EnterGroupDialog.show();
+//            }
+//        });
+//    }
 
     // The function update the room values in the DB in the Rooms table
     public static void updateRoom(String category, String roomID, String roomName,

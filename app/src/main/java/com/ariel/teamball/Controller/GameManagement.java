@@ -7,6 +7,14 @@ import android.widget.ArrayAdapter;
 
 import androidx.appcompat.app.AlertDialog;
 
+import android.content.Context;
+import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.ProgressBar;
+import android.widget.TextView;
+
+import com.ariel.teamball.Model.Classes.Player;
 import com.ariel.teamball.Model.Classes.Room;
 import com.ariel.teamball.Model.DAL.PlayerDAL;
 import com.ariel.teamball.Model.DAL.RoomDAL;
@@ -23,11 +31,19 @@ public class GameManagement {
     private int roomsCapacity; // the limit of the active rooms in the app
     private PlayerDAL playerDAL;
     private RoomDAL roomDAL;
+    private android.content.Context context;
 
     private GameManagement() {
         this.roomsCapacity = 1000;
         this.playerDAL = new PlayerDAL();
         this.roomDAL = new RoomDAL();
+    }
+
+    public GameManagement(android.content.Context _context) {
+        this.roomsCapacity = 1000;
+        this.playerDAL = new PlayerDAL(_context);
+        this.roomDAL = new RoomDAL(_context);
+        this.context = _context;
     }
 
     public static GameManagement getInstance() {
@@ -39,8 +55,54 @@ public class GameManagement {
     }
 
     // functions
+    //--------------------Player Management ------------------------//
+
+    public void playerRegister(Player p, ProgressBar progressBar){
+        playerDAL.playerRegister(p,progressBar);
+    }
+
+    public boolean playerConnected(){
+        return playerDAL.playerConnected();
+    }
+
+    public void playerLogin(String email, String password, ProgressBar pb){
+        playerDAL.playerLogin(email,password,pb);
+    }
+
+    public void resetPassword(View v){
+        playerDAL.resetPassword(v);
+    }
+
+    public void playerSignOut(){
+        playerDAL.playerSignOut();
+    }
+
 
     //--------------------Room Management ------------------------//
+
+    public void setRoomsOnListview(String category, ArrayList<Room> list, ArrayAdapter<Room> adapter, boolean myRooms){
+        Set<String> myRoomsList = roomDAL.getMyListRooms(category);
+        roomDAL.setRoomsOnListview(myRoomsList,category,list,adapter,myRooms);
+    }
+
+    public void permissionForAdmin(String category, String roomID, Button editRoom){
+        roomDAL.permissionForAdmin(category,roomID,editRoom);
+    }
+
+    public void setDetailsRoom(Context context, String category, String roomID, TextView roomName,
+                               TextView capacity, TextView city, TextView field, TextView timeText
+            , TextView admin){
+
+        roomDAL.setDetailsRoom(context, category,roomID, roomName, capacity, city,field, timeText, admin);
+    }
+
+    public void showPlayersList(Context context,String category,String roomID){
+        roomDAL.showPlayersList(context, category, roomID);
+    }
+
+    public void leaveOrRemoveRoom(String roomID, String category){
+        roomDAL.leaveOrRemoveRoom(roomID,category);
+    }
 
     /*
     The function creates a new room, updates its admin, updates the database,
@@ -50,7 +112,8 @@ public class GameManagement {
             chosenCity, String chosenTime, String date, String category) {
         // Room details storage in database
         String adminID = this.playerDAL.getPlayerID();
-        Room newRoom = new Room(RoomN, capacityInteger, CurtN, chosenCity, chosenTime, date, adminID, category);
+        Room newRoom = new Room(RoomN, capacityInteger, CurtN, chosenCity, chosenTime, date,
+                adminID, category);
         String roomKey = this.roomDAL.addRoom(category, newRoom);
         // adds the admin to the playerList
         roomDAL.addNewUser(category, roomKey, adminID);

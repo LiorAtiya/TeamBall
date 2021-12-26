@@ -7,6 +7,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -16,20 +17,25 @@ import com.ariel.teamball.Controller.Adapters.ListAdapter;
 import com.ariel.teamball.Controller.GameManagement;
 import com.ariel.teamball.Controller.SwitchActivities;
 import com.ariel.teamball.Model.Classes.Room;
+import com.ariel.teamball.Model.DAL.RoomDAL;
 import com.ariel.teamball.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.ArrayList;
+import java.util.Set;
 
 public class GameCenter extends AppCompatActivity {
 
     TextView nameCategory;
     ListView listView;
-    Button createRoomBtn;
+    Button createRoomBtn,filterBtn;
+    Spinner citySpinner;
     ArrayAdapter<Room> adapter;
     String category;
 
     BottomNavigationView bottomNavigationView; //Switch between gameCenter to MyRoom
+
+    RoomDAL roomDAL = new RoomDAL(this);
 
     // creates game management object
     GameManagement gm = GameManagement.getInstance();
@@ -44,12 +50,22 @@ public class GameCenter extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game_center);
-        getSupportActionBar().hide();
+        if (getSupportActionBar() != null)
+            getSupportActionBar().hide();
 
         //catch the design by id - Link to layout
         nameCategory = findViewById(R.id.nameCategory);
         listView = findViewById(R.id.listView);
         createRoomBtn = findViewById(R.id.CR_btn);
+        filterBtn = findViewById(R.id.filterBtn);
+
+        /* For Choose City */
+        citySpinner = findViewById(R.id.citySpinner);
+
+        ArrayAdapter allCities = ArrayAdapter.createFromResource(this
+                ,R.array.names,R.layout.color_spinner);
+        allCities.setDropDownViewResource(R.layout.spinner_dropdown);
+        citySpinner.setAdapter(allCities);
 
         //Get date from previous page
         category = getIntent().getExtras().get("category").toString();
@@ -88,11 +104,26 @@ public class GameCenter extends AppCompatActivity {
         //---------------------------------------------------
 
         //Show the list of all rooms
-        gm.displayRoomsList(category, list, adapter);
+//        gm.displayRoomsList(category, list, adapter);
+        Set<String> myRoomsList = roomDAL.getMyListRooms(category);
+        roomDAL.setRoomsOnListview(myRoomsList, category, list, adapter, false);
 
         //---------------------------------------------------
 
+        filterBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String chosenCity = citySpinner.getSelectedItem().toString();
+                roomDAL.setListViewByFilter(myRoomsList,category,list,adapter,chosenCity);
+            }
+        });
+
+        //---------------------------------------------------
+
+
+
         //Click on some room
+        //createRoomChannel();
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int room, long l) {
@@ -115,5 +146,4 @@ public class GameCenter extends AppCompatActivity {
             }
         });
     }
-
 }

@@ -1,11 +1,13 @@
 package com.ariel.teamball.View;
 
+import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
@@ -23,9 +25,10 @@ public class CreateRoom extends AppCompatActivity {
 
     TextInputEditText mGroupName, mCurtName;
     // for start game picker
-    Button mPickTimeBtn, mDoneDefine;
-    TextView showCurrentTime, timeTxt;
+    Button mPickTimeBtn, mDoneDefine , editDateButton;
+    TextView showCurrentTime, timeTxt ,tvDate;
     Spinner CitySpinner, playersCapacitySpinner; // for spinners pick
+    Calendar calendarDate;
 
     //for setting hours and minute
     int currentHr;
@@ -48,7 +51,8 @@ public class CreateRoom extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_room);
-        getSupportActionBar().hide();
+        if (getSupportActionBar() != null)
+            getSupportActionBar().hide();
 
         category = getIntent().getExtras().get("category").toString();
 
@@ -61,6 +65,8 @@ public class CreateRoom extends AppCompatActivity {
         CitySpinner = findViewById(R.id.cityGameSpinner);
         playersCapacitySpinner = findViewById(R.id.playersCapacity);
         timeTxt = findViewById(R.id.TimeText);
+        tvDate = findViewById(R.id.datePicker_textView);
+        editDateButton = findViewById(R.id.datePickerButton);
 
 
         //when we click the time picker
@@ -81,20 +87,37 @@ public class CreateRoom extends AppCompatActivity {
             dialog.show();
         });
 
+
+        /*----- Date Picker -----*/
+        editDateButton.setOnClickListener(view ->{
+            calendarDate = Calendar.getInstance();
+            int day = calendarDate.get(Calendar.DAY_OF_MONTH);
+            int month = calendarDate.get(Calendar.MONTH);
+            int year = calendarDate.get(Calendar.YEAR);
+            DatePickerDialog datePickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
+                @Override
+                public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                    month = month+1;
+                    String date = dayOfMonth +"-" + month + "-" + year;
+                    tvDate.setText(date);
+                }
+            }, year,month,day);
+            datePickerDialog.show();
+        });
+
         /*------- Spinners -------*/
 
-        ArrayAdapter<String> allCities = new ArrayAdapter<String>(CreateRoom.this,
-                android.R.layout.simple_list_item_1, getResources().getStringArray(R.array.names));
-        //for drop down list:
-        allCities.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        /* store and connect our cities names with spinner */
+        ArrayAdapter allCities = ArrayAdapter.createFromResource(this
+                ,R.array.names,R.layout.color_spinner);
+        allCities.setDropDownViewResource(R.layout.spinner_dropdown);
         CitySpinner.setAdapter(allCities);
 
-        ArrayAdapter<String> capacityAdapter = new ArrayAdapter<String>(CreateRoom.this,
-                android.R.layout.simple_list_item_1, getResources().getStringArray(R.array.capacity));
-        //for drop down list:
-        capacityAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        /* store and connect our cities names with spinner */
+        ArrayAdapter capacityAdapter = ArrayAdapter.createFromResource(this
+                ,R.array.capacity,R.layout.color_spinner);
+        capacityAdapter.setDropDownViewResource(R.layout.spinner_dropdown);
         playersCapacitySpinner.setAdapter(capacityAdapter);
-
 
         /*-------- Done button --------*/
         mDoneDefine.setOnClickListener(new View.OnClickListener() {
@@ -106,7 +129,7 @@ public class CreateRoom extends AppCompatActivity {
                 String chosenCity = CitySpinner.getSelectedItem().toString();
                 String chosenTime = timeTxt.getText().toString();
                 String chosenCapacity = playersCapacitySpinner.getSelectedItem().toString();
-//                String chosenDate = tvDate.getText().toString();
+                String chosenDate = tvDate.getText().toString();
                 int capacityInteger = 0;
 
                 //Check valid details
@@ -139,17 +162,17 @@ public class CreateRoom extends AppCompatActivity {
                     return;
                 }
 
-//                if(chosenDate.contains("Date")){
-//                    tvDate.setError("Choose date game");
-//                    return;
-//                }
+                if(chosenDate.contains("Date")){
+                    tvDate.setError("Choose date game");
+                    return;
+                }
 
                 // ---------------------------------------------------
 
                 /* creates a new room, updates its admin, updates the database,
                    uses the room's key that received to add the room to the user's room list
                 */
-                gm.createRoom(RoomN, capacityInteger, CurtN, chosenCity, chosenTime, "date", category);
+                gm.createRoom(RoomN, capacityInteger, CurtN, chosenCity, chosenTime, chosenDate, category);
 
                 SwitchActivities.MyRoom(CreateRoom.this,category);
                 finish();

@@ -20,7 +20,7 @@
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/white">
+            android:background="@drawable/main_background">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
@@ -30,7 +30,7 @@
                             android:id="@+id/toolbar"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:background="#F1EAEA"
+                            android:background="#07689f"
                             android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
                             app:title=" "
                             app:titleMarginStart="40dp" />
@@ -68,7 +68,7 @@
                                         <RelativeLayout
                                             android:layout_width="match_parent"
                                             android:layout_height="match_parent"
-                                            android:background="#F3EEEE">
+                                            android:background="@color/white">
 
                                                 <ImageView
                                                     android:id="@+id/soccer_image"
@@ -106,7 +106,7 @@
                                         <RelativeLayout
                                             android:layout_width="match_parent"
                                             android:layout_height="match_parent"
-                                            android:background="#F3EEEE">
+                                            android:background="@color/white">
 
                                                 <ImageView
                                                     android:id="@+id/basketball_image"
@@ -157,7 +157,7 @@
                                         <RelativeLayout
                                             android:layout_width="match_parent"
                                             android:layout_height="match_parent"
-                                            android:background="#F3EEEE">
+                                            android:background="@color/white">
 
                                                 <ImageView
                                                     android:id="@+id/tennis_image"
@@ -195,7 +195,7 @@
                                         <RelativeLayout
                                             android:layout_width="match_parent"
                                             android:layout_height="match_parent"
-                                            android:background="#F3EEEE">
+                                            android:background="@color/white">
 
                                                 <ImageView
                                                     android:id="@+id/tennis_table_image"
@@ -246,7 +246,7 @@
                                         <RelativeLayout
                                             android:layout_width="match_parent"
                                             android:layout_height="match_parent"
-                                            android:background="#F3EEEE">
+                                            android:background="@color/white">
 
                                                 <ImageView
                                                     android:id="@+id/handball_image"
@@ -284,7 +284,7 @@
                                         <RelativeLayout
                                             android:layout_width="match_parent"
                                             android:layout_height="match_parent"
-                                            android:background="#F3EEEE">
+                                            android:background="@color/white">
 
                                                 <ImageView
                                                     android:id="@+id/volleyball_image"
@@ -335,7 +335,7 @@
                                         <RelativeLayout
                                             android:layout_width="match_parent"
                                             android:layout_height="match_parent"
-                                            android:background="#F3EEEE">
+                                            android:background="@color/white">
 
                                                 <ImageView
                                                     android:id="@+id/dodgeball_image"
@@ -372,7 +372,7 @@
                                         <RelativeLayout
                                             android:layout_width="match_parent"
                                             android:layout_height="match_parent"
-                                            android:background="#F3EEEE">
+                                            android:background="@color/white">
 
                                                 <ImageView
                                                     android:id="@+id/football_image"

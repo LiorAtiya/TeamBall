@@ -3,7 +3,9 @@ package com.ariel.teamball.Model.DAL;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -13,9 +15,12 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 
 import com.ariel.teamball.Controller.SwitchActivities;
 import com.ariel.teamball.Model.Classes.Player;
+import com.ariel.teamball.R;
 import com.ariel.teamball.View.MyProfile;
 import com.ariel.teamball.View.SportsMenu;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -38,6 +43,8 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -154,6 +161,7 @@ public class PlayerDAL {
                     String userID = childSnapshot.getKey();
                     Log.d("TAG", "userID: " + userID);
                     userRoomsReference.child(userID).child(category).child(roomKey).removeValue();
+//                    sendNotificationOnRemoveRoom(category,roomKey);
                 }
             }
 
@@ -162,6 +170,19 @@ public class PlayerDAL {
             }
         });
     }
+
+//    private static void sendNotificationOnRemoveRoom(String category, String roomID,String userID) {
+//        DatabaseReference reference = getPathReference("Rooms/" + category + "/" + roomID + "/usersList");
+//
+//        NotificationCompat.Builder builder = new NotificationCompat.Builder(context,"My Notification");
+//        builder.setContentTitle("My Title");
+//        builder.setContentText("The room is removed!");
+//        builder.setSmallIcon(R.id.icon_group);
+//        builder.setAutoCancel(true);
+//
+//        NotificationManagerCompat managerCompat = NotificationManagerCompat.from(context);
+//        managerCompat.notify(1,builder.build());
+//    }
 
     public static String getPlayerID() {
         return fAuth.getCurrentUser().getUid();
@@ -366,7 +387,7 @@ public class PlayerDAL {
     }
 
     //Update from EditProfile page
-    public static void editPlayerDetails(String fullName, String nickname, String phone, String age, String gender) {
+    public static void editPlayerDetails(String fullName,String nickname, String phone,String age,String gender,String city) {
 
         DocumentReference docRef = fStore.collection("users").document(user.getUid());
         Map<String, Object> edited = new HashMap<>();
@@ -375,6 +396,7 @@ public class PlayerDAL {
         edited.put("phone", phone);
         edited.put("age", age);
         edited.put("gender", gender);
+        edited.put("city", city);
 
         docRef.update(edited).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
@@ -413,24 +435,30 @@ public class PlayerDAL {
     }
 
     //Upload image to firebase storage
-    public static void uploadImage(Uri imageUri, ImageView profileImageView) {
+    public static void uploadImage(Uri imageUri, ImageView profileImageView) throws IOException {
         StorageReference fileRef = getStorage("users/" + getPlayerID() + "/profile.jpg");
-        fileRef.putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+
+        Bitmap bmp = MediaStore.Images.Media.getBitmap(context.getContentResolver(), imageUri);
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bmp.compress(Bitmap.CompressFormat.JPEG, 25, baos);
+        byte[] data = baos.toByteArray();
+        //uploading the image
+        UploadTask uploadTask2 = fileRef.putBytes(data);
+        uploadTask2.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                Toast.makeText(context, "Image Uploaded", Toast.LENGTH_SHORT).show();
                 fileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                     @Override
                     public void onSuccess(Uri uri) {
                         Picasso.get().load(uri).into(profileImageView);
                     }
                 });
-
+                Toast.makeText(context, "Upload successful", Toast.LENGTH_LONG).show();
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-                Toast.makeText(context, "Failed", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "Upload Failed -> " + e, Toast.LENGTH_LONG).show();
             }
         });
     }
