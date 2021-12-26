@@ -55,7 +55,6 @@ public class Participants extends AppCompatActivity {
             Runnable runNotify = new Runnable() {
                 @Override
                 public void run() {
-                    Log.d("TAG", "run");
                     // notify when all the players added to the list
                     participantsAdapter.notifyDataSetChanged();
                 }
@@ -76,7 +75,6 @@ public class Participants extends AppCompatActivity {
                         participantsList.add(player);
                         playersReceived++;
                         // checks if all the players was retrieved
-                        Log.d("TAG", "check if equals: " + playersReceived + " == " + numOfPlayers);
                         if(playersReceived == numOfPlayers) {
                             runNotify.run();
                         }

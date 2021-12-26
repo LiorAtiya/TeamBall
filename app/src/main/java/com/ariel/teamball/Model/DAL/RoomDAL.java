@@ -17,7 +17,6 @@ import com.ariel.teamball.Controller.GameManagement;
 import com.ariel.teamball.Controller.SwitchActivities;
 import com.ariel.teamball.Model.Classes.Player;
 import com.ariel.teamball.Model.Classes.Room;
-import com.ariel.teamball.View.GameRoom;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -541,8 +540,7 @@ public class RoomDAL {
     }
 
     // The function checks if the given room is full
-    public static boolean isTheRoomFull(String category, String roomID, String nameRoom) {
-        final boolean[] isFull = {false};
+    public static void isTheRoomFull(String category, String roomID, String nameRoom, OnSuccessListener<Boolean> listener) {
         //Access to the list of rooms category
         DatabaseReference reference = getPathReference("Rooms/" + category + "/" + roomID);
 
@@ -557,10 +555,15 @@ public class RoomDAL {
                 //Check the number of players in the room
                 if (room.getNumOfPlayers() == room.getCapacity()) {
                     Toast.makeText(context, "The room is full", Toast.LENGTH_SHORT).show();
+                    // send the object to the listener arg
+                    listener.onSuccess(true);
                 }
                 else {
-                    isFull[0] = true;
+                    // send the object to the listener arg
+                    listener.onSuccess(false);
                 }
+
+
                 // Set value and report transaction success
                 mutableData.setValue(room);
                 return Transaction.success(mutableData);
@@ -573,7 +576,7 @@ public class RoomDAL {
                 Log.d("TAG", "postTransaction:onComplete:" + databaseError);
             }
         });
-        return isFull[0];
+        return ;
     }
 
 //    private static void JoinToRoom(String category, String roomID, String roomName) {

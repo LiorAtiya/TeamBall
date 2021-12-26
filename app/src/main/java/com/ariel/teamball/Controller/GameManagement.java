@@ -3,16 +3,14 @@ package com.ariel.teamball.Controller;
 import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.widget.ArrayAdapter;
-
-import androidx.appcompat.app.AlertDialog;
-
-import android.content.Context;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+
+import androidx.appcompat.app.AlertDialog;
 
 import com.ariel.teamball.Model.Classes.Player;
 import com.ariel.teamball.Model.Classes.Room;
@@ -160,9 +158,11 @@ public class GameManagement {
      */
     public void joinRoom(String category, String roomID, String roomName) {
         // checks if have a room for another player in the room
-        boolean isFull = roomDAL.isTheRoomFull(category, roomID, roomName);
-        if (!isFull) {
-            // run only if the user confirmed the message
+
+        roomDAL.isTheRoomFull(category, roomID, roomName, (isFull) -> {
+            Log.d("TAG", "isFull: " + isFull);
+            if (!isFull) {
+                // run only if the user confirmed the message
                 Runnable runIfConfirmed = new Runnable() {
                     @Override
                     public void run() {
@@ -174,9 +174,10 @@ public class GameManagement {
                         playerDAL.addRoom(category, roomID);
                     }
                 };
-            // ask the user to confirm that he wants to join the room
-            doubleCheck(category, roomID, roomName, runIfConfirmed);
-        }
+                // ask the user to confirm that he wants to join the room
+                doubleCheck(category, roomID, roomName, runIfConfirmed);
+            }
+        });
     }
 
     // The function checks if the user sure that he wants to join the given room
