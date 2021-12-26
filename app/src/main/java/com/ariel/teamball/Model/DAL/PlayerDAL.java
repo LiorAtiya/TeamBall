@@ -31,6 +31,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -73,6 +74,46 @@ public class PlayerDAL {
 
     public static FirebaseUser getUser() {
         return user;
+    }
+
+    public static void getPlayer(String playerID, OnSuccessListener<Player> listener ) {
+        Log.d("TAG", "getPlayer is running");
+        Log.d("TAG", "playerID(DAL): " + playerID);
+
+        final Player[] p = new Player[1];
+        DocumentReference playerRef = fStore.collection("users").document(playerID);
+
+        playerRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                if (documentSnapshot.exists()) {
+                    // getting all the attributes of the player from the database
+                    String age = documentSnapshot.getString("age");
+                    String city = documentSnapshot.getString("city");
+                    String email = documentSnapshot.getString("email");
+                    String fullName = documentSnapshot.getString("fullName");
+                    String gender = documentSnapshot.getString("gender");
+                    String nickName = documentSnapshot.getString("nickName");
+                    String password = documentSnapshot.getString("password");
+                    String phone = documentSnapshot.getString("phone");
+
+                    // creates a new player
+                    p[0] = new Player(fullName, nickName, email, password, phone, city, gender, age);
+                    // send the player object to the listener arg
+                    listener.onSuccess(p[0]);
+                } else {
+                    Toast.makeText(context.getApplicationContext(), "ID " + playerID + "not found", Toast.LENGTH_LONG).show();
+                }
+            }
+        })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(context.getApplicationContext(), "Failed to fetch data", Toast.LENGTH_LONG).show();
+                    }
+                });
+
+        return;
     }
 
     // The function adds the given room to the user's rooms list in the userRooms table in the DB
@@ -133,8 +174,8 @@ public class PlayerDAL {
         return fStore.collection(nameCollection).document(playerID);
     }
 
-    public static void setProfilePicture(ImageView profileImage,String playerID) {
-        StorageReference profileRef = getStorage("users/"+ playerID +"/profile.jpg");
+    public static void setProfilePicture(ImageView profileImage, String playerID) {
+        StorageReference profileRef = getStorage("users/" + playerID + "/profile.jpg");
 
         profileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
@@ -148,12 +189,12 @@ public class PlayerDAL {
         user.sendEmailVerification().addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void unused) {
-                Toast.makeText(v.getContext(),"Verification Email Has Been Sent", Toast.LENGTH_SHORT).show();
+                Toast.makeText(v.getContext(), "Verification Email Has Been Sent", Toast.LENGTH_SHORT).show();
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-                Log.d("TAG","onFailure: Email not sent " + e.getMessage());
+                Log.d("TAG", "onFailure: Email not sent " + e.getMessage());
             }
         });
     }
@@ -328,7 +369,7 @@ public class PlayerDAL {
     }
 
     //Update from EditProfile page
-    public static void editPlayerDetails(String fullName,String nickname, String phone,String age,String gender) {
+    public static void editPlayerDetails(String fullName, String nickname, String phone, String age, String gender) {
 
         DocumentReference docRef = fStore.collection("users").document(user.getUid());
         Map<String, Object> edited = new HashMap<>();

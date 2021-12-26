@@ -153,30 +153,4 @@ public class GameManagement {
         return true;
     }
 
-    //    // The function checks if the user is the admin of the given room
-//    public boolean isAdmin(String roomID, String category) {
-//        final boolean[] isAdmin = {false};
-//        DatabaseReference roomRef = this.roomDAO.getPathReference("Rooms/" + category + "/" + roomID);
-//        // Attach a listener to read the data at our rooms reference
-//        roomRef.addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(DataSnapshot dataSnapshot) {
-//
-//                Room room = dataSnapshot.getValue(Room.class);
-//                String adminID = room.getAdmin();
-//
-//                //Show button of edit room only for admin
-//                if(playerDAO.playerID().equals(adminID)){
-//                    isAdmin[0] = true;
-//                }
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError error) {
-//
-//            }
-//        });
-//        return isAdmin[0];
-//    }
-
 }

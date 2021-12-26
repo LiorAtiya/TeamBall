@@ -1,7 +1,6 @@
 package com.ariel.teamball.Controller.Adapters;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,51 +9,52 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-
 import com.ariel.teamball.Model.Classes.Player;
 import com.ariel.teamball.R;
 
 import java.util.ArrayList;
 
-public class PlayerAdapter extends RecyclerView.Adapter<PlayerAdapter.MyViewHolder> {
+public class ParticipantsAdapter extends RecyclerView.Adapter<ParticipantsAdapter.MyViewHolder> {
 
     Context context;
-    ArrayList<Player> list;
 
-    public PlayerAdapter(Context context, ArrayList<Player> list) {
+    ArrayList<Player> participantsList;
+
+    public ParticipantsAdapter(Context context, ArrayList<Player> participantsList) {
         this.context = context;
-        this.list = list;
+        this.participantsList = participantsList;
     }
 
     @NonNull
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(context).inflate(R.layout.player_item,parent,false);
+        View v = LayoutInflater.from(context).inflate(R.layout.participants_item, parent, false);
         return new MyViewHolder(v);
     }
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-        Log.d("TAG", "onBindViewHolder");
-        Player player = list.get(position);
-        holder.fullName.setText(player.getFullName());
+
+        Player player = participantsList.get(position);
         holder.nickName.setText(player.getNickName());
+        holder.fullName.setText(player.getFullName());
+
     }
 
     @Override
     public int getItemCount() {
-        return list.size();
+        return participantsList.size();
     }
 
-    public static class MyViewHolder extends RecyclerView.ViewHolder {
+    public static class MyViewHolder extends RecyclerView.ViewHolder{
 
         TextView nickName, fullName;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
-            Log.d("TAG", "MyViewHolder");
-            fullName = itemView.findViewById(R.id.tvFullName);
+
             nickName = itemView.findViewById(R.id.tvNickName);
+            fullName = itemView.findViewById(R.id.tvFullName);
         }
     }
 

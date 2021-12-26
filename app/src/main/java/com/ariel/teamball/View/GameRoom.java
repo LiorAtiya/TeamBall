@@ -2,6 +2,7 @@ package com.ariel.teamball.View;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -82,7 +83,9 @@ public class GameRoom extends AppCompatActivity {
 
             @Override
             public void onClick(View v) {
-                roomDAL.showPlayersList(GameRoom.this, category, roomID);
+//                roomDAL.showPlayersList(GameRoom.this, category, roomID);
+                Log.d("TAG", "clicked players btn");
+                SwitchActivities.Participants(GameRoom.this, roomID, category);
             }
         });
 
