@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.ariel.teamball.Controller.Adapters.ParticipantsAdapter;
 import com.ariel.teamball.Model.Classes.Player;
 import com.ariel.teamball.Model.DAL.PlayerDAL;
+import com.ariel.teamball.Model.DAL.RoomDAL;
 import com.ariel.teamball.R;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -64,32 +65,17 @@ public class Participants extends AppCompatActivity {
                     Log.d("TAG", "participantsList.size: " + participantsList.size());
                 }
 
+                // checks how many players there are in the room
+                RoomDAL.getNumOfPlayers(roomID, category, (numOfPlayers) -> {
+                    Log.d("TAG", "numOfPlayers: " + numOfPlayers);
+                });
+
                 // notify when all the players added to the list
-                participantsAdapter.notifyDataSetChanged();
 
-//                // checks how many players there are in the room
-//                RoomDAL.getRoom(roomID, category, (room) -> {
-//                    numOfPlayers = room.getNumOfPlayers();
-//                    Log.d("TAG", "numOfPlayers: " + numOfPlayers);
-//                });
-
-
-
-
-//                // notify when all the players added to the list
-//                if ((numOfPlayers > 0) && (participantsList.size() == numOfPlayers)) {
-//                    Log.d("TAG", "equals: " + participantsList.size() + " = " + numOfPlayers);
-//                    runNotify.run();
-//                }
-
-//                Runnable runNotify = new Runnable() {
-//
-//                    @Override
-//                    public void run() {
-//                        Log.d("TAG", "notify");
-//                        participantsAdapter.notifyDataSetChanged();
-//                    }
-//                };
+                    if ((numOfPlayers > 0) && (participantsList.size() == numOfPlayers)) {
+                        Log.d("TAG", "equals: " + participantsList.size() + " = " + numOfPlayers);
+                        participantsAdapter.notifyDataSetChanged();
+                    }
 
             }
 

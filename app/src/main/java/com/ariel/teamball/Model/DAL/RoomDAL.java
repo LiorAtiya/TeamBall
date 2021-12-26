@@ -73,8 +73,8 @@ public class RoomDAL {
         return FirebaseDatabase.getInstance().getReference(path);
     }
 
-    // The function gets a category and a roomID and return the Room object
-    public static Room getRoom(String roomID, String category, OnSuccessListener<Room> listener) {
+    // The function gets a listener, a category and a roomID and pass the Room object to the listener
+    public static void getRoom(String roomID, String category, OnSuccessListener<Room> listener) {
         final Room[] room = new Room[1];
         DatabaseReference myRoomsRef = getPathReference("Rooms").child(category).child(roomID);
         myRoomsRef.addValueEventListener(new ValueEventListener() {
@@ -91,8 +91,20 @@ public class RoomDAL {
             }
         });
 
-        return room[0];
+        return;
     }
+
+    // The function gets a listener, a category and a roomID and pass the number of players in the room to the listener
+    public static void getNumOfPlayers(String roomID, String category, OnSuccessListener<Integer> listener) {
+
+        RoomDAL.getRoom(roomID, category, (room) -> {
+            int numOfPlayers = room.getNumOfPlayers();
+            listener.onSuccess(numOfPlayers);
+        });
+
+        return;
+    }
+
 
     // The function returns a set of all the rooms of the current player in the given category
     public static Set<String> getMyListRooms(String category){
