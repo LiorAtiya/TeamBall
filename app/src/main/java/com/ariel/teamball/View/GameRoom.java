@@ -4,6 +4,8 @@ import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
@@ -80,8 +82,10 @@ public class GameRoom extends AppCompatActivity {
 
         //---------------------------------------------------
 
-        //Show button of edit room only for admin
+        //Show button of "edit room" only for admin
         gm.permissionForAdmin(category, roomID, editRoom);
+        //Show button of "Call players" only for admin
+        gm.permissionForAdmin(category,roomID,notificationBtn);
 
         /*----- notification -----*/
         notificationManager = NotificationManagerCompat.from(this);
@@ -155,9 +159,10 @@ public class GameRoom extends AppCompatActivity {
     }
 
     public void sendNotification(View v) {
-
+        Bitmap largeIcon = BitmapFactory.decodeResource(getResources(),R.drawable.teamball_logo);
         Notification notification = new NotificationCompat.Builder(this, CHANNEL_ID)
                 .setSmallIcon(R.drawable.ic_logo)
+                .setLargeIcon(largeIcon)
                 .setContentTitle("TeamBall")
                 .setContentText("lets start and play!")
                 .setPriority(NotificationCompat.PRIORITY_HIGH)

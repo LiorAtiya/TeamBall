@@ -506,9 +506,6 @@ public class RoomDAL {
                 if (room.getNumOfPlayers() == room.getCapacity()) {
                     Toast.makeText(context, "The room is full", Toast.LENGTH_SHORT).show();
                 }
-                else if((room.getCapacity()-1) == room.getNumOfPlayers()){
-                    JoinToRoom(category, roomID, nameRoom);
-                }
                 else{
                     JoinToRoom(category, roomID, nameRoom);
                 }
