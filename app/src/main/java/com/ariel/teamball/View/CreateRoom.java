@@ -48,7 +48,7 @@ public class CreateRoom extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_room);
-        getSupportActionBar().hide();
+//        getSupportActionBar().hide();
 
         category = getIntent().getExtras().get("category").toString();
 

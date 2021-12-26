@@ -50,7 +50,7 @@ public class GameCenter extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game_center);
-        getSupportActionBar().hide();
+//        getSupportActionBar().hide();
 
         //catch the design by id - Link to layout
         nameCategory = findViewById(R.id.nameCategory);

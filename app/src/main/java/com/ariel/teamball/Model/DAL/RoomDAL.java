@@ -197,7 +197,6 @@ public class RoomDAL {
             public void onDataChange(DataSnapshot dataSnapshot) {
 
                 Set<Room> set = new HashSet<Room>();
-                Log.d("MyTest",city);
                 //Loop on each room
                 Iterator i = dataSnapshot.getChildren().iterator();
                 while (i.hasNext()) {

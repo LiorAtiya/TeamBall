@@ -383,6 +383,7 @@
         android:background="@drawable/teamball_btn"
         android:onClick="sendNotification"
         android:text="Call Players"
+        android:textColor="@color/white"
         android:textSize="12sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

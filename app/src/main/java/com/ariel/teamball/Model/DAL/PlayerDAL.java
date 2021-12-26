@@ -349,7 +349,7 @@ public class PlayerDAL {
     }
 
     //Update from EditProfile page
-    public static void editPlayerDetails(String fullName,String nickname, String phone,String age,String gender) {
+    public static void editPlayerDetails(String fullName,String nickname, String phone,String age,String gender,String city) {
 
         DocumentReference docRef = fStore.collection("users").document(user.getUid());
         Map<String, Object> edited = new HashMap<>();
@@ -358,6 +358,7 @@ public class PlayerDAL {
         edited.put("phone", phone);
         edited.put("age", age);
         edited.put("gender", gender);
+        edited.put("city", city);
 
         docRef.update(edited).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
@@ -398,25 +399,6 @@ public class PlayerDAL {
     //Upload image to firebase storage
     public static void uploadImage(Uri imageUri, ImageView profileImageView) throws IOException {
         StorageReference fileRef = getStorage("users/" + getPlayerID() + "/profile.jpg");
-//        fileRef.putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-//            @Override
-//            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-//                Toast.makeText(context, "Image Uploaded", Toast.LENGTH_SHORT).show();
-//                fileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-//                    @Override
-//                    public void onSuccess(Uri uri) {
-//                        Picasso.get().load(uri).into(profileImageView);
-//                    }
-//                });
-//
-//            }
-//        }).addOnFailureListener(new OnFailureListener() {
-//            @Override
-//            public void onFailure(@NonNull Exception e) {
-//                Toast.makeText(context, "Failed", Toast.LENGTH_SHORT).show();
-//            }
-//        });
-
 
         Bitmap bmp = MediaStore.Images.Media.getBitmap(context.getContentResolver(), imageUri);
         ByteArrayOutputStream baos = new ByteArrayOutputStream();

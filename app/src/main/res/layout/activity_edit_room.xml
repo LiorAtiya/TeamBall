@@ -17,7 +17,7 @@
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.115"
+        app:layout_constraintVertical_bias="0.134"
         app:srcCompat="@android:drawable/sym_def_app_icon"
         tools:srcCompat="@tools:sample/avatars" />
 
@@ -83,7 +83,7 @@
         app:layout_constraintHorizontal_bias="0.102"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.447"
+        app:layout_constraintVertical_bias="0.462"
         app:startIconDrawable="@drawable/curt_icon">
 
         <com.google.android.material.textfield.TextInputEditText
@@ -112,18 +112,20 @@
 
     <Button
         android:id="@+id/timePicker"
-        android:layout_width="340dp"
+        android:layout_width="300dp"
         android:layout_height="45dp"
         android:background="@drawable/custom_button"
         android:text="Edit time of start game"
         android:textAllCaps="false"
-        android:textColor="@color/white"
+        android:textColor="@color/teamball"
+        android:textStyle="bold"
+        android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.563"
+        app:layout_constraintHorizontal_bias="0.486"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.79" />
+        app:layout_constraintVertical_bias="0.788" />
 
     <TextView
         android:id="@+id/datePicker_textView"
@@ -143,13 +145,14 @@
 
     <Button
         android:id="@+id/datePickerButton"
-        android:layout_width="240dp"
-        android:layout_height="58dp"
+        android:layout_width="300dp"
+        android:layout_height="45dp"
         android:layout_marginTop="43dp"
         android:text="Pick Date"
         android:textAllCaps="false"
         android:textSize="20sp"
-        android:textColor="@color/white"
+        android:textColor="@color/teamball"
+        android:textStyle="bold"
         android:background="@drawable/custom_button"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintHorizontal_bias="0.485"
@@ -171,13 +174,15 @@
 
     <Button
         android:id="@+id/saveBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="300dp"
+        android:layout_height="45dp"
         android:background="@drawable/custom_button"
-        android:backgroundTint="#4CAF50"
+        android:backgroundTint="@color/white"
         android:text="Save"
         android:textAllCaps="false"
-        android:textColor="@color/white"
+        android:textColor="@color/teamball"
+        android:textStyle="bold"
+        android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"

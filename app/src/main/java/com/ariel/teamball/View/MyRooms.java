@@ -47,7 +47,7 @@ public class MyRooms extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_rooms);
-        getSupportActionBar().hide();
+//        getSupportActionBar().hide();
 
         //Controller between view and model
         gm = new GameManagement(this);
