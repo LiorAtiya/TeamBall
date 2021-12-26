@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/ournewbackground"
+    android:background="@drawable/main_background"
     tools:context=".View.EditProfile">
 
     <ImageView
@@ -28,7 +28,7 @@
         android:fontFamily="sans-serif"
         android:text="Edit Profile"
         android:textAlignment="center"
-        android:textColor="#000000"
+        android:textColor="@color/white"
         android:textSize="50sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -46,11 +46,11 @@
         android:layout_marginTop="280dp"
         android:layout_marginEnd="80dp"
         android:hint="Full Name"
-        android:textColorHint="@color/black"
-        app:boxStrokeColor="@color/black"
+        android:textColorHint="@color/white"
+        app:boxStrokeColor="@color/white"
         app:counterEnabled="true"
-        app:counterTextColor="@color/black"
-        app:hintTextColor="#403E3E"
+        app:counterTextColor="@color/white"
+        app:hintTextColor="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
@@ -61,8 +61,8 @@
             android:id="@+id/editProfileName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:shadowColor="@color/black"
-            android:textColor="@color/black" />
+            android:shadowColor="@color/white"
+            android:textColor="@color/white" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -74,11 +74,11 @@
         android:layout_marginTop="370dp"
         android:layout_marginEnd="40dp"
         android:hint="Nickname"
-        android:textColorHint="@color/black"
-        app:boxStrokeColor="@color/black"
+        android:textColorHint="@color/white"
+        app:boxStrokeColor="@color/white"
         app:counterEnabled="true"
-        app:counterTextColor="@color/black"
-        app:hintTextColor="#403E3E"
+        app:counterTextColor="@color/white"
+        app:hintTextColor="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -88,8 +88,8 @@
             android:id="@+id/editProfileNickname"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:shadowColor="@color/black"
-            android:textColor="@color/black" />
+            android:shadowColor="@color/white"
+            android:textColor="@color/white" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -101,11 +101,11 @@
         android:layout_marginTop="460dp"
         android:layout_marginEnd="40dp"
         android:hint="Phone"
-        android:textColorHint="@color/black"
-        app:boxStrokeColor="@color/black"
+        android:textColorHint="@color/white"
+        app:boxStrokeColor="@color/white"
         app:counterEnabled="true"
-        app:counterTextColor="@color/black"
-        app:hintTextColor="#403E3E"
+        app:counterTextColor="@color/white"
+        app:hintTextColor="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.518"
         app:layout_constraintStart_toStartOf="parent"
@@ -116,8 +116,8 @@
             android:id="@+id/editProfilePhone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:shadowColor="@color/black"
-            android:textColor="@color/black" />
+            android:shadowColor="@color/white"
+            android:textColor="@color/white" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -129,11 +129,11 @@
         android:layout_marginTop="550dp"
         android:layout_marginEnd="40dp"
         android:hint="Age"
-        android:textColorHint="@color/black"
-        app:boxStrokeColor="@color/black"
+        android:textColorHint="@color/white"
+        app:boxStrokeColor="@color/white"
         app:counterEnabled="true"
-        app:counterTextColor="@color/black"
-        app:hintTextColor="#403E3E"
+        app:counterTextColor="@color/white"
+        app:hintTextColor="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -143,8 +143,8 @@
             android:id="@+id/editProfileAge"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:shadowColor="@color/black"
-            android:textColor="@color/black" />
+            android:shadowColor="@color/white"
+            android:textColor="@color/white" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -156,11 +156,11 @@
         android:layout_marginTop="640dp"
         android:layout_marginEnd="40dp"
         android:hint="Gender"
-        android:textColorHint="@color/black"
-        app:boxStrokeColor="@color/black"
+        android:textColorHint="@color/white"
+        app:boxStrokeColor="@color/white"
         app:counterEnabled="true"
-        app:counterTextColor="@color/black"
-        app:hintTextColor="#403E3E"
+        app:counterTextColor="@color/white"
+        app:hintTextColor="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -170,8 +170,8 @@
             android:id="@+id/editProfileGender"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:shadowColor="@color/black"
-            android:textColor="@color/black" />
+            android:shadowColor="@color/white"
+            android:textColor="@color/white" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <Button
@@ -181,6 +181,7 @@
         android:backgroundTint="#4CAF50"
         android:text="Save"
         android:textAllCaps="false"
+        android:textColor="@color/white"
         android:background="@drawable/custom_button"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

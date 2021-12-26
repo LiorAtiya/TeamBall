@@ -24,7 +24,7 @@
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/white">
+            android:background="@drawable/main_background">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -65,7 +65,7 @@
                     android:fontFamily="sans-serif"
                     android:text="Your Nickname"
                     android:textAlignment="center"
-                    android:textColor="#000000"
+                    android:textColor="@color/white"
                     android:textSize="45sp"
                     android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -454,7 +454,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="1028dp"
                     android:background="@drawable/custom_button"
-                    android:backgroundTint="#4CAF50"
+                    android:backgroundTint="@color/white"
+                    android:textColor="@color/white"
                     android:text="Reset Password"
                     android:textAllCaps="false"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -468,7 +469,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="1028dp"
                     android:background="@drawable/custom_button"
-                    android:backgroundTint="#4CAF50"
+                    android:backgroundTint="@color/white"
+                    android:textColor="@color/white"
                     android:text="Change Profile"
                     android:textAllCaps="false"
                     app:layout_constraintEnd_toEndOf="parent"

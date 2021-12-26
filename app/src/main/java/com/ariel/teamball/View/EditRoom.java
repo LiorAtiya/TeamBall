@@ -46,7 +46,7 @@ public class EditRoom extends AppCompatActivity {
         /*-----  Information from the previous page ------*/
         Intent data = getIntent();
         String roomName = data.getStringExtra("roomName");
-        String fieldName = data.getStringExtra("fieldName").substring(7);
+        String fieldName = data.getStringExtra("fieldName");
         String time = data.getStringExtra("time");
 
         //catch the design by id - Link to layout
