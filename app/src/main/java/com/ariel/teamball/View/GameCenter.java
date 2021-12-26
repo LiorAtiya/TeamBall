@@ -1,12 +1,14 @@
 package com.ariel.teamball.View;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -27,7 +29,8 @@ public class GameCenter extends AppCompatActivity {
 
     TextView nameCategory;
     ListView listView;
-    Button createRoomBtn;
+    Button createRoomBtn,filterBtn;
+    Spinner citySpinner;
     ArrayAdapter<Room> adapter;
     String category;
 
@@ -53,6 +56,17 @@ public class GameCenter extends AppCompatActivity {
         nameCategory = findViewById(R.id.nameCategory);
         listView = findViewById(R.id.listView);
         createRoomBtn = findViewById(R.id.CR_btn);
+        filterBtn = findViewById(R.id.filterBtn);
+
+        /* For Choose City */
+        citySpinner = findViewById(R.id.citySpinner);
+
+        /* store and connect our cities names with spinner */
+        ArrayAdapter<String> allCities = new ArrayAdapter<String>(GameCenter.this,
+                android.R.layout.simple_list_item_1,getResources().getStringArray(R.array.names));
+        //for drop down list:
+        allCities.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        citySpinner.setAdapter(allCities);
 
         //Get date from previous page
         category = getIntent().getExtras().get("category").toString();
@@ -98,6 +112,18 @@ public class GameCenter extends AppCompatActivity {
         roomDAL.setRoomsOnListview(myRoomsList,category,list,adapter,false);
 
         //---------------------------------------------------
+
+        filterBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String chosenCity = citySpinner.getSelectedItem().toString();
+                roomDAL.setListViewByFilter(myRoomsList,category,list,adapter,chosenCity);
+            }
+        });
+
+        //---------------------------------------------------
+
+
 
         //Click on some room
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
