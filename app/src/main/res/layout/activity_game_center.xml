@@ -32,7 +32,25 @@
         android:layout_centerInParent="true"
         android:layout_marginTop="11dp"
         android:layout_marginEnd="3dp"
-        android:layout_marginBottom="58dp" />
+        android:layout_marginBottom="58dp" >
+
+        <FrameLayout
+            android:id="@+id/fragmentContainer"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <com.google.android.material.bottomnavigation.BottomNavigationView
+                android:id="@+id/bottomNavigation"
+                android:layout_width="match_parent"
+                android:layout_height="65dp"
+                android:layout_gravity="bottom"
+                android:background="@color/white"
+                app:itemTextColor="@drawable/selector"
+                app:menu="@menu/menu">
+
+            </com.google.android.material.bottomnavigation.BottomNavigationView>
+        </FrameLayout>
+    </ListView>
 
 <!--    <TextView-->
 <!--        android:id="@+id/nameCategory"-->
@@ -71,22 +89,5 @@
         android:textColor="@color/white"
         android:textSize="20sp"
         android:textStyle="bold" />
-
-    <FrameLayout
-        android:id="@+id/fragmentContainer"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <com.google.android.material.bottomnavigation.BottomNavigationView
-            android:id="@+id/bottomNavigation"
-            android:layout_width="match_parent"
-            android:layout_height="65dp"
-            android:layout_gravity="bottom"
-            android:background="@color/white"
-            app:itemTextColor="@drawable/selector"
-            app:menu="@menu/menu">
-
-        </com.google.android.material.bottomnavigation.BottomNavigationView>
-    </FrameLayout>
 
 </RelativeLayout>

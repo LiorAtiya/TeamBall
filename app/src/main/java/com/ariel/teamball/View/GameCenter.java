@@ -14,9 +14,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.ariel.teamball.Controller.Adapters.ListAdapter;
 import com.ariel.teamball.Controller.SwitchActivities;
+import com.ariel.teamball.Model.Classes.Room;
 import com.ariel.teamball.Model.DAL.PlayerDAL;
 import com.ariel.teamball.Model.DAL.RoomDAL;
-import com.ariel.teamball.Model.Classes.Room;
 import com.ariel.teamball.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -68,11 +68,11 @@ public class GameCenter extends AppCompatActivity {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
-                switch (item.getItemId()){
+                switch (item.getItemId()) {
                     case R.id.my_rooms:
-                        SwitchActivities.MyRoom(getApplicationContext(),category);
+                        SwitchActivities.MyRoom(getApplicationContext(), category);
                         finish();
-                        overridePendingTransition(0,0);
+                        overridePendingTransition(0, 0);
                         return true;
                     case R.id.all_rooms:
                         return true;
@@ -95,19 +95,20 @@ public class GameCenter extends AppCompatActivity {
 
         //Show the list of all rooms
         Set<String> myRoomsList = roomDAL.getMyListRooms(category);
-        roomDAL.setRoomsOnListview(myRoomsList,category,list,adapter,false);
+        roomDAL.setRoomsOnListview(myRoomsList, category, list, adapter, false);
 
         //---------------------------------------------------
 
         //Click on some room
+        //createRoomChannel();
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int room, long l) {
 
                 String roomName = adapter.getItem(room).getName();
-                String roomID =  adapter.getItem(room).getRoomID();
+                String roomID = adapter.getItem(room).getRoomID();
 
-                roomDAL.checkLimitOfRoom_And_JoinToRoom(category,roomID,roomName);
+                roomDAL.checkLimitOfRoom_And_JoinToRoom(category, roomID, roomName);
 
             }
         });
@@ -117,9 +118,8 @@ public class GameCenter extends AppCompatActivity {
         createRoomBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SwitchActivities.createRoom(GameCenter.this,category);
+                SwitchActivities.createRoom(GameCenter.this, category);
             }
         });
     }
-
 }

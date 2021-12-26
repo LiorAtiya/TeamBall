@@ -1,24 +1,19 @@
 package com.ariel.teamball.View;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
-import android.widget.ImageButton;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
-import androidx.appcompat.widget.Toolbar;
-
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.cardview.widget.CardView;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import com.ariel.teamball.Controller.GameManagement;
 import com.ariel.teamball.Controller.SwitchActivities;
-import com.ariel.teamball.Model.DAL.PlayerDAL;
 import com.ariel.teamball.R;
 import com.google.android.material.navigation.NavigationView;
 
@@ -27,11 +22,11 @@ public class SportsMenu extends AppCompatActivity implements NavigationView.OnNa
     CardView SoccerBtn , BasketBallBtn , TennisBtn, TableTennisBtn,
             HandBallBtn, VolleyBallBtn, DogeBallBtn,footballBtn;
 
-    PlayerDAL playerDAL;
-
     DrawerLayout drawerLayout;
     NavigationView navigationView;
     Toolbar toolbar;
+
+    GameManagement gm;
 
     @Override
     public void onBackPressed() {
@@ -71,7 +66,11 @@ public class SportsMenu extends AppCompatActivity implements NavigationView.OnNa
         DogeBallBtn = findViewById(R.id.DodgeballBtn);
         footballBtn = findViewById(R.id.FootballBtn);
 
-        playerDAL = new PlayerDAL(this);
+//        playerDAL = new PlayerDAL(this);
+
+        //Controller between view and model
+        gm = new GameManagement(this);
+
 
         SoccerBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -140,7 +139,7 @@ public class SportsMenu extends AppCompatActivity implements NavigationView.OnNa
                 SwitchActivities.MyProfile(this);
                 break;
             case R.id.nav_logout:
-                playerDAL.playerSignOut();
+                gm.playerSignOut();
                 SwitchActivities.LoginActivity(getApplicationContext());
                 finish();
                 break;

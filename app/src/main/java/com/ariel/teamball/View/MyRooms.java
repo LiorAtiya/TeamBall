@@ -14,15 +14,13 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.ariel.teamball.Controller.Adapters.ListAdapter;
+import com.ariel.teamball.Controller.GameManagement;
 import com.ariel.teamball.Controller.SwitchActivities;
-import com.ariel.teamball.Model.DAL.PlayerDAL;
-import com.ariel.teamball.Model.DAL.RoomDAL;
 import com.ariel.teamball.Model.Classes.Room;
 import com.ariel.teamball.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.ArrayList;
-import java.util.Set;
 
 public class MyRooms extends AppCompatActivity {
 
@@ -34,8 +32,10 @@ public class MyRooms extends AppCompatActivity {
 
     BottomNavigationView bottomNavigationView;
 
-    PlayerDAL playerDAL;
-    RoomDAL roomDAL;
+//    PlayerDAL playerDAL;
+//    RoomDAL roomDAL;
+
+    GameManagement gm;
 
     @Override
     public void onBackPressed() {
@@ -48,6 +48,9 @@ public class MyRooms extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_rooms);
         getSupportActionBar().hide();
+
+        //Controller between view and model
+        gm = new GameManagement(this);
 
         nameCategory = findViewById(R.id.nameCategory);
         listView = findViewById(R.id.listView);
@@ -82,8 +85,8 @@ public class MyRooms extends AppCompatActivity {
 
         //---------------------------------------------------
 
-        playerDAL = new PlayerDAL(this);
-        roomDAL = new RoomDAL(this);
+//        playerDAL = new PlayerDAL(this);
+//        roomDAL = new RoomDAL(this);
 
         //Custom design for listView
         ArrayList<Room> list = new ArrayList<>();
@@ -93,8 +96,10 @@ public class MyRooms extends AppCompatActivity {
         //---------------------------------------------------
 
         //Show the list of my rooms
-        Set<String> myRoomsList = roomDAL.getMyListRooms(category);
-        roomDAL.setRoomsOnListview(myRoomsList,category,list,adapter,true);
+        gm.setRoomsOnListview(category,list,adapter,true);
+
+//        Set<String> myRoomsList = roomDAL.getMyListRooms(category);
+//        roomDAL.setRoomsOnListview(myRoomsList,category,list,adapter,true);
 
         //---------------------------------------------------
 

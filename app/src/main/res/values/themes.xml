@@ -14,9 +14,14 @@
         <!-- Customize your theme here. -->
     </style>
 
+
     <style name="Theme.TeamBall.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="Circular">
+        <item name="cornerSize">50%</item>
     </style>
 
     <style name="Theme.TeamBall.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />

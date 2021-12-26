@@ -14,6 +14,8 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.ariel.teamball.Controller.GameManagement;
+import com.ariel.teamball.Controller.SwitchActivities;
 import com.ariel.teamball.Model.DAL.PlayerDAL;
 import com.ariel.teamball.Model.Classes.Player;
 import com.ariel.teamball.R;
@@ -27,7 +29,7 @@ public class RegisterActivity extends AppCompatActivity {
     TextView AlreadyRegisterBtn;
     ProgressBar progressBar;
 
-    PlayerDAL playerDAL;
+    GameManagement gm;
 
     @Override
     public void onBackPressed() {
@@ -40,6 +42,9 @@ public class RegisterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
         getSupportActionBar().hide();
+
+        //Controller between view and model
+        gm = new GameManagement(this);
 
         //Link to layout
         mFullName = findViewById(R.id.FullName);
@@ -79,7 +84,6 @@ public class RegisterActivity extends AppCompatActivity {
         AlreadyRegisterBtn = findViewById(R.id.LoginFromRegister);
         progressBar = findViewById(R.id.simpleProgressBar);
 
-        playerDAL = new PlayerDAL(this);
 
         mRegisterBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -141,7 +145,9 @@ public class RegisterActivity extends AppCompatActivity {
 
                 //Create new player
                 Player p = new Player(fullName ,nickName,email,password, phone,chosenCity,chosenGender,chosenAge);
-                playerDAL.playerRegister(p,progressBar);
+
+                //Added player to firebase
+                gm.playerRegister(p,progressBar);
 
             }
         });
@@ -150,7 +156,8 @@ public class RegisterActivity extends AppCompatActivity {
         AlreadyRegisterBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(), LoginActivity.class));
+                SwitchActivities.LoginActivity(getApplicationContext());
+//                startActivity(new Intent(getApplicationContext(), LoginActivity.class));
             }
         });
 
