@@ -314,12 +314,12 @@
     </androidx.cardview.widget.CardView>
 
         <Button
-            android:id="@+id/players"
+            android:id="@+id/participants_btn"
             android:layout_width="170dp"
             android:layout_height="50dp"
             android:background="@drawable/teamball_btn"
             android:gravity="center|center_horizontal|center_vertical"
-            android:text="List Players"
+            android:text="Participants"
             android:textAllCaps="false"
             android:textColor="@color/white"
             android:textSize="20sp"

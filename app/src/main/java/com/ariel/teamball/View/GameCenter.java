@@ -1,7 +1,6 @@
 package com.ariel.teamball.View;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -15,9 +14,9 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.ariel.teamball.Controller.Adapters.ListAdapter;
+import com.ariel.teamball.Controller.GameManagement;
 import com.ariel.teamball.Controller.SwitchActivities;
 import com.ariel.teamball.Model.Classes.Room;
-import com.ariel.teamball.Model.DAL.PlayerDAL;
 import com.ariel.teamball.Model.DAL.RoomDAL;
 import com.ariel.teamball.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -36,9 +35,10 @@ public class GameCenter extends AppCompatActivity {
 
     BottomNavigationView bottomNavigationView; //Switch between gameCenter to MyRoom
 
-    //Access to firebase
-    PlayerDAL playerDAL;
-    RoomDAL roomDAL;
+    RoomDAL roomDAL = new RoomDAL(this);
+
+    // creates game management object
+    GameManagement gm = GameManagement.getInstance();
 
     @Override
     public void onBackPressed() {
@@ -96,9 +96,6 @@ public class GameCenter extends AppCompatActivity {
 
         //---------------------------------------------------
 
-        playerDAL = new PlayerDAL(this);
-        roomDAL = new RoomDAL(this);
-
         //Custom design for listView
         ArrayList<Room> list = new ArrayList<>();
         adapter = new ListAdapter(this, R.layout.list_rooms, list);
@@ -107,6 +104,7 @@ public class GameCenter extends AppCompatActivity {
         //---------------------------------------------------
 
         //Show the list of all rooms
+//        gm.displayRoomsList(category, list, adapter);
         Set<String> myRoomsList = roomDAL.getMyListRooms(category);
         roomDAL.setRoomsOnListview(myRoomsList, category, list, adapter, false);
 
@@ -133,7 +131,8 @@ public class GameCenter extends AppCompatActivity {
                 String roomName = adapter.getItem(room).getName();
                 String roomID = adapter.getItem(room).getRoomID();
 
-                roomDAL.checkLimitOfRoom_And_JoinToRoom(category, roomID, roomName);
+                // add the player to the given room if it's not full already
+                gm.joinRoom(category, roomID, roomName);
 
             }
         });

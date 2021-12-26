@@ -12,6 +12,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.TeamBall">
         <activity
+            android:name=".View.Participants"
+            android:exported="false" />
+        <activity
             android:name=".View.MyRooms"
             android:exported="false" />
         <activity
@@ -19,9 +22,6 @@
             android:exported="false" />
         <activity
             android:name=".View.CreateRoom"
-            android:exported="false" />
-        <activity
-            android:name=".Model.Classes.playersList"
             android:exported="false" />
         <activity
             android:name=".View.GameRoom"
@@ -38,11 +38,11 @@
         <activity
             android:name=".View.MyProfile"
             android:exported="false"
-            android:theme="@style/Theme.TeamBall.NoActionBar"/>
+            android:theme="@style/Theme.TeamBall.NoActionBar" />
         <activity
             android:name=".View.SportsMenu"
             android:exported="false"
-            android:theme="@style/Theme.TeamBall.NoActionBar"/>
+            android:theme="@style/Theme.TeamBall.NoActionBar" />
         <activity
             android:name=".View.RegisterActivity"
             android:exported="false" />

@@ -3,16 +3,13 @@ package com.ariel.teamball.Controller;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.provider.MediaStore;
 import android.util.Log;
-import android.view.MenuItem;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 
 import com.ariel.teamball.Model.DAL.PlayerDAL;
-import com.ariel.teamball.R;
 import com.ariel.teamball.View.Chatroom;
 import com.ariel.teamball.View.CreateRoom;
 import com.ariel.teamball.View.EditProfile;
@@ -22,15 +19,25 @@ import com.ariel.teamball.View.GameRoom;
 import com.ariel.teamball.View.LoginActivity;
 import com.ariel.teamball.View.MyProfile;
 import com.ariel.teamball.View.MyRooms;
+import com.ariel.teamball.View.Participants;
 import com.ariel.teamball.View.RegisterActivity;
 import com.ariel.teamball.View.SportsMenu;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 
 public class SwitchActivities {
+
+    public static void Participants(Context context, String roomID, String category){
+        Log.d("TAG", "switching to participants");
+
+        Intent i = new Intent(context, Participants.class);
+        i.putExtra("roomID",roomID);
+        i.putExtra("category",category);
+
+        context.startActivity(i);
+    }
 
     public static void SportMenu(Context context){
         Intent myIntent = new Intent(context, SportsMenu.class);

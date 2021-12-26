@@ -35,8 +35,11 @@ public class CreateRoom extends AppCompatActivity {
     int currentMin;
     Calendar calendar; // calendar object
 
-
     String category;
+
+    // creates game management object
+    GameManagement gm = GameManagement.getInstance();
+
 
     @Override
     public void onBackPressed() {
@@ -166,8 +169,6 @@ public class CreateRoom extends AppCompatActivity {
 
                 // ---------------------------------------------------
 
-                // creates game management object
-                GameManagement gm = GameManagement.getInstance();
                 /* creates a new room, updates its admin, updates the database,
                    uses the room's key that received to add the room to the user's room list
                 */

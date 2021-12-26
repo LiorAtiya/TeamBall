@@ -15,7 +15,6 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
-
 import com.ariel.teamball.Controller.GameManagement;
 import com.ariel.teamball.Controller.SwitchActivities;
 import com.ariel.teamball.Model.DAL.RoomDAL;
@@ -24,13 +23,14 @@ import com.ariel.teamball.R;
 public class GameRoom extends AppCompatActivity {
     /* Page objects */
     public static final String TAG = "TAG";
-    Button players, chat, editRoom, leaveRoom, notificationBtn;
+
+    Button participants, chat, editRoom, leaveRoom, notificationBtn;
     TextView roomName, capacity, city, field, admin, timeText;
     String category, room_name, admin_name, my_name, adminID, roomID, time;
 
     /* logic objects */
     RoomDAL roomDAL;
-    //    PlayerDAL playerDAL;
+
     // creates game management object
     GameManagement gm;
     //permission
@@ -65,7 +65,7 @@ public class GameRoom extends AppCompatActivity {
         admin = findViewById(R.id.admin);
         notificationBtn = findViewById(R.id.notification);
 
-        players = findViewById(R.id.players);
+        participants = findViewById(R.id.participants_btn);
         chat = findViewById(R.id.chat);
         editRoom = findViewById(R.id.edit_room);
         leaveRoom = findViewById(R.id.leaveRoom);
@@ -102,11 +102,12 @@ public class GameRoom extends AppCompatActivity {
         //---------------------------------------------------
 
         //Show the list of players of room
-        players.setOnClickListener(new View.OnClickListener() {
+        participants.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
-                gm.showPlayersList(GameRoom.this, category, roomID);
+
+                SwitchActivities.Participants(GameRoom.this, roomID, category);
             }
         });
 
