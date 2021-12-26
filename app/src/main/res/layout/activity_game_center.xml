@@ -18,11 +18,11 @@
         android:layout_marginEnd="7dp"
         android:layout_marginRight="7dp"
         android:background="@drawable/custom_button"
-        android:textColor="@color/teamball"
-        android:textStyle="bold"
         android:text="Create Room"
+        android:textAllCaps="false"
+        android:textColor="@color/teamball"
         android:textSize="20sp"
-        android:textAllCaps="false" />
+        android:textStyle="bold" />
 
     <Button
         android:id="@+id/filterBtn"
@@ -33,11 +33,11 @@
         android:layout_alignParentRight="true"
         android:layout_marginTop="90dp"
         android:layout_marginEnd="60dp"
-        android:textColor="@color/white"
         android:background="@drawable/custom_button"
         android:backgroundTint="@color/teamball"
         android:text="Filter"
-        android:textAllCaps="false" />
+        android:textAllCaps="false"
+        android:textColor="@color/white" />
 
     <Spinner
         android:id="@+id/citySpinner"
@@ -99,5 +99,5 @@
 
         </com.google.android.material.bottomnavigation.BottomNavigationView>
     </FrameLayout>
-
 </RelativeLayout>
+
