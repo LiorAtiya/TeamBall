@@ -1,33 +1,44 @@
 package com.ariel.teamball.View;
 
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import androidx.appcompat.app.AlertDialog;
+
 import androidx.appcompat.app.AppCompatActivity;
-import com.ariel.teamball.Controller.SwitchActivities;
-import com.ariel.teamball.Model.DAL.PlayerDAL;
-import com.ariel.teamball.Model.DAL.RoomDAL;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
+
 import com.ariel.teamball.Controller.GameManagement;
+import com.ariel.teamball.Controller.SwitchActivities;
+import com.ariel.teamball.Model.DAL.RoomDAL;
 import com.ariel.teamball.R;
 
 public class GameRoom extends AppCompatActivity {
     /* Page objects */
     public static final String TAG = "TAG";
-    Button players, chat, editRoom, leaveRoom;
-    TextView roomName, capacity, city, field, admin,timeText;
-    String category,room_name,admin_name,my_name,adminID,roomID,time;
+    Button players, chat, editRoom, leaveRoom, notificationBtn;
+    TextView roomName, capacity, city, field, admin, timeText;
+    String category, room_name, admin_name, my_name, adminID, roomID, time;
 
     /* logic objects */
     RoomDAL roomDAL;
-//    PlayerDAL playerDAL;
+    //    PlayerDAL playerDAL;
     // creates game management object
     GameManagement gm;
     //permission
     boolean isAdmin;
 
+    //notification
+    public static final String CHANNEL_ID = "channel";
+    private NotificationManagerCompat notificationManager;
 
     @Override
     public void onBackPressed() {
@@ -52,6 +63,7 @@ public class GameRoom extends AppCompatActivity {
         field = findViewById(R.id.field);
         timeText = findViewById(R.id.time);
         admin = findViewById(R.id.admin);
+        notificationBtn = findViewById(R.id.notification);
 
         players = findViewById(R.id.players);
         chat = findViewById(R.id.chat);
@@ -60,7 +72,6 @@ public class GameRoom extends AppCompatActivity {
 
         //Access to firebase
         roomDAL = new RoomDAL(this);
-//        playerDAL = new PlayerDAL(this);
 
         gm = GameManagement.getInstance();
 
@@ -72,17 +83,21 @@ public class GameRoom extends AppCompatActivity {
 
         //---------------------------------------------------
 
-        //Show button of edit room only for admin
-        gm.permissionForAdmin(category,roomID,editRoom);
+        //Show button of "edit room" only for admin
+        gm.permissionForAdmin(category, roomID, editRoom);
+        //Show button of "Call players" only for admin
+        gm.permissionForAdmin(category,roomID,notificationBtn);
 
-        //        roomDAL.permissionForAdmin(category,roomID,editRoom);
+        /*----- notification -----*/
+        notificationManager = NotificationManagerCompat.from(this);
+        createNotificationChannel();
+
 
         //---------------------------------------------------
 
         //Fill the details of room in TextView
-        gm.setDetailsRoom(GameRoom.this, category,roomID, roomName, capacity, city,field, timeText, admin);
+        gm.setDetailsRoom(GameRoom.this, category, roomID, roomName, capacity, city, field, timeText, admin);
 
-//        roomDAL.setDetailsRoom(GameRoom.this, category,roomID, roomName, capacity, city,field, timeText, admin);
 
         //---------------------------------------------------
 
@@ -92,8 +107,6 @@ public class GameRoom extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 gm.showPlayersList(GameRoom.this, category, roomID);
-
-//                roomDAL.showPlayersList(GameRoom.this, category, roomID);
             }
         });
 
@@ -115,8 +128,8 @@ public class GameRoom extends AppCompatActivity {
         editRoom.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SwitchActivities.EditRoom(v.getContext(), roomName.getText().toString(),timeText.getText().toString(),
-                        city.getText().toString(),field.getText().toString(), category, roomID, my_name);
+                SwitchActivities.EditRoom(v.getContext(), roomName.getText().toString(), timeText.getText().toString(),
+                        city.getText().toString(), field.getText().toString(), category, roomID, my_name);
             }
         });
 
@@ -127,8 +140,36 @@ public class GameRoom extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                roomDAL.leaveOrRemoveRoom(roomID,category);
+                roomDAL.leaveOrRemoveRoom(roomID, category);
             }
         });
+    }
+
+    private void createNotificationChannel() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            NotificationChannel channel = new NotificationChannel(
+                    CHANNEL_ID,
+                    "Channel 1",
+                    NotificationManager.IMPORTANCE_HIGH
+            );
+            channel.setDescription("This is Channel");
+
+            NotificationManager manager = getSystemService(NotificationManager.class);
+            manager.createNotificationChannel(channel);
+        }
+    }
+
+    public void sendNotification(View v) {
+        Bitmap largeIcon = BitmapFactory.decodeResource(getResources(),R.drawable.teamball_logo);
+        Notification notification = new NotificationCompat.Builder(this, CHANNEL_ID)
+                .setSmallIcon(R.drawable.ic_logo)
+                .setLargeIcon(largeIcon)
+                .setContentTitle("TeamBall")
+                .setContentText("lets start and play!")
+                .setPriority(NotificationCompat.PRIORITY_HIGH)
+                .setCategory(NotificationCompat.CATEGORY_MESSAGE)
+                .build();
+
+        notificationManager.notify(1, notification);
     }
 }

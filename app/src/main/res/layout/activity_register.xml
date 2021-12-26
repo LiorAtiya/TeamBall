@@ -8,8 +8,6 @@
     android:visibility="visible"
     tools:context=".View.RegisterActivity">
 
-    // TODO: have to split full name to first and last
-    // TODO: have to add age
 
     <TextView
         android:id="@+id/Register"

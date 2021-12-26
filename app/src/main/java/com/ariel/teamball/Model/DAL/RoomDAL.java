@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.util.Log;
-
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -19,7 +18,6 @@ import com.ariel.teamball.Controller.GameManagement;
 import com.ariel.teamball.Controller.SwitchActivities;
 import com.ariel.teamball.Model.Classes.Player;
 import com.ariel.teamball.Model.Classes.Room;
-import com.ariel.teamball.View.GameCenter;
 import com.ariel.teamball.View.GameRoom;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -492,7 +490,6 @@ public class RoomDAL {
     }
 
     public static void checkLimitOfRoom_And_JoinToRoom(String category, String roomID, String nameRoom) {
-
         //Access to the list of rooms category
         DatabaseReference reference = getPathReference("Rooms/" + category + "/" + roomID);
 
@@ -507,7 +504,8 @@ public class RoomDAL {
                 //Check the number of players in the room
                 if (room.getNumOfPlayers() == room.getCapacity()) {
                     Toast.makeText(context, "The room is full", Toast.LENGTH_SHORT).show();
-                } else {
+                }
+                else{
                     JoinToRoom(category, roomID, nameRoom);
                 }
 
@@ -527,13 +525,11 @@ public class RoomDAL {
     }
 
     private static void JoinToRoom(String category, String roomID, String roomName) {
-
         final AlertDialog.Builder EnterGroupDialog = new AlertDialog.Builder(context);
         EnterGroupDialog.setTitle("Want to join the room?");
         EnterGroupDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-
                 //Add player to room
                 addNewUser(category, roomID, playerDAL.getPlayerID());
 
@@ -564,7 +560,6 @@ public class RoomDAL {
                         }
                     }
                 });
-
             }
         });
         EnterGroupDialog.setNegativeButton("No", new DialogInterface.OnClickListener() {
@@ -579,7 +574,6 @@ public class RoomDAL {
                 EnterGroupDialog.show();
             }
         });
-
     }
 
     public static void editRoomDetails(String category, String roomID, String roomName,

@@ -8,10 +8,9 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.ariel.teamball.Model.Classes.Player;
-import com.ariel.teamball.Model.DAL.PlayerDAL;
 import com.ariel.teamball.Model.Classes.Room;
+import com.ariel.teamball.Model.DAL.PlayerDAL;
 import com.ariel.teamball.Model.DAL.RoomDAL;
-import com.ariel.teamball.View.GameRoom;
 
 import java.util.ArrayList;
 import java.util.Set;

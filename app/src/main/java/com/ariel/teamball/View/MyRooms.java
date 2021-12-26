@@ -16,14 +16,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.ariel.teamball.Controller.Adapters.ListAdapter;
 import com.ariel.teamball.Controller.GameManagement;
 import com.ariel.teamball.Controller.SwitchActivities;
-import com.ariel.teamball.Model.DAL.PlayerDAL;
-import com.ariel.teamball.Model.DAL.RoomDAL;
 import com.ariel.teamball.Model.Classes.Room;
 import com.ariel.teamball.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.ArrayList;
-import java.util.Set;
 
 public class MyRooms extends AppCompatActivity {
 
