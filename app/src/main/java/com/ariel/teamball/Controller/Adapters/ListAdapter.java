@@ -56,7 +56,6 @@ public class ListAdapter extends ArrayAdapter<Room> {
         TextView roomName = convertView.findViewById(R.id.room_name);
         TextView details = convertView.findViewById(R.id.details);
 //        ImageView imageView = convertView.findViewById(R.id.profile_pic);
-//        Button edit = convertView.findViewById(R.id.edit_room_btn);
 
         //Fill the details of room in TextView
         roomDAL = new RoomDAL(mContext);

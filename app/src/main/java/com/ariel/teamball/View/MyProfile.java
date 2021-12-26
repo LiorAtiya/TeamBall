@@ -48,6 +48,12 @@ public class MyProfile extends AppCompatActivity implements NavigationView.OnNav
     Toolbar toolbar;
 
     @Override
+    public void onBackPressed() {
+       SwitchActivities.SportMenu(this);
+       finish();
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_profile);
