@@ -20,6 +20,8 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
 
+import java.io.IOException;
+
 public class EditProfile extends AppCompatActivity {
 
     EditText profileFullName,profilePhone,profileNickname,profileCity,profileGender,profileAge;
@@ -107,7 +109,11 @@ public class EditProfile extends AppCompatActivity {
             if(resultCode == Activity.RESULT_OK){
                 Uri imageUri = data.getData();
 
-                playerDAL.uploadImage(imageUri,profileImageView);
+                try {
+                    playerDAL.uploadImage(imageUri,profileImageView);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         }
     }

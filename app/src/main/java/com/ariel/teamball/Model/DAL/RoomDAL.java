@@ -98,41 +98,42 @@ public class RoomDAL {
         return myRoomsName;
     }
 
-    public static void setRoomsOnListview(Set<String> myRoomsList, String category,ArrayList<Room> list, ArrayAdapter<Room> adapter){
-        //Access to the list of room category
-        DatabaseReference reference = getPathReference("Rooms/" + category);
 
-        //Put all the rooms of the category to list from the firebase
-        reference.addValueEventListener(new ValueEventListener() {
-
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-
-                Set<Room> set = new HashSet<Room>();
-
-                //Loop on each room
-                Iterator i = dataSnapshot.getChildren().iterator();
-                while (i.hasNext()) {
-                    DataSnapshot childSnapshot = (DataSnapshot) i.next();
-                    Room room = childSnapshot.getValue(Room.class);
-                    //Add to the list all the rooms that the user does not enter.
-                    if(!myRoomsList.contains(room.getRoomID())){
-                        set.add(room);
-                    }
-                }
-
-                list.clear();
-                list.addAll(set);
-                //Set the list on viewlist
-                adapter.notifyDataSetChanged();
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                Toast.makeText(context, "No network connectivity", Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
+//    public static void setRoomsOnListview(Set<String> myRoomsList, String category,ArrayList<Room> list, ArrayAdapter<Room> adapter){
+//        //Access to the list of room category
+//        DatabaseReference reference = getPathReference("Rooms/" + category);
+//
+//        //Put all the rooms of the category to list from the firebase
+//        reference.addValueEventListener(new ValueEventListener() {
+//
+//            @Override
+//            public void onDataChange(DataSnapshot dataSnapshot) {
+//
+//                Set<Room> set = new HashSet<Room>();
+//
+//                //Loop on each room
+//                Iterator i = dataSnapshot.getChildren().iterator();
+//                while (i.hasNext()) {
+//                    DataSnapshot childSnapshot = (DataSnapshot) i.next();
+//                    Room room = childSnapshot.getValue(Room.class);
+//                    //Add to the list all the rooms that the user does not enter.
+//                    if(!myRoomsList.contains(room.getRoomID())){
+//                        set.add(room);
+//                    }
+//                }
+//
+//                list.clear();
+//                list.addAll(set);
+//                //Set the list on viewlist
+//                adapter.notifyDataSetChanged();
+//            }
+//
+//            @Override
+//            public void onCancelled(DatabaseError databaseError) {
+//                Toast.makeText(context, "No network connectivity", Toast.LENGTH_SHORT).show();
+//            }
+//        });
+//    }
 
     public static void leaveOrRemoveRoom(String roomID, String category){
         final AlertDialog.Builder EnterGroupDialog;
@@ -185,6 +186,45 @@ public class RoomDAL {
 
     }
 
+    public static void setListViewByFilter(Set<String> myRoomsList, String category,ArrayList<Room> list, ArrayAdapter<Room> adapter, String city){
+        //Access to the list of room category
+        DatabaseReference reference = getPathReference("Rooms/" + category);
+
+        //Put all the rooms of the category to list from the firebase
+        reference.addValueEventListener(new ValueEventListener() {
+
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                Set<Room> set = new HashSet<Room>();
+                Log.d("MyTest",city);
+                //Loop on each room
+                Iterator i = dataSnapshot.getChildren().iterator();
+                while (i.hasNext()) {
+                    DataSnapshot childSnapshot = (DataSnapshot) i.next();
+                    Room room = childSnapshot.getValue(Room.class);
+                    //Add to the list all the rooms that the user does not enter & filtered.
+                    if(!myRoomsList.contains(room.getRoomID()) && city.equals("City")){
+                        set.add(room);
+                    }else {
+                        if (!myRoomsList.contains(room.getRoomID()) && room.getCity().equals(city)){
+                            set.add(room);
+                        }
+                    }
+                }
+
+                list.clear();
+                list.addAll(set);
+                //Set the list on viewlist
+                adapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Toast.makeText(context, "No network connectivity", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
 
     public static void setRoomsOnListview(Set<String> myRoomsList, String category,ArrayList<Room> list, ArrayAdapter<Room> adapter,boolean myRooms){
         //Access to the list of room category
