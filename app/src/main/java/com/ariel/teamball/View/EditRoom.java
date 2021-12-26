@@ -40,7 +40,8 @@ public class EditRoom extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_room);
-//        getSupportActionBar().hide();
+        if (getSupportActionBar() != null)
+            getSupportActionBar().hide();
 
         /*-----  Information from the previous page ------*/
         Intent data = getIntent();
@@ -61,10 +62,9 @@ public class EditRoom extends AppCompatActivity {
 
 
         /*----- Spinners -----*/
-        ArrayAdapter<String> allCities = new ArrayAdapter<String>(EditRoom.this,
-                android.R.layout.simple_list_item_1, getResources().getStringArray(R.array.names));
-        //for drop down list:
-        allCities.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        ArrayAdapter allCities = ArrayAdapter.createFromResource(this
+                ,R.array.names,R.layout.color_spinner);
+        allCities.setDropDownViewResource(R.layout.spinner_dropdown);
         editCitySpinner.setAdapter(allCities);
 
         editRoomName.setText(roomName);

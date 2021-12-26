@@ -51,6 +51,7 @@
         <entry key="..\:/AndroidStudio/TeamBall/app/src/main/res/layout/all_rooms_fragment.xml" value="0.1292792792792793" />
         <entry key="..\:/AndroidStudio/TeamBall/app/src/main/res/layout/app_bar_main.xml" value="0.134765625" />
         <entry key="..\:/AndroidStudio/TeamBall/app/src/main/res/layout/background_sent_message.xml" value="0.11348684210526316" />
+        <entry key="..\:/AndroidStudio/TeamBall/app/src/main/res/layout/color_spinner.xml" value="0.5" />
         <entry key="..\:/AndroidStudio/TeamBall/app/src/main/res/layout/content_main.xml" value="0.134765625" />
         <entry key="..\:/AndroidStudio/TeamBall/app/src/main/res/layout/fragment_gallery.xml" value="0.134765625" />
         <entry key="..\:/AndroidStudio/TeamBall/app/src/main/res/layout/header.xml" value="0.16666666666666666" />
@@ -67,6 +68,7 @@
         <entry key="..\:/AndroidStudio/TeamBall/app/src/main/res/layout/my_rooms_fragment.xml" value="0.1292792792792793" />
         <entry key="..\:/AndroidStudio/TeamBall/app/src/main/res/layout/player_item.xml" value="0.3333333333333333" />
         <entry key="..\:/AndroidStudio/TeamBall/app/src/main/res/layout/simple_list_item_1.xml" value="0.1" />
+        <entry key="..\:/AndroidStudio/TeamBall/app/src/main/res/layout/spinner_dropdown.xml" value="0.1" />
         <entry key="..\:/AndroidStudio/TeamBall/app/src/main/res/menu/activity_main_drawer.xml" value="0.134765625" />
         <entry key="..\:/AndroidStudio/TeamBall/app/src/main/res/menu/main.xml" value="0.22" />
         <entry key="..\:/AndroidStudio/TeamBall/app/src/main/res/menu/main_menu.xml" value="0.16666666666666666" />

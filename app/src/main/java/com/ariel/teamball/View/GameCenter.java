@@ -50,7 +50,8 @@ public class GameCenter extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game_center);
-//        getSupportActionBar().hide();
+        if (getSupportActionBar() != null)
+            getSupportActionBar().hide();
 
         //catch the design by id - Link to layout
         nameCategory = findViewById(R.id.nameCategory);
@@ -61,11 +62,9 @@ public class GameCenter extends AppCompatActivity {
         /* For Choose City */
         citySpinner = findViewById(R.id.citySpinner);
 
-        /* store and connect our cities names with spinner */
-        ArrayAdapter<String> allCities = new ArrayAdapter<String>(GameCenter.this,
-                android.R.layout.simple_list_item_1,getResources().getStringArray(R.array.names));
-        //for drop down list:
-        allCities.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        ArrayAdapter allCities = ArrayAdapter.createFromResource(this
+                ,R.array.names,R.layout.color_spinner);
+        allCities.setDropDownViewResource(R.layout.spinner_dropdown);
         citySpinner.setAdapter(allCities);
 
         //Get date from previous page

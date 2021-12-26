@@ -18,11 +18,10 @@
         android:layout_marginEnd="7dp"
         android:layout_marginRight="7dp"
         android:background="@drawable/custom_button"
+        android:textColor="@color/teamball"
         android:text="Create Room"
         android:textAllCaps="false"
-        android:textColor="@color/teamball"
-        android:textSize="20sp"
-        android:textStyle="bold" />
+        android:textSize="20sp" />
 
     <Button
         android:id="@+id/filterBtn"

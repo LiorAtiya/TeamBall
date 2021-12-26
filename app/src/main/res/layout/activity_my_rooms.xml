@@ -20,7 +20,6 @@
         android:background="@drawable/custom_button"
         android:textColor="@color/teamball"
         android:text="Create Room"
-        android:textStyle="bold"
         android:textSize="20sp"
         android:textAllCaps="false" />
 
