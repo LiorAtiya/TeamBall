@@ -2,7 +2,6 @@ package com.ariel.teamball.View;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
-import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -15,10 +14,8 @@ import android.widget.TimePicker;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.ariel.teamball.Controller.SwitchActivities;
-import com.ariel.teamball.Model.DAL.PlayerDAL;
-import com.ariel.teamball.Model.DAL.RoomDAL;
 import com.ariel.teamball.Controller.GameManagement;
+import com.ariel.teamball.Controller.SwitchActivities;
 import com.ariel.teamball.R;
 import com.google.android.material.textfield.TextInputEditText;
 
@@ -28,9 +25,10 @@ public class CreateRoom extends AppCompatActivity {
 
     TextInputEditText mGroupName, mCurtName;
     // for start game picker
-    Button mPickTimeBtn, mDoneDefine;
-    TextView showCurrentTime, timeTxt;
+    Button mPickTimeBtn, mDoneDefine , editDateButton;
+    TextView showCurrentTime, timeTxt ,tvDate;
     Spinner CitySpinner, playersCapacitySpinner; // for spinners pick
+    Calendar calendarDate;
 
     //for setting hours and minute
     int currentHr;
@@ -63,6 +61,8 @@ public class CreateRoom extends AppCompatActivity {
         CitySpinner = findViewById(R.id.cityGameSpinner);
         playersCapacitySpinner = findViewById(R.id.playersCapacity);
         timeTxt = findViewById(R.id.TimeText);
+        tvDate = findViewById(R.id.datePicker_textView);
+        editDateButton = findViewById(R.id.datePickerButton);
 
 
         //when we click the time picker
@@ -81,6 +81,24 @@ public class CreateRoom extends AppCompatActivity {
             }, currentHr, currentMin, false);
 
             dialog.show();
+        });
+
+
+        /*----- Date Picker -----*/
+        editDateButton.setOnClickListener(view ->{
+            calendarDate = Calendar.getInstance();
+            int day = calendarDate.get(Calendar.DAY_OF_MONTH);
+            int month = calendarDate.get(Calendar.MONTH);
+            int year = calendarDate.get(Calendar.YEAR);
+            DatePickerDialog datePickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
+                @Override
+                public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                    month = month+1;
+                    String date = dayOfMonth +"-" + month + "-" + year;
+                    tvDate.setText(date);
+                }
+            }, year,month,day);
+            datePickerDialog.show();
         });
 
         /*------- Spinners -------*/
@@ -108,7 +126,7 @@ public class CreateRoom extends AppCompatActivity {
                 String chosenCity = CitySpinner.getSelectedItem().toString();
                 String chosenTime = timeTxt.getText().toString();
                 String chosenCapacity = playersCapacitySpinner.getSelectedItem().toString();
-//                String chosenDate = tvDate.getText().toString();
+                String chosenDate = tvDate.getText().toString();
                 int capacityInteger = 0;
 
                 //Check valid details
@@ -141,10 +159,10 @@ public class CreateRoom extends AppCompatActivity {
                     return;
                 }
 
-//                if(chosenDate.contains("Date")){
-//                    tvDate.setError("Choose date game");
-//                    return;
-//                }
+                if(chosenDate.contains("Date")){
+                    tvDate.setError("Choose date game");
+                    return;
+                }
 
                 // ---------------------------------------------------
 
@@ -153,7 +171,7 @@ public class CreateRoom extends AppCompatActivity {
                 /* creates a new room, updates its admin, updates the database,
                    uses the room's key that received to add the room to the user's room list
                 */
-                gm.createRoom(RoomN, capacityInteger, CurtN, chosenCity, chosenTime, "date", category);
+                gm.createRoom(RoomN, capacityInteger, CurtN, chosenCity, chosenTime, chosenDate, category);
 
                 SwitchActivities.MyRoom(CreateRoom.this,category);
                 finish();

@@ -37,7 +37,6 @@
             android:textColor="@color/black"
             android:textSize="22sp"
             android:textStyle="bold" />
-
     </ScrollView>
 
     <FrameLayout
