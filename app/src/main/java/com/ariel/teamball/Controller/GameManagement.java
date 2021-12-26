@@ -106,7 +106,8 @@ public class GameManagement {
             chosenCity, String chosenTime, String date, String category) {
         // Room details storage in database
         String adminID = this.playerDAL.getPlayerID();
-        Room newRoom = new Room(RoomN, capacityInteger, CurtN, chosenCity, chosenTime, date, adminID, category);
+        Room newRoom = new Room(RoomN, capacityInteger, CurtN, chosenCity, chosenTime, date,
+                adminID, category);
         String roomKey = this.roomDAL.addRoom(category, newRoom);
         // adds the admin to the playerList
         roomDAL.addNewUser(category, roomKey, adminID);
