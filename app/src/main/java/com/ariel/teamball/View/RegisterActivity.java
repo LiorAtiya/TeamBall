@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.Adapter;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ProgressBar;
@@ -41,7 +43,8 @@ public class RegisterActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
-//        getSupportActionBar().hide();
+        if (getSupportActionBar() != null)
+            getSupportActionBar().hide();
 
         //Controller between view and model
         gm = new GameManagement(this);
@@ -61,23 +64,20 @@ public class RegisterActivity extends AppCompatActivity {
         ageSpinner = findViewById(R.id.ageSpinner);
 
         /* store and connect our cities names with spinner */
-        ArrayAdapter<String> allCities = new ArrayAdapter<String>(RegisterActivity.this,
-                android.R.layout.simple_list_item_1,getResources().getStringArray(R.array.names));
-        //for drop down list:
-        allCities.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        ArrayAdapter allCities = ArrayAdapter.createFromResource(this
+                ,R.array.names,R.layout.color_spinner);
+        allCities.setDropDownViewResource(R.layout.spinner_dropdown);
         citySpinner.setAdapter(allCities);
 
         /* store and connect  gender options with spinner */
-        ArrayAdapter<String> genders = new ArrayAdapter<String>(RegisterActivity.this,
-                android.R.layout.simple_list_item_1,getResources().getStringArray(R.array.genders));
-        //for drop down list:
-        genders.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        ArrayAdapter genders = ArrayAdapter.createFromResource(this
+                ,R.array.genders,R.layout.color_spinner);
+        genders.setDropDownViewResource(R.layout.spinner_dropdown);
         genderSpinner.setAdapter(genders);
 
-        ArrayAdapter<String> ageAdapter = new ArrayAdapter<String>(RegisterActivity.this,
-                android.R.layout.simple_list_item_1,getResources().getStringArray(R.array.ages));
-        //for drop down list:
-        ageAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        ArrayAdapter ageAdapter = ArrayAdapter.createFromResource(this
+                ,R.array.ages,R.layout.color_spinner);
+        ageAdapter.setDropDownViewResource(R.layout.spinner_dropdown);
         ageSpinner.setAdapter(ageAdapter);
 
         mRegisterBtn = findViewById(R.id.RegisterBtn);
@@ -162,5 +162,4 @@ public class RegisterActivity extends AppCompatActivity {
         });
 
     }
-
 }

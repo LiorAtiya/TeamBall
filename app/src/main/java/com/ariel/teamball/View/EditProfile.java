@@ -45,7 +45,8 @@ public class EditProfile extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_profile);
-//        getSupportActionBar().hide();
+        if (getSupportActionBar() != null)
+            getSupportActionBar().hide();
 
         Intent data = getIntent();
         String fullName = data.getStringExtra("fName");
@@ -66,17 +67,15 @@ public class EditProfile extends AppCompatActivity {
         genderSpinner = findViewById(R.id.editProfileGender);
 
         /*----- Spinners -----*/
-        ArrayAdapter<String> allCities = new ArrayAdapter<String>(EditProfile.this,
-                android.R.layout.simple_list_item_1, getResources().getStringArray(R.array.names));
-        //for drop down list:
-        allCities.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        ArrayAdapter allCities = ArrayAdapter.createFromResource(this
+                ,R.array.names,R.layout.color_spinner);
+        allCities.setDropDownViewResource(R.layout.spinner_dropdown);
         citySpinner.setAdapter(allCities);
 
         /* store and connect  gender options with spinner */
-        ArrayAdapter<String> genders = new ArrayAdapter<String>(EditProfile.this,
-                android.R.layout.simple_list_item_1,getResources().getStringArray(R.array.genders));
-        //for drop down list:
-        genders.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        ArrayAdapter genders = ArrayAdapter.createFromResource(this
+                ,R.array.genders,R.layout.color_spinner);
+        genders.setDropDownViewResource(R.layout.spinner_dropdown);
         genderSpinner.setAdapter(genders);
 
 

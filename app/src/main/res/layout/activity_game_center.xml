@@ -19,7 +19,6 @@
         android:layout_marginRight="7dp"
         android:background="@drawable/custom_button"
         android:textColor="@color/teamball"
-        android:textStyle="bold"
         android:text="Create Room"
         android:textSize="20sp"
         android:textAllCaps="false" />
