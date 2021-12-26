@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/ournewbackground"
+    android:background="@drawable/main_background"
     tools:context=".View.MyRooms">
 
     <Button
@@ -18,8 +18,9 @@
         android:layout_marginEnd="7dp"
         android:layout_marginRight="7dp"
         android:background="@drawable/custom_button"
-        android:backgroundTint="#4CAF50"
+        android:textColor="@color/white"
         android:text="Create Room"
+        android:textSize="17sp"
         android:textAllCaps="false" />
 
     <ListView

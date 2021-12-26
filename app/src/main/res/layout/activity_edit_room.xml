@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/ournewbackground"
+    android:background="@drawable/main_background"
     tools:context=".View.EditProfile">
 
     <ImageView
@@ -28,14 +28,14 @@
         android:fontFamily="sans-serif"
         android:text="Edit Room"
         android:textAlignment="center"
-        android:textColor="#000000"
+        android:textColor="@color/white"
         android:textSize="50sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintVertical_bias="0.019" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/textInputLayoutRoomName"
@@ -43,14 +43,14 @@
         android:layout_width="340dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="80dp"
-        android:layout_marginTop="224dp"
+        android:layout_marginTop="260dp"
         android:layout_marginEnd="80dp"
         android:hint="Room Name"
-        android:textColorHint="@color/black"
-        app:boxStrokeColor="@color/black"
+        android:textColorHint="@color/white"
+        app:boxStrokeColor="@color/white"
         app:counterEnabled="true"
-        app:counterTextColor="@color/black"
-        app:hintTextColor="#403E3E"
+        app:counterTextColor="@color/white"
+        app:hintTextColor="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.505"
         app:layout_constraintStart_toStartOf="parent"
@@ -61,8 +61,8 @@
             android:id="@+id/editRoomName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:shadowColor="@color/black"
-            android:textColor="@color/black" />
+            android:shadowColor="@color/white"
+            android:textColor="@color/white" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -73,25 +73,25 @@
         android:layout_marginStart="40dp"
         android:layout_marginEnd="80dp"
         android:hint="Field Name"
-        android:textColorHint="@color/black"
-        app:boxStrokeColor="@color/black"
+        android:textColorHint="@color/white"
+        app:boxStrokeColor="@color/white"
         app:counterEnabled="true"
-        app:counterTextColor="@color/black"
-        app:hintTextColor="#403E3E"
+        app:counterTextColor="@color/white"
+        app:hintTextColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.518"
+        app:layout_constraintHorizontal_bias="0.102"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.471"
+        app:layout_constraintVertical_bias="0.447"
         app:startIconDrawable="@drawable/curt_icon">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/editFieldName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:shadowColor="@color/black"
-            android:textColor="@color/black" />
+            android:shadowColor="@color/white"
+            android:textColor="@color/white" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <TextView
@@ -101,12 +101,11 @@
         android:shadowColor="@color/black"
         android:text="Time"
         android:textAlignment="center"
-        android:textColor="@color/black"
+        android:textColor="@color/white"
         android:textSize="30dp"
         app:counterTextColor="@color/black"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.415"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.723" />
@@ -115,9 +114,10 @@
         android:id="@+id/timePicker"
         android:layout_width="340dp"
         android:layout_height="45dp"
-        android:background="@drawable/background"
+        android:background="@drawable/custom_button"
         android:text="Edit time of start game"
         android:textAllCaps="false"
+        android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.563"
@@ -131,14 +131,15 @@
         android:layout_height="48dp"
         android:text="Date"
         android:textAlignment="center"
-        android:textColor="@color/black"
+        android:textColor="@color/white"
         android:textSize="30sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintHorizontal_bias="0.415"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.568" />
+        app:layout_constraintVertical_bias="0.565" />
 
     <Button
         android:id="@+id/datePickerButton"
@@ -146,13 +147,16 @@
         android:layout_height="58dp"
         android:layout_marginTop="43dp"
         android:text="Pick Date"
+        android:textAllCaps="false"
         android:textSize="20sp"
+        android:textColor="@color/white"
+        android:background="@drawable/custom_button"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintHorizontal_bias="0.426"
+        app:layout_constraintHorizontal_bias="0.485"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.623" />
+        app:layout_constraintVertical_bias="0.625" />
 
     <Spinner
         android:id="@+id/cityGameSpinner"
@@ -173,6 +177,7 @@
         android:backgroundTint="#4CAF50"
         android:text="Save"
         android:textAllCaps="false"
+        android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
