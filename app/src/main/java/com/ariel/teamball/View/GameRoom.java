@@ -51,7 +51,7 @@ public class GameRoom extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game_room);
-        getSupportActionBar().hide();
+//        getSupportActionBar().hide();
 
         //catch the design by id - Link to layout
         roomName = findViewById(R.id.room_name);

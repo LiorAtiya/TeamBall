@@ -40,7 +40,7 @@ public class EditRoom extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_room);
-        getSupportActionBar().hide();
+//        getSupportActionBar().hide();
 
         /*-----  Information from the previous page ------*/
         Intent data = getIntent();

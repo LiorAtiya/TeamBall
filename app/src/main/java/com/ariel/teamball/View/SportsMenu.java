@@ -1,19 +1,27 @@
 package com.ariel.teamball.View;
 
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.Toolbar;
+
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.ariel.teamball.Controller.GameManagement;
 import com.ariel.teamball.Controller.SwitchActivities;
+import com.ariel.teamball.Model.DAL.PlayerDAL;
 import com.ariel.teamball.R;
 import com.google.android.material.navigation.NavigationView;
 
@@ -33,7 +41,23 @@ public class SportsMenu extends AppCompatActivity implements NavigationView.OnNa
         if(drawerLayout.isDrawerOpen(GravityCompat.START)){
             drawerLayout.closeDrawer(GravityCompat.START);
         }else{
-            super.onBackPressed();
+            final AlertDialog.Builder EnterGroupDialog = new AlertDialog.Builder(this);
+            EnterGroupDialog.setTitle("Do you want to log out?");
+            EnterGroupDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    gm.playerSignOut();
+                    SwitchActivities.LoginActivity(SportsMenu.this);
+                    finish();
+                }
+            });
+            EnterGroupDialog.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    dialogInterface.cancel();
+                }
+            });
+            EnterGroupDialog.show();
         }
     }
 
@@ -103,7 +127,7 @@ public class SportsMenu extends AppCompatActivity implements NavigationView.OnNa
         HandBallBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SwitchActivities.GameCenter(getApplicationContext(),"Table Tennis");
+                SwitchActivities.GameCenter(getApplicationContext(),"HandBall");
             }
         });
 
