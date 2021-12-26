@@ -2,7 +2,6 @@ package com.ariel.teamball.View;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -17,7 +16,7 @@ import com.ariel.teamball.R;
 public class GameRoom extends AppCompatActivity {
     /* Page objects */
     public static final String TAG = "TAG";
-    Button players, chat, editRoom, leaveRoom;
+    Button participants, chat, editRoom, leaveRoom;
     TextView roomName, capacity, city, field, admin,timeText;
     String category,room_name,admin_name,my_name,adminID,roomID,time;
 
@@ -52,7 +51,7 @@ public class GameRoom extends AppCompatActivity {
         timeText = findViewById(R.id.time);
         admin = findViewById(R.id.admin);
 
-        players = findViewById(R.id.players);
+        participants = findViewById(R.id.participants_btn);
         chat = findViewById(R.id.chat);
         editRoom = findViewById(R.id.edit_room);
         leaveRoom = findViewById(R.id.leaveRoom);
@@ -79,12 +78,10 @@ public class GameRoom extends AppCompatActivity {
         //---------------------------------------------------
 
         //Show the list of players of room
-        players.setOnClickListener(new View.OnClickListener() {
+        participants.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
-//                roomDAL.showPlayersList(GameRoom.this, category, roomID);
-                Log.d("TAG", "clicked players btn");
                 SwitchActivities.Participants(GameRoom.this, roomID, category);
             }
         });

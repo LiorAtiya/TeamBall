@@ -43,39 +43,45 @@ public class Participants extends AppCompatActivity {
         database = FirebaseDatabase.getInstance().getReference("Rooms").child(category).child(roomID).child("usersList");
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-
         participantsList = new ArrayList<>();
         participantsAdapter = new ParticipantsAdapter(this, participantsList);
         recyclerView.setAdapter(participantsAdapter);
+
         database.addValueEventListener(new ValueEventListener() {
-            int numOfPlayers;
+            int playersReceived = 0; // how many objects returned from the DB
+            int numOfPlayers; // how many players there are in the room
+
+            // run after finish to add all the players to the list
+            Runnable runNotify = new Runnable() {
+                @Override
+                public void run() {
+                    Log.d("TAG", "run");
+                    // notify when all the players added to the list
+                    participantsAdapter.notifyDataSetChanged();
+                }
+            };
 
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
 
+                // checks how many players there are in the room
+                RoomDAL.getNumOfPlayers(roomID, category, (getNumOfPlayers) -> {
+                    numOfPlayers = getNumOfPlayers;
+                });
+
                 // gets add all the players in the room to the participants list
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     String playerID = dataSnapshot.getKey();
-                    Log.d("TAG", "playerID: " + playerID);
                     PlayerDAL.getPlayer(playerID, (player) -> {
                         participantsList.add(player);
-                        Log.d("TAG", "player added");
+                        playersReceived++;
+                        // checks if all the players was retrieved
+                        Log.d("TAG", "check if equals: " + playersReceived + " == " + numOfPlayers);
+                        if(playersReceived == numOfPlayers) {
+                            runNotify.run();
+                        }
                     });
-
-                    Log.d("TAG", "participantsList.size: " + participantsList.size());
                 }
-
-                // checks how many players there are in the room
-                RoomDAL.getNumOfPlayers(roomID, category, (numOfPlayers) -> {
-                    Log.d("TAG", "numOfPlayers: " + numOfPlayers);
-                });
-
-                // notify when all the players added to the list
-
-                    if ((numOfPlayers > 0) && (participantsList.size() == numOfPlayers)) {
-                        Log.d("TAG", "equals: " + participantsList.size() + " = " + numOfPlayers);
-                        participantsAdapter.notifyDataSetChanged();
-                    }
 
             }
 

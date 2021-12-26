@@ -77,7 +77,6 @@ public class PlayerDAL {
     }
 
     public static void getPlayer(String playerID, OnSuccessListener<Player> listener ) {
-
         final Player[] p = new Player[1];
         DocumentReference playerRef = fStore.collection("users").document(playerID);
 
