@@ -75,14 +75,13 @@ public class RoomDAL {
 
     // The function gets a listener, a category and a roomID and pass the Room object to the listener
     public static void getRoom(String roomID, String category, OnSuccessListener<Room> listener) {
-        final Room[] room = new Room[1];
         DatabaseReference myRoomsRef = getPathReference("Rooms").child(category).child(roomID);
         myRoomsRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                room[0] = snapshot.getValue(Room.class);
+                Room room = snapshot.getValue(Room.class);
                 // send the Room object to the listener arg
-                listener.onSuccess(room[0]);
+                listener.onSuccess(room);
             }
 
             @Override
@@ -96,10 +95,20 @@ public class RoomDAL {
 
     // The function gets a listener, a category and a roomID and pass the number of players in the room to the listener
     public static void getNumOfPlayers(String roomID, String category, OnSuccessListener<Integer> listener) {
+        DatabaseReference myRoomsRef = getPathReference("Rooms").child(category).child(roomID).child("numOfPlayers");
+        myRoomsRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                // converts from Long to int
+                int numOfPlayers = ((Long) snapshot.getValue()).intValue();
+                // send the Room object to the listener arg
+                listener.onSuccess(numOfPlayers);
+            }
 
-        RoomDAL.getRoom(roomID, category, (room) -> {
-            int numOfPlayers = room.getNumOfPlayers();
-            listener.onSuccess(numOfPlayers);
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
         });
 
         return;
