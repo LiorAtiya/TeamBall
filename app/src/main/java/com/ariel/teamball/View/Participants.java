@@ -46,18 +46,50 @@ public class Participants extends AppCompatActivity {
         participantsList = new ArrayList<>();
         participantsAdapter = new ParticipantsAdapter(this, participantsList);
         recyclerView.setAdapter(participantsAdapter);
+        database.addValueEventListener(new ValueEventListener() {
+            int numOfPlayers;
 
-        database.addValueEventListener(new ValueEventListener(){
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
 
-                for (DataSnapshot dataSnapshot : snapshot.getChildren()){
+                // gets add all the players in the room to the participants list
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     String playerID = dataSnapshot.getKey();
-                    PlayerDAL.getPlayer(playerID,(player)->{
+                    Log.d("TAG", "playerID: " + playerID);
+                    PlayerDAL.getPlayer(playerID, (player) -> {
                         participantsList.add(player);
+                        Log.d("TAG", "player added");
                     });
+
+                    Log.d("TAG", "participantsList.size: " + participantsList.size());
                 }
+
+                // notify when all the players added to the list
                 participantsAdapter.notifyDataSetChanged();
+
+//                // checks how many players there are in the room
+//                RoomDAL.getRoom(roomID, category, (room) -> {
+//                    numOfPlayers = room.getNumOfPlayers();
+//                    Log.d("TAG", "numOfPlayers: " + numOfPlayers);
+//                });
+
+
+
+
+//                // notify when all the players added to the list
+//                if ((numOfPlayers > 0) && (participantsList.size() == numOfPlayers)) {
+//                    Log.d("TAG", "equals: " + participantsList.size() + " = " + numOfPlayers);
+//                    runNotify.run();
+//                }
+
+//                Runnable runNotify = new Runnable() {
+//
+//                    @Override
+//                    public void run() {
+//                        Log.d("TAG", "notify");
+//                        participantsAdapter.notifyDataSetChanged();
+//                    }
+//                };
 
             }
 

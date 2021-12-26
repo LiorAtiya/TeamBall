@@ -77,8 +77,6 @@ public class PlayerDAL {
     }
 
     public static void getPlayer(String playerID, OnSuccessListener<Player> listener ) {
-        Log.d("TAG", "getPlayer is running");
-        Log.d("TAG", "playerID(DAL): " + playerID);
 
         final Player[] p = new Player[1];
         DocumentReference playerRef = fStore.collection("users").document(playerID);
@@ -99,7 +97,7 @@ public class PlayerDAL {
 
                     // creates a new player
                     p[0] = new Player(fullName, nickName, email, password, phone, city, gender, age);
-                    // send the player object to the listener arg
+                    // send the Player object to the listener arg
                     listener.onSuccess(p[0]);
                 } else {
                     Toast.makeText(context.getApplicationContext(), "ID " + playerID + "not found", Toast.LENGTH_LONG).show();
