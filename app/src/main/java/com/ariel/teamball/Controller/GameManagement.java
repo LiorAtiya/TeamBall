@@ -9,6 +9,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 
@@ -176,6 +177,9 @@ public class GameManagement {
                 };
                 // ask the user to confirm that he wants to join the room
                 doubleCheck(category, roomID, roomName, runIfConfirmed);
+            }
+            else{
+                Toast.makeText(context, "The room is full", Toast.LENGTH_SHORT).show();
             }
         });
     }
