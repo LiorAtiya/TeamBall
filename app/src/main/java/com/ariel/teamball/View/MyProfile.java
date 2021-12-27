@@ -107,6 +107,9 @@ public class MyProfile extends AppCompatActivity implements NavigationView.OnNav
                     playerDAL.verifyEmail(v);
                 }
             });
+        }else{
+            verifyNowBtn.setVisibility(View.INVISIBLE);
+            verifyMsg.setVisibility(View.INVISIBLE);
         }
 
         //Access from firebase to details of player
@@ -128,7 +131,7 @@ public class MyProfile extends AppCompatActivity implements NavigationView.OnNav
         resetPassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                playerDAL.updatePassword(v);
+                playerDAL.updatePassword(v,userID);
             }
         });
 
