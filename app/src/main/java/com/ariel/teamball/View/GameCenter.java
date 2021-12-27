@@ -132,7 +132,7 @@ public class GameCenter extends AppCompatActivity {
                 String roomID = adapter.getItem(room).getRoomID();
 
                 // add the player to the given room if it's not full already
-                gm.joinRoom(category, roomID, roomName, GameCenter.this);
+                gm.joinRoom(GameCenter.this,category, roomID, roomName);
 
             }
         });
