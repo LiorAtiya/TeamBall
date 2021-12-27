@@ -116,9 +116,9 @@ public class RoomDAL {
 
 
     // The function returns a set of all the rooms of the current player in the given category
-    public static Set<String> getMyListRooms(String category){
+    public static Set<String> getMyListRooms(String category) {
         //Access to the list of my rooms category
-        DatabaseReference myRoomsRef = getPathReference("userRooms/"+ playerDAL.getPlayerID()+"/"+category);
+        DatabaseReference myRoomsRef = getPathReference("userRooms/" + playerDAL.getPlayerID() + "/" + category);
 
         Set<String> myRoomsName = new HashSet<String>();
 
@@ -134,6 +134,7 @@ public class RoomDAL {
                     myRoomsName.add(room);
                 }
             }
+
             @Override
             public void onCancelled(DatabaseError databaseError) {
                 Toast.makeText(context, "No network connectivity", Toast.LENGTH_SHORT).show();
@@ -180,20 +181,20 @@ public class RoomDAL {
 //        });
 //    }
 
-    public static void leaveOrRemoveRoom(String roomID, String category){
+    public static void leaveOrRemoveRoom(String roomID, String category) {
         final AlertDialog.Builder EnterGroupDialog;
 
         // creates game management object
         GameManagement gm = GameManagement.getInstance();
 
-        if(isAdmin) { // the user is the admin of the group
+        if (isAdmin) { // the user is the admin of the group
             EnterGroupDialog = new AlertDialog.Builder(context);
             EnterGroupDialog.setMessage("If you leave this room, it will be deleted.\nAre you sure you want to leave?");
             EnterGroupDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() { // delete the room and go back
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
                     gm.removeRoom(roomID, category);
-                    SwitchActivities.GameCenter(context,category);
+                    SwitchActivities.GameCenter(context, category);
 
                 }
 
@@ -204,16 +205,14 @@ public class RoomDAL {
                     dialogInterface.cancel();
                 }
             });
-        }
-
-        else { // the user is not the admin of the room
+        } else { // the user is not the admin of the room
             EnterGroupDialog = new AlertDialog.Builder(context);
             EnterGroupDialog.setMessage("Are you sure you want to leave?");
             EnterGroupDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() { // leave and go back
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
                     gm.leaveRoom(roomID, category);
-                    SwitchActivities.GameCenter(context,category);
+                    SwitchActivities.GameCenter(context, category);
                 }
             });
             EnterGroupDialog.setNegativeButton("No", new DialogInterface.OnClickListener() {
@@ -234,7 +233,7 @@ public class RoomDAL {
 
     }
 
-    public static void setListViewByFilter(Set<String> myRoomsList, String category,ArrayList<Room> list, ArrayAdapter<Room> adapter, String city){
+    public static void setListViewByFilter(Set<String> myRoomsList, String category, ArrayList<Room> list, ArrayAdapter<Room> adapter, String city) {
         //Access to the list of room category
         DatabaseReference reference = getPathReference("Rooms/" + category);
 
@@ -251,10 +250,10 @@ public class RoomDAL {
                     DataSnapshot childSnapshot = (DataSnapshot) i.next();
                     Room room = childSnapshot.getValue(Room.class);
                     //Add to the list all the rooms that the user does not enter & filtered.
-                    if(!myRoomsList.contains(room.getRoomID()) && city.equals("City")){
+                    if (!myRoomsList.contains(room.getRoomID()) && city.equals("City")) {
                         set.add(room);
-                    }else {
-                        if (!myRoomsList.contains(room.getRoomID()) && room.getCity().equals(city)){
+                    } else {
+                        if (!myRoomsList.contains(room.getRoomID()) && room.getCity().equals(city)) {
                             set.add(room);
                         }
                     }
@@ -273,7 +272,7 @@ public class RoomDAL {
         });
     }
 
-    public static void setRoomsOnListview(Set<String> myRoomsList, String category,ArrayList<Room> list, ArrayAdapter<Room> adapter,boolean myRooms){
+    public static void setRoomsOnListview(Set<String> myRoomsList, String category, ArrayList<Room> list, ArrayAdapter<Room> adapter, boolean myRooms) {
         //Access to the list of room category
         DatabaseReference reference = getPathReference("Rooms/" + category);
 
@@ -291,7 +290,7 @@ public class RoomDAL {
                     DataSnapshot childSnapshot = (DataSnapshot) i.next();
                     Room room = childSnapshot.getValue(Room.class);
                     //Add to the list all the rooms that the user did not join.
-                    if(myRoomsList.contains(room.getRoomID()) == myRooms){
+                    if (myRoomsList.contains(room.getRoomID()) == myRooms) {
                         set.add(room);
                     }
                 }
@@ -309,23 +308,23 @@ public class RoomDAL {
         });
     }
 
-    public static void permissionForAdmin(String category, String roomID, Button editRoom){
+    public static void permissionForAdmin(String category, String roomID, Button editRoom) {
 
         //Check for editRoom button
-        DatabaseReference roomRef = getPathReference("Rooms/"+category+"/"+roomID);
+        DatabaseReference roomRef = getPathReference("Rooms/" + category + "/" + roomID);
 
         roomRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Room room = dataSnapshot.getValue(Room.class);
 
-                if(room != null){
+                if (room != null) {
                     String adminID = room.getAdmin();
                     //Show button of edit room only for admin
-                    if(playerDAL.getPlayerID().equals(adminID)){
+                    if (playerDAL.getPlayerID().equals(adminID)) {
                         editRoom.setVisibility(View.VISIBLE);
                         isAdmin = true;
-                    }else{
+                    } else {
                         editRoom.setVisibility(View.INVISIBLE);
                         isAdmin = false;
                     }
@@ -341,25 +340,25 @@ public class RoomDAL {
     }
 
     public static void setDetailsRoom(Context context, String category, String roomID, TextView roomName,
-                                      TextView capacity,TextView city, TextView field, TextView timeText
-                                      ,TextView admin){
+                                      TextView capacity, TextView city, TextView field, TextView timeText
+            , TextView admin) {
 
-        DatabaseReference roomRef = getPathReference("Rooms/"+category+"/"+roomID);
+        DatabaseReference roomRef = getPathReference("Rooms/" + category + "/" + roomID);
 
         // Attach a listener to read the data at our rooms reference
         roomRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Room room = dataSnapshot.getValue(Room.class);
-                if(room != null) {
+                if (room != null) {
 
                     roomName.setText(room.getName());
-                    capacity.setText(room.getNumOfPlayers()+"/"+room.getCapacity());
+                    capacity.setText(room.getNumOfPlayers() + "/" + room.getCapacity());
                     city.setText(room.getCity());
                     field.setText(room.getField());
                     timeText.setText(room.getTime());
 
-                    DocumentReference adminRef = playerDAL.getCollection("users",room.getAdmin());
+                    DocumentReference adminRef = playerDAL.getCollection("users", room.getAdmin());
 
                     adminRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                         @Override
@@ -384,16 +383,16 @@ public class RoomDAL {
 
     }
 
-    public static void showPlayersList(Context context,String category,String roomID){
+    public static void showPlayersList(Context context, String category, String roomID) {
 
-        DatabaseReference roomRef = getPathReference("Rooms/"+category+"/"+roomID);
+        DatabaseReference roomRef = getPathReference("Rooms/" + category + "/" + roomID);
 
         // Attach a listener to read the data at our rooms reference
         roomRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Room room = dataSnapshot.getValue(Room.class);
-                if(room != null) {
+                if (room != null) {
                     Map<String, String> players = room.getUsersList();
                     String playersName = "";
                     for (Map.Entry<String, String> player : players.entrySet()) {
@@ -411,8 +410,7 @@ public class RoomDAL {
                         }
                     });
 
-                    if(!((Activity) context).isFinishing())
-                    {
+                    if (!((Activity) context).isFinishing()) {
                         playersDialog.create().show();
                     }
 
@@ -542,41 +540,33 @@ public class RoomDAL {
     // The function checks if the given room is full
     public static void isTheRoomFull(String category, String roomID, String nameRoom, OnSuccessListener<Boolean> listener) {
         //Access to the list of rooms category
-        DatabaseReference reference = getPathReference("Rooms/" + category + "/" + roomID);
+        DatabaseReference database = getPathReference("Rooms/" + category + "/" + roomID);
+        database.addValueEventListener(new ValueEventListener() {
 
-        reference.runTransaction(new Transaction.Handler() {
             @Override
-            public Transaction.Result doTransaction(MutableData mutableData) {
-                Room room = mutableData.getValue(Room.class);
-                if (room == null) {
-                    return Transaction.success(mutableData);
-                }
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                // get the room object
+                RoomDAL.getRoom(roomID, category, (room) -> {
 
-                //Check the number of players in the room
-                if (room.getNumOfPlayers() == room.getCapacity()) {
-                    Toast.makeText(context, "The room is full", Toast.LENGTH_SHORT).show();
-                    // send the object to the listener arg
-                    listener.onSuccess(true);
-                }
-                else {
-                    // send the object to the listener arg
-                    listener.onSuccess(false);
-                }
-
-
-                // Set value and report transaction success
-                mutableData.setValue(room);
-                return Transaction.success(mutableData);
+                    // checks if the number is full
+                    if (room.getNumOfPlayers() == room.getCapacity()) {
+                        Toast.makeText(context, "The room is full", Toast.LENGTH_SHORT).show();
+                        // send the object to the listener arg
+                        listener.onSuccess(true);
+                    } else {
+                        // send the object to the listener arg
+                        listener.onSuccess(false);
+                    }
+                });
             }
 
             @Override
-            public void onComplete(DatabaseError databaseError, boolean committed,
-                                   DataSnapshot currentData) {
-                // Transaction completed
-                Log.d("TAG", "postTransaction:onComplete:" + databaseError);
+            public void onCancelled(@NonNull DatabaseError error) {
+
             }
         });
-        return ;
+
+        return;
     }
 
 //    private static void JoinToRoom(String category, String roomID, String roomName) {
@@ -640,23 +630,23 @@ public class RoomDAL {
 
         //make changes if player fill the details properly
 
-        if(!roomName.isEmpty()) {
+        if (!roomName.isEmpty()) {
             reference.child("name").setValue(roomName);
         }
 
-        if(!fieldName.isEmpty()) {
+        if (!fieldName.isEmpty()) {
             reference.child("field").setValue(fieldName);
         }
 
-        if(!city.contains("ty")) {
+        if (!city.contains("ty")) {
             reference.child("city").setValue(city);
         }
 
-        if(!time.contains("Game")) {
+        if (!time.contains("Game")) {
             reference.child("time").setValue(time);
         }
 
-        if(!date.contains("Date")) {
+        if (!date.contains("Date")) {
             reference.child("dayGame").setValue(date);
         }
 

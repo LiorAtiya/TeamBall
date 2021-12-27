@@ -15,12 +15,9 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
-import androidx.core.app.NotificationCompat;
-import androidx.core.app.NotificationManagerCompat;
 
 import com.ariel.teamball.Controller.SwitchActivities;
 import com.ariel.teamball.Model.Classes.Player;
-import com.ariel.teamball.R;
 import com.ariel.teamball.View.MyProfile;
 import com.ariel.teamball.View.SportsMenu;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -153,13 +150,11 @@ public class PlayerDAL {
 
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                Log.d("TAG", "enter to onDataChange");
                 // iterates over all the users
                 Iterator i = dataSnapshot.getChildren().iterator();
                 while (i.hasNext()) {
                     DataSnapshot childSnapshot = (DataSnapshot) i.next(); // current user
                     String userID = childSnapshot.getKey();
-                    Log.d("TAG", "userID: " + userID);
                     userRoomsReference.child(userID).child(category).child(roomKey).removeValue();
 //                    sendNotificationOnRemoveRoom(category,roomKey);
                 }
