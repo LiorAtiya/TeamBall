@@ -539,7 +539,7 @@ public class RoomDAL {
 
     // The function checks if the given room is full
     public static void isTheRoomFull(String category, String roomID, String nameRoom, OnSuccessListener<Boolean> listener) {
-        //Access to the list of rooms category
+
         DatabaseReference database = getPathReference("Rooms/" + category + "/" + roomID);
         database.addValueEventListener(new ValueEventListener() {
 
@@ -550,11 +550,9 @@ public class RoomDAL {
 
                     // checks if the number is full
                     if (room.getNumOfPlayers() == room.getCapacity()) {
-                        Toast.makeText(context, "The room is full", Toast.LENGTH_SHORT).show();
-                        // send the object to the listener arg
+//                        Toast.makeText(context, "The room is full", Toast.LENGTH_SHORT).show();
                         listener.onSuccess(true);
                     } else {
-                        // send the object to the listener arg
                         listener.onSuccess(false);
                     }
                 });
