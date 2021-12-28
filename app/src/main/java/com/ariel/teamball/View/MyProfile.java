@@ -21,6 +21,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import com.ariel.teamball.Controller.GameManagement;
 import com.ariel.teamball.Controller.SwitchActivities;
 import com.ariel.teamball.Model.DAL.PlayerDAL;
 import com.ariel.teamball.R;
@@ -41,7 +42,7 @@ public class MyProfile extends AppCompatActivity implements NavigationView.OnNav
     FirebaseUser user;
     ImageView profileImage;
 
-    PlayerDAL playerDAL;
+    GameManagement gm;
 
     DrawerLayout drawerLayout;
     NavigationView navigationView;
@@ -89,14 +90,14 @@ public class MyProfile extends AppCompatActivity implements NavigationView.OnNav
         verifyMsg = findViewById(R.id.verifyMsg);
         resetPassword = findViewById(R.id.resetPasswordLocal);
 
-        playerDAL = new PlayerDAL(this);
+        //Controller between view and model
+        gm = new GameManagement(this);
 
         //Access to profile picture of the player
-        playerDAL.setProfilePicture(profileImage,playerDAL.getPlayerID());
+        gm.setProfilePicture(profileImage);
 
 
-        //Player verify
-        user = playerDAL.getUser();
+        user = gm.getUser();
         if(!user.isEmailVerified()){
             verifyNowBtn.setVisibility(View.VISIBLE);
             verifyMsg.setVisibility(View.VISIBLE);
@@ -104,7 +105,7 @@ public class MyProfile extends AppCompatActivity implements NavigationView.OnNav
             verifyNowBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    playerDAL.verifyEmail(v);
+                    gm.verifyEmail(v);
                 }
             });
         }else{
@@ -113,8 +114,8 @@ public class MyProfile extends AppCompatActivity implements NavigationView.OnNav
         }
 
         //Access from firebase to details of player
-        userID = playerDAL.getPlayerID();
-        DocumentReference documentReference = playerDAL.getCollection("users",userID);
+        userID = gm.getPlayerID();
+        DocumentReference documentReference = gm.getCollection(userID);
         documentReference.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
             @Override
             public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
@@ -131,7 +132,7 @@ public class MyProfile extends AppCompatActivity implements NavigationView.OnNav
         resetPassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                playerDAL.updatePassword(v,userID);
+                gm.updatePassword(v,userID);
             }
         });
 
@@ -155,7 +156,7 @@ public class MyProfile extends AppCompatActivity implements NavigationView.OnNav
             case R.id.nav_myprofile:
                 break;
             case R.id.nav_logout:
-                playerDAL.playerSignOut();
+                gm.playerSignOut();
                 SwitchActivities.LoginActivity(getApplicationContext());
                 finish();
                 break;

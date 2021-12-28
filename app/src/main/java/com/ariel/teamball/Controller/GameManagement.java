@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -16,6 +17,7 @@ import androidx.appcompat.app.AlertDialog;
 
 import com.ariel.teamball.Model.Classes.Player;
 import com.ariel.teamball.Model.Classes.Room;
+import com.ariel.teamball.Model.DAL.ChatDAL;
 import com.ariel.teamball.Model.DAL.PlayerDAL;
 import com.ariel.teamball.Model.DAL.RoomDAL;
 import com.google.firebase.database.DataSnapshot;
@@ -23,6 +25,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -38,12 +42,14 @@ public class GameManagement {
     private int roomsCapacity; // the limit of the active rooms in the app
     private PlayerDAL playerDAL;
     private RoomDAL roomDAL;
+    private ChatDAL chatDAL;
     private android.content.Context context;
 
     private GameManagement() {
         this.roomsCapacity = 1000;
         this.playerDAL = new PlayerDAL();
         this.roomDAL = new RoomDAL();
+        this.chatDAL = new ChatDAL();
     }
 
     public GameManagement(android.content.Context _context) {
@@ -64,6 +70,9 @@ public class GameManagement {
     // functions
     //--------------------Player Management ------------------------//
 
+    public FirebaseUser getUser(){
+        return playerDAL.getUser();
+    }
     public void playerRegister(Player p, ProgressBar progressBar){
         playerDAL.playerRegister(p,progressBar);
     }
@@ -82,6 +91,26 @@ public class GameManagement {
 
     public void playerSignOut(){
         playerDAL.playerSignOut();
+    }
+
+    public void setProfilePicture(ImageView profileImage){
+        playerDAL.setProfilePicture(profileImage,playerDAL.getPlayerID());
+    }
+
+    public void verifyEmail(View v){
+        playerDAL.verifyEmail(v);
+    }
+
+    public String getPlayerID(){
+        return playerDAL.getPlayerID();
+    }
+
+    public DocumentReference getCollection(String playerID) {
+        return playerDAL.getCollection("users",playerID);
+    }
+
+    public void updatePassword(View v,String userID){
+        playerDAL.updatePassword(v,userID);
     }
 
 
@@ -107,8 +136,8 @@ public class GameManagement {
         roomDAL.showPlayersList(context, category, roomID);
     }
 
-    public void leaveOrRemoveRoom(String roomID, String category){
-        roomDAL.leaveOrRemoveRoom(roomID,category);
+    public void leaveOrRemoveRoom(String roomID, String category,Context context){
+        roomDAL.leaveOrRemoveRoom(roomID,category,context);
     }
 
     /*
@@ -297,6 +326,16 @@ public class GameManagement {
     // The function gets a player id and checks if it can be an admin
     public boolean canBeAdmin(String playerID) {
         return true;
+    }
+
+    //--------------------Chat Management ------------------------//
+
+    public void showMessageOfChat(String category,String roomID,TextView message){
+        chatDAL.showMessageOfChat(category,roomID,message);
+    }
+
+    public void addNewMessage(String category, String roomID,String user_name,String msg){
+        chatDAL.addNewMessage(category, roomID,user_name,msg);
     }
 
 }
