@@ -166,19 +166,6 @@ public class PlayerDAL {
         });
     }
 
-//    private static void sendNotificationOnRemoveRoom(String category, String roomID,String userID) {
-//        DatabaseReference reference = getPathReference("Rooms/" + category + "/" + roomID + "/usersList");
-//
-//        NotificationCompat.Builder builder = new NotificationCompat.Builder(context,"My Notification");
-//        builder.setContentTitle("My Title");
-//        builder.setContentText("The room is removed!");
-//        builder.setSmallIcon(R.id.icon_group);
-//        builder.setAutoCancel(true);
-//
-//        NotificationManagerCompat managerCompat = NotificationManagerCompat.from(context);
-//        managerCompat.notify(1,builder.build());
-//    }
-
     public static String getPlayerID() {
         return fAuth.getCurrentUser().getUid();
     }
@@ -478,28 +465,17 @@ public class PlayerDAL {
         PlayerDAL.user = user;
     }
 
-    // The function gets the key and the category of the room and removes the room from each of the users
-//    public void removeRoomFromUserRooms(String roomKey, String category) {
-//        DatabaseReference userRoomsReference = getPathReference("UserRooms/");
-//        userRoomsReference.addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(DataSnapshot dataSnapshot) {
-//                // iterates over the userRooms
-//                Iterator i = dataSnapshot.getChildren().iterator();
-//                while (i.hasNext()) {
-//                    DataSnapshot childSnapshot = (DataSnapshot) i.next();
-//                    // checks if its the correct room's category
-//                    if(childSnapshot.child(category).equals(category)) {
-//                        userRoomsReference.child(roomKey).removeValue();
-//                        childSnapshot.child(category).child(roomKey);
-//                    }
-//                }
-//            }
-//            @Override
-//            public void onCancelled(DatabaseError databaseError) {
+    //    private static void sendNotificationOnRemoveRoom(String category, String roomID,String userID) {
+//        DatabaseReference reference = getPathReference("Rooms/" + category + "/" + roomID + "/usersList");
 //
-//            }
-//        });
+//        NotificationCompat.Builder builder = new NotificationCompat.Builder(context,"My Notification");
+//        builder.setContentTitle("My Title");
+//        builder.setContentText("The room is removed!");
+//        builder.setSmallIcon(R.id.icon_group);
+//        builder.setAutoCancel(true);
+//
+//        NotificationManagerCompat managerCompat = NotificationManagerCompat.from(context);
+//        managerCompat.notify(1,builder.build());
 //    }
 
 }

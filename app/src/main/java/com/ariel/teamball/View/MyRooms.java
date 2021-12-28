@@ -32,9 +32,6 @@ public class MyRooms extends AppCompatActivity {
 
     BottomNavigationView bottomNavigationView;
 
-//    PlayerDAL playerDAL;
-//    RoomDAL roomDAL;
-
     GameManagement gm;
 
     @Override
@@ -86,9 +83,6 @@ public class MyRooms extends AppCompatActivity {
 
         //---------------------------------------------------
 
-//        playerDAL = new PlayerDAL(this);
-//        roomDAL = new RoomDAL(this);
-
         //Custom design for listView
         ArrayList<Room> list = new ArrayList<>();
         adapter = new ListAdapter(this, R.layout.list_rooms, list);
@@ -98,9 +92,6 @@ public class MyRooms extends AppCompatActivity {
 
         //Show the list of my rooms
         gm.setRoomsOnListview(category,list,adapter,true);
-
-//        Set<String> myRoomsList = roomDAL.getMyListRooms(category);
-//        roomDAL.setRoomsOnListview(myRoomsList,category,list,adapter,true);
 
         //---------------------------------------------------
 
