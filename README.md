@@ -32,9 +32,9 @@ The Mode interacts with the database and is responsible for the CRUD (Create, Re
 It is responsible for holding data, loading it intelligently from an appropriate source, be it disk or network, monitoring changes and notifying the Controller about those, being self-sufficient. As the Model is responsible for loading and syncing the data (like network connectivity, failed updates, scheduling jobs, etc), the Controller should not worry about these conditions.
 
 The Model contains the following classes:
-1. PlayerDAO. 
-2. RoomDAO.
-3. ChatDAO.
+1. PlayerDAL. 
+2. RoomDAL.
+3. ChatDAL.
 4. Player.
 5. Room.
 
