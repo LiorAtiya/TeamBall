@@ -171,7 +171,7 @@ public class PlayerDAL {
     }
 
     public static DocumentReference getCollection(String nameCollection, String playerID) {
-        return fStore.collection(nameCollection).document(playerID);
+            return fStore.collection(nameCollection).document(playerID);
     }
 
     public static void setProfilePicture(ImageView profileImage, String playerID) {
