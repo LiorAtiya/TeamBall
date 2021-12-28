@@ -169,18 +169,19 @@ public class RoomDAL {
                     timeText.setText(room.getTime());
 
                     DocumentReference adminRef = playerDAL.getCollection("users", room.getAdmin());
-                        adminRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                            @Override
-                            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                                if (task.isSuccessful()) {
-                                    DocumentSnapshot document = task.getResult();
-                                    String admin_name = document.getString("fullName");
-                                    admin.setText(admin_name);
-                                } else {
-                                    Log.d("TAG", "get failed with ", task.getException());
-                                }
+
+                    adminRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                            if (task.isSuccessful()) {
+                                DocumentSnapshot document = task.getResult();
+                                String admin_name = document.getString("fullName");
+                                admin.setText(admin_name);
+                            } else {
+                                Log.d("TAG", "get failed with ", task.getException());
                             }
-                        });
+                        }
+                    });
                 }
             }
 
