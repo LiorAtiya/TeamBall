@@ -184,7 +184,7 @@ public class PlayerDAL {
     }
 
     public static DocumentReference getCollection(String nameCollection, String playerID) {
-        return fStore.collection(nameCollection).document(playerID);
+            return fStore.collection(nameCollection).document(playerID);
     }
 
     public static void setProfilePicture(ImageView profileImage, String playerID) {
@@ -342,7 +342,7 @@ public class PlayerDAL {
     }
 
     //Update from MyProfile page
-    public static void updatePassword(View v) {
+    public static void updatePassword(View v,String userID) {
 
         EditText resetPassword = new EditText(v.getContext());
         final AlertDialog.Builder passwordResetDialog = new AlertDialog.Builder(v.getContext());
@@ -359,6 +359,22 @@ public class PlayerDAL {
                 user.updatePassword(newPassword).addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void unused) {
+
+                        //Update the password in the firestore of user
+                        DocumentReference userRef = fStore.collection("users").document(userID);
+                        userRef.update("password", newPassword)
+                                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void aVoid) {
+                                        Log.d(TAG, "DocumentSnapshot successfully updated!");
+                                    }
+                                })
+                                .addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        Log.w(TAG, "Error updating document", e);
+                                    }
+                                });
                         Toast.makeText(context, "Password Updated Successfully", Toast.LENGTH_SHORT).show();
                     }
                 }).addOnFailureListener(new OnFailureListener() {

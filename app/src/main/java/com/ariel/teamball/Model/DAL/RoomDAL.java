@@ -100,7 +100,10 @@ public class RoomDAL {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 // converts from Long to int
-                int numOfPlayers = ((Long) snapshot.getValue()).intValue();
+                int numOfPlayers = 0;
+                if(snapshot != null){
+                    numOfPlayers = ((Long) snapshot.getValue()).intValue();
+                }
                 // send the Room object to the listener arg
                 listener.onSuccess(numOfPlayers);
             }
@@ -180,6 +183,98 @@ public class RoomDAL {
 //            }
 //        });
 //    }
+
+    public static void checkLimitOfRoom_And_JoinToRoom(String category, String roomID, String nameRoom,Context context) {
+        //Access to the list of rooms category
+        DatabaseReference reference = getPathReference("Rooms/" + category + "/" + roomID);
+
+        reference.runTransaction(new Transaction.Handler() {
+            @Override
+            public Transaction.Result doTransaction(MutableData mutableData) {
+                Room room = mutableData.getValue(Room.class);
+                if (room == null) {
+                    return Transaction.success(mutableData);
+                }
+
+                //Check the number of players in the room
+                if (room.getNumOfPlayers() == room.getCapacity()) {
+                    ((Activity) context).runOnUiThread(new Runnable() {
+                        public void run() {
+                            Toast.makeText(context, "The room is full!", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                } else{
+                    JoinToRoom(category, roomID, nameRoom);
+                }
+
+                // Set value and report transaction success
+                mutableData.setValue(room);
+                return Transaction.success(mutableData);
+
+            }
+
+            @Override
+            public void onComplete(DatabaseError databaseError, boolean committed,
+                                   DataSnapshot currentData) {
+                // Transaction completed
+                Log.d("TAG", "postTransaction:onComplete:" + databaseError);
+            }
+        });
+    }
+
+    private static void JoinToRoom(String category, String roomID, String roomName) {
+        final AlertDialog.Builder EnterGroupDialog = new AlertDialog.Builder(context);
+        EnterGroupDialog.setTitle("Want to join the room?");
+        EnterGroupDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                //Add player to room
+                addNewUser(category, roomID, playerDAL.getPlayerID());
+
+                //Add room to list of private rooms user
+                playerDAL.addRoom(category, roomID);
+
+                //----------------------------------------
+
+                DocumentReference docRef = playerDAL.getCollection("users", playerDAL.getPlayerID());
+
+                docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if (task.isSuccessful()) {
+                            DocumentSnapshot document = task.getResult();
+                            String name = document.getString("fullName");
+
+                            //Go to a GameRoom page
+                            SwitchActivities.GameRoom(context,roomName,category,roomID);
+//                            Intent intent = new Intent(context, GameRoom.class);
+//                            intent.putExtra("room_name", roomName);
+//                            intent.putExtra("user_name", name);
+//                            intent.putExtra("category", category);
+//                            intent.putExtra("roomID", roomID);
+//                            context.startActivity(intent);
+
+                        } else {
+                            Log.d("TAG", "get failed with ", task.getException());
+                        }
+                    }
+                });
+            }
+        });
+        EnterGroupDialog.setNegativeButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.cancel();
+            }
+        });
+
+        ((Activity) context).runOnUiThread(new Runnable() {
+            public void run() {
+                EnterGroupDialog.show();
+            }
+        });
+    }
+
 
     public static void leaveOrRemoveRoom(String roomID, String category) {
         final AlertDialog.Builder EnterGroupDialog;
@@ -359,19 +454,18 @@ public class RoomDAL {
                     timeText.setText(room.getTime());
 
                     DocumentReference adminRef = playerDAL.getCollection("users", room.getAdmin());
-
-                    adminRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                        @Override
-                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                            if (task.isSuccessful()) {
-                                DocumentSnapshot document = task.getResult();
-                                String admin_name = document.getString("fullName");
-                                admin.setText(admin_name);
-                            } else {
-                                Log.d("TAG", "get failed with ", task.getException());
+                        adminRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                if (task.isSuccessful()) {
+                                    DocumentSnapshot document = task.getResult();
+                                    String admin_name = document.getString("fullName");
+                                    admin.setText(admin_name);
+                                } else {
+                                    Log.d("TAG", "get failed with ", task.getException());
+                                }
                             }
-                        }
-                    });
+                        });
                 }
             }
 

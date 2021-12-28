@@ -157,34 +157,36 @@ public class GameManagement {
     The function adds the player to the given room if it's not full already
     and if the confirm that he wants to join
      */
-    public void joinRoom(String category, String roomID, String roomName, Context context) {
+    public void joinRoom(Context context, String category, String roomID, String roomName) {
         // checks if have a room for another player in the room
+        roomDAL.checkLimitOfRoom_And_JoinToRoom(category, roomID,roomName,context);
 
-        roomDAL.isTheRoomFull(category, roomID, roomName, (isFull) -> {
-            Log.d("TAG", "isFull: " + isFull);
-            if (isFull) {
-                Toast.makeText(context, "The room is full", Toast.LENGTH_SHORT).show();
-            }
-            else{
-                // run only if the user confirmed the message
-                Runnable runIfConfirmed = new Runnable() {
-                    @Override
-                    public void run() {
-                        // adds the player to the room
-                        RoomDAL.addNewUser(category, roomID, playerDAL.getPlayerID());
-                        // switches activity to GameRoom
-                        SwitchActivities.GameRoom(context, roomName, category, roomID);
-                        // updates the player's rooms list
-                        playerDAL.addRoom(category, roomID);
-                        Log.d("TAG", "Joined");
-                    }
-                };
-                // ask the user to confirm that he wants to join the room
-                doubleCheck(category, roomID, roomName, runIfConfirmed);
-            }
-        });
 
-        return;
+//        roomDAL.isTheRoomFull(category, roomID, roomName, (isFull) -> {
+//            Log.d("TAG", "isFull: " + isFull);
+//            if (isFull) {
+//                Toast.makeText(context, "The room is full", Toast.LENGTH_SHORT).show();
+//            }
+//            else{
+//                // run only if the user confirmed the message
+//                Runnable runIfConfirmed = new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        // adds the player to the room
+//                        RoomDAL.addNewUser(category, roomID, playerDAL.getPlayerID());
+//                        // switches activity to GameRoom
+//                        SwitchActivities.GameRoom(context, roomName, category, roomID);
+//                        // updates the player's rooms list
+//                        playerDAL.addRoom(category, roomID);
+//                        Log.d("TAG", "Joined");
+//                    }
+//                };
+//                // ask the user to confirm that he wants to join the room
+//                doubleCheck(category, roomID, roomName, runIfConfirmed);
+//            }
+//        });
+//
+//        return;
     }
 
     // The function checks if the user sure that he wants to join the given room
