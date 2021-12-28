@@ -11,14 +11,22 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 
 import com.ariel.teamball.Model.Classes.Player;
 import com.ariel.teamball.Model.Classes.Room;
 import com.ariel.teamball.Model.DAL.PlayerDAL;
 import com.ariel.teamball.Model.DAL.RoomDAL;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Set;
 
 /*
@@ -215,6 +223,71 @@ public class GameManagement {
         });
 
     }
+
+//    // The function divides the participants into the given number of teams
+//    public void divideIntoTeams(int numOfTeams, String roomID, String category) {
+//
+//        // creates an HashMap that creates all the teams
+//        // Key = team's number, Value = a list that contains all the players in the team
+//        HashMap teamsMap = new HashMap<Integer, ArrayList<Player>>(numOfTeams);
+//        // init the list for each teams
+//        for (int i = 0; i < numOfTeams; i++) {
+//            teamsMap.put(i, new ArrayList<Player>());
+//        }
+//
+//        DatabaseReference database = FirebaseDatabase.getInstance().getReference("Rooms").child(category).child(roomID).child("usersList");
+//        database.addValueEventListener(new ValueEventListener() {
+//            int playersReceived = 0; // how many objects returned from the DB
+//            int numOfPlayers; // how many players there are in the room
+//            int teamNumber = 1;
+//
+//            // run after finish to add all the players to the list
+//            Runnable runNotify = new Runnable() {
+//                @Override
+//                public void run() {
+//                    // notify when all the players added to the list
+//                    DivideTeamsAdapter.notifyDataSetChanged();
+//                }
+//            };
+//
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot snapshot) {
+//
+//                // checks how many players there are in the room
+//                RoomDAL.getNumOfPlayers(roomID, category, (getNumOfPlayers) -> {
+//                    numOfPlayers = getNumOfPlayers;
+//                });
+//
+//                // gets add all the players in the room to the participants list
+//                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+//                    String playerID = dataSnapshot.getKey();
+//                    PlayerDAL.getPlayer(playerID, (player) -> {
+//                        // gets the players list of the current time
+//                        ArrayList<Player> list = (ArrayList<Player>) teamsMap.get(teamNumber);
+//                        // adds the player to the list
+//                        list.add(player);
+//                        // updates the list in the teams map
+//                        teamsMap.put(teamNumber, list);
+//                        // increments the team number
+//                        teamNumber = (teamNumber + 1) % numOfTeams;
+//                        playersReceived++;
+//                        // checks if all the players was retrieved
+//                        if(playersReceived == numOfPlayers) {
+//                            runNotify.run();
+//                        }
+//                    });
+//                }
+//
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError error) {
+//
+//            }
+//        });
+//    }
+
+
 
     // The function checks if we can create a new room
     public boolean roomsAvailability() {
