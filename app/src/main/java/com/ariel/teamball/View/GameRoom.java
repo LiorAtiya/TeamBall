@@ -28,9 +28,6 @@ public class GameRoom extends AppCompatActivity {
     TextView roomName, capacity, city, field, admin, timeText;
     String category, room_name, admin_name, my_name, adminID, roomID, time;
 
-    /* logic objects */
-    RoomDAL roomDAL;
-
     // creates game management object
     GameManagement gm;
     //permission
@@ -43,9 +40,7 @@ public class GameRoom extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         /*-----  Information from the previous page ------*/
-        Intent i = new Intent(getApplicationContext(), MyRooms.class);
-        i.putExtra("category", category);
-        startActivity(i);
+        SwitchActivities.MyRoom(this,category);
         finish();
     }
 
@@ -70,8 +65,6 @@ public class GameRoom extends AppCompatActivity {
         editRoom = findViewById(R.id.edit_room);
         leaveRoom = findViewById(R.id.leaveRoom);
 
-        //Access to firebase
-        roomDAL = new RoomDAL(this);
 
         gm = GameManagement.getInstance();
 
@@ -140,8 +133,7 @@ public class GameRoom extends AppCompatActivity {
         leaveRoom.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                roomDAL.leaveOrRemoveRoom(roomID, category);
+                gm.leaveOrRemoveRoom(roomID, category,GameRoom.this);
             }
         });
     }
