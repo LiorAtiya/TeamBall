@@ -1,46 +1,65 @@
 <h1> TeamBall 🏆</h1>
 
-<h3> An Android app for team sports games that connects people. </h3>
-<br>
-
-**This application is built in the Android Studio work environment and is written in Java language and uses a Firebase database.**
+<h3> TeamBall is a sports team communication and an open-source app for Android devices.</h3>
 
 <br>
 
-<h3> The main goals of the app: </h3>
+<p align="left">
+<img src="https://i.postimg.cc/SQtq0FLD/pp.jpg" />
+</p>
 
-- Connecting people and expanding social circles.
+<br>
 
-- Improving the longevity of people for a healthier life by increasing the frequency of physical activity among the population following team sports games.
+<h2> Why should you use our app? :iphone:</h2>
 
-- A convenient and correct way of organizing a team to play team sports games.
+:star: Make new friends and expand your social circle.
 
-<h2> implementaion: </h2>
+:star: Playing team sports is a great way to boost your health and longevity by increasing your physical activity.
 
-**The system is divided according to the MVC principle**
+:star: Organizing and managing sports team games has never been easier.
+
+<br>
+
+<h2> Architecture & implementaion 👷 </h2>
+
+**It is built with the Android Studio work environment in Java and uses Firebase as its database.**
+
+**The project follows Model-View-Controller design pattern**
 
 <h3> Model: </h3>
 
-**Divided into 2 branches:**
+The Mode interacts with the database and is responsible for the CRUD (Create, Read, Update and Delete) operations.
+It is responsible for holding data, loading it intelligently from an appropriate source, be it disk or network, monitoring changes and notifying the Controller about those, being self-sufficient. As the Model is responsible for loading and syncing the data (like network connectivity, failed updates, scheduling jobs, etc), the Controller should not worry about these conditions.
 
-1. Database access departments that are responsible for performing CRUD (Create, Read, Update, Delete) operations: PlayerDAL, RoomDAL.
-2. Classes that create objects that are stored in the database: Player, Room.
+The Model contains the following classes:
+1. PlayerDAO. 
+2. RoomDAO.
+3. ChatDAO.
+4. Player.
+5. Room.
 
 <h3> View: </h3>
 
-Contains all UIs ie contains all Activity classes which are responsible for the functionality of displaying and receiving the data to the user.
+The view contains the UI and all functionality that directly interacts with the user, like clicking a button, or an enter event.
+In the View, there is no logic to be applied, only the ability to display data provided by the Controller.
+This makes it easy to unit test and removes the dependence on Android APIs.
+
+The View contains all the activities.
 
 <h3> Controller: </h3>
 
-Connects Model to View and manages the system processes that contain:
+Manages the system processes by connecting the Model to the View.
+Most of the business logic, data manipulation, and display of the data are handled by this component. All logic for the app is present here, making it 100% unit testable. A Controller's responsibilities include fetching data from external sources via the Model, observing changes, and updating the View. In addition, it needs to handle any View interactions that require logic, such as UI triggers causing complex interactions. One notable exception is the ability to launch an Activity by clicking on its button. The action relies completely on Android APIs and does not require any logic. 
+
+The Controller contains the following classes:
 
 1. Game Management
 
 2. Switch Activities.
 
-Android Studio tools are implemented in the code: Dialogue, Side menu,notifications , chat, Simple buttons and more ...
+<br>
 
-<h3> Screens: </h3>
+<h2> Screenshots </h2>
 
 |                                                                Login Page                                                                 |                                                                   Create Account                                                                   |                                                                    My Profile                                                                    |                                                                  Edit Profile                                                                  |
 | :---------------------------------------------------------------------------------------------------------------------------------------: | :------------------------------------------------------------------------------------------------------------------------------------------------: | :----------------------------------------------------------------------------------------------------------------------------------------------: | :--------------------------------------------------------------------------------------------------------------------------------------------: |
@@ -54,12 +73,25 @@ Android Studio tools are implemented in the code: Dialogue, Side menu,notificati
 | :---------------------------------------------------------------------------------------------------------------------------------------: | :---------------------------------------------------------------------------------------------------------------------------------------------: | :-----------------------------------------------------------------------------------------------------------------------------------------: | :--------------------------------------------------------------------------------------------------------------------------------------: |
 | <img width="186" alt="rooms" src="https://user-images.githubusercontent.com/73709686/147591633-0d330aef-c27e-4fa8-8e6f-cbfbd5ba40c5.PNG"> | <img width="186" alt="create room" src="https://user-images.githubusercontent.com/73709686/147591615-dcff6b37-59d0-45cc-9222-63a3b78667ee.PNG"> | <img width="186" alt="my room" src="https://user-images.githubusercontent.com/73709686/147591662-66b6f98a-655c-4bd6-b7f1-0c3cb48be35d.PNG"> | <img width="186" alt="chat" src="https://user-images.githubusercontent.com/73709686/147591714-0d4e0e7c-5784-4a01-8608-79b24e6c3077.PNG"> |
 
-<p align="center">
-<img src="https://i.postimg.cc/SQtq0FLD/pp.jpg" />
-</p>
+<br>
 
-<h3> Teammates: ✨ </h3>
+<h2> Run the project and contribute :arrow_down: </h2>
+Please let us know if you have any feedback or comments about our Android app.
+Those who want to dive even deeper and do some work on our coding are more than welcome to submit a pull request through our Github.
+
+<br>
+
+To get the code running just follow the following steps:
+
+1. [Clone our GitHub repository to get the code](https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository)
+2. [Install your Android Development Environment](https://developer.android.com/topic/google-play-instant/getting-started/instant-enabled-app-bundle)
+3. [Import the TeamBall Android Open Source Project into your IDE](https://developer.android.com/studio/projects/create-project.html#ImportAProject)
+4. [Use Gradle Task: install_debug to run the code](https://developer.android.com/studio/run/index.html#gradle-console)
+
+<br>
+
+<h2> Developers :computer: </h2>
 
 |                                                                 Lior Atia                                                                  |                                                      Ofir Ovadia                                                      |                                                      Lioz Akirav                                                      |
 | :----------------------------------------------------------------------------------------------------------------------------------------: | :-------------------------------------------------------------------------------------------------------------------: | :-------------------------------------------------------------------------------------------------------------------: |
-| <img width="230px" alt="lior" src="https://user-images.githubusercontent.com/73709686/147595067-1e24da2c-60e1-4cd4-9b8d-c5fc42bf550b.PNG"> | ![ofir ovadia](https://user-images.githubusercontent.com/73709686/147595172-f46d6c55-3a23-46bc-9f2b-a023e8f691d6.png) | ![lioz akriak](https://user-images.githubusercontent.com/73709686/147595777-5e237203-7eee-4c11-b680-edda12b83979.png) |
+| <img width="230px" alt="lior" src="https://i.ibb.co/518851r/147595067-1e24da2c-60e1-4cd4-9b8d-c5fc42bf550b-1-1.png"> | ![ofir ovadia](https://i.ibb.co/82QfLMW/147595172-f46d6c55-3a23-46bc-9f2b-a023e8f691d6.png) | ![Lioz Akirav](https://i.ibb.co/8DcPJcp/147595777-5e237203-7eee-4c11-b680-edda12b83979.png) |
