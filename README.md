@@ -76,7 +76,7 @@ The Controller contains the following classes:
 <br>
 
 <h2> Run the project and contribute :arrow_down: </h2>
-Please let us know if you have any feedback or comments about our Android app.
+Please let us know if you have any feedback or comments about our Android app.  
 Those who want to dive even deeper and do some work on our coding are more than welcome to submit a pull request through our Github.
 
 <br>
