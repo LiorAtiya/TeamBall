@@ -1,21 +1,46 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="deploymentTargetDropDown">
+<<<<<<< HEAD
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> acb5e5bf4fec6526624df580919921ba5a41463b
+=======
+>>>>>>> 64e3c837d0d1d6d2b5607ac9670a8bead718bdb1
     <targetSelectedWithDropDown>
       <Target>
         <type value="QUICK_BOOT_TARGET" />
         <deviceKey>
           <Key>
             <type value="VIRTUAL_DEVICE_PATH" />
+<<<<<<< HEAD
+<<<<<<< HEAD
+            <value value="C:\Users\ofirr\.android\avd\Pixel_5_API_30_1.avd" />
+=======
+            <value value="C:\Users\97250\.android\avd\Pixel_4_XL_API_30.avd" />
+>>>>>>> acb5e5bf4fec6526624df580919921ba5a41463b
+=======
 
             <value value="C:\Users\ofirr\.android\avd\Pixel_5_API_30_1.avd" />
 
             <value value="C:\Users\97250\.android\avd\Pixel_4_XL_API_30.avd" />
 
+>>>>>>> 64e3c837d0d1d6d2b5607ac9670a8bead718bdb1
           </Key>
         </deviceKey>
       </Target>
     </targetSelectedWithDropDown>
+<<<<<<< HEAD
+<<<<<<< HEAD
+    <timeTargetWasSelectedWithDropDown value="2021-12-27T21:49:33.997649800Z" />
+=======
+    <runningDeviceTargetSelectedWithDropDown>
+=======
+    <timeTargetWasSelectedWithDropDown value="2021-12-28T00:22:30.868577900Z" />
+    <runningDeviceTargetsSelectedWithDialog>
+>>>>>>> acb5e5bf4fec6526624df580919921ba5a41463b
+=======
 
     <timeTargetWasSelectedWithDropDown value="2021-12-27T21:49:33.997649800Z" />
 
@@ -24,6 +49,7 @@
     <timeTargetWasSelectedWithDropDown value="2021-12-28T00:22:30.868577900Z" />
     <runningDeviceTargetsSelectedWithDialog>
 
+>>>>>>> 64e3c837d0d1d6d2b5607ac9670a8bead718bdb1
       <Target>
         <type value="RUNNING_DEVICE_TARGET" />
         <deviceKey>
@@ -33,10 +59,18 @@
           </Key>
         </deviceKey>
       </Target>
+<<<<<<< HEAD
+<<<<<<< HEAD
+    </runningDeviceTargetSelectedWithDropDown>
+    <timeTargetWasSelectedWithDropDown value="2021-12-27T22:48:11.094955200Z" />
+>>>>>>> d38b974c193aea4551b636d2409fc0f5bc03bf15
+=======
+=======
 
     </runningDeviceTargetSelectedWithDropDown>
     <timeTargetWasSelectedWithDropDown value="2021-12-27T22:48:11.094955200Z" />
 
+>>>>>>> 64e3c837d0d1d6d2b5607ac9670a8bead718bdb1
     </runningDeviceTargetsSelectedWithDialog>
     <targetsSelectedWithDialog>
       <Target>
@@ -49,5 +83,9 @@
         </deviceKey>
       </Target>
     </targetsSelectedWithDialog>
+<<<<<<< HEAD
+>>>>>>> acb5e5bf4fec6526624df580919921ba5a41463b
+=======
+>>>>>>> 64e3c837d0d1d6d2b5607ac9670a8bead718bdb1
   </component>
 </project>
